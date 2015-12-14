@@ -5,7 +5,7 @@ void ofApp::setup()
 {
     // Yep its in the name
     setupGUI();
-    mapGenerator.generateMap(10, 10, 0, 70, 5, 2, 4, 3.1, true, 4, false);
+    mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 1.9, 3);
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -27,6 +27,9 @@ void ofApp::keyPressed(int key)
             drawGui = !drawGui;
             gui->setVisible(drawGui);
             break;
+        case 'a':
+            mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 140, 3);
+            break;
         default:
             break;
     }
@@ -39,7 +42,7 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-
+    mapGenerator.mouseOver(x, y);
 }
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)

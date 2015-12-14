@@ -58,38 +58,51 @@ void Tile::displayGrid(bool _show)
     showGrid = _show;
 }
 //--------------------------------------------------------------
-void Tile::draw()
+void Tile::drawMicro()
 {
-    if (!walkable) {
+    if (!walkable && toxicity == 0) {
         ofSetColor(ofColor::red);
     }
-    else {
-        switch (toxicity) {
-            case 0:
-                ofSetColor(ofColor::green);
-                break;
-            case 1:
-                ofSetColor(ofColor::yellow);
-                break;
-            case 2:
-                ofSetColor(ofColor::yellow);
-                break;
-            case 3:
-                ofSetColor(ofColor::yellow);
-                break;
-            default:
-                break;
+    else if(walkable && toxicity > 0) {
+        for (int i = 1; i < 10; i++) {
+            if (toxicity == i) {
+                ofSetColor(255-(i*10),255-(i*10),0);
+            }
         }
     }
+    else if(walkable && toxicity == 0) {
+        ofSetColor(ofColor::green);
+    }
+    
+    ofDrawRectangle(gridX,gridY,1,1);
+}
+//--------------------------------------------------------------
+void Tile::draw()
+{
+    if (!walkable && toxicity == 0) {
+        ofSetColor(ofColor::red);
+    }
+    else if(walkable && toxicity > 0) {
+        for (int i = 1; i < 10; i++) {
+            if (toxicity == i) {
+                ofSetColor(255-(i*10),255-(i*10),0);
+            }
+        }
+    }
+    else if(walkable && toxicity == 0) {
+        ofSetColor(ofColor::green);
+    }
+    
+    ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
     
     if (highlighted) {
         ofSetColor(ofColor::aqua);
+        ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
+        
     }
     else {
         
     }
-    ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
-    
     
     if(showGrid) {
         ofPushStyle();
