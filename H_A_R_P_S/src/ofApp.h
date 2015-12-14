@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxDatGui.h"
+#include "Tile.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -21,6 +22,8 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+        vector<Tile> tiles;
     
         //--------------------------------------------------------------
         // *

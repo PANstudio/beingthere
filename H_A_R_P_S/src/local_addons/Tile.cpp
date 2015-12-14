@@ -60,20 +60,30 @@ void Tile::showGridDetails(bool _show)
 //--------------------------------------------------------------
 void Tile::draw()
 {
-    if (walkable) {
-        ofSetColor(ofColor::green);
-    }
-    else {
+    if (!walkable) {
         ofSetColor(ofColor::red);
     }
+    else {
+        switch (toxicity) {
+            case 0:
+                ofSetColor(ofColor::green);
+                break;
+            case 1:
+                ofSetColor(ofColor::yellow);
+                break;
+            case 2:
+                ofSetColor(ofColor::yellow);
+                break;
+            case 3:
+                ofSetColor(ofColor::yellow);
+                break;
+            default:
+                break;
+        }
+    }
+    
     if (highlighted) {
         ofSetColor(ofColor::aqua);
-    }
-    if(haveChecked) {
-        ofSetColor(ofColor::blueSteel);
-    }
-    if(isPath) {
-        ofSetColor(ofColor::yellow);
     }
     
     ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
