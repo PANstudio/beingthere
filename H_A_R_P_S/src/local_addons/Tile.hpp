@@ -24,7 +24,7 @@ class Tile : public ofRectangle {
         void setHighlighted(bool isHighlighted);
         void printData();
         void draw();
-        void showGridDetails(bool _show);
+        void displayGrid(bool _show);
     
         ofVec2f worldPosition;
         int gCost;

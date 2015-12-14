@@ -53,7 +53,7 @@ void Tile::setHighlighted(bool isHighlighted)
     highlighted = isHighlighted;
 }
 //--------------------------------------------------------------
-void Tile::showGridDetails(bool _show)
+void Tile::displayGrid(bool _show)
 {
     showGrid = _show;
 }
@@ -85,19 +85,26 @@ void Tile::draw()
     if (highlighted) {
         ofSetColor(ofColor::aqua);
     }
-    
+    else {
+        
+    }
     ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
     
     
     if(showGrid) {
         ofPushStyle();
         ofSetColor(ofColor::black);
-        ofDrawBitmapString(ofToString(gCost),this->getTopLeft().x+5,this->getTopLeft().y+10);
-        ofDrawBitmapString(ofToString(hCost),this->getTopRight().x-20,this->getTopRight().y+10);
-        ofDrawBitmapString(ofToString(fCost),this->getCenter().x-5,this->getCenter().y+5);
         ofNoFill();
         ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
         ofPopStyle();
+    }
+    
+    bool thisis = false;
+    if (thisis) {
+        ofSetColor(ofColor::black);
+        ofDrawBitmapString(ofToString(gCost),this->getTopLeft().x+5,this->getTopLeft().y+10);
+        ofDrawBitmapString(ofToString(hCost),this->getTopRight().x-20,this->getTopRight().y+10);
+        ofDrawBitmapString(ofToString(fCost),this->getCenter().x-5,this->getCenter().y+5);
     }
     
 }

@@ -5,11 +5,10 @@ void ofApp::setup()
 {
     // Yep its in the name
     setupGUI();
-    ofSeedRandom(3);
+    ofSeedRandom(3.1245);
     int size = 50;
     for (int x = 0; x < 5; x++) {
         for (int y = 0; y < 5; y++) {
-
             bool walkable = (ofRandom(100) > 5) ? true : false;
             tiles.push_back(Tile(walkable, 0, ofVec2f(x*size, y*size), x, y, size));
         }
@@ -25,7 +24,7 @@ void ofApp::draw()
 {
     ofBackground(0, 0, 0);
     for (auto tile : tiles) {
-        tile.showGridDetails(true);
+        tile.displayGrid(true);
         tile.draw();
     }
 }
