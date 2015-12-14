@@ -5,6 +5,7 @@ void ofApp::setup()
 {
     // Yep its in the name
     setupGUI();
+    mapGenerator.generateMap(10, 10, 0, 70, 5, 2, 4, 3.1, true, 4, false);
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -15,6 +16,7 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
+    mapGenerator.draw();
     
 }
 //--------------------------------------------------------------
