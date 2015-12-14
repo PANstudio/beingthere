@@ -24,15 +24,20 @@ class MapGenerator {
 public:
     
     void resetMap();
-    
-    void generateMap(int width,int height,int offsetEdge, int fillPercent,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, bool useRandomSeed,int dangerAreaSize,bool generateWalls);
+    void update();
+    void generateMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
     void generateMap(Map m);
-    void generateCustomMap(int width,int height,int offsetEdge, int fillPercent,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, bool useRandomSeed,int dangerAreaSize);
+    void generateCustomMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
     
     void smoothMap();
     void growCloud();
     void generateDangerAreas();
     void expandDangerAreas(int times);
+    
+    deque<Tile> getNeighbouringTiles(Tile tile);
+    int getSurroundingTileCount(int gridX, int gridY);
+    bool isInMapRange(int x, int y);
+    Tile getTileFromGridRef(int x,int y);
     
     void draw();
     void drawComputerVision();
@@ -40,6 +45,7 @@ public:
     void drawMicroMap();
     void drawEditor();
     
+    void mouseOver(int x, int y);
     void mouseDown(int x, int y,int pressed);
     void mouseReleased(int x, int y,int pressed);
     void mouseDragged(int x, int y,int pressed);
@@ -61,6 +67,7 @@ private:
     
     int _width;
     int _height;
+    int _tileSize;
     bool _useRandomSeed;
     int _fillPercent;
     float _seedValue;
