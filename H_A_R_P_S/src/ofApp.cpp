@@ -5,6 +5,14 @@ void ofApp::setup()
 {
     // Yep its in the name
     setupGUI();
+    ofSeedRandom(3.1245);
+    int size = 50;
+    for (int x = 0; x < 5; x++) {
+        for (int y = 0; y < 5; y++) {
+            bool walkable = (ofRandom(100) > 5) ? true : false;
+            tiles.push_back(Tile(walkable, 0, ofVec2f(x*size, y*size), x, y, size));
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -15,6 +23,10 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
+    for (auto tile : tiles) {
+        tile.displayGrid(true);
+        tile.draw();
+    }
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -22,7 +34,6 @@ void ofApp::keyPressed(int key)
     switch (key) {
         case OF_KEY_RETURN:
             drawGui = !drawGui;
-            
             gui->setVisible(drawGui);
             break;
         default:
@@ -37,17 +48,32 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-
+    for (auto tile : tiles) {
+        if(tile.inside(x, y)){
+            tile.setHighlighted(true);
+        }
+        else {
+            tile.setHighlighted(false);
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)
 {
-
+    for (auto tile : tiles) {
+        if(tile.inside(x, y)){
+            tile.printData();
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-
+    for (auto tile : tiles) {
+        if(tile.inside(x, y)){
+            tile.printData();
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
