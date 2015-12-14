@@ -13,7 +13,7 @@
 #include "ofMain.h"
 
 struct MapDetails {
-    String Difficulty;
+    string Difficulty;
     int numberOfLevels;
 };
 
