@@ -120,8 +120,8 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     }
     
     for (int i = 0; i < _numberOfClouds; i++) {
-        int x1 = ofRandom(1+_offsetEdge, (_width-1)-_offsetEdge);
-        int y1 = ofRandom(1+_offsetEdge, (_height-1)-_offsetEdge);
+        int x1 = ofRandom(0+_offsetEdge, (_width)-_offsetEdge);
+        int y1 = ofRandom(0+_offsetEdge, (_height)-_offsetEdge);
         map[x1][y1] = *new Tile(false,0,ofVec2f(x1*_tileSize,y1*_tileSize),x1,y1,_tileSize);
     }
     
@@ -262,7 +262,7 @@ deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
             
             int checkX = tile.gridX + x;
             int checkY = tile.gridY + y;
-            if (checkX > 0 && checkX < _width && checkY > 0 && checkY < _height) {
+            if (checkX >= 0 && checkX < _width && checkY >= 0 && checkY < _height) {
                 neighbours.push_back(map[checkX][checkY]);
             }
             else {
@@ -437,21 +437,22 @@ void MapGenerator::drawPolylines()
     ofScale(0.5,0.5);
     
     ofFill();
-    for (int i = 0; i < deadlyArea.size(); i++) {
-        
-        deadlyArea[i].simplify(0.1);
-        if (deadlyArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-            ofSetColor(ofColor::red);
-            ofMessage msg("Player 1: in deadly area");
+    
+    for (int i = 0; i < okArea.size(); i++) {
+        okArea[i].simplify(0.1);
+        if (okArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+            ofMessage msg("Player 1: in Safe Area");
             ofSendMessage(msg);
-//            ofDrawBitmapStringHighlight(ofToString("Player 1: " + ), 500,500);
+            ofSetColor(ofColor::green);
         }
         else {
             ofSetColor(ofColor::white);
         }
-        deadlyArea[i].draw();
+        
+        okArea[i].draw();
+        
         ofSetColor(ofColor::blue);
-        ofDrawRectangle(deadlyArea[i].getCentroid2D().x,deadlyArea[i].getCentroid2D().y,3,3);
+        ofDrawRectangle(okArea[i].getCentroid2D().x,okArea[i].getCentroid2D().y,3,3);
     }
     
     for (int i = 0; i < dangerArea.size(); i++) {
@@ -468,21 +469,21 @@ void MapGenerator::drawPolylines()
         ofSetColor(ofColor::blue);
         ofDrawRectangle(dangerArea[i].getCentroid2D().x,dangerArea[i].getCentroid2D().y,3,3);
     }
-    for (int i = 0; i < okArea.size(); i++) {
-        okArea[i].simplify(0.1);
-        if (okArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-//            ofMessage msg("Player 1: in safe area");
-//            ofSendMessage(msg);
-            ofSetColor(ofColor::green);
+    
+    for (int i = 0; i < deadlyArea.size(); i++) {
+        
+        deadlyArea[i].simplify(0.1);
+        if (deadlyArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+            ofSetColor(ofColor::red);
+            ofMessage msg("Player 1: in deadly area");
+            ofSendMessage(msg);
         }
         else {
             ofSetColor(ofColor::white);
         }
-        
-        okArea[i].draw();
-        
+        deadlyArea[i].draw();
         ofSetColor(ofColor::blue);
-        ofDrawRectangle(okArea[i].getCentroid2D().x,okArea[i].getCentroid2D().y,3,3);
+        ofDrawRectangle(deadlyArea[i].getCentroid2D().x,deadlyArea[i].getCentroid2D().y,3,3);
     }
     for (int i = 0; i < finishArea.size(); i++) {
         finishArea[i].simplify(0.1);
@@ -628,14 +629,8 @@ void MapGenerator::loadMaps(string mapsFile)
 //--------------------------------------------------------------
 void MapGenerator::saveMap()
 {
-    //    ofxJSONElement a;
-    
-    
     stringstream ss;
     ss << "{" << endl;
-    //    ofFile r("map.txt",ofFile::WriteOnly);
-    //    r.create();
-    
     int x = 0;
     int y = 0;
     ss << "\"Line " << 0 << "\"" <<  endl;
@@ -660,7 +655,6 @@ void MapGenerator::saveMap()
     }
     ss << "}" << endl;
     cout << ss.str() << endl;
-    //    r.close();
 }
 //--------------------------------------------------------------
 vector<MapDetails> MapGenerator::getMapsInfo()

@@ -5,6 +5,21 @@ void ofApp::setup()
 {
     // Yep its in the name
     setupGUI();
+    _urs = false;
+    _width = 100;
+    _height = 100;
+    _dangerAreaSize = 5;
+    _rs = 3.13;
+    _fillPercent = 10;
+    _numberOfIslands = 10;
+    _growthNo = 10;
+    _smooth = 5;
+    _offsetEdge = 5;
+    _Appmode = 1;
+    _numberOfXLines = 10;
+    _numberOfYLines = 10;
+    _spacingX = 10;
+    _spacingY = 10;
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
 }
 //--------------------------------------------------------------
@@ -21,7 +36,6 @@ void ofApp::draw()
     mapGenerator.drawPolylines();
     
     ofDrawBitmapStringHighlight(testEvent, 500,15);
-    
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -144,9 +158,9 @@ void ofApp::setupGUI()
     ofxDatGuiFolder * mapFolder = gui->addFolder("Map Generation",ofColor::blueSteel);
     mapFolder->addSlider("Map Width", 0, 150, 100);
     mapFolder->addSlider("Map Height", 0, 150, 100);
+    mapFolder->addSlider("Tile Size", 0.00, 100.00, 50);
     mapFolder->addSlider("Offset Edge", 0, 100, 10);
     mapFolder->addSlider("Random Seed", 0.00, 150.00, 3.14);
-    mapFolder->addSlider("Fill Percent", 0.00, 100.00, 50);
     mapFolder->addSlider("Number of Obsticles", 0.00, 100.00, 20);
     mapFolder->addSlider("Danger Area Size", 0, 25, 20);
     mapFolder->addSlider("Smoothing Loops", 0, 25, 5);
@@ -211,7 +225,7 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     else if (e.target->is("Map Height")) _height = e.target->getValue();
     else if (e.target->is("Offset Edge")) _offsetEdge = e.target->getValue();
     else if (e.target->is("Random Seed")) _rs = e.target->getValue();
-    else if (e.target->is("Fill Percent")) _fillPercent = e.target->getValue();
+    else if (e.target->is("Tile Size")) _fillPercent = e.target->getValue();
     else if (e.target->is("Number of Obsticles")) _numberOfIslands = e.target->getValue();
     else if (e.target->is("Danger Area Size")) _dangerAreaSize = e.target->getValue();
     else if (e.target->is("Growth Loops")) _growthNo = e.target->getValue();
