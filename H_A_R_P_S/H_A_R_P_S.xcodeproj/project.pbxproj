@@ -32,6 +32,7 @@
 		5EB4394F89E6C7B6CB63E407 /* ofxEasingExpo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FAA1F8FD8842B18FC644AB8 /* ofxEasingExpo.cpp */; };
 		60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E018EA5B6B752E53BD00D9E4 /* ofxEasingQuint.cpp */; };
 		61DD69DC8EEC05F4180E5A3A /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE5201E4C9247E2A335BB47E /* ofxCvFloatImage.cpp */; };
+		637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244351C20DB17002F7BD5 /* DisplayWindow.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A71C1E373B00B512AD /* MapGenerator.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A91C1E373B00B512AD /* MyTimer.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B71C1E373B00B512AD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AB1C1E373B00B512AD /* Player.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -221,6 +222,8 @@
 		62D49BEB187FC37B39424906 /* blenders.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = blenders.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/detail/blenders.hpp; sourceTree = SOURCE_ROOT; };
 		6320D84AFB1B36D3CEC35D89 /* affine.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = affine.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/core/affine.hpp; sourceTree = SOURCE_ROOT; };
 		6337C65EC7317260BA2400E0 /* global_motion.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = global_motion.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/global_motion.hpp; sourceTree = SOURCE_ROOT; };
+		637244351C20DB17002F7BD5 /* DisplayWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayWindow.cpp; path = src/local_addons/DisplayWindow.cpp; sourceTree = "<group>"; };
+		637244361C20DB17002F7BD5 /* DisplayWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DisplayWindow.hpp; path = src/local_addons/DisplayWindow.hpp; sourceTree = "<group>"; };
 		639756A71C1E373B00B512AD /* MapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapGenerator.cpp; path = src/local_addons/MapGenerator.cpp; sourceTree = "<group>"; };
 		639756A81C1E373B00B512AD /* MapGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapGenerator.hpp; path = src/local_addons/MapGenerator.hpp; sourceTree = "<group>"; };
 		639756A91C1E373B00B512AD /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = src/local_addons/MyTimer.cpp; sourceTree = "<group>"; };
@@ -810,6 +813,8 @@
 				639756B21C1E373B00B512AD /* TargetTile.hpp */,
 				639756B31C1E373B00B512AD /* Tile.cpp */,
 				639756B41C1E373B00B512AD /* Tile.hpp */,
+				637244351C20DB17002F7BD5 /* DisplayWindow.cpp */,
+				637244361C20DB17002F7BD5 /* DisplayWindow.hpp */,
 			);
 			name = local_addons;
 			sourceTree = "<group>";
@@ -1446,6 +1451,7 @@
 				639756B81C1E373B00B512AD /* PlayerManager.cpp in Sources */,
 				B5D71195731FE4DBB32256FE /* ContourFinder.cpp in Sources */,
 				4AD2491B84F2022BA1D161CA /* Distance.cpp in Sources */,
+				637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */,
 				6C2E89161CA335E9F476A206 /* Flow.cpp in Sources */,
 				561195A465C22F9ED4939388 /* Helpers.cpp in Sources */,
 				72BABC6CF54D263B2D4E2895 /* Kalman.cpp in Sources */,

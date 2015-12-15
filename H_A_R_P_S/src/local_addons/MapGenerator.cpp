@@ -85,7 +85,7 @@ void MapGenerator::generateMap(Map m)
 //--------------------------------------------------------------
 void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
 {
-    if (map != nullptr) {
+    if (map == nullptr) {
         resetMap();
     }
     
