@@ -32,8 +32,13 @@ void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int 
     _tileSize = tileSize;
     
     
-    _newWidth = _width*_mapMultiplier;
-    _newHeight = _height*_mapMultiplier;
+    _newWidth = _width*tileSize;
+    _newHeight = _height*tileSize;
+    
+    // Create Map Texture for openCV
+    mapTexture = new ofImage();
+    mapTexture->allocate(_newWidth,_newHeight, OF_IMAGE_COLOR);
+    mapTexture->clear();
     
     map = new Tile*[width];
     for (int x = 0; x < width; x++)
@@ -93,8 +98,13 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     _tileSize = tileSize;
     
     
-    _newWidth = _width*_mapMultiplier;
-    _newHeight = _height*_mapMultiplier;
+    _newWidth = _width*tileSize;
+    _newHeight = _height*tileSize;
+    
+    // Create Map Texture for openCV
+    mapTexture = new ofImage();
+    mapTexture->allocate(_newWidth,_newHeight, OF_IMAGE_COLOR);
+    mapTexture->clear();
     
     map = new Tile*[width];
     for (int x = 0; x < width; x++)
@@ -191,7 +201,6 @@ void MapGenerator::smoothMap()
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             int neighbourWallTiles = getSurroundingTileCount(x,y);
-            cout << neighbourWallTiles << endl;
             if (neighbourWallTiles > 3)
                 map[x][y].walkable = false;
             else if (neighbourWallTiles < 3)
@@ -337,6 +346,7 @@ void MapGenerator::draw()
             map[x][y].draw();
         }
     }
+
 }
 //--------------------------------------------------------------
 void MapGenerator::drawMicroMap()
@@ -348,14 +358,28 @@ void MapGenerator::drawMicroMap()
     }
 }
 //--------------------------------------------------------------
-void MapGenerator::drawPolylines()
-{
-    
-}
-//--------------------------------------------------------------
 void MapGenerator::drawEditor()
 {
-    
+
+    for (int x = 0; x < _width; x ++) {
+        for (int y = 0; y < _height; y ++) {
+            if (map[x][y].inside(ofGetMouseX(), ofGetMouseY()) && map[x][y].walkable) {
+                ofSetColor(ofColor::red);
+            }
+            else if (map[x][y].inside(ofGetMouseX(), ofGetMouseY()) && !map[x][y].walkable) {
+                ofSetColor(ofColor::green);
+            }
+            map[x][y].draw();
+        }
+    }
+    ofPushStyle();
+    ofSetColor(ofColor::white);
+    ofNoFill();
+    ofDrawRectangle(0, 0, _width*_tileSize, _height*_tileSize);
+    ofPopStyle();
+    ofSetColor(255, 255, 255);
+    ofDrawLine(ofGetMouseX(), ofGetMouseY()-10, ofGetMouseX(), ofGetMouseY()+10);
+    ofDrawLine(ofGetMouseX()-10, ofGetMouseY(), ofGetMouseX()+10, ofGetMouseY());
 }
 //--------------------------------------------------------------
 void MapGenerator::drawComputerVision()
@@ -403,6 +427,82 @@ void MapGenerator::drawComputerVision()
     
     ofSetColor(255, 255, 255);
     drawMat(_blurred, _newWidth/2, _newHeight,((_newWidth/2)),((_newHeight/2)));
+}
+//--------------------------------------------------------------
+void MapGenerator::drawPolylines()
+{
+    
+    ofPushMatrix();
+    ofTranslate(_newWidth/2, _newHeight);
+    ofScale(0.5,0.5);
+    
+    ofFill();
+    for (int i = 0; i < deadlyArea.size(); i++) {
+        
+        deadlyArea[i].simplify(0.1);
+        if (deadlyArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+            ofSetColor(ofColor::red);
+            ofMessage msg("Player 1: in deadly area");
+            ofSendMessage(msg);
+//            ofDrawBitmapStringHighlight(ofToString("Player 1: " + ), 500,500);
+        }
+        else {
+            ofSetColor(ofColor::white);
+        }
+        deadlyArea[i].draw();
+        ofSetColor(ofColor::blue);
+        ofDrawRectangle(deadlyArea[i].getCentroid2D().x,deadlyArea[i].getCentroid2D().y,3,3);
+    }
+    
+    for (int i = 0; i < dangerArea.size(); i++) {
+        dangerArea[i].simplify(0.1);
+        if (dangerArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+            ofMessage msg("Player 1: in danger area");
+            ofSendMessage(msg);
+            ofSetColor(ofColor::yellow);
+        }
+        else {
+            ofSetColor(ofColor::white);
+        }
+        dangerArea[i].draw();
+        ofSetColor(ofColor::blue);
+        ofDrawRectangle(dangerArea[i].getCentroid2D().x,dangerArea[i].getCentroid2D().y,3,3);
+    }
+    for (int i = 0; i < okArea.size(); i++) {
+        okArea[i].simplify(0.1);
+        if (okArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+//            ofMessage msg("Player 1: in safe area");
+//            ofSendMessage(msg);
+            ofSetColor(ofColor::green);
+        }
+        else {
+            ofSetColor(ofColor::white);
+        }
+        
+        okArea[i].draw();
+        
+        ofSetColor(ofColor::blue);
+        ofDrawRectangle(okArea[i].getCentroid2D().x,okArea[i].getCentroid2D().y,3,3);
+    }
+    for (int i = 0; i < finishArea.size(); i++) {
+        finishArea[i].simplify(0.1);
+        if (finishArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+            ofSetColor(ofColor::blue);
+            ofMessage msg("Player 1: in finshed area");
+            ofSendMessage(msg);
+        }
+        else {
+            ofSetColor(ofColor::white);
+        }
+        
+        finishArea[i].draw();
+        
+        ofSetColor(ofColor::blue);
+        ofDrawRectangle(finishArea[i].getCentroid2D().x,finishArea[i].getCentroid2D().y,3,3);
+    }
+    ofSetColor(255, 255, 255);
+    ofDrawCircle(ofGetMouseX(), ofGetMouseY(),10);
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 // *

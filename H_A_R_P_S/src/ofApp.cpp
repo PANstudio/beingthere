@@ -5,7 +5,7 @@ void ofApp::setup()
 {
     // Yep its in the name
     setupGUI();
-    mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 1.9, 3);
+    mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -17,6 +17,10 @@ void ofApp::draw()
 {
     ofBackground(0, 0, 0);
     mapGenerator.draw();
+    mapGenerator.drawComputerVision();
+    mapGenerator.drawPolylines();
+    
+    ofDrawBitmapStringHighlight(testEvent, 500,15);
     
 }
 //--------------------------------------------------------------
@@ -47,12 +51,12 @@ void ofApp::mouseMoved(int x, int y )
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)
 {
-
+    mapGenerator.mouseDragged(x, y, button);
 }
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-   
+    mapGenerator.mouseDown(x, y, button);
 }
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
@@ -77,7 +81,7 @@ void ofApp::windowResized(int w, int h)
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg)
 {
-
+    testEvent = msg.message;
 }
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
@@ -117,11 +121,11 @@ void ofApp::setupGUI()
         "10"
     };
     
-//    mapGenerator.LoadMaps("config.json");
-//    for(int i = 0; i < mapGenerator.getMapsInfo().size(); i++) {
-//        difficulty.push_back(mapGenerator.getMapsInfo()[i].Difficulty);
-//        dLvs.push_back(mapGenerator.getMapsInfo()[i].numberOfLevels);
-//    }
+    mapGenerator.loadMaps("config.json");
+    for(int i = 0; i < mapGenerator.getMapsInfo().size(); i++) {
+        difficulty.push_back(mapGenerator.getMapsInfo()[i].Difficulty);
+        dLvs.push_back(mapGenerator.getMapsInfo()[i].numberOfLevels);
+    }
     
     gui->addDropdown("Select Difficulty", difficulty);
     gui->getDropdown("Select Difficulty")->select(0);
@@ -202,27 +206,201 @@ void ofApp::setupGUI()
 //--------------------------------------------------------------
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-
+    if (e.target->is("datgui opacity")) gui->setOpacity(e.scale);
+    else if (e.target->is("Map Width")) _width = e.target->getValue();
+    else if (e.target->is("Map Height")) _height = e.target->getValue();
+    else if (e.target->is("Offset Edge")) _offsetEdge = e.target->getValue();
+    else if (e.target->is("Random Seed")) _rs = e.target->getValue();
+    else if (e.target->is("Fill Percent")) _fillPercent = e.target->getValue();
+    else if (e.target->is("Number of Obsticles")) _numberOfIslands = e.target->getValue();
+    else if (e.target->is("Danger Area Size")) _dangerAreaSize = e.target->getValue();
+    else if (e.target->is("Growth Loops")) _growthNo = e.target->getValue();
+    else if (e.target->is("Smoothing Loops")) _smooth = e.target->getValue();
+    else if (e.target->is("Grid Size")) _spacing = e.target->getValue();
+    else if (e.target->is("Grid Position X")) _gridX = e.target->getValue();
+    else if (e.target->is("Grid Position Y")) _gridY = e.target->getValue();
+    else if (e.target->is("Number of X Lines")) _numberOfXLines = e.target->getValue();
+    else if (e.target->is("Number of Y Lines")) _numberOfYLines = e.target->getValue();
+    else if (e.target->is("Spacing X")) _spacingX = e.target->getValue();
+    else if (e.target->is("Spacing Y")) _spacingY = e.target->getValue();
 }
 //--------------------------------------------------------------
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-
+    if (e.target->is("Generate Map")) mapGenerator.generateMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+    else if (e.target->is("Flush Map")) mapGenerator.update();
+//    else if (e.target->is("Clear Map")) mapGenerator.ClearMap();
+    else if (e.target->is("Generate Custom Map")) mapGenerator.generateCustomMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+    else if (e.target->is("Use Random Seed")) _urs = e.target->getEnabled();
+//    else if (e.target->is("Start Level")) countdown.start();
+//    else if (e.target->is("Stop Level")) countdown.stop();
 }
 //--------------------------------------------------------------
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
-{
-
-}
+{   }
 //--------------------------------------------------------------
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
+{   }
+//--------------------------------------------------------------
+void ofApp::drawCalibrationGUI(bool visible)
 {
-
+    gui->getFolder("Map Generation")->collapse();
+    gui->getFolder("CV Settings")->collapse();
+    gui->getFolder("Player")->collapse();
+    gui->getFolder("Target")->collapse();
+    gui->getFolder("Calibration")->expand();
+}
+//--------------------------------------------------------------
+void ofApp::drawGenerationGUI(bool visible)
+{
+    gui->getFolder("Map Generation")->expand();
+    gui->getFolder("CV Settings")->expand();
+    gui->getFolder("Player")->collapse();
+    gui->getFolder("Target")->collapse();
+    gui->getFolder("Calibration")->collapse();
+}
+//--------------------------------------------------------------
+void ofApp::drawOperationGUI(bool visible)
+{
+    gui->getFolder("Map Generation")->collapse();
+    gui->getFolder("CV Settings")->collapse();
+    gui->getFolder("Player")->collapse();
+    gui->getFolder("Target")->collapse();
+    gui->getFolder("Calibration")->collapse();
+}
+//--------------------------------------------------------------
+void ofApp::drawEditorGUI(bool visible)
+{
+    gui->getFolder("Map Generation")->expand();
+    gui->getFolder("CV Settings")->collapse();
+    gui->getFolder("Player")->collapse();
+    gui->getFolder("Target")->collapse();
+    gui->getFolder("Calibration")->collapse();
 }
 //--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-
+    if(e.target->is("Select Level")) {
+        _level = ofToInt(e.target->getLabel());
+        Map m;
+        m = mapGenerator.getMap(_difficulty, _level);
+        feedBackMap = m.MapDetailsString().str();
+//        countdown.setNewTimerLength(m.timeNeededToSolveMap);
+//        targetCell.SpawnTarget(m.endPosition*3);
+        mapGenerator.generateMap(m);
+    }
+    else if(e.target->is("App Mode")) {
+        if (e.target->getLabel() == "CALIBRATION MODE") {
+            _Appmode = 0;
+            drawCalibrationGUI(false);
+        }
+        else if (e.target->getLabel() == "GENERATION MODE") {
+            _Appmode = 1;
+            drawGenerationGUI(false);
+        }
+        else if (e.target->getLabel() == "OPERATION MODE") {
+            _Appmode = 2;
+            drawOperationGUI(false);
+        }
+        else if (e.target->getLabel() == "EDITOR MODE") {
+            _Appmode = 3;
+            drawEditorGUI(false);
+        }
+    }
+    else if(e.target->is("Select Difficulty")) {
+        _difficulty = e.target->getLabel();
+        if (_difficulty == "NOVICE") {
+            _difficultyMode = 0;
+            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
+                if (i < dLvs[0]) {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
+                }
+                else {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
+                }
+            }
+        }
+        else if (_difficulty == "ROOKIE") {
+            _difficultyMode = 1;
+            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
+                if (i < dLvs[1]) {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
+                }
+                else {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
+                }
+            }
+        }
+        else if (_difficulty == "NORMAL") {
+            _difficultyMode = 2;
+            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
+                if (i < dLvs[2]) {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
+                }
+                else {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
+                }
+            }
+        }
+        else if (_difficulty == "Hard") {
+            _difficultyMode = 3;
+            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
+                if (i < dLvs[3]) {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
+                }
+                else {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
+                }
+            }
+        }
+        else if (_difficulty == "Really Hard") {
+            _difficultyMode = 4;
+            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
+                if (i < dLvs[4]) {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
+                }
+                else {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
+                }
+            }
+        }
+        else if (_difficulty == "Impossible") {
+            _difficultyMode = 5;
+            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
+                if (i < dLvs[5]) {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
+                }
+                else {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
+                }
+            }
+        }
+        else if (_difficulty == "God Like") {
+            _difficultyMode = 6;
+            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
+                if (i < dLvs[6]) {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
+                }
+                else {
+                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
+                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
+                }
+            }
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
