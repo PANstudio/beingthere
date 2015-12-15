@@ -80,7 +80,7 @@ void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int 
 //--------------------------------------------------------------
 void MapGenerator::generateMap(Map m)
 {
-    generateMap(m.width, m.height, m.offsetEdge, m.fillPercent, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
+    generateMap(m.width, m.height, m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
 }
 //--------------------------------------------------------------
 void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
@@ -597,7 +597,7 @@ void MapGenerator::loadMaps(string mapsFile)
                 Map mObj;
                 mObj.difficulty = mapConfig["Maps"]["Difficulty"][difficultyLevel[diff]][levels]["difficulty"].asString();
                 mObj.level = mapConfig["Maps"]["Difficulty"][difficultyLevel[diff]][levels]["level"].asInt();
-                mObj.fillPercent = mapConfig["Maps"]["Difficulty"][difficultyLevel[diff]][levels]["fillPercent"].asInt();
+                mObj.tileSize = mapConfig["Maps"]["Difficulty"][difficultyLevel[diff]][levels]["tilesize"].asInt();
                 mObj.numberOfClouds = mapConfig["Maps"]["Difficulty"][difficultyLevel[diff]][levels]["numberofclouds"].asInt();
                 mObj.growthLoops = mapConfig["Maps"]["Difficulty"][difficultyLevel[diff]][levels]["growthloops"].asInt();
                 mObj.smoothingValue = mapConfig["Maps"]["Difficulty"][difficultyLevel[diff]][levels]["smoothingloops"].asInt();

@@ -24,7 +24,7 @@ struct Map {
     int width;
     int height;
     int offsetEdge;
-    int fillPercent;
+    int tileSize;
     int numberOfClouds;
     int smoothingValue;
     int growthLoops;
@@ -44,7 +44,7 @@ struct Map {
         cout << "Width " << width << endl;
         cout << "Height " << height << endl;
         cout << "Offset Edge " << offsetEdge << endl;
-        cout << "FillPercent " << fillPercent << endl;
+        cout << "Tile Size " << tileSize << endl;
         cout << "Number Of Clouds " << numberOfClouds << endl;
         cout << "SmoothingValue " << smoothingValue << endl;
         cout << "GrowthLoops " << growthLoops << endl;
@@ -65,7 +65,7 @@ struct Map {
         str << "- Width " << width << endl;
         str << "- Height " << height << endl;
         str << "- Offset Edge " << offsetEdge << endl;
-        str << "- Fill Percent " << fillPercent << endl;
+        str << "- Tile Size " << tileSize << endl;
         str << "- Number Of Clouds " << numberOfClouds << endl;
         str << "- Smoothing Value " << smoothingValue << endl;
         str << "- Growth Loops " << growthLoops << endl;
