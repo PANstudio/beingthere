@@ -1,10 +1,7 @@
 #include "ofApp.h"
-
 //--------------------------------------------------------------
-void ofApp::setup()
+void ofApp::setupVariables()
 {
-    // Yep its in the name
-    setupGUI();
     _urs = false;
     _width = 100;
     _height = 100;
@@ -20,6 +17,17 @@ void ofApp::setup()
     _numberOfYLines = 10;
     _spacingX = 10;
     _spacingY = 10;
+}
+
+//--------------------------------------------------------------
+void ofApp::setup()
+{
+    ofSetWindowTitle("H.A.R.P.S");
+    
+    // Yep its in the name
+    setupGUI();
+    setupVariables();
+    
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
 }
 //--------------------------------------------------------------
@@ -27,6 +35,13 @@ void ofApp::update()
 {
 
 }
+////--------------------------------------------------------------
+//void ofApp::drawDisplay(ofEventArgs &args)
+//{
+//    ofBackground(0, 0, 0);
+//    ofSetColor(ofColor::ivory);
+//    displayWindowFont.drawString("H.A.R.P.S", 40, 40);
+//}
 //--------------------------------------------------------------
 void ofApp::draw()
 {

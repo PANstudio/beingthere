@@ -3,7 +3,8 @@
 #include "ofMain.h"
 #include "ofxDatGui.h"
 #include "MapGenerator.hpp"
-
+#include "DisplayWindow.hpp"
+#include "MyTimer.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -24,10 +25,23 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+        //--------------------------------------------------------------
+        // *
+        // * Second Window
+        // *
+        //--------------------------------------------------------------
+        shared_ptr<DisplayWindow> displayWindow;
+    
         string testEvent;
-    
+
         int _Appmode;
+        void setupVariables();
     
+        //--------------------------------------------------------------
+        // *
+        // * Map Generator
+        // *
+        //--------------------------------------------------------------
         MapGenerator mapGenerator;
         vector<int> dLvs;
         int _level;
