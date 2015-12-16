@@ -27,7 +27,7 @@ void ofApp::setup()
     // Yep its in the name
     setupGUI();
     setupVariables();
-    
+    player1.setup(1);
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
 }
 //--------------------------------------------------------------
@@ -51,6 +51,7 @@ void ofApp::draw()
     mapGenerator.drawPolylines();
     
     ofDrawBitmapStringHighlight(testEvent, 500,15);
+    player1.draw();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -75,6 +76,7 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
+    player1.setPlayerPosition(ofPoint(x,y), 0);
     mapGenerator.mouseOver(x, y);
 }
 //--------------------------------------------------------------

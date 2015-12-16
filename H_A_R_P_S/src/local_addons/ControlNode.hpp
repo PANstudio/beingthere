@@ -25,6 +25,8 @@ class ControlNode : public ofRectangle {
         void mouseOver(int x,int y);
         void nodeClicked(int x,int y,int button);
     
+        int _x;
+        int _y;
     private:
         bool isActive;
         bool isOrigin;
