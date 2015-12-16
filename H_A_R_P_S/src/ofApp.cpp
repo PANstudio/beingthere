@@ -18,7 +18,6 @@ void ofApp::setupVariables()
     _spacingX = 10;
     _spacingY = 10;
 }
-
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -27,21 +26,15 @@ void ofApp::setup()
     // Yep its in the name
     setupGUI();
     setupVariables();
-    player1.setup(1);
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
+    playerManager.setup("localhost", 7890);
+    playerManager.setNumberOfPlayers(3);
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
 
 }
-////--------------------------------------------------------------
-//void ofApp::drawDisplay(ofEventArgs &args)
-//{
-//    ofBackground(0, 0, 0);
-//    ofSetColor(ofColor::ivory);
-//    displayWindowFont.drawString("H.A.R.P.S", 40, 40);
-//}
 //--------------------------------------------------------------
 void ofApp::draw()
 {
@@ -49,9 +42,8 @@ void ofApp::draw()
     mapGenerator.draw();
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
-    
+    playerManager.drawPlayerManager();
     ofDrawBitmapStringHighlight(testEvent, 500,15);
-    player1.draw();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -76,7 +68,6 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-    player1.setPlayerPosition(ofPoint(x,y), 0);
     mapGenerator.mouseOver(x, y);
 }
 //--------------------------------------------------------------

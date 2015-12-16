@@ -12,23 +12,37 @@
 
 #include <stdio.h>
 #include "ofMain.h"
+#include "MyTimer.hpp"
 
 class Player {
 public:
     
-    Player();
+    // Constructors and Co
+    Player(); 
+    Player(int id,ofColor c);
     ~Player();
-    void setup(int id);
-    void setPlayerPosition(ofPoint pos,int heading);
     
+    // Standard Setup
+    void setup(int id);
     void draw();
+
+    // Player positions
+    void setPlayerPosition(ofPoint pos,int heading);
     ofPoint getPlayerCoords();
     int getPlayerHeading();
+
+    // Health System
+    void drawPlayerHealth(ofPoint healthPosition);
+    void resetHealth();
+    void reduceHealth(int rate);
     
 private:
     ofPoint _pos;
     int _heading;
     int _id;
+    int _health;
+    ofColor _c;
+
 protected:
     
 };
