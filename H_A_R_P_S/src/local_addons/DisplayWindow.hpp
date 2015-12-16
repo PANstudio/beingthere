@@ -16,11 +16,15 @@ public:
     void setup();
     void update();
     void draw();
+    void doCalibration(bool show);
+    void drawCalibration();
+    
 private:
     ofTrueTypeFont font;
     int w;
     int h;
     string title;
+    bool calibration;
 protected:
     
     
