@@ -5,6 +5,7 @@
 #include "MapGenerator.hpp"
 #include "DisplayWindow.hpp"
 #include "MyTimer.hpp"
+#include "PlayerManager.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -37,6 +38,7 @@ class ofApp : public ofBaseApp{
         int _Appmode;
         void setupVariables();
     
+        PlayerManager playerManager;
         //--------------------------------------------------------------
         // *
         // * Map Generator

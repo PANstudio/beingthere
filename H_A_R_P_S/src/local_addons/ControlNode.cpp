@@ -10,6 +10,8 @@
 //--------------------------------------------------------------
 ControlNode::ControlNode(int x,int y,int id)
 {
+    _x = x;
+    _y = y;
     isActive = false;
     isOrigin = false;
     isOver = false;
@@ -27,9 +29,9 @@ void ControlNode::draw()
     if (isActive) {
         ofFill();
         ofSetColor(ofColor::white);
-        ofDrawCircle(x, y, 7);
+        ofDrawCircle(x, y, 2+(int)(7 + 7 * sin(ofGetElapsedTimef()*5)));
         ofSetColor(ofColor::red);
-        ofDrawCircle(x, y, 5);
+        ofDrawCircle(x, y, 2+(int)(5 + 5 * sin(ofGetElapsedTimef()*5)));
     }
     else if(isOver) {
         ofFill();
@@ -54,6 +56,7 @@ void ControlNode::mouseOver(int x,int y)
 {
     if (this->inside(x, y)) {
         isOver = true;
+        cout << "Node Coordinates " << _x/50 << " " << _y/50 << endl;
     }
     else {
         isOver = false;
@@ -62,7 +65,9 @@ void ControlNode::mouseOver(int x,int y)
 //--------------------------------------------------------------
 void ControlNode::nodeClicked(int x,int y,int button)
 {
-    isActive = !isActive;
+    if(this->inside(x, y)) {
+        isActive = !isActive;
+    }
 }
 //--------------------------------------------------------------
 void ControlNode::setOriginNode()
