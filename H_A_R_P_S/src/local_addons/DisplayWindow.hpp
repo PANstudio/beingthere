@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "ofMain.h"
+#include "CalibrationScreen.hpp"
 
 class DisplayWindow : public ofBaseApp {
 public:
@@ -18,6 +19,8 @@ public:
     void draw();
     void doCalibration(bool show);
     void drawCalibration();
+    void mouseMoved(int x, int y );
+    void mousePressed(int x, int y, int button);
     
 private:
     ofTrueTypeFont font;
@@ -25,6 +28,9 @@ private:
     int h;
     string title;
     bool calibration;
+    
+    CalibrationScreen calibrationScreen;
+    
 protected:
     
     
