@@ -12,7 +12,8 @@ void DisplayWindow::setup()
 {
     font.load("ofxdatgui_assets/font-verdana.ttf",20);
     title = "Project H.A.R.P.S";
-
+    
+    calibrationScreen.setup(10, 10, 50, 50);
     // Align Center the Text
     w = (ofGetWidth()/2) - (font.getStringBoundingBox(title, 0, 0).width/2);
     h = (ofGetHeight()/2) - (font.getStringBoundingBox(title, 0, 0).height/2);
@@ -28,8 +29,7 @@ void DisplayWindow::draw()
     ofBackground(0, 0, 0);
     ofSetColor(ofColor::ivory);
     font.drawString(title, w, h);
-    drawCalibration();
-    
+    calibrationScreen.draw();
 }
 //--------------------------------------------------------------
 void DisplayWindow::doCalibration(bool show)
@@ -39,23 +39,15 @@ void DisplayWindow::doCalibration(bool show)
 //--------------------------------------------------------------
 void DisplayWindow::drawCalibration()
 {
-    ofPushMatrix();
-    ofTranslate(0,0);
-    ofSetColor(ofColor::white);
-    ofNoFill();
-    ofSetColor(ofColor::white);
-    ofDrawRectangle(0,0, ((10-1)*50), ((10-1)*50));
 
-    for (int x = 0; x < 10; x++) {
-        ofDrawBitmapString(ofToString(x), x*50, 10);
-        for (int y = 0; y < 10; y++) {
-            ofFill();
-            ofSetColor(ofColor::white);
-            ofDrawCircle((x*50), (y*50), 7);
-            ofSetColor(ofColor::red);
-            ofDrawCircle((x*50), (y*50), 5);
-            ofSetColor(ofColor::white);
-        }
-    }
-    ofPopMatrix();
+}
+//--------------------------------------------------------------
+void DisplayWindow::mouseMoved(int x, int y )
+{
+    calibrationScreen.mousePos(x, y);
+}
+//--------------------------------------------------------------
+void DisplayWindow::mousePressed(int x, int y, int button)
+{
+    calibrationScreen.mousePressed(x, y,button);
 }

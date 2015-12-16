@@ -34,7 +34,7 @@
 		61DD69DC8EEC05F4180E5A3A /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE5201E4C9247E2A335BB47E /* ofxCvFloatImage.cpp */; };
 		637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244351C20DB17002F7BD5 /* DisplayWindow.cpp */; settings = {ASSET_TAGS = (); }; };
 		6372443C1C20E4CF002F7BD5 /* CalibrationScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */; settings = {ASSET_TAGS = (); }; };
-		6372443F1C20E503002F7BD5 /* ControlNodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443D1C20E503002F7BD5 /* ControlNodes.cpp */; settings = {ASSET_TAGS = (); }; };
+		6372443F1C20E503002F7BD5 /* ControlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443D1C20E503002F7BD5 /* ControlNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A71C1E373B00B512AD /* MapGenerator.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A91C1E373B00B512AD /* MyTimer.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B71C1E373B00B512AD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AB1C1E373B00B512AD /* Player.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -228,8 +228,8 @@
 		637244361C20DB17002F7BD5 /* DisplayWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DisplayWindow.hpp; path = src/local_addons/DisplayWindow.hpp; sourceTree = "<group>"; };
 		6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CalibrationScreen.cpp; path = src/local_addons/CalibrationScreen.cpp; sourceTree = "<group>"; };
 		6372443B1C20E4CF002F7BD5 /* CalibrationScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CalibrationScreen.hpp; path = src/local_addons/CalibrationScreen.hpp; sourceTree = "<group>"; };
-		6372443D1C20E503002F7BD5 /* ControlNodes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlNodes.cpp; path = src/local_addons/ControlNodes.cpp; sourceTree = "<group>"; };
-		6372443E1C20E503002F7BD5 /* ControlNodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControlNodes.hpp; path = src/local_addons/ControlNodes.hpp; sourceTree = "<group>"; };
+		6372443D1C20E503002F7BD5 /* ControlNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlNode.cpp; path = src/local_addons/ControlNode.cpp; sourceTree = "<group>"; };
+		6372443E1C20E503002F7BD5 /* ControlNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControlNode.hpp; path = src/local_addons/ControlNode.hpp; sourceTree = "<group>"; };
 		639756A71C1E373B00B512AD /* MapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapGenerator.cpp; path = src/local_addons/MapGenerator.cpp; sourceTree = "<group>"; };
 		639756A81C1E373B00B512AD /* MapGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapGenerator.hpp; path = src/local_addons/MapGenerator.hpp; sourceTree = "<group>"; };
 		639756A91C1E373B00B512AD /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = src/local_addons/MyTimer.cpp; sourceTree = "<group>"; };
@@ -823,8 +823,8 @@
 				637244361C20DB17002F7BD5 /* DisplayWindow.hpp */,
 				6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */,
 				6372443B1C20E4CF002F7BD5 /* CalibrationScreen.hpp */,
-				6372443D1C20E503002F7BD5 /* ControlNodes.cpp */,
-				6372443E1C20E503002F7BD5 /* ControlNodes.hpp */,
+				6372443D1C20E503002F7BD5 /* ControlNode.cpp */,
+				6372443E1C20E503002F7BD5 /* ControlNode.hpp */,
 			);
 			name = local_addons;
 			sourceTree = "<group>";
@@ -1490,7 +1490,7 @@
 				76894ADBDC6EE26355175E14 /* ofxCvShortImage.cpp in Sources */,
 				DD393F6E1D608A7ED3C090C1 /* ofxOscBundle.cpp in Sources */,
 				1839118C8FAAFD7786F48022 /* ofxOscMessage.cpp in Sources */,
-				6372443F1C20E503002F7BD5 /* ControlNodes.cpp in Sources */,
+				6372443F1C20E503002F7BD5 /* ControlNode.cpp in Sources */,
 				C2D598BBC788C2AFB89F03D8 /* ofxOscParameterSync.cpp in Sources */,
 				98E3190A327565D7A561D2F1 /* ofxOscReceiver.cpp in Sources */,
 				5BAB6E7E628E52287338C1CF /* ofxOscSender.cpp in Sources */,
