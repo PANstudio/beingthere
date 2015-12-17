@@ -18,6 +18,8 @@
 		637244781C22304B002F7BD5 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372446C1C22304B002F7BD5 /* ofxDatGuiComponent.cpp */; settings = {ASSET_TAGS = (); }; };
 		637244791C22304B002F7BD5 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244721C22304B002F7BD5 /* ofxDatGui.cpp */; settings = {ASSET_TAGS = (); }; };
 		6372447A1C22304B002F7BD5 /* ofxDatGuiTemplate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244751C22304B002F7BD5 /* ofxDatGuiTemplate.cpp */; settings = {ASSET_TAGS = (); }; };
+		6372447D1C22354D002F7BD5 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372447B1C22354D002F7BD5 /* Player.cpp */; settings = {ASSET_TAGS = (); }; };
+		637244801C223562002F7BD5 /* PlayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372447E1C223562002F7BD5 /* PlayerManager.cpp */; settings = {ASSET_TAGS = (); }; };
 		8C3C3F05F14EAA2FC77A199D /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A49C1BCB550D0F61BF804036 /* OscOutboundPacketStream.cpp */; };
 		98E3190A327565D7A561D2F1 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99A837810760567CB4E9FDA4 /* ofxOscReceiver.cpp */; };
 		9C18D291F7F1EE07ABD8F80F /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3111F8BA5B55D43D708BF45C /* IpEndpointName.cpp */; };
@@ -101,6 +103,11 @@
 		637244751C22304B002F7BD5 /* ofxDatGuiTemplate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDatGuiTemplate.cpp; sourceTree = "<group>"; };
 		637244761C22304B002F7BD5 /* ofxDatGuiTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTemplate.h; sourceTree = "<group>"; };
 		637244771C22304B002F7BD5 /* ofxDatGuiTemplates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiTemplates.h; sourceTree = "<group>"; };
+		6372447B1C22354D002F7BD5 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/local_addons/Player.cpp; sourceTree = "<group>"; };
+		6372447C1C22354D002F7BD5 /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Player.hpp; path = src/local_addons/Player.hpp; sourceTree = "<group>"; };
+		6372447E1C223562002F7BD5 /* PlayerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayerManager.cpp; path = src/local_addons/PlayerManager.cpp; sourceTree = "<group>"; };
+		6372447F1C223562002F7BD5 /* PlayerManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PlayerManager.hpp; path = src/local_addons/PlayerManager.hpp; sourceTree = "<group>"; };
+		637244811C22358B002F7BD5 /* Grid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Grid.h; path = src/local_addons/Grid.h; sourceTree = "<group>"; };
 		64533C6393690A7DBCD80E53 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscReceivedElements.cpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
 		73E00C4ABF5742AF42C754A8 /* OscTypes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscTypes.h; path = ../../../../of_v0.9.0_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h; sourceTree = SOURCE_ROOT; };
 		9019E29EC7B51B30CBFF392A /* ofxOscMessage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscMessage.h; path = ../../../../of_v0.9.0_osx_release/addons/ofxOsc/src/ofxOscMessage.h; sourceTree = SOURCE_ROOT; };
@@ -275,6 +282,11 @@
 		6948EE371B920CB800B5AC1A /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
+				637244811C22358B002F7BD5 /* Grid.h */,
+				6372447B1C22354D002F7BD5 /* Player.cpp */,
+				6372447C1C22354D002F7BD5 /* Player.hpp */,
+				6372447E1C223562002F7BD5 /* PlayerManager.cpp */,
+				6372447F1C223562002F7BD5 /* PlayerManager.hpp */,
 			);
 			name = local_addons;
 			sourceTree = "<group>";
@@ -491,9 +503,11 @@
 				9C18D291F7F1EE07ABD8F80F /* IpEndpointName.cpp in Sources */,
 				1437BFDE9FA90F764F110622 /* NetworkingUtils.cpp in Sources */,
 				4326F4A363DE2FB72933C2ED /* UdpSocket.cpp in Sources */,
+				6372447D1C22354D002F7BD5 /* Player.cpp in Sources */,
 				8C3C3F05F14EAA2FC77A199D /* OscOutboundPacketStream.cpp in Sources */,
 				2B04AB1C3ADEC23F896EB038 /* OscPrintReceivedElements.cpp in Sources */,
 				9E3D94644874B53F109A7DB0 /* OscReceivedElements.cpp in Sources */,
+				637244801C223562002F7BD5 /* PlayerManager.cpp in Sources */,
 				637244781C22304B002F7BD5 /* ofxDatGuiComponent.cpp in Sources */,
 				21020EE07395C0E961FE4E47 /* OscTypes.cpp in Sources */,
 			);
