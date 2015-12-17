@@ -1,7 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Grid.h"
 #include "ofxDatGui.h"
+#include "PlayerManager.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -43,5 +45,7 @@ class ofApp : public ofBaseApp{
         int speed;
         int randomSeed;
         int smoothing;
-    
+  
+        Grid gridPattern;
+        PlayerManager playerManager;
 };

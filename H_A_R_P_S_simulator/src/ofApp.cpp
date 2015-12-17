@@ -4,15 +4,21 @@
 void ofApp::setup()
 {
     setupGUI();
+    gridPattern.setup(10, 10, 10, 10, 50, 50);
+    playerManager.setup("localhost",7890);
+    playerManager.setNumberOfPlayers(3);
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
-
+    playerManager.update();
 }
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    ofBackground(0, 0, 0);
+    gridPattern.draw();
+    playerManager.drawPlayerManager();
     if (drawGui) {
         gui->draw();
     }
