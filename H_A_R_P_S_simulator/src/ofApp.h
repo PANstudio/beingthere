@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxDatGui.h"
 
 class ofApp : public ofBaseApp{
 
@@ -21,4 +22,26 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+        //--------------------------------------------------------------
+        // *
+        // * GUI
+        // *
+        //--------------------------------------------------------------
+        void setupGUI();
+        bool drawGui;
+        // GUI Objects
+        ofxDatGui * gui;
+        void onButtonEvent(ofxDatGuiButtonEvent e);
+        void onSliderEvent(ofxDatGuiSliderEvent e);
+        void onTextInputEvent(ofxDatGuiTextInputEvent e);
+        void on2dPadEvent(ofxDatGui2dPadEvent e);
+        void onDropdownEvent(ofxDatGuiDropdownEvent e);
+        void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
+        void onMatrixEvent(ofxDatGuiMatrixEvent e);
+    
+        int numberOfPlayers;
+        int speed;
+        int randomSeed;
+        int smoothing;
+    
 };
