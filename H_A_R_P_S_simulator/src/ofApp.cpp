@@ -11,6 +11,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    ofSetWindowTitle("H.A.R.P.S Simulator");
     playerManager.update();
 }
 //--------------------------------------------------------------
@@ -83,6 +84,7 @@ void ofApp::setupGUI()
 {
     int spacing = 7;
     gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    gui->setWidth(200);
     gui->addHeader("H_A_R_P_S");
     gui->addFRM(1.0f);
     gui->addBreak();
