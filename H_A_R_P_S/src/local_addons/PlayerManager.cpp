@@ -18,6 +18,7 @@ void PlayerManager::setNumberOfPlayers(int numberOfPlayers)
     _numberOfPlayers = numberOfPlayers;
     players.clear();
     
+    
     for (int player = 0; player < _numberOfPlayers; player++) {
         players.push_back(Player(player,ofColor::ivory));
     }
@@ -42,6 +43,7 @@ void PlayerManager::drawPlayerManager()
 {
     for (auto player : players) {
         player.draw();
+        player.drawPlayerHealth(ofPoint(0,0));
     }
 }
 //--------------------------------------------------------------
@@ -49,6 +51,15 @@ ofPoint PlayerManager::getPlayerCoords()
 {
     ofPoint pos;
     return pos;
+}
+//--------------------------------------------------------------
+vector<int> PlayerManager::getPlayerHealth()
+{
+    vector<int> health;
+    for (auto player : players) {
+        health.push_back(player.getHealth());
+    }
+    return health;
 }
 //--------------------------------------------------------------
 vector<ofPoint> PlayerManager::getPlayersCoords()

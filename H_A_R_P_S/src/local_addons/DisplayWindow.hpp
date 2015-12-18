@@ -17,6 +17,7 @@ public:
     void setup();
     void update();
     void draw();
+    void setHealthBars(vector<int>healthLevels);
     void doCalibration(bool show);
     void drawCalibration();
     void mouseMoved(int x, int y );

@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "MyTimer.hpp"
+#include "HealthBar.h"
 
 class Player {
 public:
@@ -30,6 +31,7 @@ public:
     void setPlayerPosition(ofPoint pos,int heading);
     ofPoint getPlayerCoords();
     int getPlayerHeading();
+    int getHealth();
 
     // Health System
     void drawPlayerHealth(ofPoint healthPosition);
@@ -40,9 +42,9 @@ private:
     ofPoint _pos;
     int _heading;
     int _id;
-    int _health;
     ofColor _c;
-
+    HealthBar healthBar;
+    
 protected:
     
 };

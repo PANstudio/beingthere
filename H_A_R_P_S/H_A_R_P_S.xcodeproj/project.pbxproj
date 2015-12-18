@@ -230,6 +230,7 @@
 		6372443B1C20E4CF002F7BD5 /* CalibrationScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CalibrationScreen.hpp; path = src/local_addons/CalibrationScreen.hpp; sourceTree = "<group>"; };
 		6372443D1C20E503002F7BD5 /* ControlNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlNode.cpp; path = src/local_addons/ControlNode.cpp; sourceTree = "<group>"; };
 		6372443E1C20E503002F7BD5 /* ControlNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControlNode.hpp; path = src/local_addons/ControlNode.hpp; sourceTree = "<group>"; };
+		637723B41C2396C60081998C /* HealthBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HealthBar.h; path = src/local_addons/HealthBar.h; sourceTree = "<group>"; };
 		639756A71C1E373B00B512AD /* MapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapGenerator.cpp; path = src/local_addons/MapGenerator.cpp; sourceTree = "<group>"; };
 		639756A81C1E373B00B512AD /* MapGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapGenerator.hpp; path = src/local_addons/MapGenerator.hpp; sourceTree = "<group>"; };
 		639756A91C1E373B00B512AD /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = src/local_addons/MyTimer.cpp; sourceTree = "<group>"; };
@@ -811,6 +812,7 @@
 				639756AA1C1E373B00B512AD /* MyTimer.hpp */,
 				639756AB1C1E373B00B512AD /* Player.cpp */,
 				639756AC1C1E373B00B512AD /* Player.hpp */,
+				637723B41C2396C60081998C /* HealthBar.h */,
 				639756AD1C1E373B00B512AD /* PlayerManager.cpp */,
 				639756AE1C1E373B00B512AD /* PlayerManager.hpp */,
 				639756AF1C1E373B00B512AD /* RobotManager.cpp */,

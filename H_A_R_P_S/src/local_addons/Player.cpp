@@ -19,7 +19,7 @@ Player::Player(int id,ofColor c)
 {
     _id = id;
     _c = c;
-    _health = 100;
+    healthBar.setup();
 }
 //--------------------------------------------------------------
 Player::~Player()
@@ -36,7 +36,7 @@ void Player::setPlayerPosition(ofPoint pos,int heading)
 {
     _pos = pos;
     _heading = heading;
-    _health = 100;
+    healthBar.setup();
 }
 //--------------------------------------------------------------
 ofPoint Player::getPlayerCoords()
@@ -65,41 +65,22 @@ void Player::draw()
     ofPopStyle();
 }
 //--------------------------------------------------------------
+int Player::getHealth()
+{
+    return healthBar.getHealth();
+}
+//--------------------------------------------------------------
 void Player::reduceHealth(int rate)
 {
-    _health -= rate;
+    healthBar.reduceHealth(rate);
 }
 //--------------------------------------------------------------
 void Player::resetHealth()
 {
-    _health = 100;
+    healthBar.reset();
 }
 //--------------------------------------------------------------
 void Player::drawPlayerHealth(ofPoint healthPosition)
 {
-    ofPushMatrix();
-    ofTranslate(healthPosition);
-    ofPushStyle();
-    ofSetColor(ofColor::white);
-    ofNoFill();
-    ofDrawRectangle(0, 0, 400, 20);
-    ofPushStyle();
-    if (_health < 50 && _health > 25) {
-        ofSetColor(ofColor::yellow);
-    }
-    else if (_health <= 25 && _health > 10) {
-        ofSetColor(ofColor::orange);
-    }
-    else if (_health <= 10 && _health > 1) {
-        ofSetColor(ofColor::red);
-    }
-    else {
-        ofSetColor(ofColor::green);
-    }
-    
-    ofFill();
-    ofDrawRectangle(0, 0, _health*4, 20);
-    ofPopStyle();
-    ofPopStyle();
-    ofPopMatrix();
+    healthBar.draw(healthPosition);
 }
