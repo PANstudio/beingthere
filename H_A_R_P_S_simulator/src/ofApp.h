@@ -46,6 +46,13 @@ class ofApp : public ofBaseApp{
         int randomSeed;
         int smoothing;
   
+        int gridSizeX;
+        int gridSizeY;
+        int gridOffsetX;
+        int gridOffsetY;
+        int spacingX;
+        int spacingY;
+    
         Grid gridPattern;
         PlayerManager playerManager;
 };
