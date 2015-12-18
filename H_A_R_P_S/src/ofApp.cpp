@@ -315,18 +315,22 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
             drawCalibrationGUI(false);
+            displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 1;
             drawGenerationGUI(false);
+            displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
             _Appmode = 2;
             drawOperationGUI(false);
+            displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 3;
             drawEditorGUI(false);
+            displayWindow->doCalibration(false);
         }
     }
     else if(e.target->is("Select Difficulty")) {

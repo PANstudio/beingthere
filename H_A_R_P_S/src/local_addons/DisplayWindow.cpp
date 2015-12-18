@@ -27,9 +27,17 @@ void DisplayWindow::update()
 void DisplayWindow::draw()
 {
     ofBackground(0, 0, 0);
-    ofSetColor(ofColor::ivory);
-    font.drawString(title, w, h);
-    calibrationScreen.draw();
+
+    
+    
+    if (calibration) {
+        calibrationScreen.draw();
+    }
+    else {
+        ofSetColor(ofColor::ivory);
+        font.drawString(title, w, h);
+    }
+
 }
 //--------------------------------------------------------------
 void DisplayWindow::doCalibration(bool show)

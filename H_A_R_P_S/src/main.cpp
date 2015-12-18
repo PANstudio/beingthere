@@ -27,7 +27,7 @@ int main( ){
 
     shared_ptr<ofApp> mainApp(new ofApp);
     shared_ptr<DisplayWindow> displayWindowApp(new DisplayWindow);
-    
+    mainApp->displayWindow = displayWindowApp;
     
     ofRunApp(displayWindow,displayWindowApp);
     ofRunApp(operatorWindow,mainApp);
