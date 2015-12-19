@@ -36,9 +36,8 @@ void MyTimer::update()
     }
 }
 //--------------------------------------------------------------
-void MyTimer::draw(int x, int y)
+string MyTimer::getTimeLeft()
 {
-    
     stringstream time;
     float timeString;
     //    double fractpart;
@@ -49,17 +48,26 @@ void MyTimer::draw(int x, int y)
         timeString = (timeLeft/1000)/60;
     }
     
-    int mins = ( timeString < 1 ? 0 : 1 );
+    string mins = ( timeString < 1 ? "00" : "01" );
     double seconds;
     double mseconds;
-    float secs = modf(timeString, &seconds);
-    float misecs = modf((secs*60), &mseconds);
-    time << mins << ":" << (int)(secs*60) << endl;
+    string secs = "";
+    float a = modf(timeString, &seconds);
+    if (a*60 < 10) {
+        secs = "0"+ofToString((int)(a*60));
+    }
+    else {
+        secs = ofToString((int)(a*60));
+    }
+    time << mins << ":" << secs << endl;
+    return time.str();
+}
+//--------------------------------------------------------------
+void MyTimer::draw(int x, int y)
+{
     ofSetColor(255, 255, 255);
-    
-    ofRectangle r = font.getStringBoundingBox(time.str(), x,y);
-    
-    font.drawString(time.str(), r.getCenter().x,r.getCenter().y);
+    ofRectangle r = font.getStringBoundingBox(getTimeLeft(), x,y);
+    font.drawString(getTimeLeft(), r.getCenter().x,r.getCenter().y);
 }
 //--------------------------------------------------------------
 void MyTimer::setNewTimerLength(int timerLength)

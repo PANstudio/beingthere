@@ -29,12 +29,15 @@ void ofApp::setup()
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
+    countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    countDown.update();
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
+    displayWindow->getTimeLeft(countDown.getTimeLeft());
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -45,6 +48,7 @@ void ofApp::draw()
     mapGenerator.drawPolylines();
     playerManager.drawPlayerManager();
     playerManager.drawPlayerHealth(550,500,0.5);
+    countDown.draw(550, 450);
     ofDrawBitmapStringHighlight(testEvent, 500,15);
 }
 //--------------------------------------------------------------
@@ -57,6 +61,13 @@ void ofApp::keyPressed(int key)
             break;
         case 'a':
             mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 140, 3);
+            break;
+        case '>':
+            countDown.setNewTimerLength(ofRandom(10000));
+            countDown.start();
+            break;
+        case '<':
+            countDown.stop();
             break;
         default:
             break;

@@ -17,11 +17,13 @@ void DisplayWindow::setup()
     // Align Center the Text
     w = (ofGetWidth()/2) - (font.getStringBoundingBox(title, 0, 0).width/2);
     h = (ofGetHeight()/2) - (font.getStringBoundingBox(title, 0, 0).height/2);
+    timestring = "";
+    
 }
 //--------------------------------------------------------------
 void DisplayWindow::update()
 {
-    
+
 }
 //--------------------------------------------------------------
 void DisplayWindow::setNumberOfHealthBars(int num)
@@ -40,8 +42,6 @@ void DisplayWindow::draw()
 {
     ofBackground(0, 0, 0);
 
-    
-    
     if (calibration) {
         calibrationScreen.draw();
     }
@@ -51,6 +51,10 @@ void DisplayWindow::draw()
         for (int i = 0; i < playerHealth.size(); i++) {
             playerHealth[i].draw(ofPoint(10,10+(i*50)));
         }
+        
+        int x = (ofGetWidth()/2) - (font.getStringBoundingBox(timestring, 0, 0).width/2);
+        int y = (ofGetHeight()/2) - (font.getStringBoundingBox(timestring, 0, 0).height/2)+40;
+        font.drawString(timestring, x, y);
     }
 
 }
@@ -63,6 +67,11 @@ void DisplayWindow::doCalibration(bool show)
 void DisplayWindow::drawCalibration()
 {
 
+}
+//--------------------------------------------------------------
+void DisplayWindow::getTimeLeft(string time)
+{
+    timestring = time;
 }
 //--------------------------------------------------------------
 void DisplayWindow::mouseMoved(int x, int y )

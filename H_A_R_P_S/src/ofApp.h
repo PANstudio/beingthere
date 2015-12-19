@@ -39,6 +39,7 @@ class ofApp : public ofBaseApp{
         void setupVariables();
     
         PlayerManager playerManager;
+        MyTimer countDown;
         //--------------------------------------------------------------
         // *
         // * Map Generator
