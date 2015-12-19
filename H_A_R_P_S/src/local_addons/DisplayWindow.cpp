@@ -24,6 +24,18 @@ void DisplayWindow::update()
     
 }
 //--------------------------------------------------------------
+void DisplayWindow::setNumberOfHealthBars(int num)
+{
+    for (int i = 0; i < num; i++) {
+        playerHealth.push_back(HealthBar());
+    }
+}
+//--------------------------------------------------------------
+void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
+{
+    playerHealth = healthLevels;
+}
+//--------------------------------------------------------------
 void DisplayWindow::draw()
 {
     ofBackground(0, 0, 0);
@@ -36,6 +48,9 @@ void DisplayWindow::draw()
     else {
         ofSetColor(ofColor::ivory);
         font.drawString(title, w, h);
+        for (int i = 0; i < playerHealth.size(); i++) {
+            playerHealth[i].draw(ofPoint(10,10+(i*50)));
+        }
     }
 
 }

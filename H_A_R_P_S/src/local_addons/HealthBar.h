@@ -10,6 +10,7 @@
 #define HealthBar_h
 
 #include "ofMain.h"
+#include "ofxTween.h"
 
 class HealthBar {
 public:
@@ -43,10 +44,16 @@ public:
     //----------------------------------------
     void reduceHealth(int amount)
     {
+        int tempHealth = (_health - amount);
+        tween.setParameters(1,expo,ofxTween::easeOut,_health,tempHealth,500,1);
         _health -= amount;
     }
     //----------------------------------------
     void draw(ofPoint healthPosition) {
+        if (tween.isRunning()) {
+            _health = tween.update();
+        }
+
         ofPushMatrix();
         ofTranslate(healthPosition);
         ofPushStyle();
@@ -76,7 +83,8 @@ public:
 private:
     int _health;
     bool _died;
-    
+    ofxTween tween;
+    ofxEasingExpo expo;
 protected:
     
 };

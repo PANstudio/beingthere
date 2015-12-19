@@ -65,9 +65,9 @@ void Player::draw()
     ofPopStyle();
 }
 //--------------------------------------------------------------
-int Player::getHealth()
+HealthBar Player::getHealth()
 {
-    return healthBar.getHealth();
+    return healthBar;
 }
 //--------------------------------------------------------------
 void Player::reduceHealth(int rate)

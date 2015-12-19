@@ -22,7 +22,7 @@ public:
     void listen();
     void closeListener();
     void drawPlayerManager();
-    vector<int>getPlayerHealth();
+    vector<HealthBar>getPlayerHealth();
     
     string getDebugData();
     

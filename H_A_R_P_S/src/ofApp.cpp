@@ -34,6 +34,7 @@ void ofApp::setup()
 void ofApp::update()
 {
     playerManager.listen();
+    displayWindow->setHealthBars(playerManager.getPlayerHealth());
 }
 //--------------------------------------------------------------
 void ofApp::draw()
