@@ -44,6 +44,7 @@ void ofApp::draw()
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
     playerManager.drawPlayerManager();
+    playerManager.drawPlayerHealth(550,500,0.5);
     ofDrawBitmapStringHighlight(testEvent, 500,15);
 }
 //--------------------------------------------------------------

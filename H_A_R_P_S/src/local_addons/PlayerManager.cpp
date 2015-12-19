@@ -58,8 +58,19 @@ void PlayerManager::drawPlayerManager()
 {
     for (auto player : players) {
         player.draw();
-        player.drawPlayerHealth(ofPoint(0,0));
     }
+}
+//--------------------------------------------------------------
+void PlayerManager::drawPlayerHealth(int x, int y,float scale)
+{
+    ofPushMatrix();
+    ofTranslate(x, y);
+    ofScale(scale, scale);
+    for (int i = 0; i < players.size(); i++) {
+        ofDrawBitmapString(ofToString(i), ofPoint(0,0+(i*40)));
+        players[i].drawPlayerHealth(ofPoint(0,0+(i*40)));
+    }
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 ofPoint PlayerManager::getPlayerCoords()
