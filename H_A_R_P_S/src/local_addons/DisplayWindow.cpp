@@ -33,6 +33,11 @@ void DisplayWindow::setNumberOfHealthBars(int num)
     }
 }
 //--------------------------------------------------------------
+void DisplayWindow::setCalibration(int gridX, int gridY, int spacingX, int spacingY)
+{
+    calibrationScreen.setup(gridX, gridY, spacingX, spacingY);
+}
+//--------------------------------------------------------------
 void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
 {
     playerHealth = healthLevels;

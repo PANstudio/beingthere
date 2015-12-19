@@ -39,18 +39,18 @@ void PlayerManager::listen()
     }
     
     // Debug
-    if(ofGetFrameNum() % 60 == 0) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players[i].getHealth().getHealth() <= 0) {
-                players[i].resetHealth();
-            }
-            else {
-                 players[i].reduceHealth(5);
-            }
-
-        }
-        
-    }
+//    if(ofGetFrameNum() % 60 == 0) {
+//        for (int i = 0; i < players.size(); i++) {
+//            if (players[i].getHealth().getHealth() <= 0) {
+//                players[i].resetHealth();
+//            }
+//            else {
+//                 players[i].reduceHealth(5);
+//            }
+//
+//        }
+    
+//    }
     
 }
 //--------------------------------------------------------------
@@ -91,5 +91,9 @@ vector<HealthBar> PlayerManager::getPlayerHealth()
 vector<ofPoint> PlayerManager::getPlayersCoords()
 {
     vector<ofPoint> pos;
+    for (int i = 0; i < players.size(); i++) {
+        pos.push_back(players[i].getPlayerCoords());
+    }
+    
     return pos;
 }

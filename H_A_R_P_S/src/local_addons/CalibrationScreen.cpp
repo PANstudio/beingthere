@@ -10,6 +10,7 @@
 //--------------------------------------------------------------
 void CalibrationScreen::setup(int gridSizeX, int gridSizeY, int gridSpacingX, int gridSpacingY)
 {
+    nodes.clear();
     int count = 0;
         for (int y = 0; y < gridSizeY; y++) {
              for (int x = 0; x < gridSizeX; x++) {

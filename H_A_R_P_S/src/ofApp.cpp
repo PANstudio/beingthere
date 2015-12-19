@@ -49,7 +49,8 @@ void ofApp::draw()
     playerManager.drawPlayerManager();
     playerManager.drawPlayerHealth(550,500,0.5);
     countDown.draw(550, 450);
-    ofDrawBitmapStringHighlight(testEvent, 500,15);
+    ofDrawBitmapStringHighlight(testEvent, 510,15);
+    ofDrawBitmapStringHighlight(feedBackMap, 510,45);
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -63,8 +64,7 @@ void ofApp::keyPressed(int key)
             mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 140, 3);
             break;
         case '>':
-            countDown.setNewTimerLength(ofRandom(10000));
-            countDown.start();
+            
             break;
         case '<':
             countDown.stop();
@@ -117,6 +117,7 @@ void ofApp::windowResized(int w, int h)
 void ofApp::gotMessage(ofMessage msg)
 {
     testEvent = msg.message;
+    
 }
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
@@ -219,13 +220,14 @@ void ofApp::setupGUI()
     gui->addBreak(spacing);
     ofxDatGuiFolder * calibrationFolder = gui->addFolder("Calibration",ofColor::white);
     calibrationFolder->addToggle("From Centre / Top Left", false);
-    calibrationFolder->addSlider("Grid Position X", 0,ofGetWidth(), 10); // This is CM
-    calibrationFolder->addSlider("Grid Position Y", 0,ofGetHeight(), 10); // This is CM
-    calibrationFolder->addSlider("Grid Size", 0,2000, 500); // This is CM
-    calibrationFolder->addSlider("Number of X Lines", 0,50, 10); // This is CM
-    calibrationFolder->addSlider("Number of Y Lines", 0,50, 10); // This is CM
+    calibrationFolder->addSlider("Grid X", 0,100, 50); // This is CM
+    calibrationFolder->addSlider("Grid Y", 0,100, 50); // This is CM
     calibrationFolder->addSlider("Spacing X", 0,200, 10); // This is CM
     calibrationFolder->addSlider("Spacing Y", 0,200, 10); // This is CM
+    calibrationFolder->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
+    calibrationFolder->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
+    calibrationFolder->addButton("Calibrate");
+
     
     gui->addFooter();
     
@@ -251,24 +253,38 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     else if (e.target->is("Danger Area Size")) _dangerAreaSize = e.target->getValue();
     else if (e.target->is("Growth Loops")) _growthNo = e.target->getValue();
     else if (e.target->is("Smoothing Loops")) _smooth = e.target->getValue();
-    else if (e.target->is("Grid Size")) _spacing = e.target->getValue();
-    else if (e.target->is("Grid Position X")) _gridX = e.target->getValue();
-    else if (e.target->is("Grid Position Y")) _gridY = e.target->getValue();
-    else if (e.target->is("Number of X Lines")) _numberOfXLines = e.target->getValue();
-    else if (e.target->is("Number of Y Lines")) _numberOfYLines = e.target->getValue();
+    else if (e.target->is("Grid Offset X")) _gridX = e.target->getValue();
+    else if (e.target->is("Grid Offset Y")) _gridY = e.target->getValue();
+    else if (e.target->is("Grid X")) _numberOfXLines = e.target->getValue();
+    else if (e.target->is("Grid Y")) _numberOfYLines = e.target->getValue();
     else if (e.target->is("Spacing X")) _spacingX = e.target->getValue();
     else if (e.target->is("Spacing Y")) _spacingY = e.target->getValue();
 }
 //--------------------------------------------------------------
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
-    if (e.target->is("Generate Map")) mapGenerator.generateMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
-    else if (e.target->is("Flush Map")) mapGenerator.update();
-//    else if (e.target->is("Clear Map")) mapGenerator.ClearMap();
-    else if (e.target->is("Generate Custom Map")) mapGenerator.generateCustomMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
-    else if (e.target->is("Use Random Seed")) _urs = e.target->getEnabled();
-//    else if (e.target->is("Start Level")) countdown.start();
-//    else if (e.target->is("Stop Level")) countdown.stop();
+    if (e.target->is("Generate Map")) {
+        mapGenerator.generateMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+    }
+    else if (e.target->is("Flush Map")) {
+        mapGenerator.update();
+    }
+    else if (e.target->is("Generate Custom Map")) {
+        mapGenerator.generateCustomMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+    }
+    else if (e.target->is("Use Random Seed")) {
+        _urs = e.target->getEnabled();
+    }
+    else if(e.target->is("Calibrate")) {
+        displayWindow->setCalibration(_numberOfXLines, _numberOfYLines, _spacingX, _spacingY);
+    }
+    else if (e.target->is("Start Level")) {
+        countDown.setNewTimerLength(ofRandom(10000));
+        countDown.start();
+    }
+    else if (e.target->is("Stop Level")) {
+        countDown.stop();
+    }
 }
 //--------------------------------------------------------------
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
