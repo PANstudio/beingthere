@@ -23,6 +23,7 @@ class MyTimer {
         void stop();
         void reset();
         void setNewTimerLength(int timerLength);
+        string getTimeLeft();
     
     private:
         float startTime;
@@ -31,7 +32,7 @@ class MyTimer {
         bool  bTimerReached;
         bool _loop;
         float _timerLength;
-    
+        string _timeLeftString;
         string _timerName;
         ofTrueTypeFont font;
 };

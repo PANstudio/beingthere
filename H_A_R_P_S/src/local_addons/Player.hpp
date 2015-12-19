@@ -31,7 +31,7 @@ public:
     void setPlayerPosition(ofPoint pos,int heading);
     ofPoint getPlayerCoords();
     int getPlayerHeading();
-    int getHealth();
+    HealthBar getHealth();
 
     // Health System
     void drawPlayerHealth(ofPoint healthPosition);

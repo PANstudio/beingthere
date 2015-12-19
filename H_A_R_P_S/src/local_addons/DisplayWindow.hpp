@@ -11,26 +11,38 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "CalibrationScreen.hpp"
+#include "MyTimer.hpp"
+#include "HealthBar.h"
 
 class DisplayWindow : public ofBaseApp {
 public:
     void setup();
     void update();
     void draw();
-    void setHealthBars(vector<int>healthLevels);
+    
+    void setNumberOfHealthBars(int num);
+    void setHealthBars(vector<HealthBar>healthLevels);
+    
     void doCalibration(bool show);
     void drawCalibration();
+
     void mouseMoved(int x, int y );
     void mousePressed(int x, int y, int button);
+    
+    void getTimeLeft(string time);
+    
+    void setCalibration(int gridX,int gridY,int spacingX,int spacingY);
     
 private:
     ofTrueTypeFont font;
     int w;
     int h;
+    
     string title;
     bool calibration;
-    
+    vector <HealthBar> playerHealth;
     CalibrationScreen calibrationScreen;
+    string timestring;
     
 protected:
     

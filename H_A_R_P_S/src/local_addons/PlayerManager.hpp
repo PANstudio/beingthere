@@ -22,7 +22,8 @@ public:
     void listen();
     void closeListener();
     void drawPlayerManager();
-    vector<int>getPlayerHealth();
+    void drawPlayerHealth(int x, int y,float scale);
+    vector<HealthBar>getPlayerHealth();
     
     string getDebugData();
     

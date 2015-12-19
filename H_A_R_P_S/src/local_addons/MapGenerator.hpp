@@ -34,6 +34,8 @@ public:
     void generateDangerAreas();
     void expandDangerAreas(int times);
     
+    
+    
     deque<Tile> getNeighbouringTiles(Tile tile);
     int getSurroundingTileCount(int gridX, int gridY);
     bool isInMapRange(int x, int y);
