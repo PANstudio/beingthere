@@ -43,6 +43,7 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
+    
     mapGenerator.draw();
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();

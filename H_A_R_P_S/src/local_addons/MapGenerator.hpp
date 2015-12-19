@@ -34,7 +34,9 @@ public:
     void generateDangerAreas();
     void expandDangerAreas(int times);
     
-    
+    vector<ofPolyline> getDeadlyOutlines();
+    vector<ofPolyline> getDangerOutlines();
+    vector<ofPolyline> getOkOutlines();
     
     deque<Tile> getNeighbouringTiles(Tile tile);
     int getSurroundingTileCount(int gridX, int gridY);

@@ -429,9 +429,23 @@ void MapGenerator::drawComputerVision()
     drawMat(_blurred, _newWidth/2, _newHeight,((_newWidth/2)),((_newHeight/2)));
 }
 //--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getDeadlyOutlines()
+{
+    return deadlyArea;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getDangerOutlines()
+{
+    return dangerArea;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getOkOutlines()
+{
+    return okArea;
+}
+//--------------------------------------------------------------
 void MapGenerator::drawPolylines()
 {
-    
     ofPushMatrix();
     ofTranslate(_newWidth/2, _newHeight);
     ofScale(0.5,0.5);
