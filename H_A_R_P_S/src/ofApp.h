@@ -6,6 +6,7 @@
 #include "DisplayWindow.hpp"
 #include "MyTimer.hpp"
 #include "PlayerManager.hpp"
+#include "ScoreBoard.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -40,6 +41,7 @@ class ofApp : public ofBaseApp{
     
         PlayerManager playerManager;
         MyTimer countDown;
+//        Scoreboard scoreBoard;
         //--------------------------------------------------------------
         // *
         // * Map Generator

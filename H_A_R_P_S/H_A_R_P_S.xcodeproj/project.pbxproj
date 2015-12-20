@@ -36,6 +36,7 @@
 		6372443C1C20E4CF002F7BD5 /* CalibrationScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */; settings = {ASSET_TAGS = (); }; };
 		6372443F1C20E503002F7BD5 /* ControlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443D1C20E503002F7BD5 /* ControlNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		637723BA1C2624810081998C /* StyledMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723B81C2624810081998C /* StyledMap.cpp */; settings = {ASSET_TAGS = (); }; };
+		637723BD1C2625190081998C /* ScoreBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723BB1C2625190081998C /* ScoreBoard.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A71C1E373B00B512AD /* MapGenerator.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A91C1E373B00B512AD /* MyTimer.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756B71C1E373B00B512AD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AB1C1E373B00B512AD /* Player.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -234,6 +235,8 @@
 		637723B41C2396C60081998C /* HealthBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HealthBar.h; path = src/local_addons/HealthBar.h; sourceTree = "<group>"; };
 		637723B81C2624810081998C /* StyledMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StyledMap.cpp; path = src/local_addons/StyledMap.cpp; sourceTree = "<group>"; };
 		637723B91C2624810081998C /* StyledMap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StyledMap.hpp; path = src/local_addons/StyledMap.hpp; sourceTree = "<group>"; };
+		637723BB1C2625190081998C /* ScoreBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScoreBoard.cpp; path = src/local_addons/ScoreBoard.cpp; sourceTree = "<group>"; };
+		637723BC1C2625190081998C /* ScoreBoard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ScoreBoard.hpp; path = src/local_addons/ScoreBoard.hpp; sourceTree = "<group>"; };
 		639756A71C1E373B00B512AD /* MapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapGenerator.cpp; path = src/local_addons/MapGenerator.cpp; sourceTree = "<group>"; };
 		639756A81C1E373B00B512AD /* MapGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapGenerator.hpp; path = src/local_addons/MapGenerator.hpp; sourceTree = "<group>"; };
 		639756A91C1E373B00B512AD /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = src/local_addons/MyTimer.cpp; sourceTree = "<group>"; };
@@ -808,24 +811,26 @@
 		6948EE371B920CB800B5AC1A /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
-				637723B81C2624810081998C /* StyledMap.cpp */,
-				637723B91C2624810081998C /* StyledMap.hpp */,
 				639756A71C1E373B00B512AD /* MapGenerator.cpp */,
 				639756A81C1E373B00B512AD /* MapGenerator.hpp */,
+				637723B81C2624810081998C /* StyledMap.cpp */,
+				637723B91C2624810081998C /* StyledMap.hpp */,
 				639756BD1C1E48F700B512AD /* MapHelpers.hpp */,
-				639756A91C1E373B00B512AD /* MyTimer.cpp */,
-				639756AA1C1E373B00B512AD /* MyTimer.hpp */,
-				639756AB1C1E373B00B512AD /* Player.cpp */,
-				639756AC1C1E373B00B512AD /* Player.hpp */,
-				637723B41C2396C60081998C /* HealthBar.h */,
-				639756AD1C1E373B00B512AD /* PlayerManager.cpp */,
-				639756AE1C1E373B00B512AD /* PlayerManager.hpp */,
-				639756AF1C1E373B00B512AD /* RobotManager.cpp */,
-				639756B01C1E373B00B512AD /* RobotManager.hpp */,
 				639756B11C1E373B00B512AD /* TargetTile.cpp */,
 				639756B21C1E373B00B512AD /* TargetTile.hpp */,
 				639756B31C1E373B00B512AD /* Tile.cpp */,
 				639756B41C1E373B00B512AD /* Tile.hpp */,
+				639756A91C1E373B00B512AD /* MyTimer.cpp */,
+				639756AA1C1E373B00B512AD /* MyTimer.hpp */,
+				637723B41C2396C60081998C /* HealthBar.h */,
+				639756AB1C1E373B00B512AD /* Player.cpp */,
+				639756AC1C1E373B00B512AD /* Player.hpp */,
+				639756AD1C1E373B00B512AD /* PlayerManager.cpp */,
+				639756AE1C1E373B00B512AD /* PlayerManager.hpp */,
+				639756AF1C1E373B00B512AD /* RobotManager.cpp */,
+				639756B01C1E373B00B512AD /* RobotManager.hpp */,
+				637723BB1C2625190081998C /* ScoreBoard.cpp */,
+				637723BC1C2625190081998C /* ScoreBoard.hpp */,
 				637244351C20DB17002F7BD5 /* DisplayWindow.cpp */,
 				637244361C20DB17002F7BD5 /* DisplayWindow.hpp */,
 				6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */,
@@ -1463,6 +1468,7 @@
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				8497B285BA0A16DDC6173260 /* ETF.cpp in Sources */,
 				639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */,
+				637723BD1C2625190081998C /* ScoreBoard.cpp in Sources */,
 				14CA2A827AB7CDB253255F8F /* fdog.cpp in Sources */,
 				E8A4997D1CBAE51811976654 /* Calibration.cpp in Sources */,
 				6372443C1C20E4CF002F7BD5 /* CalibrationScreen.cpp in Sources */,

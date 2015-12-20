@@ -26,6 +26,7 @@ void ofApp::setup()
     // Yep its in the name
     setupGUI();
     setupVariables();
+//    scoreBoard.loadScoreboard("scoreboard.json");
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
@@ -52,6 +53,7 @@ void ofApp::draw()
     countDown.draw(550, 450);
     ofDrawBitmapStringHighlight(testEvent, 510,15);
     ofDrawBitmapStringHighlight(feedBackMap, 510,45);
+//    scoreBoard.draw(0, 0);
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
