@@ -43,11 +43,15 @@ public:
     bool isInMapRange(int x, int y);
     Tile getTileFromGridRef(int x,int y);
     
+    void getPlayerCoordinates(vector <ofPoint> playerCoords);
+    
     void draw();
     void drawComputerVision();
     void drawPolylines();
     void drawMicroMap();
     void drawEditor();
+    
+    void fireEvent(int playerId, string area);
     
     void mouseOver(int x, int y);
     void mouseDown(int x, int y,int pressed);

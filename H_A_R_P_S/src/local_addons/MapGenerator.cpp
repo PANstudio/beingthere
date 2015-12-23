@@ -331,7 +331,6 @@ void MapGenerator::update()
         l.simplify();
         finishArea.push_back(l);
     }
-
 }
 //--------------------------------------------------------------
 // *
@@ -346,7 +345,6 @@ void MapGenerator::draw()
             map[x][y].draw();
         }
     }
-
 }
 //--------------------------------------------------------------
 void MapGenerator::drawMicroMap()
@@ -360,7 +358,6 @@ void MapGenerator::drawMicroMap()
 //--------------------------------------------------------------
 void MapGenerator::drawEditor()
 {
-
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             if (map[x][y].inside(ofGetMouseX(), ofGetMouseY()) && map[x][y].walkable) {
@@ -426,7 +423,7 @@ void MapGenerator::drawComputerVision()
     }
     
     ofSetColor(255, 255, 255);
-    drawMat(_blurred, _newWidth/2, _newHeight,((_newWidth/2)),((_newHeight/2)));
+//    drawMat(_blurred, _newWidth/2, _newHeight,((_newWidth/2)),((_newHeight/2)));
 }
 //--------------------------------------------------------------
 vector<ofPolyline> MapGenerator::getDeadlyOutlines()
@@ -444,79 +441,122 @@ vector<ofPolyline> MapGenerator::getOkOutlines()
     return okArea;
 }
 //--------------------------------------------------------------
+void MapGenerator::fireEvent(int playerId, string area)
+{
+    ofMessage msg(ofToString(playerId)+": "+area);
+    ofSendMessage(msg);
+}
+//--------------------------------------------------------------
 void MapGenerator::drawPolylines()
 {
     ofPushMatrix();
     ofTranslate(_newWidth/2, _newHeight);
     ofScale(0.5,0.5);
-    
     ofFill();
     
     for (int i = 0; i < okArea.size(); i++) {
         okArea[i].simplify(0.1);
-        if (okArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-            ofMessage msg("Player 1: in Safe Area");
-            ofSendMessage(msg);
+//        if (okArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+
             ofSetColor(ofColor::green);
-        }
-        else {
-            ofSetColor(ofColor::white);
-        }
+//        }
+//        else {
+//            ofSetColor(ofColor::white);
+//        }
         
         okArea[i].draw();
-        
-        ofSetColor(ofColor::blue);
-        ofDrawRectangle(okArea[i].getCentroid2D().x,okArea[i].getCentroid2D().y,3,3);
     }
     
     for (int i = 0; i < dangerArea.size(); i++) {
         dangerArea[i].simplify(0.1);
-        if (dangerArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-            ofMessage msg("Player 1: in danger area");
-            ofSendMessage(msg);
+//        if (dangerArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+//            ofMessage msg("Player 1: in danger area");
+//            ofSendMessage(msg);
             ofSetColor(ofColor::yellow);
-        }
-        else {
-            ofSetColor(ofColor::white);
-        }
+//        }
+//        else {
+//            ofSetColor(ofColor::white);
+//        }
         dangerArea[i].draw();
-        ofSetColor(ofColor::blue);
-        ofDrawRectangle(dangerArea[i].getCentroid2D().x,dangerArea[i].getCentroid2D().y,3,3);
     }
     
     for (int i = 0; i < deadlyArea.size(); i++) {
         
         deadlyArea[i].simplify(0.1);
-        if (deadlyArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+//        if (deadlyArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
             ofSetColor(ofColor::red);
-            ofMessage msg("Player 1: in deadly area");
-            ofSendMessage(msg);
-        }
-        else {
-            ofSetColor(ofColor::white);
-        }
+//            ofMessage msg("Player 1: in deadly area");
+//            ofSendMessage(msg);
+//        }
+//        else {
+//            ofSetColor(ofColor::white);
+//        }
         deadlyArea[i].draw();
-        ofSetColor(ofColor::blue);
-        ofDrawRectangle(deadlyArea[i].getCentroid2D().x,deadlyArea[i].getCentroid2D().y,3,3);
     }
     for (int i = 0; i < finishArea.size(); i++) {
         finishArea[i].simplify(0.1);
-        if (finishArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-            ofSetColor(ofColor::blue);
-            ofMessage msg("Player 1: in finshed area");
-            ofSendMessage(msg);
-        }
-        else {
+//        if (finishArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
+//            ofSetColor(ofColor::blue);
+//            ofMessage msg("Player 1: in finshed area");
+//            ofSendMessage(msg);
+//        }
+//        else {
             ofSetColor(ofColor::white);
-        }
+//        }
         
         finishArea[i].draw();
-        
-        ofSetColor(ofColor::blue);
-        ofDrawRectangle(finishArea[i].getCentroid2D().x,finishArea[i].getCentroid2D().y,3,3);
+//        
+//        ofSetColor(ofColor::blue);
+//        ofDrawRectangle(finishArea[i].getCentroid2D().x,finishArea[i].getCentroid2D().y,3,3);
     }
+    
     ofSetColor(255, 255, 255);
     ofDrawCircle(ofGetMouseX(), ofGetMouseY(),10);
+    ofPopMatrix();
+}
+//--------------------------------------------------------------
+void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
+{
+    ofPushMatrix();
+    ofTranslate(_newWidth/2, _newHeight);
+    ofScale(0.5,0.5);
+    
+    for (int player = 0; player < playerCoords.size(); player++) {
+        for (int i = 0; i < okArea.size(); i++) {
+            okArea[i].simplify(0.1);
+            if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "OK");
+            }
+            ofSetColor(ofColor::green);
+            okArea[i].draw();
+        }
+        
+        for (int i = 0; i < dangerArea.size(); i++) {
+            dangerArea[i].simplify(0.1);
+            if (dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "Danger");
+            }
+            ofSetColor(ofColor::yellow);
+            dangerArea[i].draw();
+        }
+        
+        for (int i = 0; i < deadlyArea.size(); i++) {
+            deadlyArea[i].simplify(0.1);
+            if (deadlyArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "Deadly");
+            }
+            ofSetColor(ofColor::red);
+            deadlyArea[i].draw();
+        }
+        
+        if (!playerCoords.empty()) {
+            for (auto player : playerCoords) {
+                ofSetColor(255, 255, 255);
+                ofDrawCircle(player.x, player.y, 10);
+            }
+        }
+    }
+
     ofPopMatrix();
 }
 //--------------------------------------------------------------

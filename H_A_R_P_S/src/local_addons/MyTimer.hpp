@@ -15,6 +15,10 @@
 
 class MyTimer {
     public:
+//    
+//        MyTimer(float timerLength,string timerName,bool loop,string fontFile);
+//        ~MyTimer();
+    
         void setup(float timerLength,string timerName,bool loop,string fontFile);
         void update();
         void draw(int x, int y);

@@ -31,7 +31,7 @@ private:
     ofxOscSender oscSender;
     int _numberOfPlayers;
     vector <Player> players;
-    vector <ofVec2f> pPos;
+    ofVec2f pPos[10];
 protected:
     
 };

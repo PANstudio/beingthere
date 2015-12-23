@@ -17,16 +17,19 @@ void ofApp::setupVariables()
     _numberOfYLines = 10;
     _spacingX = 10;
     _spacingY = 10;
+    
+    for(int i = 0; i < 10; i ++) {
+        event[i] = "Player ";
+    }
 }
 //--------------------------------------------------------------
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    
-    // Yep its in the name
+    ofSetFullscreen(false);
     setupGUI();
     setupVariables();
-//    scoreBoard.loadScoreboard("scoreboard.json");
+    scoreBoard.loadScoreboard("scoreboard.json");
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
@@ -44,16 +47,24 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
-    
     mapGenerator.draw();
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
+    mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
+    ofDrawBitmapStringHighlight(feedBackMap, 508,13);
+    
+    // Player Status Feedback
+    ofDrawBitmapStringHighlight("Player Status", 510,400);
+    for (int i = 0; i < 3; i++) {
+        ofDrawBitmapStringHighlight(event[i], 510,418+(i*18));
+    }
     playerManager.drawPlayerManager();
-    playerManager.drawPlayerHealth(550,500,0.5);
-    countDown.draw(550, 450);
-    ofDrawBitmapStringHighlight(testEvent, 510,15);
-    ofDrawBitmapStringHighlight(feedBackMap, 510,45);
-//    scoreBoard.draw(0, 0);
+    playerManager.drawPlayerHealth(680,415,0.5);
+    ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
+    scoreBoard.draw(508, 508);
+
+    // Window Layout
+    drawWindows();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -65,12 +76,6 @@ void ofApp::keyPressed(int key)
             break;
         case 'a':
             mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 140, 3);
-            break;
-        case '>':
-            
-            break;
-        case '<':
-            countDown.stop();
             break;
         default:
             break;
@@ -119,13 +124,41 @@ void ofApp::windowResized(int w, int h)
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg)
 {
-    testEvent = msg.message;
-    
+    for (int i = 0; i < 3; i++) {
+        if (msg.message == ofToString(i)+": OK") {
+            event[i] = "Player "+ofToString(i)+" OK";
+            playerManager.stopReducingPlayerHealth(i);
+        }
+        else if (msg.message == ofToString(i)+": Danger") {
+            event[i] = "Player "+ofToString(i)+" Danger";
+        }
+        else if (msg.message == ofToString(i)+": Deadly") {
+            event[i] = "Player "+ofToString(i)+" Deadly";
+            playerManager.startReducingPlayerHealth(i);
+        }
+        
+        if (msg.message == ofToString(i)+" Reducer Finished" ) {
+            playerManager.reducePlayerHealth(i, 5);
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
 {
     
+}
+//--------------------------------------------------------------
+void ofApp::drawWindows()
+{
+    ofPushMatrix();
+    ofTranslate(500, 0);
+    ofPushStyle();
+    ofNoFill();
+    ofSetColor(ofColor::ivory);
+    ofDrawRectangle(0, 0, 500, 500);
+    ofDrawRectangle(0, 500, 500, 200);
+    ofPopStyle();
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 // *

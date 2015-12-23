@@ -14,6 +14,7 @@
 #include "Player.hpp"
 #include "ofMain.h"
 #include "ofxOsc.h"
+#include "MyTimer.hpp"
 
 class PlayerManager {
 public:
@@ -27,6 +28,10 @@ public:
     
     string getDebugData();
     
+    void startReducingPlayerHealth(int id);
+    void reducePlayerHealth(int id,int amount);
+    void stopReducingPlayerHealth(int id);
+    
     ofPoint getPlayerCoords();
     vector<ofPoint> getPlayersCoords();
     
@@ -34,6 +39,8 @@ private:
     ofxOscReceiver oscReceiver;
     int _numberOfPlayers;
     vector <Player> players;
+    vector<MyTimer> reducerTimer;
+    
 protected:
     
 };

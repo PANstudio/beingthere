@@ -19,11 +19,10 @@ void PlayerManager::setNumberOfPlayers(int numberOfPlayers)
 {
     _numberOfPlayers = numberOfPlayers;
     players.clear();
-//    pPos.clear();
     
     for (int player = 0; player < _numberOfPlayers; player++) {
         players.push_back(Player(player,ofColor::ivory));
-//        pPos.push_back(ofVec2f(0,0));
+        pPos[player] = ofVec2f(250, 250);
     }
 }
 //--------------------------------------------------------------
@@ -31,8 +30,16 @@ void PlayerManager::update()
 {
     if (ofGetFrameNum() % 5 == 0) {
         for (int player = 0; player < players.size(); player++) {
-            ofVec2f newCoords = ofVec2f(ofRandom(0,500),ofRandom(0,500));
-            players[player].setPlayerPosition(newCoords, 0);
+
+            // Simulator Only
+            if (pPos[player].x > 500 || pPos[player].x < 0 || pPos[player].y > 500 || pPos[player].y < 0) {
+                pPos[player].set(250, 250);
+            }
+            else {
+               pPos[player] += ofVec2f(ofRandom(-10,10),ofRandom(-10,10));
+            }
+
+            players[player].setPlayerPosition(pPos[player],0);
             ofxOscMessage m;
             m.setAddress("/player"+ofToString(player));
             m.addFloatArg(players[player].getPlayerPreviousCoords().x);

@@ -58,24 +58,23 @@ struct Map {
     }
     stringstream MapDetailsString() {
         stringstream str;
-        str << "---------New Map---------" << endl;
-        str << "- Difficulty " << difficulty << endl;
-        str << "- Level " << level << endl;
-        str << "- Time Needed to Solve Map " << timeNeededToSolveMap << endl;
-        str << "- Width " << width << endl;
-        str << "- Height " << height << endl;
-        str << "- Offset Edge " << offsetEdge << endl;
-        str << "- Tile Size " << tileSize << endl;
-        str << "- Number Of Clouds " << numberOfClouds << endl;
-        str << "- Smoothing Value " << smoothingValue << endl;
-        str << "- Growth Loops " << growthLoops << endl;
-        str << "- Seed Value " << seedValue << endl;
-        str << "- Use Random Seed " << useRandomSeed << endl;
-        str << "- Danger Area Size "  << dangerAreaSize << endl;
-        str << "- Dead Area Toxicity "  << deadAreaToxicity << endl;
-        str << "- Danger Area Toxicity "  << dangerAreaToxicity << endl;
-        str << "- Starting Position " << startingPosition << endl;
-        str << "- End Position " << endPosition << endl;
+        str << "Difficulty " << difficulty << endl;
+        str << "Level " << level << endl;
+        str << "Time Needed to Solve Map " << timeNeededToSolveMap << endl;
+        str << "Width " << width << endl;
+        str << "Height " << height << endl;
+        str << "Offset Edge " << offsetEdge << endl;
+        str << "Tile Size " << tileSize << endl;
+        str << "Number Of Clouds " << numberOfClouds << endl;
+        str << "Smoothing Value " << smoothingValue << endl;
+        str << "Growth Loops " << growthLoops << endl;
+        str << "Seed Value " << seedValue << endl;
+        str << "Use Random Seed " << useRandomSeed << endl;
+        str << "Danger Area Size "  << dangerAreaSize << endl;
+        str << "Dead Area Toxicity "  << deadAreaToxicity << endl;
+        str << "Danger Area Toxicity "  << dangerAreaToxicity << endl;
+        str << "Starting Position " << startingPosition << endl;
+        str << "End Position " << endPosition << endl;
         return str;
     }
 };

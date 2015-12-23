@@ -40,7 +40,7 @@ void Player::setPlayerPosition(ofVec2f pos,int heading)
 {
     _pos.interpolate(pos,0.01);
     _heading = heading;
-    _health = 100;
+//    _health = 100;
 }
 //--------------------------------------------------------------
 ofVec2f Player::getPlayerPreviousCoords()
