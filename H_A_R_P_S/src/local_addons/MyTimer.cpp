@@ -29,7 +29,12 @@ void MyTimer::setup(float timerLength,string timerName,bool loop,string fontFile
     _loop = loop;
     _timerLength = timerLength;
     _timerName = timerName;
-    font.load(fontFile, 40);
+    if (fontFile.size() < 1) {
+        
+    }
+    else {
+        font.load(fontFile, 40);
+    }
 }
 //--------------------------------------------------------------
 void MyTimer::update()
