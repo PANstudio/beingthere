@@ -55,7 +55,6 @@ void Scoreboard::draw(int x, int y)
     boardData << "---------------------------------------------" << endl;
     ofSetColor(ofColor::ivory);
     ofDrawBitmapString(boardData.str(), x,y);
-    
 }
 //----------------------------------------------------------
 void Scoreboard::addNewPlayerToBoard(ScoreboardElements elements)
@@ -82,8 +81,14 @@ void Scoreboard::sortByLocation()
 {
     
 }
+////----------------------------------------------------------
+//bool Scoreboard::sortByRemaining(const ScoreboardElements a,const ScoreboardElements b)
+//{
+//    return a.healthRemaining > b.healthRemaining;
+//}
 //----------------------------------------------------------
 void Scoreboard::sortByHealth()
 {
-    
+//    std::sort(scoreBoardData.begin(), scoreBoardData.end());
+//    std::sort(scoreBoardData.begin(), scoreBoardData.end(),sortByRemaining);
 }

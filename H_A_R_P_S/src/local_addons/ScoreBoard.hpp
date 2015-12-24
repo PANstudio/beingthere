@@ -10,6 +10,7 @@
 #define ScoreBoard_hpp
 
 #include <stdio.h>
+#include <algorithm>
 #include "ofMain.h"
 #include "ofxTween.h"
 #include "ofxJSON.h"
@@ -31,6 +32,7 @@ struct ScoreboardElements {
         timestamp = _timestamp;
     }
     
+    
     string playerName;
     bool didComplete;
     string location;
@@ -41,7 +43,19 @@ struct ScoreboardElements {
     int objects;
     int toxicity;
     string timestamp;
+    
+//    bool sortByCompletion(ScoreboardElements a,ScoreboardElements b) { return a.didComplete > b.didComplete; }
+////    bool sortByRemaining(ScoreboardElements a,ScoreboardElements b) { return a.healthRemaining > b.healthRemaining; }
+//    bool operator < (ScoreboardElements a, ScoreboardElements b) const { return (a.healthRemaining < b.healthRemaining); }
+
 };
+
+//struct check{
+//    inline bool operator < (const ScoreboardElements a,ScoreboardElements b)
+//    {
+//        return (a.healthRemaining < b.healthRemaining);
+//    }
+//};
 
 //----------------------------------------------------------
 class Scoreboard {
@@ -58,7 +72,7 @@ public:
     void sortByLocation();
     void sortByHealth();
     
-    
+//    bool sortByRemaining(const ScoreboardElements a,const ScoreboardElements b);
 private:
     deque<ScoreboardElements> scoreBoardData;
 };
