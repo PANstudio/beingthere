@@ -50,6 +50,7 @@ public:
     }
     //----------------------------------------
     void draw(ofPoint healthPosition) {
+        CLAMP(_health, 0, 100);
         if (tween.isRunning()) {
             _health = tween.update();
         }
