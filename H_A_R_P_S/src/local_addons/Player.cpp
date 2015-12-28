@@ -12,14 +12,14 @@
 //--------------------------------------------------------------
 Player::Player()
 {
-    
+//    healthBar = HealthBar(400, 20, ofColor::green, ofColor::orange, ofColor::red);
 }
 //--------------------------------------------------------------
 Player::Player(int id,ofColor c)
 {
     _id = id;
     _c = c;
-    healthBar.setup();
+    healthBar = HealthBar(400, 20,ofColor::green, ofColor::orange, ofColor::red);
 }
 //--------------------------------------------------------------
 Player::~Player()
@@ -36,17 +36,11 @@ void Player::setPlayerPosition(ofPoint pos,int heading)
 {
     _pos = pos;
     _heading = heading;
-    healthBar.setup();
 }
 //--------------------------------------------------------------
 ofPoint Player::getPlayerCoords()
 {
     return _pos;
-}
-//--------------------------------------------------------------
-int Player::getPlayerHeading()
-{
-    return _heading;
 }
 //--------------------------------------------------------------
 void Player::draw()

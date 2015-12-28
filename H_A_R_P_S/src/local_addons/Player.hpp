@@ -32,7 +32,7 @@ public:
     ofPoint getPlayerCoords();
     int getPlayerHeading();
     HealthBar getHealth();
-
+    
     // Health System
     void drawPlayerHealth(ofPoint healthPosition);
     void resetHealth();

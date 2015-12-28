@@ -16,15 +16,31 @@ class HealthBar {
 public:
     //----------------------------------------
     HealthBar() {
+        
+    }
+    //----------------------------------------
+    HealthBar(int width,int height,ofColor goodColor,ofColor dangerColor,ofColor deadlyColor)
+    {
         _health = 100;
+        _good = goodColor;
+        _danger = dangerColor;
+        _deadly = deadlyColor;
+        _width = width;
+        _height = height;
     }
     //----------------------------------------
     ~HealthBar() {
         
     }
     //----------------------------------------
-    void setup() {
+    void setup(int width,int height,ofColor goodColor,ofColor dangerColor,ofColor deadlyColor)
+    {
         _health = 100;
+        _good = goodColor;
+        _danger = dangerColor;
+        _deadly = deadlyColor;
+        _width = width;
+        _height = height;
     }
     //----------------------------------------
     void reset()
@@ -40,6 +56,16 @@ public:
     int getHealth()
     {
         return _health;
+    }
+    //----------------------------------------
+    int getHealthBarWidth()
+    {
+        return _width;
+    }
+    //----------------------------------------
+    int getHealthBarHeight()
+    {
+        return _height;
     }
     //----------------------------------------
     void reduceHealth(int amount)
@@ -60,32 +86,38 @@ public:
         ofPushStyle();
         ofSetColor(ofColor::white);
         ofNoFill();
-        ofDrawRectangle(0, 0, 400, 20);
+        ofDrawRectangle(0, 0, _width, _height);
         ofPushStyle();
-        if (_health < 50 && _health > 25) {
-            ofSetColor(ofColor::yellow);
-        }
-        else if (_health <= 25 && _health > 10) {
-            ofSetColor(ofColor::orange);
+
+        if (_health <= 25 && _health > 10) {
+            ofSetColor(_danger);
         }
         else if (_health <= 10 && _health > 1) {
-            ofSetColor(ofColor::red);
+            ofSetColor(_deadly);
         }
         else {
-            ofSetColor(ofColor::green);
+            ofSetColor(_good);
         }
         
         ofFill();
-        ofDrawRectangle(0, 0, _health*4, 20);
+        ofDrawRectangle(0, 0, ofMap(_health,100,0,_width,0), _height);
         ofPopStyle();
         ofPopStyle();
         ofPopMatrix();
     }
 private:
     int _health;
+    int _width;
+    int _height;
+    
+    ofColor _good;
+    ofColor _danger;
+    ofColor _deadly;
+    
     bool _died;
     ofxTween tween;
     ofxEasingExpo expo;
+
 protected:
     
 };
