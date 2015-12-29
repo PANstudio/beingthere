@@ -307,6 +307,8 @@ void ofApp::setupGUI()
     calibrationGui->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
     calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
     calibrationGui->addButton("Calibrate");
+    
+    calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
 
     setGuiListeners(gui);
     setGuiListeners(mapGui);
@@ -342,8 +344,7 @@ void ofApp::setGuiListeners(ofxDatGui *guiRef)
 //--------------------------------------------------------------
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-    if (e.target->is("datgui opacity")) gui->setOpacity(e.scale);
-    else if (e.target->is("Map Width")) _width = e.target->getValue();
+    if (e.target->is("Map Width")) _width = e.target->getValue();
     else if (e.target->is("Map Height")) _height = e.target->getValue();
     else if (e.target->is("Offset Edge")) _offsetEdge = e.target->getValue();
     else if (e.target->is("Random Seed")) _rs = e.target->getValue();
