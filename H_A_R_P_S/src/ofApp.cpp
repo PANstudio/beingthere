@@ -239,10 +239,12 @@ void ofApp::setupGUI()
     gui->addDropdown("Select Difficulty", difficulty);
     gui->getDropdown("Select Difficulty")->select(0);
     gui->getDropdown("Select Difficulty")->collapse();
-    gui->addDropdown("Select Level", levels);
-    gui->getDropdown("Select Level")->select(0);
-    
-//    gui->addMatrix("levels", 9,true);
+//    gui->addDropdown("Select Level", levels);
+//    gui->getDropdown("Select Level")->select(0);
+
+    gui->addBreak(spacing);
+    gui->addMatrix("Levels", levels.size(),true);
+    gui->getMatrix("Levels")->setRadioMode(true);
 
     gui->addBreak(spacing);
     gui->addButton("Start Level");
@@ -303,7 +305,6 @@ void ofApp::setupGUI()
     calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
     calibrationGui->addButton("Calibrate");
 
-
     setGuiListeners(gui);
     setGuiListeners(mapGui);
     setGuiListeners(cvGui);
@@ -311,13 +312,11 @@ void ofApp::setupGUI()
     setGuiListeners(targetGui);
     setGuiListeners(calibrationGui);
     
-    
     mapGui->setVisible(false);
     cvGui->setVisible(false);
     playerGui->setVisible(false);
     targetGui->setVisible(false);
     calibrationGui->setVisible(false);
-
 }
 //--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)
@@ -422,16 +421,7 @@ void ofApp::drawEditorGUI(bool visible)
 //--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    if(e.target->is("Select Level")) {
-        _level = ofToInt(e.target->getLabel());
-        Map m;
-        m = mapGenerator.getMap(_difficulty, _level);
-        feedBackMap = m.MapDetailsString().str();
-//        countdown.setNewTimerLength(m.timeNeededToSolveMap);
-//        targetCell.SpawnTarget(m.endPosition*3);
-        mapGenerator.generateMap(m);
-    }
-    else if(e.target->is("App Mode")) {
+    if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
             drawCalibrationGUI(false);
@@ -457,94 +447,38 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         _difficulty = e.target->getLabel();
         if (_difficulty == "NOVICE") {
             _difficultyMode = 0;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[0]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "ROOKIE") {
             _difficultyMode = 1;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[1]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "NORMAL") {
             _difficultyMode = 2;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[2]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "Hard") {
             _difficultyMode = 3;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[3]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "Really Hard") {
             _difficultyMode = 4;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[4]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "Impossible") {
             _difficultyMode = 5;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[5]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "God Like") {
             _difficultyMode = 6;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[6]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
     }
 }
@@ -556,6 +490,13 @@ void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 //--------------------------------------------------------------
 void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
 {
-    
+    if(e.target->is("Levels")) {
+        cout << e.child << endl;
+        _level = e.child+1;
+        Map m;
+        m = mapGenerator.getMap(_difficulty, _level);
+        feedBackMap = m.MapDetailsString().str();
+        countDown.setNewTimerLength(m.timeNeededToSolveMap);
+        mapGenerator.generateMap(m);
+    }
 }
-
