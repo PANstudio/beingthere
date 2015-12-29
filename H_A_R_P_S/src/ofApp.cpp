@@ -1,4 +1,6 @@
 #include "ofApp.h"
+
+
 //--------------------------------------------------------------
 void ofApp::setupVariables()
 {
@@ -26,7 +28,7 @@ void ofApp::setupVariables()
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     setupGUI();
     setupVariables();
     scoreBoard.loadScoreboard("scoreboard.json");
@@ -67,6 +69,17 @@ void ofApp::draw()
     drawWindows();
 }
 //--------------------------------------------------------------
+void ofApp::exit()
+{
+    // Delete GUI Objects
+    delete gui;
+    delete mapGui;
+    delete cvGui;
+    delete playerGui;
+    delete targetGui;
+    delete calibrationGui;
+}
+//--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
     switch (key) {
@@ -74,8 +87,25 @@ void ofApp::keyPressed(int key)
             drawGui = !drawGui;
             gui->setVisible(drawGui);
             break;
-        case 'a':
-            mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 140, 3);
+        case '1':
+            drawMapGui = !drawMapGui;
+            mapGui->setVisible(drawMapGui);
+            break;
+        case '2':
+            drawCvGui = !drawCvGui;
+            cvGui->setVisible(drawCvGui);
+            break;
+        case '3':
+            drawTargetGui = !drawTargetGui;
+            targetGui->setVisible(drawTargetGui);
+            break;
+        case '4':
+            drawPlayerGui = !drawPlayerGui;
+            playerGui->setVisible(drawPlayerGui);
+            break;
+        case '5':
+            drawCalibrationGui = !drawCalibrationGui;
+            calibrationGui->setVisible(drawCalibrationGui);
             break;
         default:
             break;
@@ -155,8 +185,8 @@ void ofApp::drawWindows()
     ofPushStyle();
     ofNoFill();
     ofSetColor(ofColor::ivory);
-    ofDrawRectangle(0, 0, 500, 500);
-    ofDrawRectangle(0, 500, 500, 200);
+    ofDrawRectangle(0, 0, 400, 500);
+    ofDrawRectangle(0, 500, 400, 200);
     ofPopStyle();
     ofPopMatrix();
 }
@@ -167,14 +197,25 @@ void ofApp::drawWindows()
 //--------------------------------------------------------------
 void ofApp::setupGUI()
 {
-    int spacing = 7;
+    
+    drawMapGui = false;
+    drawCvGui = false;
+    drawPlayerGui = false;
+    drawTargetGui = false;
+    drawCalibrationGui = false;
+    
+    int spacing = 5;
     gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
     gui->addHeader("H_A_R_P_S");
     gui->addFRM(1.0f);
     gui->addBreak();
     
     gui->addBreak(spacing);
-    vector<string> AppMode = {"CALIBRATION MODE", "EDITOR MODE","GENERATION MODE", "OPERATION MODE"};
+    vector<string> AppMode = {"CALIBRATION MODE",
+        "EDITOR MODE",
+        "GENERATION MODE",
+        "OPERATION MODE"
+    };
     
     gui->addDropdown("App Mode", AppMode);
     gui->getDropdown("App Mode")->select(0);
@@ -194,6 +235,7 @@ void ofApp::setupGUI()
     };
     
     mapGenerator.loadMaps("config.json");
+    
     for(int i = 0; i < mapGenerator.getMapsInfo().size(); i++) {
         difficulty.push_back(mapGenerator.getMapsInfo()[i].Difficulty);
         dLvs.push_back(mapGenerator.getMapsInfo()[i].numberOfLevels);
@@ -202,90 +244,125 @@ void ofApp::setupGUI()
     gui->addDropdown("Select Difficulty", difficulty);
     gui->getDropdown("Select Difficulty")->select(0);
     gui->getDropdown("Select Difficulty")->collapse();
-    gui->addDropdown("Select Level", levels);
-    gui->getDropdown("Select Level")->select(0);
-    
+
     gui->addBreak(spacing);
-    gui->addButton("Flush Map");
-    
+    gui->addMatrix("Levels", levels.size(),true);
+    gui->getMatrix("Levels")->setRadioMode(true);
+
     gui->addBreak(spacing);
     gui->addButton("Start Level");
     gui->addButton("Stop Level");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * mapFolder = gui->addFolder("Map Generation",ofColor::blueSteel);
-    mapFolder->addSlider("Map Width", 0, 150, 100);
-    mapFolder->addSlider("Map Height", 0, 150, 100);
-    mapFolder->addSlider("Tile Size", 0.00, 100.00, 50);
-    mapFolder->addSlider("Offset Edge", 0, 100, 10);
-    mapFolder->addSlider("Random Seed", 0.00, 150.00, 3.14);
-    mapFolder->addSlider("Number of Obsticles", 0.00, 100.00, 20);
-    mapFolder->addSlider("Danger Area Size", 0, 25, 20);
-    mapFolder->addSlider("Smoothing Loops", 0, 25, 5);
-    mapFolder->addSlider("Growth Loops", 0, 25, 10);
-    mapFolder->addBreak(spacing);
-    mapFolder->addButton("Clear Map");
-    mapFolder->addBreak(spacing);
-    mapFolder->addButton("Generate Map");
-    mapFolder->addBreak(spacing);
-    mapFolder->addButton("Generate Custom Map");
+    mapGui = new ofxDatGui(0,500);
+    mapGui->addHeader("Map Generation");
+    mapGui->addSlider("Map Width", 0, 100, 0);
+    mapGui->addSlider("Map Height", 0, 100, 0);
+    mapGui->addSlider("Tile Size", 0.00, 100.00, 0);
+    mapGui->addSlider("Offset Edge", 0, 100, 0);
+    mapGui->addSlider("Random Seed", 0.00, 2000.00, 0);
+    mapGui->addSlider("Obsticles", 0.00, 100.00, 0);
+    mapGui->addSlider("Danger Area Size", 0, 25, 0);
+    mapGui->addSlider("Smoothing Loops", 0, 25, 0);
+    mapGui->addSlider("Growth Loops", 0, 25, 0);
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Clear Map");
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Generate Map");
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Generate Custom Map");
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Flush Map");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * cvFolder = gui->addFolder("CV Settings",ofColor::white);
-    cvFolder->addSlider("Green Threshold", 0,255,200);
-    cvFolder->addSlider("Yellow Threshold", 0,255,200);
-    cvFolder->addSlider("Red Threshold", 0,255,200);
-    cvFolder->addSlider("Blur Amount", 0, 21,9);
-    cvFolder->addSlider("Simplify Contour", 0.0, 5.0,0.5);
+    cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    cvGui->setWidth(300);
+    cvGui->addHeader("Computer Vision Settings");
+    cvGui->addSlider("Green Threshold", 0,255,200);
+    cvGui->addSlider("Yellow Threshold", 0,255,200);
+    cvGui->addSlider("Red Threshold", 0,255,200);
+    cvGui->addSlider("Blur Amount", 0, 21,9);
+    cvGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * playerFolder = gui->addFolder("Player",ofColor::white);
-    playerFolder->addSlider("Player Size", 0,25, 10);
-    playerFolder->addColorPicker("Player Color");
-    playerFolder->addSlider("Player Pulse Rate", 0,250, 10);
-    playerFolder->addButton("Spawn New Start Posistion");
+    playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    playerGui->setWidth(300);
+    playerGui->addHeader("Player Settings");
+    playerGui->addSlider("Player Size", 0,25, 10);
+    playerGui->addColorPicker("Player Color");
+    playerGui->addSlider("Player Pulse Rate", 0,250, 10);
+    playerGui->addButton("Spawn New Start Posistion");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * targetFolder = gui->addFolder("Target",ofColor::white);
-    ofRectangle r = ofRectangle(0,0,100,100);
-    targetFolder->addSlider("Target Size", 0,25, 10);
-    targetFolder->addColorPicker("Target Color");
-    targetFolder->addSlider("Target Pulse Rate", 0,250, 10);
-    targetFolder->addButton("Spawn New End Posistion");
+    targetGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    targetGui->addHeader("Target Settings");
+    targetGui->addSlider("Target Size", 0,25, 10);
+    targetGui->addColorPicker("Target Color");
+    targetGui->addSlider("Target Pulse Rate", 0,250, 10);
+    targetGui->addButton("Spawn New End Posistion");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * calibrationFolder = gui->addFolder("Calibration",ofColor::white);
-    calibrationFolder->addToggle("From Centre / Top Left", false);
-    calibrationFolder->addSlider("Grid X", 0,100, 50); // This is CM
-    calibrationFolder->addSlider("Grid Y", 0,100, 50); // This is CM
-    calibrationFolder->addSlider("Spacing X", 0,200, 10); // This is CM
-    calibrationFolder->addSlider("Spacing Y", 0,200, 10); // This is CM
-    calibrationFolder->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
-    calibrationFolder->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
-    calibrationFolder->addButton("Calibrate");
+    
+    calibrationGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    calibrationGui->addHeader("Calibration Settings");
+    calibrationGui->addToggle("From Centre / Top Left", false);
+    calibrationGui->addSlider("Grid X", 0,100, 50); // This is CM
+    calibrationGui->addSlider("Grid Y", 0,100, 50); // This is CM
+    calibrationGui->addSlider("Spacing X", 0,200, 10); // This is CM
+    calibrationGui->addSlider("Spacing Y", 0,200, 10); // This is CM
+    calibrationGui->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
+    calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
+    calibrationGui->addButton("Calibrate");
+    
+    cvGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
+    cvGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
+    cvGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
+    calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
+
+    setGuiListeners(gui);
+    setGuiListeners(mapGui);
+    setGuiListeners(cvGui);
+    setGuiListeners(playerGui);
+    setGuiListeners(targetGui);
+    setGuiListeners(calibrationGui);
 
     
-    gui->addFooter();
+    mapGui->setVisible(false);
+    cvGui->setVisible(false);
+    playerGui->setVisible(false);
+    targetGui->setVisible(false);
+    calibrationGui->setVisible(false);
     
+    int offsetX = mapGui->getWidth();
+
+    cvGui->setOrigin(offsetX, (ofGetHeight()-cvGui->getHeight()));
+
+    offsetX += cvGui->getWidth();
+    
+    targetGui->setOrigin(offsetX, (ofGetHeight()-targetGui->getHeight()));
+    
+    offsetX += targetGui->getWidth();
+    
+    playerGui->setOrigin(offsetX, (ofGetHeight()-playerGui->getHeight()));
+    
+    calibrationGui->setOrigin(ofGetWidth()-calibrationGui->getWidth(),gui->getHeight());
+}
+//--------------------------------------------------------------
+void ofApp::setGuiListeners(ofxDatGui *guiRef)
+{
     // Listeners
-    gui->onButtonEvent(this, &ofApp::onButtonEvent);
-    gui->onSliderEvent(this, &ofApp::onSliderEvent);
-    gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
-    gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
-    gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
-    gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
+    guiRef->onButtonEvent(this, &ofApp::onButtonEvent);
+    guiRef->onSliderEvent(this, &ofApp::onSliderEvent);
+    guiRef->onTextInputEvent(this, &ofApp::onTextInputEvent);
+    guiRef->on2dPadEvent(this, &ofApp::on2dPadEvent);
+    guiRef->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    guiRef->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
+    guiRef->onMatrixEvent(this, &ofApp::onMatrixEvent);
 }
 //--------------------------------------------------------------
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
-    if (e.target->is("datgui opacity")) gui->setOpacity(e.scale);
-    else if (e.target->is("Map Width")) _width = e.target->getValue();
+    if (e.target->is("Map Width")) _width = e.target->getValue();
     else if (e.target->is("Map Height")) _height = e.target->getValue();
     else if (e.target->is("Offset Edge")) _offsetEdge = e.target->getValue();
     else if (e.target->is("Random Seed")) _rs = e.target->getValue();
     else if (e.target->is("Tile Size")) _fillPercent = e.target->getValue();
-    else if (e.target->is("Number of Obsticles")) _numberOfIslands = e.target->getValue();
+    else if (e.target->is("Obsticles")) _numberOfIslands = e.target->getValue();
     else if (e.target->is("Danger Area Size")) _dangerAreaSize = e.target->getValue();
     else if (e.target->is("Growth Loops")) _growthNo = e.target->getValue();
     else if (e.target->is("Smoothing Loops")) _smooth = e.target->getValue();
@@ -329,72 +406,23 @@ void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 {   }
 //--------------------------------------------------------------
-void ofApp::drawCalibrationGUI(bool visible)
-{
-    gui->getFolder("Map Generation")->collapse();
-    gui->getFolder("CV Settings")->collapse();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->expand();
-}
-//--------------------------------------------------------------
-void ofApp::drawGenerationGUI(bool visible)
-{
-    gui->getFolder("Map Generation")->expand();
-    gui->getFolder("CV Settings")->expand();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->collapse();
-}
-//--------------------------------------------------------------
-void ofApp::drawOperationGUI(bool visible)
-{
-    gui->getFolder("Map Generation")->collapse();
-    gui->getFolder("CV Settings")->collapse();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->collapse();
-}
-//--------------------------------------------------------------
-void ofApp::drawEditorGUI(bool visible)
-{
-    gui->getFolder("Map Generation")->expand();
-    gui->getFolder("CV Settings")->collapse();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->collapse();
-}
-//--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    if(e.target->is("Select Level")) {
-        _level = ofToInt(e.target->getLabel());
-        Map m;
-        m = mapGenerator.getMap(_difficulty, _level);
-        feedBackMap = m.MapDetailsString().str();
-//        countdown.setNewTimerLength(m.timeNeededToSolveMap);
-//        targetCell.SpawnTarget(m.endPosition*3);
-        mapGenerator.generateMap(m);
-    }
-    else if(e.target->is("App Mode")) {
+    if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
-            drawCalibrationGUI(false);
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 1;
-            drawGenerationGUI(false);
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
             _Appmode = 2;
-            drawOperationGUI(false);
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 3;
-            drawEditorGUI(false);
             displayWindow->doCalibration(false);
         }
     }
@@ -402,94 +430,38 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         _difficulty = e.target->getLabel();
         if (_difficulty == "NOVICE") {
             _difficultyMode = 0;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[0]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "ROOKIE") {
             _difficultyMode = 1;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[1]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
         else if (_difficulty == "NORMAL") {
             _difficultyMode = 2;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[2]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
-        else if (_difficulty == "Hard") {
+        else if (_difficulty == "HARD") {
             _difficultyMode = 3;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[3]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
-        else if (_difficulty == "Really Hard") {
+        else if (_difficulty == "REALLY HARD") {
             _difficultyMode = 4;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[4]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
-        else if (_difficulty == "Impossible") {
+        else if (_difficulty == "IMPOSSIBLE") {
             _difficultyMode = 5;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[5]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
-        else if (_difficulty == "God Like") {
+        else if (_difficulty == "GOD LIKE") {
             _difficultyMode = 6;
-            for (int i = 0; i < gui->getDropdown("Select Level")->size(); i++) {
-                if (i < dLvs[6]) {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(true);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(true);
-                }
-                else {
-                    gui->getDropdown("Select Level")->getChildAt(i)->setEnabled(false);
-                    gui->getDropdown("Select Level")->getChildAt(i)->setVisible(false);
-                }
-            }
+            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
+            gui->update();
         }
     }
 }
@@ -501,6 +473,13 @@ void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 //--------------------------------------------------------------
 void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
 {
-    
+    if(e.target->is("Levels")) {
+        cout << e.child << endl;
+        _level = e.child+1;
+        Map m;
+        m = mapGenerator.getMap(_difficulty, _level);
+        feedBackMap = m.MapDetailsString().str();
+        countDown.setNewTimerLength(m.timeNeededToSolveMap);
+        mapGenerator.generateMap(m);
+    }
 }
-

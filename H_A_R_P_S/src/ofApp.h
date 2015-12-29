@@ -16,6 +16,8 @@ class ofApp : public ofBaseApp{
 		void draw();
         void drawWindows();
 
+        void exit();
+    
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -81,14 +83,20 @@ class ofApp : public ofBaseApp{
         //--------------------------------------------------------------
         void setupGUI();
         bool drawGui;
+        bool drawMapGui;
+        bool drawCvGui;
+        bool drawPlayerGui;
+        bool drawTargetGui;
+        bool drawCalibrationGui;
         // GUI Objects
         ofxDatGui * gui;
-        ofxDatGuiFolder * _mapFolder;
+        ofxDatGui * mapGui;
+        ofxDatGui * cvGui;
+        ofxDatGui * playerGui;
+        ofxDatGui * targetGui;
+        ofxDatGui * calibrationGui;
     
-        void drawCalibrationGUI(bool visible);
-        void drawGenerationGUI(bool visible);
-        void drawOperationGUI(bool visible);
-        void drawEditorGUI(bool visible);
+        void setGuiListeners(ofxDatGui* guiRef);
     
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
