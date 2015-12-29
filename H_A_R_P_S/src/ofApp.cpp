@@ -20,6 +20,15 @@ void ofApp::setupVariables()
     _spacingX = 10;
     _spacingY = 10;
     
+    _iRR[0] = 25;
+    _iRR[1] = 255;
+
+    _iRY[0] = 25;
+    _iRY[1] = 255;
+
+    _iRG[0] = 25;
+    _iRG[1] = 255;
+
     for(int i = 0; i < 10; i ++) {
         event[i] = "Player ";
     }
@@ -53,18 +62,20 @@ void ofApp::draw()
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
     mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
-    ofDrawBitmapStringHighlight(feedBackMap, 508,13);
+    ofDrawBitmapStringHighlight(feedBackMap, 508,513);
     
-    // Player Status Feedback
-    ofDrawBitmapStringHighlight("Player Status", 510,400);
-    for (int i = 0; i < 3; i++) {
-        ofDrawBitmapStringHighlight(event[i], 510,418+(i*18));
+    if (!drawMapGui) {
+        // Player Status Feedback
+        ofDrawBitmapStringHighlight("Player Status", 510,13);
+        for (int i = 0; i < 3; i++) {
+            ofDrawBitmapString(event[i], 510,40+(i*60));
+        }
+        playerManager.drawPlayerManager();
+        playerManager.drawPlayerHealth(680,20,0.5);
+        
+        ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
     }
-    playerManager.drawPlayerManager();
-    playerManager.drawPlayerHealth(680,415,0.5);
-    ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
-    scoreBoard.draw(508, 508);
-
+    
     // Window Layout
     drawWindows();
 }
@@ -185,8 +196,14 @@ void ofApp::drawWindows()
     ofPushStyle();
     ofNoFill();
     ofSetColor(ofColor::ivory);
-    ofDrawRectangle(0, 0, 400, 500);
-    ofDrawRectangle(0, 500, 400, 200);
+    if (!drawMapGui) {
+        ofDrawRectangle(0, 0, 400, 500);
+        ofDrawRectangle(0, 500, 400, 200);
+    }
+    else {
+        ofDrawRectangle(0, 0, 400, mapGui->getHeight());
+    }
+    
     ofPopStyle();
     ofPopMatrix();
 }
@@ -197,7 +214,6 @@ void ofApp::drawWindows()
 //--------------------------------------------------------------
 void ofApp::setupGUI()
 {
-    
     drawMapGui = false;
     drawCvGui = false;
     drawPlayerGui = false;
@@ -207,7 +223,7 @@ void ofApp::setupGUI()
     int spacing = 5;
     gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
     gui->addHeader("H_A_R_P_S");
-    gui->addFRM(1.0f);
+    gui->addFRM(10.0f);
     gui->addBreak();
     
     gui->addBreak(spacing);
@@ -251,9 +267,12 @@ void ofApp::setupGUI()
 
     gui->addBreak(spacing);
     gui->addButton("Start Level");
+    
+    gui->addBreak(spacing);
     gui->addButton("Stop Level");
     
-    mapGui = new ofxDatGui(0,500);
+    mapGui = new ofxDatGui(500,0);
+    mapGui->setWidth(400);
     mapGui->addHeader("Map Generation");
     mapGui->addSlider("Map Width", 0, 100, 0);
     mapGui->addSlider("Map Height", 0, 100, 0);
@@ -274,16 +293,15 @@ void ofApp::setupGUI()
     mapGui->addButton("Flush Map");
     
     cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-    cvGui->setWidth(300);
     cvGui->addHeader("Computer Vision Settings");
     cvGui->addSlider("Green Threshold", 0,255,200);
     cvGui->addSlider("Yellow Threshold", 0,255,200);
     cvGui->addSlider("Red Threshold", 0,255,200);
+    
     cvGui->addSlider("Blur Amount", 0, 21,9);
     cvGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
     
     playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-    playerGui->setWidth(300);
     playerGui->addHeader("Player Settings");
     playerGui->addSlider("Player Size", 0,25, 10);
     playerGui->addColorPicker("Player Color");
@@ -309,10 +327,20 @@ void ofApp::setupGUI()
     calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
     calibrationGui->addButton("Calibrate");
     
+    
+    // Set Element Colors
+    gui->getButton("Start Level")->setStripeColor(ofColor::mediumSpringGreen);
+    gui->getButton("Stop Level")->setStripeColor(ofColor::red);
+    
+    mapGui->getButton("Flush Map")->setStripeColor(ofColor::red);
+    mapGui->getButton("Clear Map")->setStripeColor(ofColor::mediumPurple);
+    mapGui->getButton("Generate Map")->setStripeColor(ofColor::red);
+    
     cvGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
     cvGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
     cvGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
     calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
+    
 
     setGuiListeners(gui);
     setGuiListeners(mapGui);
@@ -321,7 +349,6 @@ void ofApp::setupGUI()
     setGuiListeners(targetGui);
     setGuiListeners(calibrationGui);
 
-    
     mapGui->setVisible(false);
     cvGui->setVisible(false);
     playerGui->setVisible(false);
@@ -372,6 +399,11 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     else if (e.target->is("Grid Y")) _numberOfYLines = e.target->getValue();
     else if (e.target->is("Spacing X")) _spacingX = e.target->getValue();
     else if (e.target->is("Spacing Y")) _spacingY = e.target->getValue();
+    else if (e.target->is("Red Threshold")) _iRR[1] = e.target->getValue();
+    else if (e.target->is("Yellow Threshold")) _iRY[1] = e.target->getValue();
+    else if (e.target->is("Green Threshold")) _iRG[1] = e.target->getValue();
+    else if (e.target->is("Blur Amount")) _blur = e.target->getValue();
+    
 }
 //--------------------------------------------------------------
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
@@ -380,7 +412,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         mapGenerator.generateMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
     }
     else if (e.target->is("Flush Map")) {
-        mapGenerator.update();
+        mapGenerator.update(_blur,_iRR,_iRY,_iRG);
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);

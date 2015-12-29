@@ -294,7 +294,7 @@ deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
 // *    Drawing Functions
 // *
 //--------------------------------------------------------------
-void MapGenerator::update()
+void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
 {
     // Grab Screen: This will change to an FBO so its not needed to be drawn
 //    mapTexture->grabScreen(0,0,_newWidth,_newHeight);
@@ -310,13 +310,13 @@ void MapGenerator::update()
     mapTexture->update();
     
     copy(mapTexture->getPixels(), _mapTexture);
-    GaussianBlur(_mapTexture, _blurred, 9);
+    GaussianBlur(_mapTexture, _blurred, blurMap);
     
     // Get all the Various Color Images
-    inRange(_blurred, Scalar(25,0,0), Scalar(255,0,0), _redOnly);
-    inRange(_blurred, Scalar(25,25,0), Scalar(255,255,0), _yellowOnly);
-    inRange(_blurred, Scalar(0,25,0), Scalar(0,255,0), _greenOnly);
-    inRange(_blurred, Scalar(0,0,50), Scalar(0,0,255), _blueOnly);
+    inRange(_blurred, Scalar(iRR[0],0,0), Scalar(iRR[1],0,0), _redOnly);
+    inRange(_blurred, Scalar(iRY[0],iRY[0],0), Scalar(iRY[1],iRY[1],0), _yellowOnly);
+    inRange(_blurred, Scalar(0,iRG[0],0), Scalar(0,iRG[1],0), _greenOnly);
+//    inRange(_blurred, Scalar(0,0,50), Scalar(0,0,255), _blueOnly);
     
     // Blur it
     GaussianBlur(_greenOnly, 9);
@@ -325,12 +325,12 @@ void MapGenerator::update()
     deadColorFinder.findContours(_redOnly);
     dangerColorFinder.findContours(_yellowOnly);
     okColorFinder.findContours(_greenOnly);
-    finishColorFinder.findContours(_blueOnly);
+//    finishColorFinder.findContours(_blueOnly);
     
     deadlyArea.clear();
     dangerArea.clear();
     okArea.clear();
-    finishArea.clear();
+//    finishArea.clear();
     
     for (int i = 0; i < deadColorFinder.size(); i++) {
         ofPolyline l;
@@ -351,12 +351,12 @@ void MapGenerator::update()
         l.simplify();
         okArea.push_back(l);
     }
-    for (int i = 0; i < finishColorFinder.size(); i++) {
-        ofPolyline l;
-        l = finishColorFinder.getPolyline(i);
-        l.simplify();
-        finishArea.push_back(l);
-    }
+//    for (int i = 0; i < finishColorFinder.size(); i++) {
+//        ofPolyline l;
+//        l = finishColorFinder.getPolyline(i);
+//        l.simplify();
+//        finishArea.push_back(l);
+//    }
 }
 //--------------------------------------------------------------
 // *
@@ -375,11 +375,16 @@ void MapGenerator::draw()
 //--------------------------------------------------------------
 void MapGenerator::drawMicroMap()
 {
-    for (int x = 0; x < _width; x ++) {
-        for (int y = 0; y < _height; y ++) {
-            map[x][y].drawMicro();
-        }
+//    for (int x = 0; x < _width; x ++) {
+//        for (int y = 0; y < _height; y ++) {
+    if (!_mapTexture.empty()) {
+        drawMat(_mapTexture, 0, 0,100,100);
     }
+
+    
+            //            map[x][y].drawMicro();
+//        }
+//    }
 }
 //--------------------------------------------------------------
 void MapGenerator::drawEditor()

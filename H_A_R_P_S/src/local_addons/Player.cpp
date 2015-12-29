@@ -43,6 +43,11 @@ ofPoint Player::getPlayerCoords()
     return _pos;
 }
 //--------------------------------------------------------------
+int Player::getPlayerHeading()
+{
+    return 370;
+}
+//--------------------------------------------------------------
 void Player::draw()
 {
     ofPushStyle();

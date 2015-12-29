@@ -89,7 +89,12 @@ void PlayerManager::drawPlayerHealth(int x, int y,float scale)
     ofTranslate(x, y);
     ofScale(scale, scale);
     for (int i = 0; i < players.size(); i++) {
-        players[i].drawPlayerHealth(ofPoint(0,0+(i*40)));
+        stringstream st;
+        st << "Player X: " << players[i].getPlayerCoords().x << endl;
+        st << "Player Y: " << players[i].getPlayerCoords().y << endl;
+        st << "Player Rotation: " << players[i].getPlayerHeading() << endl;
+        ofDrawBitmapString(st.str(),0,50+(i*150));
+        players[i].drawPlayerHealth(ofPoint(0,0+(i*150)));
     }
     ofPopMatrix();
 }

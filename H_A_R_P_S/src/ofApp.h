@@ -37,13 +37,6 @@ class ofApp : public ofBaseApp{
         //--------------------------------------------------------------
         shared_ptr<DisplayWindow> displayWindow;
     
-        string event[10];
-        int _Appmode;
-        void setupVariables();
-    
-        PlayerManager playerManager;
-        MyTimer countDown;
-        Scoreboard scoreBoard;
         //--------------------------------------------------------------
         // *
         // * Map Generator
@@ -74,7 +67,23 @@ class ofApp : public ofBaseApp{
         int _numberOfYLines;
         int _spacingX;
         int _spacingY;
+        int _iRR[2];
+        int _iRY[2];
+        int _iRG[2];
+        int _blur;
         string feedBackMap;
+    
+        //--------------------------------------------------------------
+        // *
+        // * Other Objects
+        // *
+        //--------------------------------------------------------------
+        string event[10];
+        int _Appmode;
+        void setupVariables();
+        PlayerManager playerManager;
+        MyTimer countDown;
+        Scoreboard scoreBoard;
     
         //--------------------------------------------------------------
         // *
@@ -88,6 +97,7 @@ class ofApp : public ofBaseApp{
         bool drawPlayerGui;
         bool drawTargetGui;
         bool drawCalibrationGui;
+    
         // GUI Objects
         ofxDatGui * gui;
         ofxDatGui * mapGui;
