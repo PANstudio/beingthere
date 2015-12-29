@@ -1,4 +1,6 @@
 #include "ofApp.h"
+
+
 //--------------------------------------------------------------
 void ofApp::setupVariables()
 {
@@ -94,12 +96,12 @@ void ofApp::keyPressed(int key)
             cvGui->setVisible(drawCvGui);
             break;
         case '3':
-            drawPlayerGui = !drawPlayerGui;
-            playerGui->setVisible(drawPlayerGui);
-            break;
-        case '4':
             drawTargetGui = !drawTargetGui;
             targetGui->setVisible(drawTargetGui);
+            break;
+        case '4':
+            drawPlayerGui = !drawPlayerGui;
+            playerGui->setVisible(drawPlayerGui);
             break;
         case '5':
             drawCalibrationGui = !drawCalibrationGui;
@@ -202,8 +204,8 @@ void ofApp::setupGUI()
     drawTargetGui = false;
     drawCalibrationGui = false;
     
-    int spacing = 7;
-    gui = new ofxDatGui(0,500);
+    int spacing = 5;
+    gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
     gui->addHeader("H_A_R_P_S");
     gui->addFRM(1.0f);
     gui->addBreak();
@@ -241,8 +243,6 @@ void ofApp::setupGUI()
     gui->addDropdown("Select Difficulty", difficulty);
     gui->getDropdown("Select Difficulty")->select(0);
     gui->getDropdown("Select Difficulty")->collapse();
-//    gui->addDropdown("Select Level", levels);
-//    gui->getDropdown("Select Level")->select(0);
 
     gui->addBreak(spacing);
     gui->addMatrix("Levels", levels.size(),true);
@@ -252,15 +252,14 @@ void ofApp::setupGUI()
     gui->addButton("Start Level");
     gui->addButton("Stop Level");
     
-    
-    mapGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    mapGui = new ofxDatGui(0,500);
     mapGui->addHeader("Map Generation");
     mapGui->addSlider("Map Width", 0, 150, 100);
     mapGui->addSlider("Map Height", 0, 150, 100);
     mapGui->addSlider("Tile Size", 0.00, 100.00, 50);
     mapGui->addSlider("Offset Edge", 0, 100, 10);
     mapGui->addSlider("Random Seed", 0.00, 150.00, 3.14);
-    mapGui->addSlider("Number of Obsticles", 0.00, 100.00, 20);
+    mapGui->addSlider("Obsticles", 0.00, 100.00, 20);
     mapGui->addSlider("Danger Area Size", 0, 25, 20);
     mapGui->addSlider("Smoothing Loops", 0, 25, 5);
     mapGui->addSlider("Growth Loops", 0, 25, 10);
@@ -273,7 +272,8 @@ void ofApp::setupGUI()
     mapGui->addBreak(spacing);
     mapGui->addButton("Flush Map");
     
-    cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    cvGui->setWidth(300);
     cvGui->addHeader("Computer Vision Settings");
     cvGui->addSlider("Green Threshold", 0,255,200);
     cvGui->addSlider("Yellow Threshold", 0,255,200);
@@ -281,14 +281,15 @@ void ofApp::setupGUI()
     cvGui->addSlider("Blur Amount", 0, 21,9);
     cvGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
     
-    playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    playerGui->setWidth(300);
     playerGui->addHeader("Player Settings");
     playerGui->addSlider("Player Size", 0,25, 10);
     playerGui->addColorPicker("Player Color");
     playerGui->addSlider("Player Pulse Rate", 0,250, 10);
     playerGui->addButton("Spawn New Start Posistion");
     
-    targetGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    targetGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
     targetGui->addHeader("Target Settings");
     targetGui->addSlider("Target Size", 0,25, 10);
     targetGui->addColorPicker("Target Color");
@@ -319,6 +320,12 @@ void ofApp::setupGUI()
     playerGui->setVisible(false);
     targetGui->setVisible(false);
     calibrationGui->setVisible(false);
+    
+    int offsetY = (ofGetHeight()-cvGui->getHeight());
+    cvGui->setOrigin(mapGui->getWidth(), offsetY);
+    targetGui->setOrigin((mapGui->getWidth()+cvGui->getWidth()), (ofGetHeight()-targetGui->getHeight()));
+    playerGui->setOrigin((mapGui->getWidth()+cvGui->getWidth()+targetGui->getWidth()), (ofGetHeight()-playerGui->getHeight()));
+    calibrationGui->setOrigin(ofGetWidth()-calibrationGui->getWidth(),gui->getHeight());
 }
 //--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)
@@ -341,7 +348,7 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     else if (e.target->is("Offset Edge")) _offsetEdge = e.target->getValue();
     else if (e.target->is("Random Seed")) _rs = e.target->getValue();
     else if (e.target->is("Tile Size")) _fillPercent = e.target->getValue();
-    else if (e.target->is("Number of Obsticles")) _numberOfIslands = e.target->getValue();
+    else if (e.target->is("Obsticles")) _numberOfIslands = e.target->getValue();
     else if (e.target->is("Danger Area Size")) _dangerAreaSize = e.target->getValue();
     else if (e.target->is("Growth Loops")) _growthNo = e.target->getValue();
     else if (e.target->is("Smoothing Loops")) _smooth = e.target->getValue();
