@@ -67,6 +67,17 @@ void ofApp::draw()
     drawWindows();
 }
 //--------------------------------------------------------------
+void ofApp::exit()
+{
+    // Delete GUI Objects
+    delete gui;
+    delete mapGui;
+    delete cvGui;
+    delete playerGui;
+    delete targetGui;
+    delete calibrationGui;
+}
+//--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
     switch (key) {
@@ -74,9 +85,28 @@ void ofApp::keyPressed(int key)
             drawGui = !drawGui;
             gui->setVisible(drawGui);
             break;
-        case 'a':
-            mapGenerator.generateMap(100, 100, 0, 5, 10, 2, 100, 140, 3);
+        case '1':
+            drawMapGui = !drawMapGui;
+            mapGui->setVisible(drawMapGui);
             break;
+        case '2':
+            drawCvGui = !drawCvGui;
+            cvGui->setVisible(drawCvGui);
+            break;
+        case '3':
+            drawPlayerGui = !drawPlayerGui;
+            playerGui->setVisible(drawPlayerGui);
+            break;
+        case '4':
+            drawTargetGui = !drawTargetGui;
+            targetGui->setVisible(drawTargetGui);
+            break;
+        case '5':
+            drawCalibrationGui = !drawCalibrationGui;
+            calibrationGui->setVisible(drawCalibrationGui);
+            break;
+            
+            
         default:
             break;
     }
@@ -167,8 +197,15 @@ void ofApp::drawWindows()
 //--------------------------------------------------------------
 void ofApp::setupGUI()
 {
+    
+    drawMapGui = false;
+    drawCvGui = false;
+    drawPlayerGui = false;
+    drawTargetGui = false;
+    drawCalibrationGui = false;
+    
     int spacing = 7;
-    gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    gui = new ofxDatGui(0,500);
     gui->addHeader("H_A_R_P_S");
     gui->addFRM(1.0f);
     gui->addBreak();
@@ -205,76 +242,94 @@ void ofApp::setupGUI()
     gui->addDropdown("Select Level", levels);
     gui->getDropdown("Select Level")->select(0);
     
-    gui->addBreak(spacing);
-    gui->addButton("Flush Map");
-    
+//    gui->addMatrix("levels", 9,true);
+
     gui->addBreak(spacing);
     gui->addButton("Start Level");
     gui->addButton("Stop Level");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * mapFolder = gui->addFolder("Map Generation",ofColor::blueSteel);
-    mapFolder->addSlider("Map Width", 0, 150, 100);
-    mapFolder->addSlider("Map Height", 0, 150, 100);
-    mapFolder->addSlider("Tile Size", 0.00, 100.00, 50);
-    mapFolder->addSlider("Offset Edge", 0, 100, 10);
-    mapFolder->addSlider("Random Seed", 0.00, 150.00, 3.14);
-    mapFolder->addSlider("Number of Obsticles", 0.00, 100.00, 20);
-    mapFolder->addSlider("Danger Area Size", 0, 25, 20);
-    mapFolder->addSlider("Smoothing Loops", 0, 25, 5);
-    mapFolder->addSlider("Growth Loops", 0, 25, 10);
-    mapFolder->addBreak(spacing);
-    mapFolder->addButton("Clear Map");
-    mapFolder->addBreak(spacing);
-    mapFolder->addButton("Generate Map");
-    mapFolder->addBreak(spacing);
-    mapFolder->addButton("Generate Custom Map");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * cvFolder = gui->addFolder("CV Settings",ofColor::white);
-    cvFolder->addSlider("Green Threshold", 0,255,200);
-    cvFolder->addSlider("Yellow Threshold", 0,255,200);
-    cvFolder->addSlider("Red Threshold", 0,255,200);
-    cvFolder->addSlider("Blur Amount", 0, 21,9);
-    cvFolder->addSlider("Simplify Contour", 0.0, 5.0,0.5);
+    mapGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    mapGui->addHeader("Map Generation");
+    mapGui->addSlider("Map Width", 0, 150, 100);
+    mapGui->addSlider("Map Height", 0, 150, 100);
+    mapGui->addSlider("Tile Size", 0.00, 100.00, 50);
+    mapGui->addSlider("Offset Edge", 0, 100, 10);
+    mapGui->addSlider("Random Seed", 0.00, 150.00, 3.14);
+    mapGui->addSlider("Number of Obsticles", 0.00, 100.00, 20);
+    mapGui->addSlider("Danger Area Size", 0, 25, 20);
+    mapGui->addSlider("Smoothing Loops", 0, 25, 5);
+    mapGui->addSlider("Growth Loops", 0, 25, 10);
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Clear Map");
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Generate Map");
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Generate Custom Map");
+    mapGui->addBreak(spacing);
+    mapGui->addButton("Flush Map");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * playerFolder = gui->addFolder("Player",ofColor::white);
-    playerFolder->addSlider("Player Size", 0,25, 10);
-    playerFolder->addColorPicker("Player Color");
-    playerFolder->addSlider("Player Pulse Rate", 0,250, 10);
-    playerFolder->addButton("Spawn New Start Posistion");
+    cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    cvGui->addHeader("Computer Vision Settings");
+    cvGui->addSlider("Green Threshold", 0,255,200);
+    cvGui->addSlider("Yellow Threshold", 0,255,200);
+    cvGui->addSlider("Red Threshold", 0,255,200);
+    cvGui->addSlider("Blur Amount", 0, 21,9);
+    cvGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * targetFolder = gui->addFolder("Target",ofColor::white);
-    ofRectangle r = ofRectangle(0,0,100,100);
-    targetFolder->addSlider("Target Size", 0,25, 10);
-    targetFolder->addColorPicker("Target Color");
-    targetFolder->addSlider("Target Pulse Rate", 0,250, 10);
-    targetFolder->addButton("Spawn New End Posistion");
+    playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    playerGui->addHeader("Player Settings");
+    playerGui->addSlider("Player Size", 0,25, 10);
+    playerGui->addColorPicker("Player Color");
+    playerGui->addSlider("Player Pulse Rate", 0,250, 10);
+    playerGui->addButton("Spawn New Start Posistion");
     
-    gui->addBreak(spacing);
-    ofxDatGuiFolder * calibrationFolder = gui->addFolder("Calibration",ofColor::white);
-    calibrationFolder->addToggle("From Centre / Top Left", false);
-    calibrationFolder->addSlider("Grid X", 0,100, 50); // This is CM
-    calibrationFolder->addSlider("Grid Y", 0,100, 50); // This is CM
-    calibrationFolder->addSlider("Spacing X", 0,200, 10); // This is CM
-    calibrationFolder->addSlider("Spacing Y", 0,200, 10); // This is CM
-    calibrationFolder->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
-    calibrationFolder->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
-    calibrationFolder->addButton("Calibrate");
+    targetGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    targetGui->addHeader("Target Settings");
+    targetGui->addSlider("Target Size", 0,25, 10);
+    targetGui->addColorPicker("Target Color");
+    targetGui->addSlider("Target Pulse Rate", 0,250, 10);
+    targetGui->addButton("Spawn New End Posistion");
+    
+    
+    calibrationGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    calibrationGui->addHeader("Calibration Settings");
+    calibrationGui->addToggle("From Centre / Top Left", false);
+    calibrationGui->addSlider("Grid X", 0,100, 50); // This is CM
+    calibrationGui->addSlider("Grid Y", 0,100, 50); // This is CM
+    calibrationGui->addSlider("Spacing X", 0,200, 10); // This is CM
+    calibrationGui->addSlider("Spacing Y", 0,200, 10); // This is CM
+    calibrationGui->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
+    calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
+    calibrationGui->addButton("Calibrate");
 
+
+    setGuiListeners(gui);
+    setGuiListeners(mapGui);
+    setGuiListeners(cvGui);
+    setGuiListeners(playerGui);
+    setGuiListeners(targetGui);
+    setGuiListeners(calibrationGui);
     
-    gui->addFooter();
     
+    mapGui->setVisible(false);
+    cvGui->setVisible(false);
+    playerGui->setVisible(false);
+    targetGui->setVisible(false);
+    calibrationGui->setVisible(false);
+
+}
+//--------------------------------------------------------------
+void ofApp::setGuiListeners(ofxDatGui *guiRef)
+{
     // Listeners
-    gui->onButtonEvent(this, &ofApp::onButtonEvent);
-    gui->onSliderEvent(this, &ofApp::onSliderEvent);
-    gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
-    gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
-    gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
-    gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
+    guiRef->onButtonEvent(this, &ofApp::onButtonEvent);
+    guiRef->onSliderEvent(this, &ofApp::onSliderEvent);
+    guiRef->onTextInputEvent(this, &ofApp::onTextInputEvent);
+    guiRef->on2dPadEvent(this, &ofApp::on2dPadEvent);
+    guiRef->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    guiRef->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
+    guiRef->onMatrixEvent(this, &ofApp::onMatrixEvent);
 }
 //--------------------------------------------------------------
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
@@ -331,38 +386,38 @@ void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 //--------------------------------------------------------------
 void ofApp::drawCalibrationGUI(bool visible)
 {
-    gui->getFolder("Map Generation")->collapse();
-    gui->getFolder("CV Settings")->collapse();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->expand();
+//    gui->getFolder("Map Generation")->collapse();
+//    gui->getFolder("CV Settings")->collapse();
+//    gui->getFolder("Player")->collapse();
+//    gui->getFolder("Target")->collapse();
+//    gui->getFolder("Calibration")->expand();
 }
 //--------------------------------------------------------------
 void ofApp::drawGenerationGUI(bool visible)
 {
-    gui->getFolder("Map Generation")->expand();
-    gui->getFolder("CV Settings")->expand();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->collapse();
+//    gui->getFolder("Map Generation")->expand();
+//    gui->getFolder("CV Settings")->expand();
+//    gui->getFolder("Player")->collapse();
+//    gui->getFolder("Target")->collapse();
+//    gui->getFolder("Calibration")->collapse();
 }
 //--------------------------------------------------------------
 void ofApp::drawOperationGUI(bool visible)
 {
-    gui->getFolder("Map Generation")->collapse();
-    gui->getFolder("CV Settings")->collapse();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->collapse();
+//    gui->getFolder("Map Generation")->collapse();
+//    gui->getFolder("CV Settings")->collapse();
+//    gui->getFolder("Player")->collapse();
+//    gui->getFolder("Target")->collapse();
+//    gui->getFolder("Calibration")->collapse();
 }
 //--------------------------------------------------------------
 void ofApp::drawEditorGUI(bool visible)
 {
-    gui->getFolder("Map Generation")->expand();
-    gui->getFolder("CV Settings")->collapse();
-    gui->getFolder("Player")->collapse();
-    gui->getFolder("Target")->collapse();
-    gui->getFolder("Calibration")->collapse();
+//    gui->getFolder("Map Generation")->expand();
+//    gui->getFolder("CV Settings")->collapse();
+//    gui->getFolder("Player")->collapse();
+//    gui->getFolder("Target")->collapse();
+//    gui->getFolder("Calibration")->collapse();
 }
 //--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
