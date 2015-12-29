@@ -98,11 +98,6 @@ class ofApp : public ofBaseApp{
     
         void setGuiListeners(ofxDatGui* guiRef);
     
-        void drawCalibrationGUI(bool visible);
-        void drawGenerationGUI(bool visible);
-        void drawOperationGUI(bool visible);
-        void drawEditorGUI(bool visible);
-    
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void onTextInputEvent(ofxDatGuiTextInputEvent e);

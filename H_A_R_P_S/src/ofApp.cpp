@@ -235,6 +235,7 @@ void ofApp::setupGUI()
     };
     
     mapGenerator.loadMaps("config.json");
+    
     for(int i = 0; i < mapGenerator.getMapsInfo().size(); i++) {
         difficulty.push_back(mapGenerator.getMapsInfo()[i].Difficulty);
         dLvs.push_back(mapGenerator.getMapsInfo()[i].numberOfLevels);
@@ -254,15 +255,15 @@ void ofApp::setupGUI()
     
     mapGui = new ofxDatGui(0,500);
     mapGui->addHeader("Map Generation");
-    mapGui->addSlider("Map Width", 0, 150, 100);
-    mapGui->addSlider("Map Height", 0, 150, 100);
-    mapGui->addSlider("Tile Size", 0.00, 100.00, 50);
-    mapGui->addSlider("Offset Edge", 0, 100, 10);
-    mapGui->addSlider("Random Seed", 0.00, 150.00, 3.14);
-    mapGui->addSlider("Obsticles", 0.00, 100.00, 20);
-    mapGui->addSlider("Danger Area Size", 0, 25, 20);
-    mapGui->addSlider("Smoothing Loops", 0, 25, 5);
-    mapGui->addSlider("Growth Loops", 0, 25, 10);
+    mapGui->addSlider("Map Width", 0, 100, 0);
+    mapGui->addSlider("Map Height", 0, 100, 0);
+    mapGui->addSlider("Tile Size", 0.00, 100.00, 0);
+    mapGui->addSlider("Offset Edge", 0, 100, 0);
+    mapGui->addSlider("Random Seed", 0.00, 2000.00, 0);
+    mapGui->addSlider("Obsticles", 0.00, 100.00, 0);
+    mapGui->addSlider("Danger Area Size", 0, 25, 0);
+    mapGui->addSlider("Smoothing Loops", 0, 25, 0);
+    mapGui->addSlider("Growth Loops", 0, 25, 0);
     mapGui->addBreak(spacing);
     mapGui->addButton("Clear Map");
     mapGui->addBreak(spacing);
@@ -308,6 +309,9 @@ void ofApp::setupGUI()
     calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
     calibrationGui->addButton("Calibrate");
     
+    cvGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
+    cvGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
+    cvGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
     calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
 
     setGuiListeners(gui);
@@ -316,6 +320,7 @@ void ofApp::setupGUI()
     setGuiListeners(playerGui);
     setGuiListeners(targetGui);
     setGuiListeners(calibrationGui);
+
     
     mapGui->setVisible(false);
     cvGui->setVisible(false);
@@ -323,10 +328,18 @@ void ofApp::setupGUI()
     targetGui->setVisible(false);
     calibrationGui->setVisible(false);
     
-    int offsetY = (ofGetHeight()-cvGui->getHeight());
-    cvGui->setOrigin(mapGui->getWidth(), offsetY);
-    targetGui->setOrigin((mapGui->getWidth()+cvGui->getWidth()), (ofGetHeight()-targetGui->getHeight()));
-    playerGui->setOrigin((mapGui->getWidth()+cvGui->getWidth()+targetGui->getWidth()), (ofGetHeight()-playerGui->getHeight()));
+    int offsetX = mapGui->getWidth();
+
+    cvGui->setOrigin(offsetX, (ofGetHeight()-cvGui->getHeight()));
+
+    offsetX += cvGui->getWidth();
+    
+    targetGui->setOrigin(offsetX, (ofGetHeight()-targetGui->getHeight()));
+    
+    offsetX += targetGui->getWidth();
+    
+    playerGui->setOrigin(offsetX, (ofGetHeight()-playerGui->getHeight()));
+    
     calibrationGui->setOrigin(ofGetWidth()-calibrationGui->getWidth(),gui->getHeight());
 }
 //--------------------------------------------------------------
@@ -393,63 +406,23 @@ void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 {   }
 //--------------------------------------------------------------
-void ofApp::drawCalibrationGUI(bool visible)
-{
-//    gui->getFolder("Map Generation")->collapse();
-//    gui->getFolder("CV Settings")->collapse();
-//    gui->getFolder("Player")->collapse();
-//    gui->getFolder("Target")->collapse();
-//    gui->getFolder("Calibration")->expand();
-}
-//--------------------------------------------------------------
-void ofApp::drawGenerationGUI(bool visible)
-{
-//    gui->getFolder("Map Generation")->expand();
-//    gui->getFolder("CV Settings")->expand();
-//    gui->getFolder("Player")->collapse();
-//    gui->getFolder("Target")->collapse();
-//    gui->getFolder("Calibration")->collapse();
-}
-//--------------------------------------------------------------
-void ofApp::drawOperationGUI(bool visible)
-{
-//    gui->getFolder("Map Generation")->collapse();
-//    gui->getFolder("CV Settings")->collapse();
-//    gui->getFolder("Player")->collapse();
-//    gui->getFolder("Target")->collapse();
-//    gui->getFolder("Calibration")->collapse();
-}
-//--------------------------------------------------------------
-void ofApp::drawEditorGUI(bool visible)
-{
-//    gui->getFolder("Map Generation")->expand();
-//    gui->getFolder("CV Settings")->collapse();
-//    gui->getFolder("Player")->collapse();
-//    gui->getFolder("Target")->collapse();
-//    gui->getFolder("Calibration")->collapse();
-}
-//--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
     if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
-            drawCalibrationGUI(false);
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 1;
-            drawGenerationGUI(false);
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
             _Appmode = 2;
-            drawOperationGUI(false);
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 3;
-            drawEditorGUI(false);
             displayWindow->doCalibration(false);
         }
     }
