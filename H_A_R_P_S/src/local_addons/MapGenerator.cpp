@@ -31,7 +31,6 @@ void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int 
     _dangerAreaSize = dangerAreaSize;
     _tileSize = tileSize;
     
-    
     _newWidth = _width*tileSize;
     _newHeight = _height*tileSize;
     
@@ -39,6 +38,15 @@ void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int 
     mapTexture = new ofImage();
     mapTexture->allocate(_newWidth,_newHeight, OF_IMAGE_COLOR);
     mapTexture->clear();
+    
+    fboPixels = new unsigned char[_newWidth*_newHeight*3];
+    
+    mapFbo = new ofFbo();
+    mapFbo->allocate(_newWidth, _newHeight);
+    
+    mapFbo->begin();
+        ofClear(0, 0, 0);
+    mapFbo->end();
     
     map = new Tile*[width];
     for (int x = 0; x < width; x++)
@@ -105,6 +113,15 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     mapTexture = new ofImage();
     mapTexture->allocate(_newWidth,_newHeight, OF_IMAGE_COLOR);
     mapTexture->clear();
+    
+    fboPixels = new unsigned char[_newWidth*_newHeight*3];
+    
+    mapFbo = new ofFbo();
+    mapFbo->allocate(_newWidth, _newHeight);
+    
+    mapFbo->begin();
+        ofClear(0, 0, 0);
+    mapFbo->end();
     
     map = new Tile*[width];
     for (int x = 0; x < width; x++)
@@ -280,7 +297,16 @@ deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
 void MapGenerator::update()
 {
     // Grab Screen: This will change to an FBO so its not needed to be drawn
-    mapTexture->grabScreen(0,0,_newWidth,_newHeight);
+//    mapTexture->grabScreen(0,0,_newWidth,_newHeight);
+//    mapTexture->update();
+    
+    mapFbo->begin();
+        ofClear(0, 0, 0);
+        draw();
+        glReadPixels(0, 0, _newWidth, _newHeight, GL_RGB, GL_UNSIGNED_BYTE, fboPixels);
+    mapFbo->end();
+    
+    mapTexture->setFromPixels(fboPixels, _newWidth, _newHeight, OF_IMAGE_COLOR);
     mapTexture->update();
     
     copy(mapTexture->getPixels(), _mapTexture);

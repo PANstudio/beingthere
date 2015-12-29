@@ -102,6 +102,10 @@ private:
     
     ofImage *mapTexture;
     
+    unsigned char * fboPixels;
+    
+    ofFbo *mapFbo;
+    
     vector <ofPolyline> deadlyArea;
     vector <ofPolyline> dangerArea;
     vector <ofPolyline> okArea;

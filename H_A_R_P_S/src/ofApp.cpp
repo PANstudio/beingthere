@@ -9,7 +9,7 @@ void ofApp::setupVariables()
     _height = 100;
     _dangerAreaSize = 5;
     _rs = 3.13;
-    _fillPercent = 10;
+    _fillPercent = 5;
     _numberOfIslands = 10;
     _growthNo = 10;
     _smooth = 5;
@@ -87,23 +87,23 @@ void ofApp::keyPressed(int key)
             drawGui = !drawGui;
             gui->setVisible(drawGui);
             break;
-        case '1':
+        case 'm':
             drawMapGui = !drawMapGui;
             mapGui->setVisible(drawMapGui);
             break;
-        case '2':
+        case 'v':
             drawCvGui = !drawCvGui;
             cvGui->setVisible(drawCvGui);
             break;
-        case '3':
+        case 't':
             drawTargetGui = !drawTargetGui;
             targetGui->setVisible(drawTargetGui);
             break;
-        case '4':
+        case 'p':
             drawPlayerGui = !drawPlayerGui;
             playerGui->setVisible(drawPlayerGui);
             break;
-        case '5':
+        case 'c':
             drawCalibrationGui = !drawCalibrationGui;
             calibrationGui->setVisible(drawCalibrationGui);
             break;
