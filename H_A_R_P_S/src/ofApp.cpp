@@ -26,7 +26,7 @@ void ofApp::setupVariables()
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     setupGUI();
     setupVariables();
     scoreBoard.loadScoreboard("scoreboard.json");
@@ -105,8 +105,6 @@ void ofApp::keyPressed(int key)
             drawCalibrationGui = !drawCalibrationGui;
             calibrationGui->setVisible(drawCalibrationGui);
             break;
-            
-            
         default:
             break;
     }
@@ -185,8 +183,8 @@ void ofApp::drawWindows()
     ofPushStyle();
     ofNoFill();
     ofSetColor(ofColor::ivory);
-    ofDrawRectangle(0, 0, 500, 500);
-    ofDrawRectangle(0, 500, 500, 200);
+    ofDrawRectangle(0, 0, 400, 500);
+    ofDrawRectangle(0, 500, 400, 200);
     ofPopStyle();
     ofPopMatrix();
 }
@@ -211,7 +209,11 @@ void ofApp::setupGUI()
     gui->addBreak();
     
     gui->addBreak(spacing);
-    vector<string> AppMode = {"CALIBRATION MODE", "EDITOR MODE","GENERATION MODE", "OPERATION MODE"};
+    vector<string> AppMode = {"CALIBRATION MODE",
+        "EDITOR MODE",
+        "GENERATION MODE",
+        "OPERATION MODE"
+    };
     
     gui->addDropdown("App Mode", AppMode);
     gui->getDropdown("App Mode")->select(0);
@@ -460,22 +462,22 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
             gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
             gui->update();
         }
-        else if (_difficulty == "Hard") {
+        else if (_difficulty == "HARD") {
             _difficultyMode = 3;
             gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
             gui->update();
         }
-        else if (_difficulty == "Really Hard") {
+        else if (_difficulty == "REALLY HARD") {
             _difficultyMode = 4;
             gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
             gui->update();
         }
-        else if (_difficulty == "Impossible") {
+        else if (_difficulty == "IMPOSSIBLE") {
             _difficultyMode = 5;
             gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
             gui->update();
         }
-        else if (_difficulty == "God Like") {
+        else if (_difficulty == "GOD LIKE") {
             _difficultyMode = 6;
             gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
             gui->update();
