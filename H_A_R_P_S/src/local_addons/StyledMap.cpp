@@ -95,7 +95,6 @@ void StyledMap::update()
     deadlyMask.begin();
     ofSetColor(0, 0, 0);
     ofDrawRectangle(0, 0, deadlyMask.getWidth(), deadlyMask.getHeight());
-//    blur.begin(7,2);
     ofSetColor(ofColor::white);
     ofPushStyle();
     ofSetColor(ofColor::white);
@@ -108,17 +107,15 @@ void StyledMap::update()
             }
         ofEndShape(false);
         
-        ofPopStyle();
+
         }
     }
-//    ofDrawCircle(ofGetMouseX(), ofGetMouseY(),50);
-//    blur.end();
+    ofPopStyle();
     deadlyMask.end();
     
     dangerMask.begin();
     ofSetColor(0, 0, 0);
     ofDrawRectangle(0, 0, dangerMask.getWidth(), dangerMask.getHeight());
-//    blur1.begin(7,2);
     ofSetColor(ofColor::white);
     if (!dangerShapes.empty()) {
         for (int i = 0; i < dangerShapes.size(); i++) {
@@ -132,8 +129,6 @@ void StyledMap::update()
             ofPopStyle();
         }
     }
-//    ofDrawCircle(ofGetMouseX(), ofGetMouseY(),100);
-//    blur1.end();
     dangerMask.end();
 }
 //--------------------------------------------------------------
