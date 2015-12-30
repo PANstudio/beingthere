@@ -813,9 +813,9 @@
 			children = (
 				639756A71C1E373B00B512AD /* MapGenerator.cpp */,
 				639756A81C1E373B00B512AD /* MapGenerator.hpp */,
+				639756BD1C1E48F700B512AD /* MapHelpers.hpp */,
 				637723B81C2624810081998C /* StyledMap.cpp */,
 				637723B91C2624810081998C /* StyledMap.hpp */,
-				639756BD1C1E48F700B512AD /* MapHelpers.hpp */,
 				639756B11C1E373B00B512AD /* TargetTile.cpp */,
 				639756B21C1E373B00B512AD /* TargetTile.hpp */,
 				639756B31C1E373B00B512AD /* Tile.cpp */,
