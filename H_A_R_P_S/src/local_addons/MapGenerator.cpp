@@ -105,7 +105,6 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     _dangerAreaSize = dangerAreaSize;
     _tileSize = tileSize;
     
-    
     _newWidth = _width*tileSize;
     _newHeight = _height*tileSize;
     
@@ -296,10 +295,6 @@ deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
 //--------------------------------------------------------------
 void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
 {
-    // Grab Screen: This will change to an FBO so its not needed to be drawn
-//    mapTexture->grabScreen(0,0,_newWidth,_newHeight);
-//    mapTexture->update();
-    
     mapFbo->begin();
         ofClear(0, 0, 0);
         draw();
@@ -709,6 +704,35 @@ void MapGenerator::loadMaps(string mapsFile)
             m.numberOfLevels = getMapNos;
             _MapInfo.push_back(m);
         }
+    }
+}
+//--------------------------------------------------------------
+void MapGenerator::saveMap(Map m)
+{
+    ofxJSONElement mapConfig;
+    ofxJSONElement mapConfig1;
+    
+    if(!mapConfig.open("config.json")) {
+        cout << "File not Loaded" << endl;
+        return;
+    }
+    else {
+        int getMapNos = mapConfig["Maps"]["Difficulty"][m.difficulty].size();
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["difficulty"] = m.difficulty;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["level"] = getMapNos+1;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["tilesize"] = m.tileSize;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["numberofclouds"] = m.numberOfClouds;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["growthloops"] = m.growthLoops;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["smoothingloops"] = m.smoothingValue;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["width"] = m.width;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["height"] = m.height;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["offsetedge"] = m.offsetEdge;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["timetocomplete"] = m.timeNeededToSolveMap;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["randomseed"] = m.seedValue;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["dangerareasize"] = m.dangerAreaSize;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["dangerAreaToxicity"] = m.dangerAreaToxicity;
+        mapConfig["Maps"]["Difficulty"][m.difficulty][getMapNos]["deadAreaToxicity"] = m.deadAreaToxicity;
+        mapConfig.save("config.json",true);
     }
 }
 //--------------------------------------------------------------

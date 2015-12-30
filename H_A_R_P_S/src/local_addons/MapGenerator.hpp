@@ -65,6 +65,7 @@ public:
     
     // To Do
     void saveMap();
+    void saveMap(Map m);
 private:
     
     // Map Object
@@ -110,8 +111,8 @@ private:
     vector <ofPolyline> dangerArea;
     vector <ofPolyline> okArea;
     vector <ofPolyline> finishArea;
-    vector<MapDetails> _MapInfo;
-    vector<vector<Map> > maps;
+    vector <MapDetails> _MapInfo;
+    vector <vector<Map> > maps;
     
 protected:
     
