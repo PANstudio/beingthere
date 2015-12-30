@@ -1,366 +1,415 @@
 {
-    "Maps" : {
-        "Difficulty": {
-            "NOVICE":[
-                {
-                    "difficulty":"NOVICE",
-                    "level":1,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 7,
-                    "smoothingloops": 5,
-                    "growthloops": 5,
-                    "randomseed":5.23613,
-                    "dangerareasize":3.1,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"NOVICE",
-                    "level":2,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":1.23613,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                }
-            ],
-            "ROOKIE":[
-                {
-                    "difficulty":"ROOKIE",
-                    "level":1,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 10,
-                    "smoothingloops": 4,
-                    "growthloops": 10,
-                    "randomseed":9,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"ROOKIE",
-                    "level":2,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"ROOKIE",
-                    "level":3,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2
-                },
-                {
-                    "difficulty":"ROOKIE",
-                    "level":4,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                }
-            ],
-            "NORMAL":[
-                {
-                    "difficulty":"NORMAL",
-                    "level":1,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"NORMAL",
-                    "level":2,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                }
-            ],
-            "HARD":[
-                {
-                    "difficulty":"HARD",
-                    "level":1,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"HARD",
-                    "level":2,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                }
-            ],
-            "REALLY HARD":[
-                {
-                    "difficulty":"REALLY HARD",
-                    "level":1,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"REALLY HARD",
-                    "level":2,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                }
-            ],
-            "IMPOSSIBLE":[
-                {
-                    "difficulty":"IMPOSSIBLE",
-                    "level":1,
-                    "timetocomplete": 180000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 8,
-                    "tilesize": 5,
-                    "numberofclouds": 35,
-                    "smoothingloops": 6,
-                    "growthloops": 8,
-                    "randomseed":84,
-                    "dangerareasize":5,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"IMPOSSIBLE",
-                    "level":2,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                }
-            ],
-            "GOD LIKE":[
-                {
-                    "difficulty":"GOD LIKE",
-                    "level":1,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 20,
-                    "smoothingloops": 5,
-                    "growthloops": 9,
-                    "randomseed":87,
-                    "dangerareasize":5,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                },
-                {
-                    "difficulty":"GOD LIKE",
-                    "level":2,
-                    "timetocomplete": 90000,
-                    "width": 100,
-                    "height": 100,
-                    "offsetedge": 10,
-                    "tilesize": 5,
-                    "numberofclouds": 3,
-                    "smoothingloops": 1,
-                    "growthloops": 1,
-                    "randomseed":3.14,
-                    "dangerareasize":3,
-                    "dangerAreaToxicity":1,
-                    "deadAreaToxicity":2,
-                    "positions": {
-                        "startposx":10,
-                        "startposy":10,
-                        "endposx":90,
-                        "endposy":90
-                    }
-                }
-            ]
-        }
-    }
+   "Maps" : {
+      "Difficulty" : {
+         "GOD LIKE" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 5,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "GOD LIKE",
+               "growthloops" : 9,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 20,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 87,
+               "smoothingloops" : 5,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "GOD LIKE",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 2,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 5,
+               "deadAreaToxicity" : 1,
+               "difficulty" : "GOD LIKE",
+               "growthloops" : 10,
+               "height" : 100,
+               "level" : 3,
+               "numberofclouds" : 10,
+               "offsetedge" : 5,
+               "randomseed" : 3,
+               "smoothingloops" : 5,
+               "tilesize" : 5,
+               "timetocomplete" : 5000,
+               "width" : 100
+            }
+         ],
+         "HARD" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "HARD",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "HARD",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 2,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            }
+         ],
+         "IMPOSSIBLE" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 5,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "IMPOSSIBLE",
+               "growthloops" : 8,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 35,
+               "offsetedge" : 8,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 84,
+               "smoothingloops" : 6,
+               "tilesize" : 5,
+               "timetocomplete" : 180000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "IMPOSSIBLE",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 2,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            }
+         ],
+         "NORMAL" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "NORMAL",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "NORMAL",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 2,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            }
+         ],
+         "NOVICE" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3.1,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "NOVICE",
+               "growthloops" : 5,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 7,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 5.23613,
+               "smoothingloops" : 5,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "NOVICE",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 2,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 1.23613,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 5,
+               "deadAreaToxicity" : 1,
+               "difficulty" : "NOVICE",
+               "growthloops" : 10,
+               "height" : 100,
+               "level" : 3,
+               "numberofclouds" : 10,
+               "offsetedge" : 5,
+               "randomseed" : 3,
+               "smoothingloops" : 5,
+               "tilesize" : 5,
+               "timetocomplete" : 5000,
+               "width" : 100
+            }
+         ],
+         "REALLY HARD" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "REALLY HARD",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "REALLY HARD",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 2,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            }
+         ],
+         "ROOKIE" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "ROOKIE",
+               "growthloops" : 10,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 10,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 9,
+               "smoothingloops" : 4,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "ROOKIE",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 2,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "ROOKIE",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 3,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 3,
+               "deadAreaToxicity" : 2,
+               "difficulty" : "ROOKIE",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 4,
+               "numberofclouds" : 3,
+               "offsetedge" : 10,
+               "positions" : {
+                  "endposx" : 90,
+                  "endposy" : 90,
+                  "startposx" : 10,
+                  "startposy" : 10
+               },
+               "randomseed" : 3.14,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 90000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 5,
+               "deadAreaToxicity" : 1,
+               "difficulty" : "ROOKIE",
+               "growthloops" : 10,
+               "height" : 100,
+               "level" : 5,
+               "numberofclouds" : 10,
+               "offsetedge" : 5,
+               "randomseed" : 3,
+               "smoothingloops" : 5,
+               "tilesize" : 5,
+               "timetocomplete" : 5000,
+               "width" : 100
+            }
+         ]
+      }
+   }
 }
+
