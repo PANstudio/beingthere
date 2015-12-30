@@ -44,6 +44,7 @@
 		639756B91C1E373B00B512AD /* RobotManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AF1C1E373B00B512AD /* RobotManager.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756BA1C1E373B00B512AD /* TargetTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B11C1E373B00B512AD /* TargetTile.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756BB1C1E373B00B512AD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B31C1E373B00B512AD /* Tile.cpp */; settings = {ASSET_TAGS = (); }; };
+		63EA95F31C336E2900721819 /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63EA95F01C336E2900721819 /* ofxBlurShader.cpp */; settings = {ASSET_TAGS = (); }; };
 		6C06F287580ED82420253165 /* ObjectFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6B65A774AC83F4FC4103DEF /* ObjectFinder.cpp */; };
 		6C2E89161CA335E9F476A206 /* Flow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4192C0B6E450B11BF26797F /* Flow.cpp */; };
 		72BABC6CF54D263B2D4E2895 /* Kalman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2668E5B55A315A73B7296637 /* Kalman.cpp */; };
@@ -252,6 +253,8 @@
 		639756B31C1E373B00B512AD /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile.cpp; path = src/local_addons/Tile.cpp; sourceTree = "<group>"; };
 		639756B41C1E373B00B512AD /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Tile.hpp; path = src/local_addons/Tile.hpp; sourceTree = "<group>"; };
 		639756BD1C1E48F700B512AD /* MapHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapHelpers.hpp; path = src/local_addons/MapHelpers.hpp; sourceTree = "<group>"; };
+		63EA95F01C336E2900721819 /* ofxBlurShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBlurShader.cpp; sourceTree = "<group>"; };
+		63EA95F11C336E2900721819 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
 		64533C6393690A7DBCD80E53 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscReceivedElements.cpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
 		68F884DFC13F1F62FDACFF39 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../../of_v0.9.0_osx_release/addons/ofxTween/src/Easings/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 		69738835B97CF1499649CB8D /* matchers.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = matchers.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/detail/matchers.hpp; sourceTree = SOURCE_ROOT; };
@@ -799,6 +802,33 @@
 			name = ofxCv;
 			sourceTree = "<group>";
 		};
+		63EA95EE1C336E2900721819 /* ofxBlurShader */ = {
+			isa = PBXGroup;
+			children = (
+				63EA95EF1C336E2900721819 /* src */,
+				63EA95F21C336E2900721819 /* libs */,
+			);
+			name = ofxBlurShader;
+			sourceTree = "<group>";
+		};
+		63EA95EF1C336E2900721819 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63EA95F01C336E2900721819 /* ofxBlurShader.cpp */,
+				63EA95F11C336E2900721819 /* ofxBlurShader.h */,
+			);
+			name = src;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxBlurShader/src;
+			sourceTree = "<group>";
+		};
+		63EA95F21C336E2900721819 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = libs;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxBlurShader/libs;
+			sourceTree = "<group>";
+		};
 		641362CA659FAFEE4E81001B /* posix */ = {
 			isa = PBXGroup;
 			children = (
@@ -1094,6 +1124,7 @@
 				E6053AB7FEC63D5F83825B88 /* ofxOsc */,
 				7454354B2838D53013BB449A /* ofxQuadWarp */,
 				1F293A20D2B096D59C4F24DD /* ofxTween */,
+				63EA95EE1C336E2900721819 /* ofxBlurShader */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1466,6 +1497,7 @@
 				639756B91C1E373B00B512AD /* RobotManager.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				63EA95F31C336E2900721819 /* ofxBlurShader.cpp in Sources */,
 				8497B285BA0A16DDC6173260 /* ETF.cpp in Sources */,
 				639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */,
 				637723BD1C2625190081998C /* ScoreBoard.cpp in Sources */,
@@ -1838,6 +1870,7 @@
 					../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1932,6 +1965,7 @@
 					../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
 			};

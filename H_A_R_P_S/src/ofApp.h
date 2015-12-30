@@ -7,6 +7,7 @@
 #include "MyTimer.hpp"
 #include "PlayerManager.hpp"
 #include "ScoreBoard.hpp"
+#include "StyledMap.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -86,6 +87,7 @@ class ofApp : public ofBaseApp{
         MyTimer countDown;
         Scoreboard scoreBoard;
     
+        StyledMap styledMap;
         //--------------------------------------------------------------
         // *
         // * GUI

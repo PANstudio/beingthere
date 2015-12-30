@@ -45,10 +45,12 @@ void ofApp::setup()
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
     countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
+    styledMap.setup(500,500);
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    styledMap.update();
     countDown.update();
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
@@ -58,7 +60,7 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
-    mapGenerator.draw();
+//    mapGenerator.draw();
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
     mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
@@ -74,7 +76,7 @@ void ofApp::draw()
         
         ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
     }
-    
+    styledMap.drawStyledMap(0, 0);
     // Window Layout
     drawWindows();
 }
@@ -418,6 +420,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if (e.target->is("Flush Map")) {
         mapGenerator.update(_blur,_iRR,_iRY,_iRG);
+        styledMap.setShapes(mapGenerator.getDeadlyOutlines(),mapGenerator.getDangerOutlines());
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
