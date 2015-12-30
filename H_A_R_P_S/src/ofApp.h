@@ -72,6 +72,7 @@ class ofApp : public ofBaseApp{
         int _iRG[2];
         int _blur;
         string feedBackMap;
+        string saveDifficultly;
     
         //--------------------------------------------------------------
         // *

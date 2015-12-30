@@ -62,7 +62,6 @@ void ofApp::draw()
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
     mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
-    ofDrawBitmapStringHighlight(feedBackMap, 508,513);
     
     if (!drawMapGui) {
         // Player Status Feedback
@@ -197,8 +196,9 @@ void ofApp::drawWindows()
     ofNoFill();
     ofSetColor(ofColor::ivory);
     if (!drawMapGui) {
-        ofDrawRectangle(0, 0, 400, 500);
-        ofDrawRectangle(0, 500, 400, 200);
+        ofDrawRectangle(0, 0, 400, 250);
+        ofDrawRectangle(0, 250, 400, 300);
+        ofDrawBitmapStringHighlight(feedBackMap, 5, 265);
     }
     else {
         ofDrawRectangle(0, 0, 400, mapGui->getHeight());
@@ -271,7 +271,7 @@ void ofApp::setupGUI()
     gui->addBreak(spacing);
     gui->addButton("Stop Level");
     
-    mapGui = new ofxDatGui(500,0);
+    mapGui = new ofxDatGui(501,0);
     mapGui->setWidth(400);
     mapGui->addHeader("Map Generation");
     mapGui->addSlider("Map Width", 0, 100, 0);
@@ -291,6 +291,11 @@ void ofApp::setupGUI()
     mapGui->addButton("Generate Custom Map");
     mapGui->addBreak(spacing);
     mapGui->addButton("Flush Map");
+    
+    mapGui->addBreak(spacing+10);
+    mapGui->addHeader("Save Settings");
+    mapGui->addDropdown("Set Difficulty", difficulty);
+    mapGui->addButton("Save");
     
     cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
     cvGui->addHeader("Computer Vision Settings");
@@ -430,6 +435,24 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     else if (e.target->is("Stop Level")) {
         countDown.stop();
     }
+    else if(e.target->is("Save")) {
+        Map m;
+        m.width = _width;
+        m.height = _height;
+        m.difficulty = saveDifficultly;
+        m.level = 1; //todo
+        m.offsetEdge = _offsetEdge;
+        m.tileSize = _fillPercent;
+        m.numberOfClouds = _numberOfIslands;
+        m.smoothingValue = _smooth;
+        m.growthLoops = _growthNo;
+        m.seedValue = _rs;
+        m.dangerAreaSize = _dangerAreaSize;
+        m.dangerAreaToxicity = 1; //todo
+        m.deadAreaToxicity = 1; //todo
+        m.timeNeededToSolveMap = 5000; //todp
+        mapGenerator.saveMap(m);
+    }
 }
 //--------------------------------------------------------------
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
@@ -494,6 +517,30 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
             _difficultyMode = 6;
             gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
             gui->update();
+        }
+    }
+    else if(e.target->is("Set Difficulty")) {
+        saveDifficultly = e.target->getLabel();
+        if (saveDifficultly == "NOVICE") {
+
+        }
+        else if (_difficulty == "ROOKIE") {
+           
+        }
+        else if (_difficulty == "NORMAL") {
+           
+        }
+        else if (_difficulty == "HARD") {
+           
+        }
+        else if (_difficulty == "REALLY HARD") {
+           
+        }
+        else if (_difficulty == "IMPOSSIBLE") {
+           
+        }
+        else if (_difficulty == "GOD LIKE") {
+           
         }
     }
 }
