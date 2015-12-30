@@ -107,6 +107,22 @@
                "tilesize" : 5,
                "timetocomplete" : 90000,
                "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 5,
+               "deadAreaToxicity" : 1,
+               "difficulty" : "HARD",
+               "growthloops" : 10,
+               "height" : 100,
+               "level" : 3,
+               "numberofclouds" : 10,
+               "offsetedge" : 5,
+               "randomseed" : 3,
+               "smoothingloops" : 5,
+               "tilesize" : 5,
+               "timetocomplete" : 5000,
+               "width" : 100
             }
          ],
          "IMPOSSIBLE" : [
