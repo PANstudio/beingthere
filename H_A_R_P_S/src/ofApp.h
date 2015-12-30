@@ -88,6 +88,8 @@ class ofApp : public ofBaseApp{
         Scoreboard scoreBoard;
     
         StyledMap styledMap;
+    
+        bool _showShaded;
         //--------------------------------------------------------------
         // *
         // * GUI

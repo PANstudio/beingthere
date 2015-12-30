@@ -19,7 +19,7 @@ void ofApp::setupVariables()
     _numberOfYLines = 10;
     _spacingX = 10;
     _spacingY = 10;
-    
+    _showShaded = false;
     _iRR[0] = 25;
     _iRR[1] = 255;
 
@@ -60,7 +60,13 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
-//    mapGenerator.draw();
+
+    if (_showShaded) {
+        styledMap.drawStyledMap(0, 0);
+    }
+    else {
+        mapGenerator.draw();
+    }
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
     mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
@@ -76,7 +82,7 @@ void ofApp::draw()
         
         ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
     }
-    styledMap.drawStyledMap(0, 0);
+
     // Window Layout
     drawWindows();
 }
@@ -268,6 +274,8 @@ void ofApp::setupGUI()
     gui->getMatrix("Levels")->setRadioMode(true);
 
     gui->addBreak(spacing);
+    gui->addToggle("Show Shaded Map");
+    gui->addBreak(spacing);
     gui->addButton("Start Level");
     
     gui->addBreak(spacing);
@@ -427,6 +435,9 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if (e.target->is("Use Random Seed")) {
         _urs = e.target->getEnabled();
+    }
+    else if (e.target->is("Show Shaded Map")) {
+        _showShaded = e.target->getEnabled();
     }
     else if(e.target->is("Calibrate")) {
         displayWindow->setCalibration(_numberOfXLines, _numberOfYLines, _spacingX, _spacingY);
