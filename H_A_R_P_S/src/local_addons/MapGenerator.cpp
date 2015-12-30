@@ -482,62 +482,29 @@ void MapGenerator::drawPolylines()
     
     for (int i = 0; i < okArea.size(); i++) {
         okArea[i].simplify(0.1);
-//        if (okArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-
-            ofSetColor(ofColor::green);
-//        }
-//        else {
-//            ofSetColor(ofColor::white);
-//        }
-        
+        ofSetColor(ofColor::green);
         okArea[i].draw();
     }
     
     for (int i = 0; i < dangerArea.size(); i++) {
         dangerArea[i].simplify(0.1);
-//        if (dangerArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-//            ofMessage msg("Player 1: in danger area");
-//            ofSendMessage(msg);
-            ofSetColor(ofColor::yellow);
-//        }
-//        else {
-//            ofSetColor(ofColor::white);
-//        }
+        ofSetColor(ofColor::yellow);
         dangerArea[i].draw();
     }
     
     for (int i = 0; i < deadlyArea.size(); i++) {
         
         deadlyArea[i].simplify(0.1);
-//        if (deadlyArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-            ofSetColor(ofColor::red);
-//            ofMessage msg("Player 1: in deadly area");
-//            ofSendMessage(msg);
-//        }
-//        else {
-//            ofSetColor(ofColor::white);
-//        }
+        ofSetColor(ofColor::red);
         deadlyArea[i].draw();
     }
+    
     for (int i = 0; i < finishArea.size(); i++) {
         finishArea[i].simplify(0.1);
-//        if (finishArea[i].inside(ofGetMouseX(), ofGetMouseY())) {
-//            ofSetColor(ofColor::blue);
-//            ofMessage msg("Player 1: in finshed area");
-//            ofSendMessage(msg);
-//        }
-//        else {
-            ofSetColor(ofColor::white);
-//        }
-        
+        ofSetColor(ofColor::white);
         finishArea[i].draw();
-//        
-//        ofSetColor(ofColor::blue);
-//        ofDrawRectangle(finishArea[i].getCentroid2D().x,finishArea[i].getCentroid2D().y,3,3);
     }
     
-    ofSetColor(255, 255, 255);
-    ofDrawCircle(ofGetMouseX(), ofGetMouseY(),10);
     ofPopMatrix();
 }
 //--------------------------------------------------------------
