@@ -13,6 +13,23 @@
 #include "ofxBlurShader.h"
 #include "ofMain.h"
 
+struct textLine {
+    
+    textLine(int rotation,int x,int y,string text){
+        _rotation = rotation;
+        _x = x;
+        _y = y;
+        _text = text;
+    }
+    
+    int _rotation;
+    int _x;
+    int _y;
+    int _offsetPositionX;
+    int _offsetPositionY;
+    string _text;
+};
+
 class StyledMap {
     public:
         void setup(int width,int height);
@@ -23,6 +40,8 @@ class StyledMap {
         vector<ofPolyline> deadlyShapes;
         vector<ofPolyline> dangerShapes;
     
+        vector <textLine> text;
+        ofTrueTypeFont fontSmall;
         ofFbo test;
         ofFbo test1;
         ofFbo dangerMask;

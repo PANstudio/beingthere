@@ -75,6 +75,14 @@ void StyledMap::setup(int width, int height)
     maskDangerShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragment1);
     maskDeadlyShader.bindDefaults();
     maskDangerShader.linkProgram();
+    
+    fontSmall.load("ofxdatgui_assets/font-verdana.ttf", 9);
+    
+    text.clear();
+    
+    for (int i = 0; i < 1000; i++) {
+        text.push_back(textLine(ofRandom(360), ofRandom(0, width), ofRandom(0,height), "Emotion " + ofToString(i)));
+    }
 }
 //--------------------------------------------------------------
 void StyledMap::update()
@@ -87,8 +95,19 @@ void StyledMap::update()
     
     test1.begin();
     ofClear(0, 0, 0);
-    ofSetColor(ofColor::yellow);
-    ofDrawRectangle(0, 0, 500, 500);
+    for (int i = 0; i < text.size()/4; i++) {
+        ofSetColor(ofColor::red);
+        ofPushMatrix();
+        ofTranslate(text[i]._x,text[i]._y);
+        ofPushMatrix();
+        ofRotateZ(text[i]._rotation);
+        ofSetColor(255,255);
+        fontSmall.drawString(text[i]._text, 0, 0);
+        ofPopMatrix();
+        ofPopMatrix();
+    }
+//    ofSetColor(ofColor::yellow);
+//    ofDrawRectangle(0, 0, 500, 500);
     test1.end();
     
     ofSetCircleResolution(500);
@@ -114,8 +133,10 @@ void StyledMap::update()
     deadlyMask.end();
     
     dangerMask.begin();
-    ofSetColor(0, 0, 0);
-    ofDrawRectangle(0, 0, dangerMask.getWidth(), dangerMask.getHeight());
+
+    //    ofSetColor(0, 0, 0);
+//    ofDrawRectangle(0, 0, dangerMask.getWidth(), dangerMask.getHeight());
+    blur.begin(2,1);
     ofSetColor(ofColor::white);
     if (!dangerShapes.empty()) {
         for (int i = 0; i < dangerShapes.size(); i++) {
@@ -129,6 +150,7 @@ void StyledMap::update()
             ofPopStyle();
         }
     }
+    blur.end();
     dangerMask.end();
 }
 //--------------------------------------------------------------
@@ -144,7 +166,7 @@ void StyledMap::drawStyledMap(int x, int y)
 {
     masks.begin();
     ofClear(0);
-    blur.begin(3,2);
+//    blur.begin(1,1);
     ofClear(0);
     ofPushStyle();
     maskDangerShader.begin();
@@ -159,7 +181,7 @@ void StyledMap::drawStyledMap(int x, int y)
     test.draw(0, 0);
     maskDeadlyShader.end();
     ofPopStyle();
-    blur.end();
+//    blur.end();
     masks.end();
     
     masks.draw(x, y);
