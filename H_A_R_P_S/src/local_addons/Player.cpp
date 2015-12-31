@@ -20,6 +20,7 @@ Player::Player(int id,ofColor c)
     _id = id;
     _c = c;
     healthBar = HealthBar(400, 20,ofColor::green, ofColor::orange, ofColor::red);
+    _heading = 0;
 }
 //--------------------------------------------------------------
 Player::~Player()

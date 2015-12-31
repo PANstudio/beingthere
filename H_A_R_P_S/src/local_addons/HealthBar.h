@@ -27,6 +27,7 @@ public:
         _deadly = deadlyColor;
         _width = width;
         _height = height;
+        _died = true;
     }
     //----------------------------------------
     ~HealthBar() {
@@ -41,6 +42,7 @@ public:
         _deadly = deadlyColor;
         _width = width;
         _height = height;
+        _died = true;
     }
     //----------------------------------------
     void reset()
@@ -70,9 +72,14 @@ public:
     //----------------------------------------
     void reduceHealth(int amount)
     {
-        int tempHealth = (_health - amount);
-        tween.setParameters(1,expo,ofxTween::easeOut,_health,tempHealth,500,1);
-        _health -= amount;
+        if (_health <= 0 && !_died) {
+            _died = true;
+        }
+        else {
+            int tempHealth = (_health - amount);
+            tween.setParameters(1,expo,ofxTween::easeOut,_health,tempHealth,500,1);
+            _health -= amount;
+        }
     }
     //----------------------------------------
     void draw(ofPoint healthPosition) {
@@ -89,18 +96,26 @@ public:
         ofDrawRectangle(0, 0, _width, _height);
         ofPushStyle();
 
-        if (_health <= 25 && _health > 10) {
-            ofSetColor(_danger);
-        }
-        else if (_health <= 10 && _health > 1) {
-            ofSetColor(_deadly);
+        
+        if (_died) {
+            ofSetColor((int)(175 + 80 * sin(ofGetElapsedTimef()*2)),0,0);
+            ofFill();
+            ofDrawRectangle(0, 0, _width, _height);
         }
         else {
-            ofSetColor(_good);
+            if (_health <= 25 && _health > 10) {
+                ofSetColor(_danger);
+            }
+            else if (_health <= 10 && _health > 1) {
+                ofSetColor(_deadly);
+            }
+            else {
+                ofSetColor(_good);
+            }
+            ofFill();
+            ofDrawRectangle(0, 0, ofMap(_health,100,0,_width,0), _height);
         }
         
-        ofFill();
-        ofDrawRectangle(0, 0, ofMap(_health,100,0,_width,0), _height);
         ofPopStyle();
         ofPopStyle();
         ofPopMatrix();
