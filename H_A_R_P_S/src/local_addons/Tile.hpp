@@ -21,6 +21,7 @@ class Tile : public ofRectangle {
     
         int getfCost();
     
+        int getToxicity();
         void setHighlighted(bool isHighlighted);
         void printData();
         void draw();
