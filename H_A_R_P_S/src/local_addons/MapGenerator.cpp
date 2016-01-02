@@ -7,6 +7,7 @@
 //
 //--------------------------------------------------------------
 #include "MapGenerator.hpp"
+#pragma mark - Generation
 //--------------------------------------------------------------
 // *
 // *    Generator Functions
@@ -15,6 +16,11 @@
 void MapGenerator::resetMap()
 {
     delete map;
+}
+//--------------------------------------------------------------
+void MapGenerator::generateMap(Map m)
+{
+    generateMap(m.width, m.height, m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
 }
 //--------------------------------------------------------------
 void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
@@ -84,11 +90,29 @@ void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int 
     for (int i = 0; i < dangerAreaSize; i++) {
         expandDangerAreas(i);
     }
-}
-//--------------------------------------------------------------
-void MapGenerator::generateMap(Map m)
-{
-    generateMap(m.width, m.height, m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
+    
+    if (finderImg == nullptr) {
+        delete finderImg;
+    }
+    finderImg = new ofImage();
+    finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
+    for (int x = 0; x < _width; x ++) {
+        for (int y = 0; y < _height; y ++) {
+            if(!map[x][y].walkable) {
+                finderImg->setColor(x, y,ofColor::black);
+            }
+            else {
+                if (map[x][y].toxicity == 0) {
+                    finderImg->setColor(x, y,ofColor::white);
+                }
+                else {
+                    ofColor c;
+                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
+                    finderImg->setColor(x, y,c);
+                }
+            }
+        }
+    }
 }
 //--------------------------------------------------------------
 void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
@@ -157,6 +181,32 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     // Expand the Zones
     for (int i = 0; i < dangerAreaSize; i++) {
         expandDangerAreas(i);
+    }
+    
+    if (finderImg == nullptr) {
+        delete finderImg;
+    }
+
+    
+    finderImg = new ofImage();
+//    finderImg->clear();
+    finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
+    for (int x = 0; x < _width; x ++) {
+        for (int y = 0; y < _height; y ++) {
+            if(!map[x][y].walkable) {
+                finderImg->setColor(x, y,ofColor::black);
+            }
+            else {
+                if (map[x][y].toxicity == 0) {
+                    finderImg->setColor(x, y,ofColor::white);
+                }
+                else {
+                    ofColor c;
+                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
+                    finderImg->setColor(x, y,c);
+                }
+            }
+        }
     }
 }
 //--------------------------------------------------------------
@@ -288,6 +338,7 @@ deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
     }
     return neighbours;
 }
+#pragma mark - Drawing
 //--------------------------------------------------------------
 // *
 // *    Drawing Functions
@@ -346,12 +397,11 @@ void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
         l.simplify();
         okArea.push_back(l);
     }
-//    for (int i = 0; i < finishColorFinder.size(); i++) {
-//        ofPolyline l;
-//        l = finishColorFinder.getPolyline(i);
-//        l.simplify();
-//        finishArea.push_back(l);
-//    }
+}
+//--------------------------------------------------------------
+ofImage MapGenerator::getFinderImage()
+{
+    return *finderImg;
 }
 //--------------------------------------------------------------
 // *
@@ -364,22 +414,31 @@ void MapGenerator::draw()
         for (int y = 0; y < _height; y ++) {
             map[x][y].showGrid = false;
             map[x][y].draw();
+           
         }
     }
+
 }
+
 //--------------------------------------------------------------
 void MapGenerator::drawMicroMap()
 {
-//    for (int x = 0; x < _width; x ++) {
-//        for (int y = 0; y < _height; y ++) {
     if (!_mapTexture.empty()) {
         drawMat(_mapTexture, 0, 0,100,100);
     }
+}
 
-    
-            //            map[x][y].drawMicro();
-//        }
-//    }
+//--------------------------------------------------------------
+void MapGenerator::drawFinderMap(int x, int y)
+{
+    ofPushMatrix();
+    ofTranslate(x, y);
+    ofScale(1, 1);
+    if (getFinderImage().isAllocated()) {
+        ofSetColor(255, 255, 255);
+        getFinderImage().draw(0,0);
+    }
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 void MapGenerator::drawEditor()

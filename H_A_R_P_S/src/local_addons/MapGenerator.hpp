@@ -50,6 +50,9 @@ public:
     void drawPolylines();
     void drawMicroMap();
     void drawEditor();
+    void drawFinderMap(int x,int y);
+    
+    ofImage getFinderImage();
     
     void fireEvent(int playerId, string area);
     
@@ -101,6 +104,7 @@ private:
     Mat _greenOnly;
     Mat _blueOnly;
     
+    ofImage *finderImg;
     ofImage *mapTexture;
     
     unsigned char * fboPixels;
