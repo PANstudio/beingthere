@@ -81,6 +81,7 @@ void ofApp::draw()
         playerManager.drawPlayerHealth(680,20,0.5);
         
         ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
+        mapGenerator.drawFinderMap(500, 480);
     }
 
     // Window Layout
