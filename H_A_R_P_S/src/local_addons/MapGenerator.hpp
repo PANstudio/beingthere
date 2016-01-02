@@ -16,6 +16,7 @@
 #include "ofxJSON.h"
 #include "MapHelpers.hpp"
 #include "Tile.hpp"
+#include "ofxPathfinder.h"
 
 using namespace cv;
 using namespace ofxCv;
@@ -66,6 +67,8 @@ public:
     Map getMap(string mapDifficulty,int mapLevel);
     vector<MapDetails> getMapsInfo();
     
+    ofPolyline path;
+    ofxPathfinder finder;
     // To Do
     void saveMap();
     void saveMap(Map m);

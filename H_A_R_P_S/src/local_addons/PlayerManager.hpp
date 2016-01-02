@@ -15,6 +15,7 @@
 #include "ofMain.h"
 #include "ofxOsc.h"
 #include "MyTimer.hpp"
+#include "ofxPathfinder.h"
 
 class PlayerManager {
 public:
@@ -22,6 +23,8 @@ public:
     void setNumberOfPlayers(int numberOfPlayers);
     void listen();
     void closeListener();
+    void getFinderImage(ofImage img);
+    void drawPath();
     void drawPlayerManager();
     void drawPlayerHealth(int x, int y,float scale);
     vector<HealthBar>getPlayerHealth();
@@ -34,6 +37,8 @@ public:
     
     ofPoint getPlayerCoords();
     vector<ofPoint> getPlayersCoords();
+    
+    ofxPathfinder finder;
     
 private:
     ofxOscReceiver oscReceiver;
