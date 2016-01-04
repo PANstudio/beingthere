@@ -61,7 +61,11 @@ void PlayerManager::drawPlayerManager()
     }
     ofPushMatrix();
     ofScale(5, 5);
+    ofPushStyle();
+    ofSetLineWidth(5);
+    ofSetColor(255, 255, 255);
     finder.path.draw();
+    ofPopStyle();
     ofPopMatrix();
 }
 //--------------------------------------------------------------
