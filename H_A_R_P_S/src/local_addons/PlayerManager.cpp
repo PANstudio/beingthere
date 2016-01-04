@@ -27,6 +27,11 @@ void PlayerManager::setNumberOfPlayers(int numberOfPlayers)
     }
 }
 //--------------------------------------------------------------
+void PlayerManager::getFinderImage(ofImage img)
+{
+    finder.setup(img);
+}
+//--------------------------------------------------------------
 void PlayerManager::listen()
 {
     for (int i = 0 ; i < players.size(); i++) {
@@ -36,12 +41,15 @@ void PlayerManager::listen()
     while (oscReceiver.hasWaitingMessages()) {
         ofxOscMessage m;
         oscReceiver.getNextMessage(m);
-        
+        if (m.getAddress() == "/player"+ofToString(0)) {
+            players[0].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)),                m.getArgAsFloat(2));
+            finder.find(ofMap(m.getArgAsFloat(0),0,500,0,100),ofMap(m.getArgAsFloat(1),0,500,0,100), 10, 10);
+        }
         for(int i = 0; i < _numberOfPlayers; i++)
         {
-            if (m.getAddress() == "/player"+ofToString(i)) {
-                players[i].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)),                m.getArgAsFloat(2));
-            }
+//            if (m.getAddress() == "/player"+ofToString(i)) {
+//                players[i].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)),                m.getArgAsFloat(2));
+//            }
         }
     }
 }
@@ -51,6 +59,14 @@ void PlayerManager::drawPlayerManager()
     for (auto player : players) {
         player.draw();
     }
+    ofPushMatrix();
+    ofScale(5, 5);
+    ofPushStyle();
+    ofSetLineWidth(5);
+    ofSetColor(255, 255, 255);
+    finder.path.draw();
+    ofPopStyle();
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 void PlayerManager::startReducingPlayerHealth(int id)

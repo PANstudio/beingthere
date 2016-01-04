@@ -33,6 +33,11 @@ Tile::Tile(bool _walkable,int _toxicity,ofVec2f _worldPosition, int _gridXPositi
     this->set(_worldPosition.x,_worldPosition.y, size, size);
 }
 //--------------------------------------------------------------
+int Tile::getToxicity()
+{
+    return toxicity;
+}
+//--------------------------------------------------------------
 int Tile::getfCost()
 {
     fCost = (gCost + hCost);

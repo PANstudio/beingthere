@@ -16,6 +16,7 @@
 #include "ofxJSON.h"
 #include "MapHelpers.hpp"
 #include "Tile.hpp"
+#include "ofxPathfinder.h"
 
 using namespace cv;
 using namespace ofxCv;
@@ -50,6 +51,9 @@ public:
     void drawPolylines();
     void drawMicroMap();
     void drawEditor();
+    void drawFinderMap(int x,int y);
+    
+    ofImage getFinderImage();
     
     void fireEvent(int playerId, string area);
     
@@ -63,6 +67,7 @@ public:
     Map getMap(string mapDifficulty,int mapLevel);
     vector<MapDetails> getMapsInfo();
     
+
     // To Do
     void saveMap();
     void saveMap(Map m);
@@ -101,6 +106,7 @@ private:
     Mat _greenOnly;
     Mat _blueOnly;
     
+    ofImage *finderImg;
     ofImage *mapTexture;
     
     unsigned char * fboPixels;

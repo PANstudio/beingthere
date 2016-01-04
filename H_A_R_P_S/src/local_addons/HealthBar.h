@@ -27,7 +27,7 @@ public:
         _deadly = deadlyColor;
         _width = width;
         _height = height;
-        _died = true;
+        _died = false;
     }
     //----------------------------------------
     ~HealthBar() {
@@ -42,7 +42,7 @@ public:
         _deadly = deadlyColor;
         _width = width;
         _height = height;
-        _died = true;
+        _died = false;
     }
     //----------------------------------------
     void reset()

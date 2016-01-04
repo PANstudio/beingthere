@@ -32,6 +32,7 @@
 		5EB4394F89E6C7B6CB63E407 /* ofxEasingExpo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FAA1F8FD8842B18FC644AB8 /* ofxEasingExpo.cpp */; };
 		60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E018EA5B6B752E53BD00D9E4 /* ofxEasingQuint.cpp */; };
 		61DD69DC8EEC05F4180E5A3A /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE5201E4C9247E2A335BB47E /* ofxCvFloatImage.cpp */; };
+		632D97CB1C37663E00F4792E /* ofxPathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632D97C91C37663E00F4792E /* ofxPathfinder.cpp */; settings = {ASSET_TAGS = (); }; };
 		637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244351C20DB17002F7BD5 /* DisplayWindow.cpp */; settings = {ASSET_TAGS = (); }; };
 		6372443C1C20E4CF002F7BD5 /* CalibrationScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */; settings = {ASSET_TAGS = (); }; };
 		6372443F1C20E503002F7BD5 /* ControlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443D1C20E503002F7BD5 /* ControlNode.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -226,6 +227,8 @@
 		5F5F2A04C40F3E5D7ADA1625 /* ofxDatGuiFont.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiFont.h; path = ../../../../of_v0.9.0_osx_release/addons/ofxDatGui/src/core/ofxDatGuiFont.h; sourceTree = SOURCE_ROOT; };
 		62D49BEB187FC37B39424906 /* blenders.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = blenders.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/detail/blenders.hpp; sourceTree = SOURCE_ROOT; };
 		6320D84AFB1B36D3CEC35D89 /* affine.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = affine.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/core/affine.hpp; sourceTree = SOURCE_ROOT; };
+		632D97C91C37663E00F4792E /* ofxPathfinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPathfinder.cpp; sourceTree = "<group>"; };
+		632D97CA1C37663E00F4792E /* ofxPathfinder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxPathfinder.h; sourceTree = "<group>"; };
 		6337C65EC7317260BA2400E0 /* global_motion.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = global_motion.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/global_motion.hpp; sourceTree = SOURCE_ROOT; };
 		637244351C20DB17002F7BD5 /* DisplayWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayWindow.cpp; path = src/local_addons/DisplayWindow.cpp; sourceTree = "<group>"; };
 		637244361C20DB17002F7BD5 /* DisplayWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DisplayWindow.hpp; path = src/local_addons/DisplayWindow.hpp; sourceTree = "<group>"; };
@@ -802,6 +805,24 @@
 			name = ofxCv;
 			sourceTree = "<group>";
 		};
+		632D97C71C37663E00F4792E /* ofxPathfinder */ = {
+			isa = PBXGroup;
+			children = (
+				632D97C81C37663E00F4792E /* src */,
+			);
+			name = ofxPathfinder;
+			sourceTree = "<group>";
+		};
+		632D97C81C37663E00F4792E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				632D97C91C37663E00F4792E /* ofxPathfinder.cpp */,
+				632D97CA1C37663E00F4792E /* ofxPathfinder.h */,
+			);
+			name = src;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxPathfinder/src;
+			sourceTree = "<group>";
+		};
 		63EA95EE1C336E2900721819 /* ofxBlurShader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1125,6 +1146,7 @@
 				7454354B2838D53013BB449A /* ofxQuadWarp */,
 				1F293A20D2B096D59C4F24DD /* ofxTween */,
 				63EA95EE1C336E2900721819 /* ofxBlurShader */,
+				632D97C71C37663E00F4792E /* ofxPathfinder */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1522,6 +1544,7 @@
 				3E3609DF832A8E10F8593D9B /* ofxJSONElement.cpp in Sources */,
 				D0AC7D43D581059DA8339B3A /* jsoncpp.cpp in Sources */,
 				042A7D55A677A68DD8B3C166 /* ofxTCPClient.cpp in Sources */,
+				632D97CB1C37663E00F4792E /* ofxPathfinder.cpp in Sources */,
 				DB77677DC2CEE9C8790A08CB /* ofxTCPManager.cpp in Sources */,
 				637723BA1C2624810081998C /* StyledMap.cpp in Sources */,
 				639756B71C1E373B00B512AD /* Player.cpp in Sources */,

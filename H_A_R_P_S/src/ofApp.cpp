@@ -44,6 +44,7 @@ void ofApp::setup()
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
+    playerManager.getFinderImage(mapGenerator.getFinderImage());
     countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
     styledMap.setup(500,500);
 }
@@ -81,6 +82,7 @@ void ofApp::draw()
         playerManager.drawPlayerHealth(680,20,0.5);
         
         ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
+        mapGenerator.drawFinderMap(500, 480);
     }
 
     // Window Layout
@@ -425,6 +427,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
     if (e.target->is("Generate Map")) {
         mapGenerator.generateMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+        playerManager.getFinderImage(mapGenerator.getFinderImage());
     }
     else if (e.target->is("Flush Map")) {
         mapGenerator.update(_blur,_iRR,_iRY,_iRG);
@@ -432,6 +435,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+        playerManager.getFinderImage(mapGenerator.getFinderImage());
     }
     else if (e.target->is("Use Random Seed")) {
         _urs = e.target->getEnabled();
@@ -574,5 +578,6 @@ void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
         feedBackMap = m.MapDetailsString().str();
         countDown.setNewTimerLength(m.timeNeededToSolveMap);
         mapGenerator.generateMap(m);
+        playerManager.getFinderImage(mapGenerator.getFinderImage());
     }
 }
