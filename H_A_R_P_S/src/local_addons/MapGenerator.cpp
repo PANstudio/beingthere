@@ -208,7 +208,6 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
             }
         }
     }
-    finder.setup(finderImg->getPixels());
 }
 //--------------------------------------------------------------
 bool MapGenerator::isInMapRange(int x, int y)
@@ -442,10 +441,6 @@ void MapGenerator::drawFinderMap(int x, int y)
     }
     ofPopMatrix();
     ofPushMatrix();
-    ofScale(5, 5);
-    ofSetColor(ofColor::red);
-    finder.path.draw();
-    ofPopMatrix();
 }
 //--------------------------------------------------------------
 void MapGenerator::drawEditor()
@@ -678,7 +673,6 @@ void MapGenerator::mouseOver(int x,int y)
         for (int y1 = 0; y1 < _height; y1++) {
             if (map[x1][y1].inside(x, y)) {
                 map[x1][y1].setHighlighted(true);
-                finder.find(map[x1][y1].gridX, map[x1][y1].gridY,10,10);
             }
             else {
                 map[x1][y1].setHighlighted(false);
