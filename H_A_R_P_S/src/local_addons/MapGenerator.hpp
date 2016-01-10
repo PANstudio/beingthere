@@ -46,7 +46,7 @@ public:
     
     void getPlayerCoordinates(vector <ofPoint> playerCoords);
     
-    void draw();
+    void draw(bool showGrid);
     void drawComputerVision();
     void drawPolylines();
     void drawMicroMap();
@@ -105,6 +105,7 @@ private:
     Mat _yellowOnly;
     Mat _greenOnly;
     Mat _blueOnly;
+    Mat _blurredGrayscale;
     
     ofImage *finderImg;
     ofImage *mapTexture;

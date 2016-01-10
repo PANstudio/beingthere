@@ -86,7 +86,6 @@ class ofApp : public ofBaseApp{
         PlayerManager playerManager;
         MyTimer countDown;
         Scoreboard scoreBoard;
-    
         StyledMap styledMap;
     
         bool _showShaded;

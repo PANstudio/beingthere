@@ -70,7 +70,7 @@ void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int 
     for (int i = 0; i < _numberOfClouds; i++) {
         int x1 = ofRandom(1+_offsetEdge, (_width-1)-_offsetEdge);
         int y1 = ofRandom(1+_offsetEdge, (_height-1)-_offsetEdge);
-        map[x1][y1] = *new Tile(false,0,ofVec2f(x1*_tileSize,y1*_tileSize),x1,y1,_tileSize);
+        map[x1][y1].walkable = false; //*new Tile(false,0,ofVec2f(x1*_tileSize,y1*_tileSize),x1,y1,_tileSize);
     }
     
     // Grow the Cloud
@@ -162,7 +162,7 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     for (int i = 0; i < _numberOfClouds; i++) {
         int x1 = ofRandom(0+_offsetEdge, (_width)-_offsetEdge);
         int y1 = ofRandom(0+_offsetEdge, (_height)-_offsetEdge);
-        map[x1][y1] = *new Tile(false,0,ofVec2f(x1*_tileSize,y1*_tileSize),x1,y1,_tileSize);
+        map[x1][y1].walkable = false; //*new Tile(false,0,ofVec2f(x1*_tileSize,y1*_tileSize),x1,y1,_tileSize);
     }
     
     // Grow the Cloud
@@ -189,7 +189,6 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
 
     
     finderImg = new ofImage();
-//    finderImg->clear();
     finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
@@ -208,6 +207,9 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
             }
         }
     }
+    
+    
+//    pyrUp(toCv(finderImg->getPixels()), _blurredGrayscale);
 }
 //--------------------------------------------------------------
 bool MapGenerator::isInMapRange(int x, int y)
@@ -250,7 +252,7 @@ void MapGenerator::growCloud()
                 }
                 else {
                     for (auto tile : getNeighbouringTiles(map[x][y])) {
-                        bool a = (ofRandom(0,100) < 75) ? true : false;
+                        bool a = (ofRandom(0,100) < 50) ? true : false;
                         map[tile.gridX][tile.gridY].walkable = a;
                     }
                 }
@@ -267,9 +269,9 @@ void MapGenerator::smoothMap()
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             int neighbourWallTiles = getSurroundingTileCount(x,y);
-            if (neighbourWallTiles > 3)
+            if (neighbourWallTiles > 4)
                 map[x][y].walkable = false;
-            else if (neighbourWallTiles < 3)
+            else if (neighbourWallTiles < 4)
                 map[x][y].walkable = true;
         }
     }
@@ -348,7 +350,7 @@ void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
 {
     mapFbo->begin();
         ofClear(0, 0, 0);
-        draw();
+        draw(false);
         glReadPixels(0, 0, _newWidth, _newHeight, GL_RGB, GL_UNSIGNED_BYTE, fboPixels);
     mapFbo->end();
     
@@ -408,18 +410,15 @@ ofImage MapGenerator::getFinderImage()
 // *    Drawing Functions
 // *
 //--------------------------------------------------------------
-void MapGenerator::draw()
+void MapGenerator::draw(bool showGrid)
 {
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
-            map[x][y].showGrid = false;
+            map[x][y].showGrid = showGrid;
             map[x][y].draw();
-           
         }
     }
-
 }
-
 //--------------------------------------------------------------
 void MapGenerator::drawMicroMap()
 {
@@ -445,6 +444,9 @@ void MapGenerator::drawFinderMap(int x, int y)
 //--------------------------------------------------------------
 void MapGenerator::drawEditor()
 {
+//    if (!_blurredGrayscale.empty()) {
+//        drawMat(_blurredGrayscale, 0, 0);
+//    }
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             if (map[x][y].inside(ofGetMouseX(), ofGetMouseY()) && map[x][y].walkable) {
@@ -509,8 +511,8 @@ void MapGenerator::drawComputerVision()
         ofPopMatrix();
     }
     
-    ofSetColor(255, 255, 255);
-//    drawMat(_blurred, _newWidth/2, _newHeight,((_newWidth/2)),((_newHeight/2)));
+//    ofSetColor(255, 255, 255);
+//    drawMat(_blurred, 0, _newHeight,((_newWidth/2)),((_newHeight/2)));
 }
 //--------------------------------------------------------------
 vector<ofPolyline> MapGenerator::getDeadlyOutlines()

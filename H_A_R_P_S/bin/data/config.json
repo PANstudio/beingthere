@@ -1,6 +1,24 @@
 {
    "Maps" : {
       "Difficulty" : {
+         "" : [
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 1,
+               "deadAreaToxicity" : 1,
+               "difficulty" : "",
+               "growthloops" : 2,
+               "height" : 100,
+               "level" : 1,
+               "numberofclouds" : 16,
+               "offsetedge" : 15,
+               "randomseed" : 340,
+               "smoothingloops" : 25,
+               "tilesize" : 5,
+               "timetocomplete" : 5000,
+               "width" : 100
+            }
+         ],
          "GOD LIKE" : [
             {
                "dangerAreaToxicity" : 1,
@@ -274,6 +292,22 @@
                "offsetedge" : 5,
                "randomseed" : 3,
                "smoothingloops" : 5,
+               "tilesize" : 5,
+               "timetocomplete" : 5000,
+               "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 1,
+               "deadAreaToxicity" : 1,
+               "difficulty" : "NOVICE",
+               "growthloops" : 2,
+               "height" : 100,
+               "level" : 4,
+               "numberofclouds" : 16,
+               "offsetedge" : 15,
+               "randomseed" : 340,
+               "smoothingloops" : 25,
                "tilesize" : 5,
                "timetocomplete" : 5000,
                "width" : 100

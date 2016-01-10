@@ -62,31 +62,37 @@ void ofApp::draw()
 {
     ofBackground(0, 0, 0);
 
-    if (_showShaded) {
-        styledMap.drawStyledMap(0, 0);
+//    if (_showShaded) {
+//        styledMap.drawStyledMap(0, 0);
+//    }
+//    else {
+
+//    mapGenerator.drawEditor();
+    if (_Appmode == 2) {
+        mapGenerator.draw(true);
     }
     else {
-        mapGenerator.draw();
+        mapGenerator.draw(false);
     }
+    
+    
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
-    mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
-    
-    if (!drawMapGui) {
-        // Player Status Feedback
-        ofDrawBitmapStringHighlight("Player Status", 510,13);
-        for (int i = 0; i < 3; i++) {
-            ofDrawBitmapString(event[i], 510,40+(i*60));
-        }
-        playerManager.drawPlayerManager();
-        playerManager.drawPlayerHealth(680,20,0.5);
-        
-        ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
-        mapGenerator.drawFinderMap(500, 480);
-    }
 
+    mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
+    playerManager.drawPlayerManager();
+    playerManager.drawPlayerHealth(680,20,0.5);
+    // Player Status Feedback
+    ofDrawBitmapStringHighlight("Player Status", 510,13);
+    for (int i = 0; i < 3; i++) {
+        ofDrawBitmapString(event[i], 510,40+(i*60));
+    }
+    ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
     // Window Layout
     drawWindows();
+
+    mapGenerator.drawFinderMap(500, 480);
+    
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -139,17 +145,23 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-    mapGenerator.mouseOver(x, y);
+    if (_Appmode == 2) {
+        mapGenerator.mouseOver(x, y);
+    }
 }
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)
 {
-    mapGenerator.mouseDragged(x, y, button);
+    if (_Appmode == 2) {
+        mapGenerator.mouseDragged(x, y, button);
+    }
 }
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    mapGenerator.mouseDown(x, y, button);
+    if (_Appmode == 2) {
+        mapGenerator.mouseDown(x, y, button);
+    }
 }
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
@@ -232,20 +244,22 @@ void ofApp::setupGUI()
     
     int spacing = 5;
     gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    gui->setTheme(new ofxDatGuiThemeSmoke());
     gui->addHeader("H_A_R_P_S");
     gui->addFRM(10.0f);
     gui->addBreak();
     
-    gui->addBreak(spacing);
+    gui->addBreak();
     vector<string> AppMode = {"CALIBRATION MODE",
         "EDITOR MODE",
         "GENERATION MODE",
+        "STYLE MODE",
         "OPERATION MODE"
     };
     
     gui->addDropdown("App Mode", AppMode);
     gui->getDropdown("App Mode")->select(0);
-    gui->addBreak(spacing);
+    gui->addBreak();
     
     vector<string> difficulty;
     vector<string> levels = {"1",
@@ -271,19 +285,20 @@ void ofApp::setupGUI()
     gui->getDropdown("Select Difficulty")->select(0);
     gui->getDropdown("Select Difficulty")->collapse();
 
-    gui->addBreak(spacing);
+    gui->addBreak();
     gui->addMatrix("Levels", levels.size(),true);
     gui->getMatrix("Levels")->setRadioMode(true);
 
-    gui->addBreak(spacing);
+    gui->addBreak();
     gui->addToggle("Show Shaded Map");
-    gui->addBreak(spacing);
+    gui->addBreak();
     gui->addButton("Start Level");
     
-    gui->addBreak(spacing);
+    gui->addBreak();
     gui->addButton("Stop Level");
     
     mapGui = new ofxDatGui(501,0);
+    mapGui->setTheme(new ofxDatGuiThemeSmoke());
     mapGui->setWidth(400);
     mapGui->addHeader("Map Generation");
     mapGui->addSlider("Map Width", 0, 100, 0);
@@ -295,21 +310,22 @@ void ofApp::setupGUI()
     mapGui->addSlider("Danger Area Size", 0, 25, 0);
     mapGui->addSlider("Smoothing Loops", 0, 25, 0);
     mapGui->addSlider("Growth Loops", 0, 25, 0);
-    mapGui->addBreak(spacing);
+    mapGui->addBreak();
     mapGui->addButton("Clear Map");
-    mapGui->addBreak(spacing);
+    mapGui->addBreak();
     mapGui->addButton("Generate Map");
-    mapGui->addBreak(spacing);
+    mapGui->addBreak();
     mapGui->addButton("Generate Custom Map");
-    mapGui->addBreak(spacing);
+    mapGui->addBreak();
     mapGui->addButton("Flush Map");
     
-    mapGui->addBreak(spacing+10);
+    mapGui->addBreak();
     mapGui->addHeader("Save Settings");
     mapGui->addDropdown("Set Difficulty", difficulty);
     mapGui->addButton("Save");
     
     cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    cvGui->setTheme(new ofxDatGuiThemeSmoke());
     cvGui->addHeader("Computer Vision Settings");
     cvGui->addSlider("Green Threshold", 0,255,200);
     cvGui->addSlider("Yellow Threshold", 0,255,200);
@@ -319,6 +335,7 @@ void ofApp::setupGUI()
     cvGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
     
     playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    playerGui->setTheme(new ofxDatGuiThemeSmoke());
     playerGui->addHeader("Player Settings");
     playerGui->addSlider("Player Size", 0,25, 10);
     playerGui->addColorPicker("Player Color");
@@ -326,6 +343,7 @@ void ofApp::setupGUI()
     playerGui->addButton("Spawn New Start Posistion");
     
     targetGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+    targetGui->setTheme(new ofxDatGuiThemeSmoke());
     targetGui->addHeader("Target Settings");
     targetGui->addSlider("Target Size", 0,25, 10);
     targetGui->addColorPicker("Target Color");
@@ -334,6 +352,7 @@ void ofApp::setupGUI()
     
     
     calibrationGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    calibrationGui->setTheme(new ofxDatGuiThemeSmoke());
     calibrationGui->addHeader("Calibration Settings");
     calibrationGui->addToggle("From Centre / Top Left", false);
     calibrationGui->addSlider("Grid X", 0,100, 50); // This is CM
@@ -374,17 +393,18 @@ void ofApp::setupGUI()
     
     int offsetX = mapGui->getWidth();
 
-    cvGui->setOrigin(offsetX, (ofGetHeight()-cvGui->getHeight()));
+
+    cvGui->setPosition(offsetX, (ofGetHeight()-cvGui->getHeight()));
 
     offsetX += cvGui->getWidth();
     
-    targetGui->setOrigin(offsetX, (ofGetHeight()-targetGui->getHeight()));
+    targetGui->setPosition(offsetX, (ofGetHeight()-targetGui->getHeight()));
     
     offsetX += targetGui->getWidth();
     
-    playerGui->setOrigin(offsetX, (ofGetHeight()-playerGui->getHeight()));
+    playerGui->setPosition(offsetX, (ofGetHeight()-playerGui->getHeight()));
     
-    calibrationGui->setOrigin(ofGetWidth()-calibrationGui->getWidth(),gui->getHeight());
+    calibrationGui->setPosition(ofGetWidth()-calibrationGui->getWidth(),gui->getHeight());
 }
 //--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)
@@ -484,20 +504,28 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
     if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
+            cout << _Appmode << endl;
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 1;
-            displayWindow->doCalibration(false);
-        }
-        else if (e.target->getLabel() == "OPERATION MODE") {
-            _Appmode = 2;
+            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
-            _Appmode = 3;
+            _Appmode = 2;
+            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
+        else if (e.target->getLabel() == "OPERATION MODE") {
+            _Appmode = 3;
+            cout << _Appmode << endl;
+            displayWindow->doCalibration(false);
+        }
+        
+//        else if (e.target->getLabel() == "OPERATION MODE") {
+//            
+//        }
     }
     else if(e.target->is("Select Difficulty")) {
         _difficulty = e.target->getLabel();
