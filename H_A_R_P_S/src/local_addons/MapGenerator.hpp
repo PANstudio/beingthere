@@ -17,13 +17,14 @@
 #include "MapHelpers.hpp"
 #include "Tile.hpp"
 #include "ofxPathfinder.h"
+#include "SimpleButton.h"
 
 using namespace cv;
 using namespace ofxCv;
 
 class MapGenerator {
 public:
-    
+    void setup();
     void resetMap();
     void update(int blurMap,int iRR[2],int iRY[2],int iRG[2]);
     void generateMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
@@ -67,7 +68,8 @@ public:
     Map getMap(string mapDifficulty,int mapLevel);
     vector<MapDetails> getMapsInfo();
     
-
+    vector<SimpleButton> buttons;
+    
     // To Do
     void saveMap();
     void saveMap(Map m);

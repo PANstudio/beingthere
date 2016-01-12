@@ -8,6 +8,7 @@
 #include "PlayerManager.hpp"
 #include "ScoreBoard.hpp"
 #include "StyledMap.hpp"
+//#include "SimpleButton.h"
 
 class ofApp : public ofBaseApp{
 
@@ -37,7 +38,7 @@ class ofApp : public ofBaseApp{
         // *
         //--------------------------------------------------------------
         shared_ptr<DisplayWindow> displayWindow;
-    
+
         //--------------------------------------------------------------
         // *
         // * Map Generator

@@ -41,7 +41,10 @@ void ofApp::setup()
     setupGUI();
     setupVariables();
     scoreBoard.loadScoreboard("scoreboard.json");
+    
+    mapGenerator.setup();
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
+    
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
     playerManager.getFinderImage(mapGenerator.getFinderImage());
@@ -61,20 +64,15 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
-
-//    if (_showShaded) {
-//        styledMap.drawStyledMap(0, 0);
-//    }
-//    else {
-
-//    mapGenerator.drawEditor();
-    if (_Appmode == 2) {
-        mapGenerator.draw(true);
+    if (_Appmode == 0) {
+        
     }
-    else {
+    else if (_Appmode == 1) {
+        mapGenerator.drawEditor();
+    }
+    else if (_Appmode == 2) {
         mapGenerator.draw(false);
     }
-    
     
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();
@@ -82,12 +80,14 @@ void ofApp::draw()
     mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
     playerManager.drawPlayerManager();
     playerManager.drawPlayerHealth(680,20,0.5);
+
     // Player Status Feedback
     ofDrawBitmapStringHighlight("Player Status", 510,13);
     for (int i = 0; i < 3; i++) {
         ofDrawBitmapString(event[i], 510,40+(i*60));
     }
     ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
+    
     // Window Layout
     drawWindows();
 
@@ -145,21 +145,21 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-    if (_Appmode == 2) {
+    if (_Appmode == 1) {
         mapGenerator.mouseOver(x, y);
     }
 }
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)
 {
-    if (_Appmode == 2) {
+    if (_Appmode == 1) {
         mapGenerator.mouseDragged(x, y, button);
     }
 }
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    if (_Appmode == 2) {
+    if (_Appmode == 1) {
         mapGenerator.mouseDown(x, y, button);
     }
 }
@@ -507,12 +507,12 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
             cout << _Appmode << endl;
             displayWindow->doCalibration(true);
         }
-        else if (e.target->getLabel() == "GENERATION MODE") {
+        else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 1;
             cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
-        else if (e.target->getLabel() == "EDITOR MODE") {
+        else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 2;
             cout << _Appmode << endl;
             displayWindow->doCalibration(false);
