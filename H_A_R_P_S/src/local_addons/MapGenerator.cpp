@@ -23,6 +23,19 @@ void MapGenerator::generateMap(Map m)
     generateMap(m.width, m.height, m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
 }
 //--------------------------------------------------------------
+void MapGenerator::setup()
+{
+    for (int i = 0; i < 14; i++) {
+        if (i < 7) {
+            buttons.push_back(SimpleButton(700, 250+(i*45), 40, 40, i, "", ofColor(255,175)));
+        }
+        else {
+            buttons.push_back(SimpleButton(750, 250+((i-7)*45), 40, 40, i, "", ofColor(255,175)));
+        }
+
+    }
+}
+//--------------------------------------------------------------
 void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
 {
     if (map != nullptr) {
@@ -426,7 +439,6 @@ void MapGenerator::drawMicroMap()
         drawMat(_mapTexture, 0, 0,100,100);
     }
 }
-
 //--------------------------------------------------------------
 void MapGenerator::drawFinderMap(int x, int y)
 {
@@ -444,9 +456,6 @@ void MapGenerator::drawFinderMap(int x, int y)
 //--------------------------------------------------------------
 void MapGenerator::drawEditor()
 {
-//    if (!_blurredGrayscale.empty()) {
-//        drawMat(_blurredGrayscale, 0, 0);
-//    }
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             if (map[x][y].inside(ofGetMouseX(), ofGetMouseY()) && map[x][y].walkable) {
@@ -457,6 +466,10 @@ void MapGenerator::drawEditor()
             }
             map[x][y].draw();
         }
+    }
+    
+    for (int i = 0; i < buttons.size(); i++) {
+        buttons[i].draw();
     }
     ofPushStyle();
     ofSetColor(ofColor::white);
@@ -622,6 +635,13 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
 //--------------------------------------------------------------
 void MapGenerator::mouseDown(int x, int y, int pressed)
 {
+    for (int i = 0; i < buttons.size(); i++) {
+        if (buttons[i].isActive) {
+            buttons[i].isActive = false;
+        }
+        buttons[i].buttonPressed(x, y, pressed);
+    }
+    
     if (pressed == OF_MOUSE_BUTTON_LEFT) {
         for (int x1 = 0; x1 < _width; x1++) {
             for (int y1 = 0; y1 < _height; y1++) {
@@ -671,6 +691,10 @@ void MapGenerator::mouseReleased(int x, int y, int pressed)
 //--------------------------------------------------------------
 void MapGenerator::mouseOver(int x,int y)
 {
+    for (int i = 0; i < buttons.size(); i++) {
+        buttons[i].mouseOver(x, y);
+    }
+    
     for (int x1 = 0; x1 < _width; x1++) {
         for (int y1 = 0; y1 < _height; y1++) {
             if (map[x1][y1].inside(x, y)) {
