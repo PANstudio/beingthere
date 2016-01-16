@@ -479,6 +479,16 @@ void MapGenerator::drawEditor()
     ofSetColor(255, 255, 255);
     ofDrawLine(ofGetMouseX(), ofGetMouseY()-10, ofGetMouseX(), ofGetMouseY()+10);
     ofDrawLine(ofGetMouseX()-10, ofGetMouseY(), ofGetMouseX()+10, ofGetMouseY());
+    
+    if (ofGetMouseX() < _width*_tileSize && ofGetMouseY() < _height*_tileSize) {
+        ofPushStyle();
+        ofNoFill();
+        ofSetColor(0, 0, 0);
+        ofSetLineWidth(2);
+        ofDrawRectangle(ofGetMouseX()-((_tileSize*3)/2), ofGetMouseY()-((_tileSize*3)/2), (_tileSize*3), (_tileSize*3));
+        ofPopStyle();
+    }
+    
 }
 //--------------------------------------------------------------
 void MapGenerator::drawComputerVision()
@@ -637,7 +647,7 @@ void MapGenerator::mouseDown(int x, int y, int pressed)
 {
     for (int i = 0; i < buttons.size(); i++) {
         if (buttons[i].isActive) {
-            buttons[i].isActive = false;
+//            buttons[i].isActive = false;
         }
         buttons[i].buttonPressed(x, y, pressed);
     }
@@ -646,7 +656,12 @@ void MapGenerator::mouseDown(int x, int y, int pressed)
         for (int x1 = 0; x1 < _width; x1++) {
             for (int y1 = 0; y1 < _height; y1++) {
                 if (map[x1][y1].inside(x, y)){
-                    map[x1][y1].walkable = false;
+                    for (int iX = -1; iX <= 1; iX++) {
+                        for (int iY = -1; iY <= 1; iY++) {
+                            map[x1+iX][y1+iY].walkable = false;
+                            map[x1+iX][y1+iY].toxicity = 0;
+                        }
+                    }
                 }
             }
         }
@@ -655,7 +670,13 @@ void MapGenerator::mouseDown(int x, int y, int pressed)
         for (int x1 = 0; x1 < _width; x1++) {
             for (int y1 = 0; y1 < _height; y1++) {
                 if (map[x1][y1].inside(x, y)){
-                    map[x1][y1].walkable = true;
+                    for (int iX = -1; iX <= 1; iX++) {
+                        for (int iY = -1; iY <= 1; iY++) {
+                            map[x1+iX][y1+iY].walkable = true;
+                            map[x1+iX][y1+iY].toxicity = 0;
+                            
+                        }
+                    }
                 }
             }
         }
@@ -668,7 +689,12 @@ void MapGenerator::mouseDragged(int x, int y, int pressed)
         for (int x1 = 0; x1 < _width; x1++) {
             for (int y1 = 0; y1 < _height; y1++) {
                 if (map[x1][y1].inside(x, y)){
-                    map[x1][y1].walkable = false;
+                    for (int iX = -1; iX <= 1; iX++) {
+                        for (int iY = -1; iY <= 1; iY++) {
+                            map[x1+iX][y1+iY].walkable = false;
+                            map[x1+iX][y1+iY].toxicity = 0;
+                        }
+                    }
                 }
             }
         }
@@ -677,7 +703,12 @@ void MapGenerator::mouseDragged(int x, int y, int pressed)
         for (int x1 = 0; x1 < _width; x1++) {
             for (int y1 = 0; y1 < _height; y1++) {
                 if (map[x1][y1].inside(x, y)){
-                    map[x1][y1].walkable = true;
+                    for (int iX = -1; iX <= 1; iX++) {
+                        for (int iY = -1; iY <= 1; iY++) {
+                            map[x1+iX][y1+iY].walkable = true;
+                            map[x1+iX][y1+iY].toxicity = 0;
+                        }
+                    }
                 }
             }
         }

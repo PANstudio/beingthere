@@ -215,6 +215,7 @@ public:
             isActive = !isActive;
         }
     }
+    
     bool isActive = false;
     bool isOver = false;
 private:
