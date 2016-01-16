@@ -101,7 +101,7 @@ void Tile::draw()
     ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
     
     if (highlighted) {
-        ofSetColor(ofColor::aqua);
+        ofSetColor(ofColor::chocolate);
         ofDrawRectangle(this->getX(),this->getY(),this->getWidth(),this->getHeight());
         
     }
