@@ -105,3 +105,4 @@ MapStyler/src/getEmotions.hpp
 MapStyler/src/main.cpp
 MapStyler/src/ofApp.cpp
 MapStyler/src/ofApp.h
+*.pxm
