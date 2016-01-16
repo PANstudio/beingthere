@@ -43,19 +43,7 @@ struct ScoreboardElements {
     int objects;
     int toxicity;
     string timestamp;
-    
-//    bool sortByCompletion(ScoreboardElements a,ScoreboardElements b) { return a.didComplete > b.didComplete; }
-////    bool sortByRemaining(ScoreboardElements a,ScoreboardElements b) { return a.healthRemaining > b.healthRemaining; }
-//    bool operator < (ScoreboardElements a, ScoreboardElements b) const { return (a.healthRemaining < b.healthRemaining); }
-
 };
-
-//struct check{
-//    inline bool operator < (const ScoreboardElements a,ScoreboardElements b)
-//    {
-//        return (a.healthRemaining < b.healthRemaining);
-//    }
-//};
 
 //----------------------------------------------------------
 class Scoreboard {

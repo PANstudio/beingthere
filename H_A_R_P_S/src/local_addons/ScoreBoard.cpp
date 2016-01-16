@@ -21,15 +21,15 @@ void Scoreboard::loadScoreboard(string file)
         int numberOfEntries = scoreBoard["data"].size();
         for (int i = 0; i < numberOfEntries; i++) {
             scoreBoardData.push_back(ScoreboardElements(scoreBoard["data"][i]["playername"].asString(),
-                                                                           scoreBoard["data"][i]["didcomplete"].asBool(),
-                                                                           scoreBoard["data"][i]["location"].asString(),
-                                                                           scoreBoard["data"][i]["timecompleted"].asString(),
-                                                                           scoreBoard["data"][i]["healthremaining"].asInt(),
-                                                                           scoreBoard["data"][i]["difficult"].asInt(),
-                                                                           scoreBoard["data"][i]["level"].asInt(),
-                                                                           scoreBoard["data"][i]["objects"].asInt(),
-                                                                           scoreBoard["data"][i]["toxicity"].asInt(),
-                                                                           scoreBoard["data"][i]["timestamp"].asString())
+                                        scoreBoard["data"][i]["didcomplete"].asBool(),
+                                        scoreBoard["data"][i]["location"].asString(),
+                                        scoreBoard["data"][i]["timecompleted"].asString(),
+                                        scoreBoard["data"][i]["healthremaining"].asInt(),
+                                        scoreBoard["data"][i]["difficult"].asInt(),
+                                        scoreBoard["data"][i]["level"].asInt(),
+                                        scoreBoard["data"][i]["objects"].asInt(),
+                                        scoreBoard["data"][i]["toxicity"].asInt(),
+                                        scoreBoard["data"][i]["timestamp"].asString())
                                      );
         }
     }
@@ -81,11 +81,6 @@ void Scoreboard::sortByLocation()
 {
     
 }
-////----------------------------------------------------------
-//bool Scoreboard::sortByRemaining(const ScoreboardElements a,const ScoreboardElements b)
-//{
-//    return a.healthRemaining > b.healthRemaining;
-//}
 //----------------------------------------------------------
 void Scoreboard::sortByHealth()
 {
