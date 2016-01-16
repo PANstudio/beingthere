@@ -34,6 +34,7 @@ void MapGenerator::setup()
         }
 
     }
+    whichButton = 0;
 }
 //--------------------------------------------------------------
 void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
@@ -645,36 +646,36 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
 //--------------------------------------------------------------
 void MapGenerator::mouseDown(int x, int y, int pressed)
 {
-    for (int i = 0; i < buttons.size(); i++) {
-        if (buttons[i].isActive) {
-//            buttons[i].isActive = false;
+    if (x > _width*_tileSize || y > _height*_tileSize) {
+        for (int i = 0; i < buttons.size(); i++) {
+            if (buttons[i].isActive) {
+                buttons[i].isActive = false;
+            }
+            buttons[i].buttonPressed(x, y, pressed);
         }
-        buttons[i].buttonPressed(x, y, pressed);
+        
+        for (int i = 0; i < buttons.size(); i++) {
+            if (buttons[i].isActive) {
+                whichButton = i;
+            }
+        }
     }
-    
     if (pressed == OF_MOUSE_BUTTON_LEFT) {
         for (int x1 = 0; x1 < _width; x1++) {
             for (int y1 = 0; y1 < _height; y1++) {
                 if (map[x1][y1].inside(x, y)){
-                    for (int iX = -1; iX <= 1; iX++) {
-                        for (int iY = -1; iY <= 1; iY++) {
-                            map[x1+iX][y1+iY].walkable = false;
-                            map[x1+iX][y1+iY].toxicity = 0;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    else if (pressed == OF_MOUSE_BUTTON_RIGHT) {
-        for (int x1 = 0; x1 < _width; x1++) {
-            for (int y1 = 0; y1 < _height; y1++) {
-                if (map[x1][y1].inside(x, y)){
-                    for (int iX = -1; iX <= 1; iX++) {
-                        for (int iY = -1; iY <= 1; iY++) {
-                            map[x1+iX][y1+iY].walkable = true;
-                            map[x1+iX][y1+iY].toxicity = 0;
-                            
+                    int counter = 0;
+                    for (int iY = -1; iY <= 1; iY++) {
+                        for (int iX = -1; iX <= 1; iX++) {
+                            if (buttons[whichButton].getConfig()[counter] == 1) {
+                                map[x1+iX][y1+iY].walkable = false;
+                                map[x1+iX][y1+iY].toxicity = 0;
+                            }
+                            else {
+                                map[x1+iX][y1+iY].walkable = true;
+                                map[x1+iX][y1+iY].toxicity = 0;
+                            }
+                            counter++;
                         }
                     }
                 }
@@ -689,24 +690,18 @@ void MapGenerator::mouseDragged(int x, int y, int pressed)
         for (int x1 = 0; x1 < _width; x1++) {
             for (int y1 = 0; y1 < _height; y1++) {
                 if (map[x1][y1].inside(x, y)){
-                    for (int iX = -1; iX <= 1; iX++) {
-                        for (int iY = -1; iY <= 1; iY++) {
-                            map[x1+iX][y1+iY].walkable = false;
-                            map[x1+iX][y1+iY].toxicity = 0;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    else if (pressed == OF_MOUSE_BUTTON_RIGHT) {
-        for (int x1 = 0; x1 < _width; x1++) {
-            for (int y1 = 0; y1 < _height; y1++) {
-                if (map[x1][y1].inside(x, y)){
-                    for (int iX = -1; iX <= 1; iX++) {
-                        for (int iY = -1; iY <= 1; iY++) {
-                            map[x1+iX][y1+iY].walkable = true;
-                            map[x1+iX][y1+iY].toxicity = 0;
+                    int counter = 0;
+                    for (int iY = -1; iY <= 1; iY++) {
+                        for (int iX = -1; iX <= 1; iX++) {
+                            if (buttons[whichButton].getConfig()[counter] == 1) {
+                                map[x1+iX][y1+iY].walkable = false;
+                                map[x1+iX][y1+iY].toxicity = 0;
+                            }
+                            else {
+                                map[x1+iX][y1+iY].walkable = true;
+                                map[x1+iX][y1+iY].toxicity = 0;
+                            }
+                            counter++;
                         }
                     }
                 }

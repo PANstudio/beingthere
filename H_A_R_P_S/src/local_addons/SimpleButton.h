@@ -215,17 +215,62 @@ public:
             isActive = !isActive;
         }
     }
+    int* getConfig() {
+        if (_config == 0) {
+            return config_1;
+        }
+        else if (_config == 1) {
+            return config_2;
+        }
+        else if (_config == 2) {
+            return config_3;
+        }
+        else if (_config == 3) {
+            return config_4;
+        }
+        else if (_config == 4) {
+            return config_5;
+        }
+        else if (_config == 5) {
+            return config_6;
+        }
+        else if (_config == 6) {
+            return config_7;
+        }
+        else if (_config == 7) {
+            return config_8;
+        }
+        else if (_config == 8) {
+            return config_9;
+        }
+        else if (_config == 9) {
+            return config_10;
+        }
+        else if (_config == 10) {
+            return config_11;
+        }
+        else if (_config == 11) {
+            return config_12;
+        }
+        else if (_config == 12) {
+            return config_13;
+        }
+        else if (_config == 13) {
+            return config_14;
+        }
+        else if (_config == 14) {
+            return config_15;
+        }
+    }
     
     bool isActive = false;
     bool isOver = false;
+    int _config;
 private:
-
+    
     ofColor standardColor;
     string buttonName;
-
     deque <ofRectangle> rects;
-    
-    int _config;
     
     int config_1[9] = {0,0,0,
                        0,0,0,

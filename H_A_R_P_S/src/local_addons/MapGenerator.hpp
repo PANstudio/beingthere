@@ -124,7 +124,7 @@ private:
     vector <vector<Map> > maps;
     
 protected:
-    
+    int whichButton;
     
 };
 
