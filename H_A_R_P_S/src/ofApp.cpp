@@ -37,10 +37,12 @@ void ofApp::setupVariables()
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     setupGUI();
     setupVariables();
+    
     scoreBoard.loadScoreboard("scoreboard.json");
+    scoreBoard.setup();
     
     mapGenerator.setup();
     mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
@@ -48,6 +50,7 @@ void ofApp::setup()
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
     playerManager.getFinderImage(mapGenerator.getFinderImage());
+    
     countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
     styledMap.setup(500,500);
 }
@@ -92,6 +95,7 @@ void ofApp::draw()
     drawWindows();
 
     mapGenerator.drawFinderMap(500, 480);
+    scoreBoard.draw(500, 500);
     
 }
 //--------------------------------------------------------------

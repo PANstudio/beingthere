@@ -258,6 +258,8 @@
 		637723B91C2624810081998C /* StyledMap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StyledMap.hpp; path = src/local_addons/StyledMap.hpp; sourceTree = "<group>"; };
 		637723BB1C2625190081998C /* ScoreBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScoreBoard.cpp; path = src/local_addons/ScoreBoard.cpp; sourceTree = "<group>"; };
 		637723BC1C2625190081998C /* ScoreBoard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ScoreBoard.hpp; path = src/local_addons/ScoreBoard.hpp; sourceTree = "<group>"; };
+		639217191C4AE72600962DB6 /* scoreboard.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = scoreboard.json; path = bin/data/scoreboard.json; sourceTree = "<group>"; };
+		6392171A1C4AE9EB00962DB6 /* ScoreboardButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScoreboardButton.h; path = src/local_addons/ScoreboardButton.h; sourceTree = "<group>"; };
 		639756A71C1E373B00B512AD /* MapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapGenerator.cpp; path = src/local_addons/MapGenerator.cpp; sourceTree = "<group>"; };
 		639756A81C1E373B00B512AD /* MapGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapGenerator.hpp; path = src/local_addons/MapGenerator.hpp; sourceTree = "<group>"; };
 		639756A91C1E373B00B512AD /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = src/local_addons/MyTimer.cpp; sourceTree = "<group>"; };
@@ -937,6 +939,7 @@
 				639756B01C1E373B00B512AD /* RobotManager.hpp */,
 				637723BB1C2625190081998C /* ScoreBoard.cpp */,
 				637723BC1C2625190081998C /* ScoreBoard.hpp */,
+				6392171A1C4AE9EB00962DB6 /* ScoreboardButton.h */,
 				637244351C20DB17002F7BD5 /* DisplayWindow.cpp */,
 				637244361C20DB17002F7BD5 /* DisplayWindow.hpp */,
 				6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */,
@@ -1345,6 +1348,7 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				639217191C4AE72600962DB6 /* scoreboard.json */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,

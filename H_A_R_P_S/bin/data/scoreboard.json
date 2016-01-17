@@ -23,6 +23,18 @@
             "objects":50,
             "toxicity":15,
             "timestamp":"2015-12-19"
-        }
- ]   
+         },
+         {
+         "playername": "Harry",
+         "didcomplete": true,
+         "location": "here2",
+         "timecompleted": "100",
+         "healthremaining": 300,
+         "difficulty": 2,
+         "level": 2,
+         "objects":23,
+         "toxicity":11,
+         "timestamp":"2015-12-19"
+         }
+ ]
 }
