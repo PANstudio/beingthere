@@ -14,6 +14,7 @@
 #include "ofMain.h"
 #include "ofxTween.h"
 #include "ofxJSON.h"
+#include "ScoreboardButton.h"
 
 //----------------------------------------------------------
 struct ScoreboardElements {
@@ -54,13 +55,16 @@ public:
     void draw(int x, int y);
     void addNewPlayerToBoard(ScoreboardElements elements);
 
-    void sortQuickestComplete();
-    void sortMostObjects();
-    void sortByDate();
-    void sortByLocation();
-    void sortByHealth();
+    deque <ScoreboardButton> buttons;
     
-//    bool sortByRemaining(const ScoreboardElements a,const ScoreboardElements b);
+    void sortByQuickest(bool acendingOrder);
+    void sortByPlayerName(bool acendingOrder);
+    void sortByObsticles(bool acendingOrder);
+    void sortByDifficultly(bool acendingOrder);
+    void sortByDate(bool acendingOrder);
+    void sortByLocation(bool acendingOrder);
+    void sortByHealth(bool acendingOrder);
+    
 private:
     deque<ScoreboardElements> scoreBoardData;
 };
