@@ -47,6 +47,7 @@
 		639756BA1C1E373B00B512AD /* TargetTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B11C1E373B00B512AD /* TargetTile.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756BB1C1E373B00B512AD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B31C1E373B00B512AD /* Tile.cpp */; settings = {ASSET_TAGS = (); }; };
 		63EA95F31C336E2900721819 /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63EA95F01C336E2900721819 /* ofxBlurShader.cpp */; settings = {ASSET_TAGS = (); }; };
+		63FB3E641C4BEDC30006421A /* ofxSpreadsheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */; settings = {ASSET_TAGS = (); }; };
 		6C06F287580ED82420253165 /* ObjectFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6B65A774AC83F4FC4103DEF /* ObjectFinder.cpp */; };
 		6C2E89161CA335E9F476A206 /* Flow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4192C0B6E450B11BF26797F /* Flow.cpp */; };
 		72BABC6CF54D263B2D4E2895 /* Kalman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2668E5B55A315A73B7296637 /* Kalman.cpp */; };
@@ -277,6 +278,8 @@
 		639756BD1C1E48F700B512AD /* MapHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapHelpers.hpp; path = src/local_addons/MapHelpers.hpp; sourceTree = "<group>"; };
 		63EA95F01C336E2900721819 /* ofxBlurShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBlurShader.cpp; sourceTree = "<group>"; };
 		63EA95F11C336E2900721819 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
+		63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSpreadsheet.cpp; sourceTree = "<group>"; };
+		63FB3E631C4BEDC30006421A /* ofxSpreadsheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSpreadsheet.h; sourceTree = "<group>"; };
 		64533C6393690A7DBCD80E53 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscReceivedElements.cpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
 		68F884DFC13F1F62FDACFF39 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../../of_v0.9.0_osx_release/addons/ofxTween/src/Easings/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 		69738835B97CF1499649CB8D /* matchers.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = matchers.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/detail/matchers.hpp; sourceTree = SOURCE_ROOT; };
@@ -904,6 +907,24 @@
 			path = ../../../../of_v0.9.0_osx_release/addons/ofxBlurShader/libs;
 			sourceTree = "<group>";
 		};
+		63FB3E601C4BEDC30006421A /* ofxSpreadsheet */ = {
+			isa = PBXGroup;
+			children = (
+				63FB3E611C4BEDC30006421A /* src */,
+			);
+			name = ofxSpreadsheet;
+			sourceTree = "<group>";
+		};
+		63FB3E611C4BEDC30006421A /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */,
+				63FB3E631C4BEDC30006421A /* ofxSpreadsheet.h */,
+			);
+			name = src;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxSpreadsheet/src;
+			sourceTree = "<group>";
+		};
 		641362CA659FAFEE4E81001B /* posix */ = {
 			isa = PBXGroup;
 			children = (
@@ -1173,6 +1194,7 @@
 				63EA95EE1C336E2900721819 /* ofxBlurShader */,
 				632D97C71C37663E00F4792E /* ofxPathfinder */,
 				635E7E451C3C68DF008ACD32 /* ofxDatGui */,
+				63FB3E601C4BEDC30006421A /* ofxSpreadsheet */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1544,6 +1566,7 @@
 				72BABC6CF54D263B2D4E2895 /* Kalman.cpp in Sources */,
 				6C06F287580ED82420253165 /* ObjectFinder.cpp in Sources */,
 				8404ECA137AE7A6B62329BA6 /* RunningBackground.cpp in Sources */,
+				63FB3E641C4BEDC30006421A /* ofxSpreadsheet.cpp in Sources */,
 				635E7E5F1C3C68DF008ACD32 /* ofxDatGuiComponent.cpp in Sources */,
 				73DE68F015CBE423FCE122A0 /* Tracker.cpp in Sources */,
 				9A6686A968B6E92EBDA0EEEF /* Utilities.cpp in Sources */,

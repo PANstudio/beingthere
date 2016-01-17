@@ -76,6 +76,9 @@ void ofApp::draw()
     else if (_Appmode == 2) {
         mapGenerator.draw(false);
     }
+    else if (_Appmode == 3) {
+        mapGenerator.draw(false);
+    }
     
     mapGenerator.drawComputerVision();
     mapGenerator.drawPolylines();

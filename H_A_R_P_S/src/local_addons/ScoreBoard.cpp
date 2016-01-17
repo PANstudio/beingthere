@@ -32,6 +32,25 @@ void Scoreboard::loadScoreboard(string file)
                                         scoreBoard["data"][i]["timestamp"].asString())
                                      );
         }
+        
+        vector<string> header;
+        header.push_back("playerName");
+        header.push_back("didComplete");
+        header.push_back("location");
+        header.push_back("timeCompleted");
+        header.push_back("healthRemaining");
+        header.push_back("difficulty");
+        header.push_back("level");
+        header.push_back("objects");
+        header.push_back("toxicity");
+        header.push_back("timestamp");
+        
+        spreadsheet.setHeaders(header);
+        
+        for (int i = 0; i < scoreBoardData.size(); i++) {
+            spreadsheet.addEntry(scoreBoardData[i].getDetails());
+        }
+        
     }
 }
 //----------------------------------------------------------
@@ -44,6 +63,7 @@ void Scoreboard::setup()
                 count++;
             }
         }
+    spreadsheet.setup(500, 500, 10, 20);
 }
 //----------------------------------------------------------
 void Scoreboard::update()
@@ -53,18 +73,19 @@ void Scoreboard::update()
 //----------------------------------------------------------
 void Scoreboard::draw(int x, int y)
 {
-    stringstream boardData;
-    boardData << "---------------------------------------------" << endl;
-    for (auto data : scoreBoardData) {
-        boardData << "| " <<  data.playerName << " " << data.didComplete << " " << data.timeCompleted << " " << data.objects << " " << data.healthRemaining << " " << data.location << " " << data.timestamp << " |" << endl;
-    }
-    boardData << "---------------------------------------------" << endl;
-    ofSetColor(ofColor::ivory);
-    ofDrawBitmapString(boardData.str(), x,y);
+//    stringstream boardData;
+//    boardData << "---------------------------------------------" << endl;
+//    for (auto data : scoreBoardData) {
+//        boardData << "| " <<  data.playerName << " " << data.didComplete << " " << data.timeCompleted << " " << data.objects << " " << data.healthRemaining << " " << data.location << " " << data.timestamp << " |" << endl;
+//    }
+//    boardData << "---------------------------------------------" << endl;
+//    ofSetColor(ofColor::ivory);
+//    ofDrawBitmapString(boardData.str(), x,y);
     
     for (int i = 0; i < buttons.size(); i++) {
         buttons[i].draw();
     }
+    spreadsheet.draw();
 }
 //----------------------------------------------------------
 void Scoreboard::addNewPlayerToBoard(ScoreboardElements elements)

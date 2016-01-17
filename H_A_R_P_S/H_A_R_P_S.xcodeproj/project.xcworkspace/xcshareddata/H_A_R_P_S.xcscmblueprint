@@ -4,20 +4,27 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "5DB7C332A3A89035E93556A2A38BF414005BA671" : 0,
+    "7792F5AE7090BC2984A3600595150D6E08106727" : 0,
     "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : 0,
-    "7792F5AE7090BC2984A3600595150D6E08106727" : 0
+    "1A53E27D85D76A0A4431130E1DC76F54EED9EC13" : 0,
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "711036BD-4C96-41A8-9444-F070797FE4DA",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "5DB7C332A3A89035E93556A2A38BF414005BA671" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxJSON",
+    "7792F5AE7090BC2984A3600595150D6E08106727" : "HARPS\/",
     "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxDatGui",
-    "7792F5AE7090BC2984A3600595150D6E08106727" : "HARPS\/"
+    "1A53E27D85D76A0A4431130E1DC76F54EED9EC13" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxSpreadsheet",
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxJSON"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "H_A_R_P_S",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "H_A_R_P_S\/H_A_R_P_S.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/DHaylock\/ofxSpreadsheet.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1A53E27D85D76A0A4431130E1DC76F54EED9EC13"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jefftimesten\/ofxJSON.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",

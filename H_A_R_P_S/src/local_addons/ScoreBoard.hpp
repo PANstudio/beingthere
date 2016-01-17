@@ -15,6 +15,7 @@
 #include "ofxTween.h"
 #include "ofxJSON.h"
 #include "ScoreboardButton.h"
+#include "ofxSpreadsheet.h"
 
 //----------------------------------------------------------
 struct ScoreboardElements {
@@ -32,7 +33,20 @@ struct ScoreboardElements {
         toxicity = _toxicity;
         timestamp = _timestamp;
     }
-    
+    vector <string> getDetails() {
+        vector<string> detail;
+        detail.push_back(playerName);
+        detail.push_back(ofToString(didComplete));
+        detail.push_back(location);
+        detail.push_back(timeCompleted);
+        detail.push_back(ofToString(healthRemaining));
+        detail.push_back(ofToString(difficulty));
+        detail.push_back(ofToString(level));
+        detail.push_back(ofToString(objects));
+        detail.push_back(ofToString(toxicity));
+        detail.push_back(timestamp);
+        return detail;
+    }
     
     string playerName;
     bool didComplete;
@@ -67,5 +81,6 @@ public:
     
 private:
     deque<ScoreboardElements> scoreBoardData;
+    ofxSpreadsheet spreadsheet;
 };
 #endif /* ScoreBoard_hpp */
