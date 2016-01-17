@@ -14,7 +14,7 @@ void ofApp::setupVariables()
     _growthNo = 10;
     _smooth = 5;
     _offsetEdge = 5;
-    _Appmode = 1;
+    _Appmode = 3;
     _numberOfXLines = 10;
     _numberOfYLines = 10;
     _spacingX = 10;
@@ -32,6 +32,7 @@ void ofApp::setupVariables()
     for(int i = 0; i < 10; i ++) {
         event[i] = "Player ";
     }
+    heading.load("ofxdatgui_assets/font-verdana.ttf",20);
 }
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -68,38 +69,37 @@ void ofApp::draw()
 {
     ofBackground(0, 0, 0);
     if (_Appmode == 0) {
-        
+        mode = "Calibration Mode";
     }
     else if (_Appmode == 1) {
         mapGenerator.drawEditor();
+        mapGenerator.drawComputerVision();
+        mode = "Editor Mode";
     }
     else if (_Appmode == 2) {
         mapGenerator.draw(false);
+        mapGenerator.drawPolylines();
+        mode = "Generation Mode";
     }
     else if (_Appmode == 3) {
         mapGenerator.draw(false);
+        mapGenerator.drawFinderMap(800, 400);
+        scoreBoard.draw(500, 500);
+        // Player Status Feedback
+        ofDrawBitmapStringHighlight("Player Status", 510,13);
+        for (int i = 0; i < 3; i++) {
+            ofDrawBitmapString(event[i], 510,40+(i*60));
+        }
+        ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
+        mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
+        playerManager.drawPlayerManager();
+        playerManager.drawPlayerHealth(680,20,0.5);
+        mode = "Operation Mode";
     }
-    
-    mapGenerator.drawComputerVision();
-    mapGenerator.drawPolylines();
-
-    mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
-    playerManager.drawPlayerManager();
-    playerManager.drawPlayerHealth(680,20,0.5);
-
-    // Player Status Feedback
-    ofDrawBitmapStringHighlight("Player Status", 510,13);
-    for (int i = 0; i < 3; i++) {
-        ofDrawBitmapString(event[i], 510,40+(i*60));
-    }
-    ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
-    
+    ofSetColor(ofColor::white);
+    heading.drawString(mode, 15, 530);
     // Window Layout
     drawWindows();
-
-    mapGenerator.drawFinderMap(500, 480);
-    scoreBoard.draw(500, 500);
-    
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -226,8 +226,8 @@ void ofApp::drawWindows()
     ofSetColor(ofColor::ivory);
     if (!drawMapGui) {
         ofDrawRectangle(0, 0, 400, 250);
-        ofDrawRectangle(0, 250, 400, 300);
-        ofDrawBitmapStringHighlight(feedBackMap, 5, 265);
+        ofDrawRectangle(0, 250, 400, 250);
+        ofDrawBitmapString(feedBackMap, 5, 265);
     }
     else {
         ofDrawRectangle(0, 0, 400, mapGui->getHeight());
@@ -529,10 +529,6 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
             cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
-        
-//        else if (e.target->getLabel() == "OPERATION MODE") {
-//            
-//        }
     }
     else if(e.target->is("Select Difficulty")) {
         _difficulty = e.target->getLabel();

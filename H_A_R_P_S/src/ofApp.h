@@ -75,7 +75,7 @@ class ofApp : public ofBaseApp{
         int _blur;
         string feedBackMap;
         string saveDifficultly;
-    
+        string mode;
         //--------------------------------------------------------------
         // *
         // * Other Objects
@@ -90,6 +90,7 @@ class ofApp : public ofBaseApp{
         StyledMap styledMap;
     
         bool _showShaded;
+        ofTrueTypeFont heading;
         //--------------------------------------------------------------
         // *
         // * GUI
