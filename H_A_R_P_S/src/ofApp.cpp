@@ -38,7 +38,7 @@ void ofApp::setupVariables()
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     setupGUI();
     setupVariables();
     
