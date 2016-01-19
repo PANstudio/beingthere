@@ -107,7 +107,6 @@ class ofApp : public ofBaseApp{
         // GUI Objects
         ofxDatGui * gui;
         ofxDatGui * mapGui;
-        ofxDatGui * cvGui;
         ofxDatGui * playerGui;
         ofxDatGui * targetGui;
         ofxDatGui * calibrationGui;

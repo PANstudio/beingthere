@@ -107,7 +107,6 @@ void ofApp::exit()
     // Delete GUI Objects
     delete gui;
     delete mapGui;
-    delete cvGui;
     delete playerGui;
     delete targetGui;
     delete calibrationGui;
@@ -123,10 +122,6 @@ void ofApp::keyPressed(int key)
         case 'm':
             drawMapGui = !drawMapGui;
             mapGui->setVisible(drawMapGui);
-            break;
-        case 'v':
-            drawCvGui = !drawCvGui;
-            cvGui->setVisible(drawCvGui);
             break;
         case 't':
             drawTargetGui = !drawTargetGui;
@@ -318,6 +313,14 @@ void ofApp::setupGUI()
     mapGui->addSlider("Smoothing Loops", 0, 25, 0);
     mapGui->addSlider("Growth Loops", 0, 25, 0);
     mapGui->addBreak();
+    mapGui->addHeader("Computer Vision Settings");
+    mapGui->addSlider("Green Threshold", 0,255,200);
+    mapGui->addSlider("Yellow Threshold", 0,255,200);
+    mapGui->addSlider("Red Threshold", 0,255,200);
+    
+    mapGui->addSlider("Blur Amount", 0, 21,9);
+    mapGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
+    
     mapGui->addButton("Clear Map");
     mapGui->addBreak();
     mapGui->addButton("Generate Map");
@@ -331,15 +334,7 @@ void ofApp::setupGUI()
     mapGui->addDropdown("Set Difficulty", difficulty);
     mapGui->addButton("Save");
     
-    cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-    cvGui->setTheme(new ofxDatGuiThemeSmoke());
-    cvGui->addHeader("Computer Vision Settings");
-    cvGui->addSlider("Green Threshold", 0,255,200);
-    cvGui->addSlider("Yellow Threshold", 0,255,200);
-    cvGui->addSlider("Red Threshold", 0,255,200);
-    
-    cvGui->addSlider("Blur Amount", 0, 21,9);
-    cvGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
+
     
     playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
     playerGui->setTheme(new ofxDatGuiThemeSmoke());
@@ -379,31 +374,24 @@ void ofApp::setupGUI()
     mapGui->getButton("Clear Map")->setStripeColor(ofColor::mediumPurple);
     mapGui->getButton("Generate Map")->setStripeColor(ofColor::red);
     
-    cvGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
-    cvGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
-    cvGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
+    mapGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
+    mapGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
+    mapGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
     calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
     
 
     setGuiListeners(gui);
     setGuiListeners(mapGui);
-    setGuiListeners(cvGui);
     setGuiListeners(playerGui);
     setGuiListeners(targetGui);
     setGuiListeners(calibrationGui);
 
     mapGui->setVisible(false);
-    cvGui->setVisible(false);
     playerGui->setVisible(false);
     targetGui->setVisible(false);
     calibrationGui->setVisible(false);
     
     int offsetX = mapGui->getWidth();
-
-
-    cvGui->setPosition(offsetX, (ofGetHeight()-cvGui->getHeight()));
-
-    offsetX += cvGui->getWidth();
     
     targetGui->setPosition(offsetX, (ofGetHeight()-targetGui->getHeight()));
     
