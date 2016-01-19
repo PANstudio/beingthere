@@ -26,6 +26,7 @@ class MapGenerator {
 public:
     void setup();
     void resetMap();
+    void clearMap();
     void update(int blurMap,int iRR[2],int iRY[2],int iRG[2]);
     void generateMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
     void generateMap(Map m);

@@ -18,6 +18,17 @@ void MapGenerator::resetMap()
     delete map;
 }
 //--------------------------------------------------------------
+void MapGenerator::clearMap()
+{
+    // Make the Map Walkable
+    for (int x = 0; x < _width; x ++) {
+        for (int y = 0; y < _height; y ++) {
+            map[x][y].walkable = true;
+            map[x][y].toxicity = 0;
+        }
+    }
+}
+//--------------------------------------------------------------
 void MapGenerator::generateMap(Map m)
 {
     generateMap(m.width, m.height, m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
@@ -37,17 +48,16 @@ void MapGenerator::setup()
     whichButton = 0;
 }
 //--------------------------------------------------------------
-void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
+void MapGenerator::generateCustomMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
 {
-    if (map != nullptr) {
-        resetMap();
-    }
+//    if (map != nullptr) {
+//        resetMap();
+//    }
     
     // Set Variables
     _width = width;
     _height = height;
     _offsetEdge = offsetEdge;
-    _numberOfClouds = numberOfClouds;
     _dangerAreaSize = dangerAreaSize;
     _tileSize = tileSize;
     
@@ -68,34 +78,11 @@ void MapGenerator::generateCustomMap(int width, int height, int offsetEdge, int 
         ofClear(0, 0, 0);
     mapFbo->end();
     
-    map = new Tile*[width];
-    for (int x = 0; x < width; x++)
-        map[x] = new Tile[height];
     
-    ofSeedRandom(seedValue);
-    
-    // Make the Map Walkable
-    for (int x = 0; x < _width; x ++) {
-        for (int y = 0; y < _height; y ++) {
-            map[x][y] = *new Tile(true,0,ofVec2f(x*_tileSize,y*_tileSize),x,y,_tileSize);
-        }
-    }
-    
-    for (int i = 0; i < _numberOfClouds; i++) {
-        int x1 = ofRandom(1+_offsetEdge, (_width-1)-_offsetEdge);
-        int y1 = ofRandom(1+_offsetEdge, (_height-1)-_offsetEdge);
-        map[x1][y1].walkable = false; //*new Tile(false,0,ofVec2f(x1*_tileSize,y1*_tileSize),x1,y1,_tileSize);
-    }
-    
-    // Grow the Cloud
-    for(int i = 0; i < growthLoops; i++) {
-        growCloud();
-    }
-    
-    // Smooth the Map
-    for (int i = 0; i < smoothingValue; i++) {
-        smoothMap();
-    }
+//    // Smooth the Map
+//    for (int i = 0; i < smoothingValue; i++) {
+//        smoothMap();
+//    }
     
     // Generate the Danger Zone
     generateDangerAreas();
@@ -169,15 +156,21 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     // Make the Map Walkable
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
+            
             map[x][y] = *new Tile(true,0,ofVec2f(x*_tileSize,y*_tileSize),x,y,_tileSize);
+//            if (ofRandom(0.0,100) < 50) {
+//                map[x][y].walkable = false;
+//            }
         }
     }
     
     for (int i = 0; i < _numberOfClouds; i++) {
         int x1 = ofRandom(0+_offsetEdge, (_width)-_offsetEdge);
         int y1 = ofRandom(0+_offsetEdge, (_height)-_offsetEdge);
-        map[x1][y1].walkable = false; //*new Tile(false,0,ofVec2f(x1*_tileSize,y1*_tileSize),x1,y1,_tileSize);
+        map[x1][y1].walkable = false;
     }
+
+    
     
     // Grow the Cloud
     for(int i = 0; i < growthLoops; i++) {
@@ -221,39 +214,11 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
             }
         }
     }
-    
-    
-//    pyrUp(toCv(finderImg->getPixels()), _blurredGrayscale);
 }
 //--------------------------------------------------------------
 bool MapGenerator::isInMapRange(int x, int y)
 {
     return x >= 0 && x < _width && y >= 0 && y < _height;
-}
-//--------------------------------------------------------------
-Tile MapGenerator::getTileFromGridRef(int x,int y)
-{
-    return map[x][y];
-}
-//--------------------------------------------------------------
-int MapGenerator::getSurroundingTileCount(int gridX, int gridY)
-{
-    int wallCount = 0;
-    Tile currentTile = getTileFromGridRef(gridX, gridY);
-    
-    for(auto tile : getNeighbouringTiles(currentTile)) {
-        if (tile.gridX == gridX && tile.gridY == gridY) {
-            continue;
-        }
-        
-        if (!tile.walkable) {
-            wallCount++;
-        }
-        else {
-            
-        }
-    }
-    return wallCount;
 }
 //--------------------------------------------------------------
 void MapGenerator::growCloud()
@@ -333,33 +298,6 @@ void MapGenerator::expandDangerAreas(int num)
     }
 }
 //--------------------------------------------------------------
-deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
-{
-    deque<Tile> neighbours;
-    for (int x = -1; x <= 1; x++) {
-        for (int y = -1; y <= 1; y++) {
-            if ((x == 0 && y == 0)) {
-                continue;
-            }
-            
-            int checkX = tile.gridX + x;
-            int checkY = tile.gridY + y;
-            if (checkX >= 0 && checkX < _width && checkY >= 0 && checkY < _height) {
-                neighbours.push_back(map[checkX][checkY]);
-            }
-            else {
-                
-            }
-        }
-    }
-    return neighbours;
-}
-#pragma mark - Drawing
-//--------------------------------------------------------------
-// *
-// *    Drawing Functions
-// *
-//--------------------------------------------------------------
 void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
 {
     mapFbo->begin();
@@ -378,7 +316,6 @@ void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
     inRange(_blurred, Scalar(iRR[0],0,0), Scalar(iRR[1],0,0), _redOnly);
     inRange(_blurred, Scalar(iRY[0],iRY[0],0), Scalar(iRY[1],iRY[1],0), _yellowOnly);
     inRange(_blurred, Scalar(0,iRG[0],0), Scalar(0,iRG[1],0), _greenOnly);
-//    inRange(_blurred, Scalar(0,0,50), Scalar(0,0,255), _blueOnly);
     
     // Blur it
     GaussianBlur(_greenOnly, 9);
@@ -387,12 +324,10 @@ void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
     deadColorFinder.findContours(_redOnly);
     dangerColorFinder.findContours(_yellowOnly);
     okColorFinder.findContours(_greenOnly);
-//    finishColorFinder.findContours(_blueOnly);
     
     deadlyArea.clear();
     dangerArea.clear();
     okArea.clear();
-//    finishArea.clear();
     
     for (int i = 0; i < deadColorFinder.size(); i++) {
         ofPolyline l;
@@ -419,6 +354,7 @@ ofImage MapGenerator::getFinderImage()
 {
     return *finderImg;
 }
+#pragma mark - Drawing
 //--------------------------------------------------------------
 // *
 // *    Drawing Functions
@@ -539,27 +475,6 @@ void MapGenerator::drawComputerVision()
 //    drawMat(_blurred, 0, _newHeight,((_newWidth/2)),((_newHeight/2)));
 }
 //--------------------------------------------------------------
-vector<ofPolyline> MapGenerator::getDeadlyOutlines()
-{
-    return deadlyArea;
-}
-//--------------------------------------------------------------
-vector<ofPolyline> MapGenerator::getDangerOutlines()
-{
-    return dangerArea;
-}
-//--------------------------------------------------------------
-vector<ofPolyline> MapGenerator::getOkOutlines()
-{
-    return okArea;
-}
-//--------------------------------------------------------------
-void MapGenerator::fireEvent(int playerId, string area)
-{
-    ofMessage msg(ofToString(playerId)+": "+area);
-    ofSendMessage(msg);
-}
-//--------------------------------------------------------------
 void MapGenerator::drawPolylines()
 {
     ofPushMatrix();
@@ -593,6 +508,73 @@ void MapGenerator::drawPolylines()
     }
     
     ofPopMatrix();
+}
+#pragma mark - Getters
+//--------------------------------------------------------------
+// *
+// *    Getters Functions
+// *
+//--------------------------------------------------------------
+deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
+{
+    deque<Tile> neighbours;
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
+            if ((x == 0 && y == 0)) {
+                continue;
+            }
+            
+            int checkX = tile.gridX + x;
+            int checkY = tile.gridY + y;
+            if (checkX >= 0 && checkX < _width && checkY >= 0 && checkY < _height) {
+                neighbours.push_back(map[checkX][checkY]);
+            }
+            else {
+                
+            }
+        }
+    }
+    return neighbours;
+}
+//--------------------------------------------------------------
+Tile MapGenerator::getTileFromGridRef(int x,int y)
+{
+    return map[x][y];
+}
+//--------------------------------------------------------------
+int MapGenerator::getSurroundingTileCount(int gridX, int gridY)
+{
+    int wallCount = 0;
+    Tile currentTile = getTileFromGridRef(gridX, gridY);
+    
+    for(auto tile : getNeighbouringTiles(currentTile)) {
+        if (tile.gridX == gridX && tile.gridY == gridY) {
+            continue;
+        }
+        
+        if (!tile.walkable) {
+            wallCount++;
+        }
+        else {
+            
+        }
+    }
+    return wallCount;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getDeadlyOutlines()
+{
+    return deadlyArea;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getDangerOutlines()
+{
+    return dangerArea;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getOkOutlines()
+{
+    return okArea;
 }
 //--------------------------------------------------------------
 void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
@@ -639,6 +621,18 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
 
     ofPopMatrix();
 }
+#pragma mark - Fire Events
+//--------------------------------------------------------------
+// *
+// *    Fire Events
+// *
+//--------------------------------------------------------------
+void MapGenerator::fireEvent(int playerId, string area)
+{
+    ofMessage msg(ofToString(playerId)+": "+area);
+    ofSendMessage(msg);
+}
+#pragma mark - Mouse Events
 //--------------------------------------------------------------
 // *
 // *    Mouse Functions
@@ -732,6 +726,7 @@ void MapGenerator::mouseOver(int x,int y)
         }
     }
 }
+#pragma mark - Save and Load
 //--------------------------------------------------------------
 // *
 // *    Save and Load Functions
