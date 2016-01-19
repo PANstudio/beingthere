@@ -480,6 +480,9 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     else if (e.target->is("Stop Level")) {
         countDown.stop();
     }
+    else if (e.target->is("Clear Map")) {
+        mapGenerator.clearMap();
+    }
     else if(e.target->is("Save")) {
         Map m;
         m.width = _width;
