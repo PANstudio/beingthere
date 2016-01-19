@@ -107,9 +107,6 @@ void ofApp::exit()
     // Delete GUI Objects
     delete gui;
     delete mapGui;
-    delete cvGui;
-    delete playerGui;
-    delete targetGui;
     delete calibrationGui;
 }
 //--------------------------------------------------------------
@@ -124,17 +121,9 @@ void ofApp::keyPressed(int key)
             drawMapGui = !drawMapGui;
             mapGui->setVisible(drawMapGui);
             break;
-        case 'v':
-            drawCvGui = !drawCvGui;
-            cvGui->setVisible(drawCvGui);
-            break;
-        case 't':
-            drawTargetGui = !drawTargetGui;
-            targetGui->setVisible(drawTargetGui);
-            break;
-        case 'p':
-            drawPlayerGui = !drawPlayerGui;
-            playerGui->setVisible(drawPlayerGui);
+        case 'o':
+            drawOperationalElementsGui = !drawOperationalElementsGui;
+            operationElements->setVisible(drawOperationalElementsGui);
             break;
         case 'c':
             drawCalibrationGui = !drawCalibrationGui;
@@ -224,14 +213,14 @@ void ofApp::drawWindows()
     ofPushStyle();
     ofNoFill();
     ofSetColor(ofColor::ivory);
-    if (!drawMapGui) {
-        ofDrawRectangle(0, 0, 400, 250);
-        ofDrawRectangle(0, 250, 400, 250);
-        ofDrawBitmapString(feedBackMap, 5, 265);
-    }
-    else {
-        ofDrawRectangle(0, 0, 400, mapGui->getHeight());
-    }
+//    if (!drawMapGui) {
+    ofDrawRectangle(0, 0, 400, 250);
+    ofDrawRectangle(0, 250, 400, 250);
+    ofDrawBitmapString(feedBackMap, 5, 265);
+//    }
+//    else {
+//        ofDrawRectangle(0, 0, 400, mapGui->getHeight());
+//    }
     
     ofPopStyle();
     ofPopMatrix();
@@ -243,14 +232,11 @@ void ofApp::drawWindows()
 //--------------------------------------------------------------
 void ofApp::setupGUI()
 {
-    drawMapGui = false;
-    drawCvGui = false;
-    drawPlayerGui = false;
-    drawTargetGui = false;
+    drawOperationalElementsGui = false;
     drawCalibrationGui = false;
     
     int spacing = 5;
-    gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    gui = new ofxDatGui(0,550);
     gui->setTheme(new ofxDatGuiThemeSmoke());
     gui->addHeader("H_A_R_P_S");
     gui->addFRM(10.0f);
@@ -304,7 +290,7 @@ void ofApp::setupGUI()
     gui->addBreak();
     gui->addButton("Stop Level");
     
-    mapGui = new ofxDatGui(501,0);
+    mapGui = new ofxDatGui(901,0);
     mapGui->setTheme(new ofxDatGuiThemeSmoke());
     mapGui->setWidth(400);
     mapGui->addHeader("Map Generation");
@@ -318,6 +304,15 @@ void ofApp::setupGUI()
     mapGui->addSlider("Smoothing Loops", 0, 25, 0);
     mapGui->addSlider("Growth Loops", 0, 25, 0);
     mapGui->addBreak();
+
+    ofxDatGuiFolder* vision = mapGui->addFolder("Vision",ofColor::beige);
+    vision->addSlider("Green Threshold", 0,255,200);
+    vision->addSlider("Yellow Threshold", 0,255,200);
+    vision->addSlider("Red Threshold", 0,255,200);
+    vision->addSlider("Blur Amount", 0, 21,9);
+    vision->addSlider("Simplify Contour", 0.0, 5.0,0.5);
+    mapGui->addBreak();
+    
     mapGui->addButton("Clear Map");
     mapGui->addBreak();
     mapGui->addButton("Generate Map");
@@ -331,31 +326,19 @@ void ofApp::setupGUI()
     mapGui->addDropdown("Set Difficulty", difficulty);
     mapGui->addButton("Save");
     
-    cvGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-    cvGui->setTheme(new ofxDatGuiThemeSmoke());
-    cvGui->addHeader("Computer Vision Settings");
-    cvGui->addSlider("Green Threshold", 0,255,200);
-    cvGui->addSlider("Yellow Threshold", 0,255,200);
-    cvGui->addSlider("Red Threshold", 0,255,200);
-    
-    cvGui->addSlider("Blur Amount", 0, 21,9);
-    cvGui->addSlider("Simplify Contour", 0.0, 5.0,0.5);
-    
-    playerGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-    playerGui->setTheme(new ofxDatGuiThemeSmoke());
-    playerGui->addHeader("Player Settings");
-    playerGui->addSlider("Player Size", 0,25, 10);
-    playerGui->addColorPicker("Player Color");
-    playerGui->addSlider("Player Pulse Rate", 0,250, 10);
-    playerGui->addButton("Spawn New Start Posistion");
-    
-    targetGui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-    targetGui->setTheme(new ofxDatGuiThemeSmoke());
-    targetGui->addHeader("Target Settings");
-    targetGui->addSlider("Target Size", 0,25, 10);
-    targetGui->addColorPicker("Target Color");
-    targetGui->addSlider("Target Pulse Rate", 0,250, 10);
-    targetGui->addButton("Spawn New End Posistion");
+    operationElements = new ofxDatGui(500,500);
+    operationElements->setTheme(new ofxDatGuiThemeSmoke());
+    operationElements->addHeader("Operational");
+    ofxDatGuiFolder * player = operationElements->addFolder("Player");
+    player->addSlider("Player Size", 0,25, 10);
+    player->addColorPicker("Player Color");
+    player->addSlider("Player Pulse Rate", 0,250, 10);
+    player->addButton("Spawn New Start Posistion");
+    ofxDatGuiFolder * target = operationElements->addFolder("Target");
+    target->addSlider("Target Size", 0,25, 10);
+    target->addColorPicker("Target Color");
+    target->addSlider("Target Pulse Rate", 0,250, 10);
+    target->addButton("Spawn New End Posistion");
     
     
     calibrationGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
@@ -379,37 +362,22 @@ void ofApp::setupGUI()
     mapGui->getButton("Clear Map")->setStripeColor(ofColor::mediumPurple);
     mapGui->getButton("Generate Map")->setStripeColor(ofColor::red);
     
-    cvGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
-    cvGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
-    cvGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
+    mapGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
+    mapGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
+    mapGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
     calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
     
 
     setGuiListeners(gui);
     setGuiListeners(mapGui);
-    setGuiListeners(cvGui);
-    setGuiListeners(playerGui);
-    setGuiListeners(targetGui);
+    setGuiListeners(operationElements);
     setGuiListeners(calibrationGui);
 
     mapGui->setVisible(false);
-    cvGui->setVisible(false);
-    playerGui->setVisible(false);
-    targetGui->setVisible(false);
+    operationElements->setVisible(false);
     calibrationGui->setVisible(false);
     
     int offsetX = mapGui->getWidth();
-
-
-    cvGui->setPosition(offsetX, (ofGetHeight()-cvGui->getHeight()));
-
-    offsetX += cvGui->getWidth();
-    
-    targetGui->setPosition(offsetX, (ofGetHeight()-targetGui->getHeight()));
-    
-    offsetX += targetGui->getWidth();
-    
-    playerGui->setPosition(offsetX, (ofGetHeight()-playerGui->getHeight()));
     
     calibrationGui->setPosition(ofGetWidth()-calibrationGui->getWidth(),gui->getHeight());
 }

@@ -99,17 +99,13 @@ class ofApp : public ofBaseApp{
         void setupGUI();
         bool drawGui;
         bool drawMapGui;
-        bool drawCvGui;
-        bool drawPlayerGui;
-        bool drawTargetGui;
+        bool drawOperationalElementsGui;
         bool drawCalibrationGui;
     
         // GUI Objects
         ofxDatGui * gui;
         ofxDatGui * mapGui;
-        ofxDatGui * cvGui;
-        ofxDatGui * playerGui;
-        ofxDatGui * targetGui;
+        ofxDatGui * operationElements;
         ofxDatGui * calibrationGui;
     
         void setGuiListeners(ofxDatGui* guiRef);
