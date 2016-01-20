@@ -52,10 +52,15 @@ public:
         }
         
 //        ofDrawRectangle(this->getStandardized());
-        ofDrawRectRounded(this->getStandardized(), 8);
+        ofDrawRectangle(this->getStandardized());
         ofPopStyle();
+        ofPushStyle();
         ofSetColor(0, 0, 0);
         ofDrawBitmapString(buttonName, this->getCenter());
+        ofSetColor(ofColor::ivory);
+        ofNoFill();
+        ofDrawRectangle(this->getStandardized());        
+        ofPopStyle();
     }
     
     //---------------------------------------------------

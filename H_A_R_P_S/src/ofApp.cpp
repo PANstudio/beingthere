@@ -78,7 +78,6 @@ void ofApp::draw()
     }
     else if (_Appmode == 2) {
         mapGenerator.draw(false);
-//        mapGenerator.drawPolylines();
         mode = "Generation Mode";
     }
     else if (_Appmode == 3) {
@@ -144,6 +143,7 @@ void ofApp::mouseMoved(int x, int y )
     if (_Appmode == 1) {
         mapGenerator.mouseOver(x, y);
     }
+    scoreBoard.mouseOver(x, y);
 }
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)
@@ -151,6 +151,7 @@ void ofApp::mouseDragged(int x, int y, int button)
     if (_Appmode == 1) {
         mapGenerator.mouseDragged(x, y, button);
     }
+    scoreBoard.mouseDown(x, y, button);
 }
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
@@ -158,6 +159,7 @@ void ofApp::mousePressed(int x, int y, int button)
     if (_Appmode == 1) {
         mapGenerator.mouseDown(x, y, button);
     }
+    scoreBoard.mouseDown(x, y, button);
 }
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
@@ -213,15 +215,9 @@ void ofApp::drawWindows()
     ofPushStyle();
     ofNoFill();
     ofSetColor(ofColor::ivory);
-//    if (!drawMapGui) {
     ofDrawRectangle(0, 0, 400, 250);
     ofDrawRectangle(0, 250, 400, 250);
     ofDrawBitmapString(feedBackMap, 5, 265);
-//    }
-//    else {
-//        ofDrawRectangle(0, 0, 400, mapGui->getHeight());
-//    }
-    
     ofPopStyle();
     ofPopMatrix();
 }
@@ -251,7 +247,6 @@ void ofApp::setupGUI()
     };
     
     gui->addDropdown("App Mode", AppMode);
-    gui->getDropdown("App Mode")->select(0);
     gui->addBreak();
     
     vector<string> difficulty;
@@ -326,7 +321,8 @@ void ofApp::setupGUI()
     mapGui->addDropdown("Set Difficulty", difficulty);
     mapGui->addButton("Save");
     
-    operationElements = new ofxDatGui(500,500);
+    operationElements = new ofxDatGui(901,300);
+    operationElements->setWidth(250);
     operationElements->setTheme(new ofxDatGuiThemeSmoke());
     operationElements->addHeader("Operational");
     ofxDatGuiFolder * player = operationElements->addFolder("Player");

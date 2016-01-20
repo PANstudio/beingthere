@@ -69,6 +69,9 @@ public:
     void draw(int x, int y);
     void addNewPlayerToBoard(ScoreboardElements elements);
 
+    void mouseOver(int x, int y);
+    void mouseDown(int x, int y,int pressed);
+    
     deque <ScoreboardButton> buttons;
     
     void sortByQuickest(bool acendingOrder);

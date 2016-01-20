@@ -407,7 +407,7 @@ void MapGenerator::drawFinderMap(int x, int y)
     if (getFinderImage().isAllocated()) {
         ofSetColor(255, 255, 255);
         getFinderImage().draw(0,0);
-        microImg->draw(100,0);
+        microImg->draw(0,100);
     }
 //    drawMicroMap();
     ofPopMatrix();

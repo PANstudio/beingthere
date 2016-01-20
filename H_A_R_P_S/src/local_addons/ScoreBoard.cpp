@@ -56,14 +56,14 @@ void Scoreboard::loadScoreboard(string file)
 //----------------------------------------------------------
 void Scoreboard::setup()
 {
-        int count = 0;
-        for (int y = 0; y < 7; y++) {
-            for (int x = 0; x < 2; x++) {
-                buttons.push_back(ScoreboardButton(ofGetWidth()-100+(x*50), 100+(y*50), 40, 40, count, ofToString(count), ofColor::white));
-                count++;
-            }
+    int count = 0;
+    for (int y = 0; y < 7; y++) {
+        for (int x = 0; x < 2; x++) {
+            buttons.push_back(ScoreboardButton(ofGetWidth()-100+(x*50), 0+(y*30), 50, 30, count, ofToString(count), ofColor::black));
+            count++;
         }
-    spreadsheet.setup(500, 500, 10, 20);
+    }
+    spreadsheet.setup(400, 500, 10, 20);
 }
 //----------------------------------------------------------
 void Scoreboard::update()
@@ -73,15 +73,6 @@ void Scoreboard::update()
 //----------------------------------------------------------
 void Scoreboard::draw(int x, int y)
 {
-//    stringstream boardData;
-//    boardData << "---------------------------------------------" << endl;
-//    for (auto data : scoreBoardData) {
-//        boardData << "| " <<  data.playerName << " " << data.didComplete << " " << data.timeCompleted << " " << data.objects << " " << data.healthRemaining << " " << data.location << " " << data.timestamp << " |" << endl;
-//    }
-//    boardData << "---------------------------------------------" << endl;
-//    ofSetColor(ofColor::ivory);
-//    ofDrawBitmapString(boardData.str(), x,y);
-    
     for (int i = 0; i < buttons.size(); i++) {
         buttons[i].draw();
     }
@@ -91,6 +82,21 @@ void Scoreboard::draw(int x, int y)
 void Scoreboard::addNewPlayerToBoard(ScoreboardElements elements)
 {
     scoreBoardData.push_back(elements);
+}
+//--------------------------------------------------------------
+void Scoreboard::mouseDown(int x,int y,int pressed)
+{
+    for (int i = 0; i < buttons.size(); i++) {
+        buttons[i].isActive = false;
+        buttons[i].buttonPressed(x, y,pressed);
+    }
+}
+//--------------------------------------------------------------
+void Scoreboard::mouseOver(int x,int y)
+{
+    for (int i = 0; i < buttons.size(); i++) {
+        buttons[i].mouseOver(x, y);
+    }
 }
 //----------------------------------------------------------
 // *
