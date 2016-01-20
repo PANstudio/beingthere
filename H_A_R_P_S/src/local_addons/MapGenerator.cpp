@@ -38,12 +38,11 @@ void MapGenerator::setup()
 {
     for (int i = 0; i < 14; i++) {
         if (i < 7) {
-            buttons.push_back(SimpleButton(700, 250+(i*45), 40, 40, i, "", ofColor(255,175)));
+            buttons.push_back(SimpleButton(510+(i*45), 10, 40, 40, i, "", ofColor(255,175)));
         }
         else {
-            buttons.push_back(SimpleButton(750, 250+((i-7)*45), 40, 40, i, "", ofColor(255,175)));
+            buttons.push_back(SimpleButton(510+((i-7)*45), 60, 40, 40, i, "", ofColor(255,175)));
         }
-
     }
     whichButton = 0;
 }
