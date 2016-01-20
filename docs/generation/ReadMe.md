@@ -118,6 +118,19 @@ Basic example
 
 This grid is then fed in to a openCV contour finder which looks for three distinct colors - Red, Yellow and Green. Then generates contours/Polylines around the shapes. 
 
+####Generation Stages
+Stage 1
+![Stage1](../images/MapGenStage1.png)
+
+Stage 2
+![Stage2](../images/MapGenStage2.png)
+
+Stage 3
+![Stage3](../images/MapGenStage3.png)
+
+Stage 4
+
+
 ###Seeded Generation
 Resources 
 
