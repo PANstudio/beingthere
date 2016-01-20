@@ -78,13 +78,14 @@ void ofApp::draw()
     }
     else if (_Appmode == 2) {
         mapGenerator.draw(false);
-        mapGenerator.drawPolylines();
+//        mapGenerator.drawPolylines();
         mode = "Generation Mode";
     }
     else if (_Appmode == 3) {
         mapGenerator.draw(false);
         mapGenerator.drawFinderMap(800, 400);
         scoreBoard.draw(500, 500);
+        
         // Player Status Feedback
         ofDrawBitmapStringHighlight("Player Status", 510,13);
         for (int i = 0; i < 3; i++) {

@@ -580,8 +580,8 @@ vector<ofPolyline> MapGenerator::getOkOutlines()
 void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
 {
     ofPushMatrix();
-    ofTranslate(_newWidth/2, _newHeight);
-    ofScale(0.5,0.5);
+//    ofTranslate(_newWidth/2, _newHeight);
+//    ofScale(0.5,0.5);
     
     for (int player = 0; player < playerCoords.size(); player++) {
         for (int i = 0; i < okArea.size(); i++) {
