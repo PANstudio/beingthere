@@ -30,7 +30,6 @@
 		5EB4394F89E6C7B6CB63E407 /* ofxEasingExpo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FAA1F8FD8842B18FC644AB8 /* ofxEasingExpo.cpp */; };
 		60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E018EA5B6B752E53BD00D9E4 /* ofxEasingQuint.cpp */; };
 		61DD69DC8EEC05F4180E5A3A /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE5201E4C9247E2A335BB47E /* ofxCvFloatImage.cpp */; };
-		6328997C1C42896400936B64 /* MapEditorButtons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6328997A1C42896400936B64 /* MapEditorButtons.cpp */; settings = {ASSET_TAGS = (); }; };
 		632D97CB1C37663E00F4792E /* ofxPathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632D97C91C37663E00F4792E /* ofxPathfinder.cpp */; settings = {ASSET_TAGS = (); }; };
 		635E7E5F1C3C68DF008ACD32 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E551C3C68DF008ACD32 /* ofxDatGuiComponent.cpp */; settings = {ASSET_TAGS = (); }; };
 		635E7E601C3C68DF008ACD32 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E5A1C3C68DF008ACD32 /* ofxDatGui.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -221,8 +220,6 @@
 		5F11D03B508CA78BA3E8B82C /* ofxCvHaarFinder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxCvHaarFinder.cpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/src/ofxCvHaarFinder.cpp; sourceTree = SOURCE_ROOT; };
 		62D49BEB187FC37B39424906 /* blenders.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = blenders.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/detail/blenders.hpp; sourceTree = SOURCE_ROOT; };
 		6320D84AFB1B36D3CEC35D89 /* affine.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = affine.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/core/affine.hpp; sourceTree = SOURCE_ROOT; };
-		6328997A1C42896400936B64 /* MapEditorButtons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapEditorButtons.cpp; path = src/local_addons/MapEditorButtons.cpp; sourceTree = "<group>"; };
-		6328997B1C42896400936B64 /* MapEditorButtons.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapEditorButtons.hpp; path = src/local_addons/MapEditorButtons.hpp; sourceTree = "<group>"; };
 		632D97C91C37663E00F4792E /* ofxPathfinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPathfinder.cpp; sourceTree = "<group>"; };
 		632D97CA1C37663E00F4792E /* ofxPathfinder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxPathfinder.h; sourceTree = "<group>"; };
 		6337C65EC7317260BA2400E0 /* global_motion.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = global_motion.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/global_motion.hpp; sourceTree = SOURCE_ROOT; };
@@ -939,8 +936,6 @@
 			children = (
 				639756A71C1E373B00B512AD /* MapGenerator.cpp */,
 				639756A81C1E373B00B512AD /* MapGenerator.hpp */,
-				6328997A1C42896400936B64 /* MapEditorButtons.cpp */,
-				6328997B1C42896400936B64 /* MapEditorButtons.hpp */,
 				634A7E831C42DA2B00753B2E /* SimpleButton.h */,
 				639756BD1C1E48F700B512AD /* MapHelpers.hpp */,
 				637723B81C2624810081998C /* StyledMap.cpp */,
@@ -1562,7 +1557,6 @@
 				637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */,
 				6C2E89161CA335E9F476A206 /* Flow.cpp in Sources */,
 				561195A465C22F9ED4939388 /* Helpers.cpp in Sources */,
-				6328997C1C42896400936B64 /* MapEditorButtons.cpp in Sources */,
 				72BABC6CF54D263B2D4E2895 /* Kalman.cpp in Sources */,
 				6C06F287580ED82420253165 /* ObjectFinder.cpp in Sources */,
 				8404ECA137AE7A6B62329BA6 /* RunningBackground.cpp in Sources */,

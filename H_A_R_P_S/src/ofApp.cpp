@@ -82,8 +82,7 @@ void ofApp::draw()
         mode = "Generation Mode";
     }
     else if (_Appmode == 3) {
-        mapGenerator.draw(false);
-        mapGenerator.drawFinderMap(800, 400);
+        mapGenerator.drawFinderMap(901, 0);
         scoreBoard.draw(500, 500);
         
         // Player Status Feedback

@@ -50,9 +50,6 @@ void MapGenerator::setup()
 //--------------------------------------------------------------
 void MapGenerator::generateCustomMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
 {
-//    if (map != nullptr) {
-//        resetMap();
-//    }
     
     // Set Variables
     _width = width;
@@ -92,28 +89,41 @@ void MapGenerator::generateCustomMap(int width,int height,int offsetEdge, int ti
         expandDangerAreas(i);
     }
     
+    
     if (finderImg == nullptr) {
         delete finderImg;
     }
     finderImg = new ofImage();
     finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
+    if (microImg == nullptr) {
+        delete microImg;
+    }
+    
+    microImg = new ofImage();
+    microImg->allocate(_width, _height, OF_IMAGE_COLOR);
+    
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             if(!map[x][y].walkable) {
                 finderImg->setColor(x, y,ofColor::black);
+                microImg->setColor(x, y, ofColor::red);
             }
             else {
                 if (map[x][y].toxicity == 0) {
                     finderImg->setColor(x, y,ofColor::white);
+                    microImg->setColor(x, y, ofColor::green);
                 }
                 else {
                     ofColor c;
                     c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
                     finderImg->setColor(x, y,c);
+                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255), ofMap(255/(map[x][y].toxicity+1),255,0,0,255), 0);
+                    microImg->setColor(x, y, c);
                 }
             }
         }
     }
+    microImg->update();
 }
 //--------------------------------------------------------------
 void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
@@ -169,8 +179,6 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
         int y1 = ofRandom(0+_offsetEdge, (_height)-_offsetEdge);
         map[x1][y1].walkable = false;
     }
-
-    
     
     // Grow the Cloud
     for(int i = 0; i < growthLoops; i++) {
@@ -190,10 +198,19 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
         expandDangerAreas(i);
     }
     
+//    mapTexture->setFromPixels(fboPixels, _newWidth, _newHeight, OF_IMAGE_COLOR);
+//    mapTexture->update();
+    
     if (finderImg == nullptr) {
         delete finderImg;
     }
-
+    
+    if (microImg == nullptr) {
+        delete microImg;
+    }
+    
+    microImg = new ofImage();
+    microImg->allocate(_width, _height, OF_IMAGE_COLOR);
     
     finderImg = new ofImage();
     finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
@@ -201,19 +218,24 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
         for (int y = 0; y < _height; y ++) {
             if(!map[x][y].walkable) {
                 finderImg->setColor(x, y,ofColor::black);
+                microImg->setColor(x, y, ofColor::red);
             }
             else {
                 if (map[x][y].toxicity == 0) {
                     finderImg->setColor(x, y,ofColor::white);
+                    microImg->setColor(x, y, ofColor::green);
                 }
                 else {
                     ofColor c;
                     c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
                     finderImg->setColor(x, y,c);
+                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255), ofMap(255/(map[x][y].toxicity+1),255,0,0,255), 0);
+                    microImg->setColor(x, y, c);
                 }
             }
         }
     }
+    microImg->update();
 }
 //--------------------------------------------------------------
 bool MapGenerator::isInMapRange(int x, int y)
@@ -373,7 +395,7 @@ void MapGenerator::draw(bool showGrid)
 void MapGenerator::drawMicroMap()
 {
     if (!_mapTexture.empty()) {
-        drawMat(_mapTexture, 0, 0,100,100);
+        drawMat(_mapTexture, 0, 100,100,100);
     }
 }
 //--------------------------------------------------------------
@@ -381,12 +403,13 @@ void MapGenerator::drawFinderMap(int x, int y)
 {
     ofPushMatrix();
     ofTranslate(x, y);
-    ofScale(1, 1);
+    ofScale(1.5, 1.5);
     if (getFinderImage().isAllocated()) {
         ofSetColor(255, 255, 255);
         getFinderImage().draw(0,0);
-        
+        microImg->draw(100,0);
     }
+//    drawMicroMap();
     ofPopMatrix();
     ofPushMatrix();
 }

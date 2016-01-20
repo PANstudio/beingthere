@@ -112,6 +112,7 @@ private:
     
     ofImage *finderImg;
     ofImage *mapTexture;
+    ofImage *microImg;
     
     unsigned char * fboPixels;
     
