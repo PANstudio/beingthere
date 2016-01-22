@@ -327,6 +327,22 @@
                "tilesize" : 5,
                "timetocomplete" : 5000,
                "width" : 100
+            },
+            {
+               "dangerAreaToxicity" : 1,
+               "dangerareasize" : 1,
+               "deadAreaToxicity" : 1,
+               "difficulty" : "NOVICE",
+               "growthloops" : 1,
+               "height" : 100,
+               "level" : 6,
+               "numberofclouds" : 37,
+               "offsetedge" : 5,
+               "randomseed" : 1076,
+               "smoothingloops" : 1,
+               "tilesize" : 5,
+               "timetocomplete" : 5000,
+               "width" : 100
             }
          ],
          "REALLY HARD" : [

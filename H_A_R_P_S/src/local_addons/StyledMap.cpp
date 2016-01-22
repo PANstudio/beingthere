@@ -134,8 +134,6 @@ void StyledMap::update()
     
     dangerMask.begin();
 
-    //    ofSetColor(0, 0, 0);
-//    ofDrawRectangle(0, 0, dangerMask.getWidth(), dangerMask.getHeight());
     blur.begin(2,1);
     ofSetColor(ofColor::white);
     if (!dangerShapes.empty()) {
@@ -164,25 +162,35 @@ void StyledMap::setShapes(vector<ofPolyline> deadly,vector <ofPolyline> danger)
 //--------------------------------------------------------------
 void StyledMap::drawStyledMap(int x, int y)
 {
-    masks.begin();
-    ofClear(0);
-//    blur.begin(1,1);
-    ofClear(0);
-    ofPushStyle();
-    maskDangerShader.begin();
-    maskDangerShader.setUniformTexture("maskTex", dangerMask.getTexture(), 1);
-    test1.draw(0, 0);
-    maskDangerShader.end();
-    ofPopStyle();
     
-    ofPushStyle();
-    maskDeadlyShader.begin();
-    maskDeadlyShader.setUniformTexture("maskTex", deadlyMask.getTexture(), 1);
-    test.draw(0, 0);
-    maskDeadlyShader.end();
-    ofPopStyle();
-//    blur.end();
-    masks.end();
-    
-    masks.draw(x, y);
+    ofSetColor(ofColor::white);
+    for (int i = 0; i < dangerShapes.size(); i++) {
+        ofMesh m;
+        m.setMode(OF_PRIMITIVE_TRIANGLES);
+//        for (int x = 0; x < dangerShapes[i].size(); x++) {
+            m.addVertices(dangerShapes[i].getVertices());
+            m.drawWireframe();
+//        }
+    }
+    //    masks.begin();
+//    ofClear(0);
+////    blur.begin(1,1);
+//    ofClear(0);
+//    ofPushStyle();
+//    maskDangerShader.begin();
+//    maskDangerShader.setUniformTexture("maskTex", dangerMask.getTexture(), 1);
+//    test1.draw(0, 0);
+//    maskDangerShader.end();
+//    ofPopStyle();
+//    
+//    ofPushStyle();
+//    maskDeadlyShader.begin();
+//    maskDeadlyShader.setUniformTexture("maskTex", deadlyMask.getTexture(), 1);
+//    test.draw(0, 0);
+//    maskDeadlyShader.end();
+//    ofPopStyle();
+////    blur.end();
+//    masks.end();
+//    
+//    masks.draw(x, y);
 }

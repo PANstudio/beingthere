@@ -210,7 +210,7 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     
     microImg = new ofImage();
     microImg->allocate(_width, _height, OF_IMAGE_COLOR);
-    
+    blurredGray.allocate(_width, _height, OF_IMAGE_GRAYSCALE);
     finderImg = new ofImage();
     finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
     for (int x = 0; x < _width; x ++) {
@@ -234,6 +234,14 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
             }
         }
     }
+    
+    Mat test;
+    copy(finderImg->getPixels(),test);
+    GaussianBlur(test, 5);
+    toOf(test, blurredGray);
+    blurredGray.update();
+//    copy(test, finderImg);
+    
     microImg->update();
 }
 //--------------------------------------------------------------
@@ -331,7 +339,7 @@ void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
     mapTexture->update();
     
     copy(mapTexture->getPixels(), _mapTexture);
-    GaussianBlur(_mapTexture, _blurred, blurMap);
+    GaussianBlur(_mapTexture, _blurred,blurMap);
     
     // Get all the Various Color Images
     inRange(_blurred, Scalar(iRR[0],0,0), Scalar(iRR[1],0,0), _redOnly);
@@ -339,7 +347,7 @@ void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
     inRange(_blurred, Scalar(0,iRG[0],0), Scalar(0,iRG[1],0), _greenOnly);
     
     // Blur it
-    GaussianBlur(_greenOnly, 9);
+//    GaussianBlur(_greenOnly, 9);
     
     // Find Contours
     deadColorFinder.findContours(_redOnly);
@@ -389,6 +397,9 @@ void MapGenerator::draw(bool showGrid)
             map[x][y].draw();
         }
     }
+//    ofSetColor(255);
+//    blurredGray.draw(0, 200,200,200);
+    //    drawMat(_blurred, 0, 0);
 }
 //--------------------------------------------------------------
 void MapGenerator::drawMicroMap()
@@ -450,51 +461,43 @@ void MapGenerator::drawEditor()
     
 }
 //--------------------------------------------------------------
-void MapGenerator::drawComputerVision()
+void MapGenerator::drawComputerVision(int x, int y)
 {
+    ofPushMatrix();
+    ofTranslate(x, y);
+    
+    float scaleValue = 0.25;
+    
     if (!_redOnly.empty()) {
-        ofSetColor(ofColor::white);
-        drawMat(_redOnly,0,_newHeight,((_newWidth)/4),((_newHeight)/4));
         ofPushMatrix();
-        ofTranslate(0,_newHeight);
-        ofScale(0.25,0.25);
+        ofScale(scaleValue,scaleValue);
+        ofSetColor(ofColor::white);
+        drawMat(_redOnly,0,0,500,500);
         ofSetColor(ofColor::red);
         deadColorFinder.draw();
         ofPopMatrix();
     }
     if (!_yellowOnly.empty()){
-        ofSetColor(ofColor::white);
-        drawMat(_yellowOnly,0,(_newHeight+(_newHeight/4)),((_newWidth)/4),((_newHeight)/4));
         ofPushMatrix();
-        ofTranslate(0,(_newHeight+(_newHeight/4)));
-        ofScale(0.25,0.25);
+        ofTranslate(125,0);
+        ofScale(scaleValue,scaleValue);
+        ofSetColor(ofColor::white);
+        drawMat(_yellowOnly,0,0,500,500);
         ofSetColor(ofColor::yellow);
         dangerColorFinder.draw();
         ofPopMatrix();
     }
     if (!_greenOnly.empty()){
-        ofSetColor(ofColor::white);
-        drawMat(_greenOnly,((_newWidth)/4)*1,(_newHeight+(_newHeight/4)),((_newWidth)/4),((_newHeight)/4));
         ofPushMatrix();
-        ofTranslate(((_newWidth)/4)*1,(_newHeight+(_newHeight/4)));
-        ofScale(0.25,0.25);
+        ofTranslate(250,0);
+        ofScale(scaleValue,scaleValue);
+        ofSetColor(ofColor::white);
+        drawMat(_greenOnly,0,0,500,500);
         ofSetColor(ofColor::green);
         okColorFinder.draw();
         ofPopMatrix();
-    }
-    if (!_blueOnly.empty()){
-        ofSetColor(ofColor::white);
-        drawMat(_blueOnly,((_newWidth)/4)*1,(_newHeight),((_newWidth)/4),((_newHeight)/4));
-        ofPushMatrix();
-        ofTranslate(((_newWidth)/4)*1,(_newHeight));
-        ofScale(0.25,0.25);
-        ofSetColor(ofColor::blue);
-        finishColorFinder.draw();
-        ofPopMatrix();
-    }
-    
-//    ofSetColor(255, 255, 255);
-//    drawMat(_blurred, 0, _newHeight,((_newWidth/2)),((_newHeight/2)));
+    }    
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 void MapGenerator::drawPolylines()
@@ -505,20 +508,20 @@ void MapGenerator::drawPolylines()
     ofFill();
     
     for (int i = 0; i < okArea.size(); i++) {
-        okArea[i].simplify(0.1);
+        okArea[i].simplify(0.8);
         ofSetColor(ofColor::green);
         okArea[i].draw();
     }
     
     for (int i = 0; i < dangerArea.size(); i++) {
-        dangerArea[i].simplify(0.1);
+        dangerArea[i].simplify(0.8);
         ofSetColor(ofColor::yellow);
         dangerArea[i].draw();
     }
     
     for (int i = 0; i < deadlyArea.size(); i++) {
         
-        deadlyArea[i].simplify(0.1);
+        deadlyArea[i].simplify(0.8);
         ofSetColor(ofColor::red);
         deadlyArea[i].draw();
     }

@@ -73,11 +73,12 @@ void ofApp::draw()
     }
     else if (_Appmode == 1) {
         mapGenerator.drawEditor();
-        mapGenerator.drawComputerVision();
         mode = "Editor Mode";
     }
     else if (_Appmode == 2) {
         mapGenerator.draw(false);
+        mapGenerator.drawComputerVision(500,0);
+        mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
         mode = "Generation Mode";
     }
     else if (_Appmode == 3) {
@@ -97,6 +98,8 @@ void ofApp::draw()
     }
     ofSetColor(ofColor::white);
     heading.drawString(mode, 15, 530);
+//    styledMap.drawStyledMap(0, 0);
+    
     // Window Layout
     drawWindows();
 }
@@ -215,9 +218,18 @@ void ofApp::drawWindows()
     ofPushStyle();
     ofNoFill();
     ofSetColor(ofColor::ivory);
-    ofDrawRectangle(0, 0, 400, 250);
-    ofDrawRectangle(0, 250, 400, 250);
-    ofDrawBitmapString(feedBackMap, 5, 265);
+    if (_Appmode == 2) {
+        ofDrawRectangle(0, 0, 400, 145);
+        ofDrawBitmapStringHighlight("Computer Vision",7,130);
+        ofDrawRectangle(0, 145, 400, 350);
+    }
+//    ofDrawRectangle(0, 250, 400, 250);
+    if (_Appmode == 3) {
+        ofDrawRectangle(0, 0, 400, 250);
+        ofDrawRectangle(0, 250, 400, 250);
+        ofDrawBitmapString(feedBackMap, 5, 265);
+    }
+    
     ofPopStyle();
     ofPopMatrix();
 }
@@ -337,7 +349,7 @@ void ofApp::setupGUI()
     target->addButton("Spawn New End Posistion");
     
     
-    calibrationGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    calibrationGui = new ofxDatGui(501,250);
     calibrationGui->setTheme(new ofxDatGuiThemeSmoke());
     calibrationGui->addHeader("Calibration Settings");
     calibrationGui->addToggle("From Centre / Top Left", false);
@@ -372,10 +384,6 @@ void ofApp::setupGUI()
     mapGui->setVisible(false);
     operationElements->setVisible(false);
     calibrationGui->setVisible(false);
-    
-    int offsetX = mapGui->getWidth();
-    
-    calibrationGui->setPosition(ofGetWidth()-calibrationGui->getWidth(),gui->getHeight());
 }
 //--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)

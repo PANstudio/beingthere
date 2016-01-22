@@ -24,7 +24,7 @@ using namespace ofxCv;
 
 class MapGenerator {
 public:
-    void setup();
+    void setup();    
     void resetMap();
     void clearMap();
     void update(int blurMap,int iRR[2],int iRY[2],int iRG[2]);
@@ -49,13 +49,14 @@ public:
     void getPlayerCoordinates(vector <ofPoint> playerCoords);
     
     void draw(bool showGrid);
-    void drawComputerVision();
+    void drawComputerVision(int x, int y);
     void drawPolylines();
     void drawMicroMap();
     void drawEditor();
     void drawFinderMap(int x,int y);
     
     ofImage getFinderImage();
+    ofImage blurredGray;
     
     void fireEvent(int playerId, string area);
     
