@@ -45,6 +45,7 @@ void MapGenerator::setup()
         }
     }
     whichButton = 0;
+    bAnimate = false;
 }
 //--------------------------------------------------------------
 void MapGenerator::generateCustomMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
@@ -165,11 +166,7 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     // Make the Map Walkable
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
-            
             map[x][y] = *new Tile(true,0,ofVec2f(x*_tileSize,y*_tileSize),x,y,_tileSize);
-//            if (ofRandom(0.0,100) < 50) {
-//                map[x][y].walkable = false;
-//            }
         }
     }
     
@@ -244,6 +241,175 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     
     microImg->update();
 }
+//--------------------------------------------------------------
+// *
+// * Animation
+// *
+//--------------------------------------------------------------
+void MapGenerator::startAnimation(int numberOfClouds,int smoothingLoops,int growthLoops,float seedValue)
+{
+    smLoop = false;
+    danLoop = false;
+    grLoop = false;
+    bAnimate = true;
+    genLoop = true;
+    
+    
+    _smoothingLoops = smoothingLoops;
+    _growthLoops = growthLoops;
+    
+    _RseedValue = seedValue;
+    
+    ofSeedRandom(_RseedValue);
+    
+    cloudPos.clear();
+    for (int i = 0; i < numberOfClouds; i++) {
+        int x1 = ofRandom(0, 100);
+        int y1 = ofRandom(0, 100);
+        cloudPos.push_back(ofVec2f(x1, y1));
+    }
+    
+    aX = 0;
+    aY = 0;
+}
+//--------------------------------------------------------------
+bool MapGenerator::isAnimating()
+{
+    return bAnimate;
+}
+//--------------------------------------------------------------
+bool MapGenerator::isAnimationFinished()
+{
+    if (!bAnimate ) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+//--------------------------------------------------------------
+void MapGenerator::animate()
+{
+    if (!genLoop && !grLoop && !smLoop && !danLoop) {
+        bAnimate = false;
+    }
+    
+    if ((aX >= 99 && aY == 99) && genLoop) {
+        genLoop = false;
+        aX = 0;
+        aY = 0;
+        grLoop = true;
+    }
+    
+    if ((aX >= 99 && aY == 99) && grLoop) {
+        if (_growthLoops == 0) {
+            grLoop = false;
+            smLoop = true;
+            aX = 0;
+            aY = 0;
+        }
+        else {
+            _growthLoops--;
+            grLoop = true;
+            aX = 0;
+            aY = 0;
+        }
+    }
+    
+    if ((aX >= 99 && aY == 99) && smLoop) {
+        if (_smoothingLoops == 0) {
+            smLoop = false;
+            danLoop = true;
+            aX = 0;
+            aY = 0;
+        }
+        else {
+            _smoothingLoops--;
+            smLoop = true;
+            aX = 0;
+            aY = 0;
+        }
+    }
+    
+    if ((aX >= 99 && aY == 99) && danLoop) {
+        danLoop = false;
+        expandDangerAreas(4);
+    }
+    
+    if (aY < 99) {
+        if (aX >= 99) {
+            aY++;
+            aX = 0;
+        }
+        while (aX < _width) {
+            if (genLoop) {
+                for (int i = 0; i < cloudPos.size(); i++) {
+                    int wx = cloudPos[i].x;
+                    int wy = cloudPos[i].y;
+                    if (wx == aX && wy == aY) {
+                        map[aX][aY].walkable = false;
+                    }
+                }
+            }
+            
+            if (grLoop) {
+                if(!map[aX][aY].walkable) {
+                    if (aX == 0 || aX == _width-1 || aY == 0 || aY == _height-1) {
+                        map[aX][aY].walkable = true;
+                    }
+                    else {
+                        for (auto tile : getNeighbouringTiles(map[aX][aY])) {
+                            bool a = (ofRandom(0,100) < 50) ? true : false;
+                            map[tile.gridX][tile.gridY].walkable = a;
+                        }
+                    }
+                }
+                else {
+                    
+                }
+            }
+            
+            if (smLoop) {
+                int neighbourWallTiles = getSurroundingTileCount(aX,aY);
+                if (neighbourWallTiles > 4)
+                    map[aX][aY].walkable = false;
+                else if (neighbourWallTiles < 4)
+                    map[aX][aY].walkable = true;
+            }
+            
+            if (danLoop) {
+                if (aX == 0 || aX == 100-1 || aY == 0 || aY == 100-1) {
+                    
+                }
+                else {
+                    Tile currentTile = getTileFromGridRef(aX, aY);
+                    for(auto tile : getNeighbouringTiles(currentTile)) {
+                        if (!currentTile.walkable && tile.walkable) {
+                            map[tile.gridX][tile.gridY].walkable = true;
+                            map[tile.gridX][tile.gridY].toxicity = 1;
+                        }
+                    }
+                }
+            }
+            
+            if (exLoop) {
+                
+            }
+//            pt = ofToString(aX) + " " + ofToString(aY);
+            aX++;
+        }
+    }
+    
+}
+//--------------------------------------------------------------
+void MapGenerator::animateGeneration(int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
+{
+    
+}
+//--------------------------------------------------------------
+// *
+// *
+// *
 //--------------------------------------------------------------
 bool MapGenerator::isInMapRange(int x, int y)
 {

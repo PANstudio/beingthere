@@ -63,6 +63,10 @@ void ofApp::update()
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
     displayWindow->getTimeLeft(countDown.getTimeLeft());
+    
+    if(mapGenerator.isAnimating()) {
+        mapGenerator.animate();
+    }
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -98,7 +102,6 @@ void ofApp::draw()
     }
     ofSetColor(ofColor::white);
     heading.drawString(mode, 15, 530);
-//    styledMap.drawStyledMap(0, 0);
     
     // Window Layout
     drawWindows();
@@ -130,6 +133,9 @@ void ofApp::keyPressed(int key)
         case 'c':
             drawCalibrationGui = !drawCalibrationGui;
             calibrationGui->setVisible(drawCalibrationGui);
+            break;
+        case 's':
+            mapGenerator.startAnimation(30,3,4,10);
             break;
         default:
             break;
