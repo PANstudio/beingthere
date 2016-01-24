@@ -77,8 +77,6 @@ public:
     
     bool isAnimationFinished();
     
-    void animateGeneration(int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
-    
     // Only used for visualising the system
     void animate();
     
@@ -112,9 +110,7 @@ public:
     // *
     //--------------------------------------------------------------
     vector<ofPolyline> getDeadlyOutlines();
-    
     vector<ofPolyline> getDangerOutlines();
-    
     vector<ofPolyline> getOkOutlines();
     
     deque<Tile> getNeighbouringTiles(Tile tile);
@@ -127,12 +123,28 @@ public:
     
     ofImage getFinderImage();
     
+    int getWidth();
+    int getHeight();
+    int getTileSize();
+    int getGrowthLoops();
+    int getNumberOfClouds();
+    int getSmoothingLoops();
+    int getDangerAreaSize();
+    float getRandomSeedValue();
+    
     //--------------------------------------------------------------
     // *
     // *    Setters
     // *
     //--------------------------------------------------------------
-    
+    void setWidth(int width);
+    void setHeight(int height);
+    void setTileSize(int tileSize);
+    void setDangerAreaSize(int size);
+    void setGrowthLoops(int growthLoops);
+    void setRandomSeedValue(float randomSeed);
+    void setNumberOfClouds(int numberOfClouds);
+    void setSmoothingLoops(int smoothingLoops);
     
     //--------------------------------------------------------------
     // *
@@ -145,8 +157,6 @@ public:
     void drawMicroMap();
     void drawEditor();
     void drawFinderMap(int x,int y);
-    
-    ofImage blurredGray;
     
     void fireEvent(int playerId, string area);
     

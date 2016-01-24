@@ -222,7 +222,6 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
     
     microImg = new ofImage();
     microImg->allocate(_width, _height, OF_IMAGE_COLOR);
-    blurredGray.allocate(_width, _height, OF_IMAGE_GRAYSCALE);
     finderImg = new ofImage();
     finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
     for (int x = 0; x < _width; x ++) {
@@ -246,12 +245,6 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
             }
         }
     }
-    
-    Mat test;
-    copy(finderImg->getPixels(),test);
-    GaussianBlur(test, 5);
-    toOf(test, blurredGray);
-    blurredGray.update();
     
     microImg->update();
 }
@@ -289,14 +282,11 @@ void MapGenerator::startAnimation(int numberOfClouds,int smoothingLoops,int grow
     bAnimate = true;
     genLoop = true;
     
-    
     _smoothingLoops = smoothingLoops;
     _growthLoops = growthLoops;
-    
     _RseedValue = seedValue;
     
     ofSeedRandom(_RseedValue);
-    
     generateClouds(_width, _height, _offsetEdge, numberOfClouds);
     
     aX = 0;
@@ -425,25 +415,76 @@ void MapGenerator::animate()
             if (exLoop) {
                 
             }
-//            pt = ofToString(aX) + " " + ofToString(aY);
             aX++;
         }
     }
     
 }
 //--------------------------------------------------------------
-void MapGenerator::animateGeneration(int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
+// *
+// *    Generator Operations
+// *
+//--------------------------------------------------------------
+void MapGenerator::generatePolylines(int blurMap,int iRR[2],int iRY[2],int iRG[2])
 {
+    mapFbo->begin();
+    ofClear(0, 0, 0);
+    draw(false);
+    glReadPixels(0, 0, _newWidth, _newHeight, GL_RGB, GL_UNSIGNED_BYTE, fboPixels);
+    mapFbo->end();
     
+    mapTexture->setFromPixels(fboPixels, _newWidth, _newHeight, OF_IMAGE_COLOR);
+    mapTexture->update();
+    
+    copy(mapTexture->getPixels(), _mapTexture);
+    GaussianBlur(_mapTexture, _blurred,blurMap);
+    
+    // Get all the Various Color Images
+    inRange(_blurred, Scalar(iRR[0],0,0), Scalar(iRR[1],0,0), _redOnly);
+    inRange(_blurred, Scalar(iRY[0],iRY[0],0), Scalar(iRY[1],iRY[1],0), _yellowOnly);
+    inRange(_blurred, Scalar(0,iRG[0],0), Scalar(0,iRG[1],0), _greenOnly);
+    
+    // Find Contours
+    deadColorFinder.findContours(_redOnly);
+    dangerColorFinder.findContours(_yellowOnly);
+    okColorFinder.findContours(_greenOnly);
+    
+    deadlyArea.clear();
+    dangerArea.clear();
+    okArea.clear();
+    
+    for (int i = 0; i < deadColorFinder.size(); i++) {
+        ofPolyline l;
+        l = deadColorFinder.getPolyline(i).getSmoothed(3);
+        l.simplify();
+        deadlyArea.push_back(l);
+    }
+    
+    for (int i = 0; i < dangerColorFinder.size(); i++) {
+        ofPolyline l;
+        l = dangerColorFinder.getPolyline(i);;
+        l.simplify();
+        dangerArea.push_back(l);
+    }
+    for (int i = 0; i < okColorFinder.size(); i++) {
+        ofPolyline l;
+        l = okColorFinder.getPolyline(i);
+        l.simplify();
+        okArea.push_back(l);
+    }
 }
 //--------------------------------------------------------------
-// *
-// *
-// *
-//--------------------------------------------------------------
-bool MapGenerator::isInMapRange(int x, int y)
+void MapGenerator::smoothMap()
 {
-    return x >= 0 && x < _width && y >= 0 && y < _height;
+    for (int x = 0; x < _width; x ++) {
+        for (int y = 0; y < _height; y ++) {
+            int neighbourWallTiles = getSurroundingTileCount(x,y);
+            if (neighbourWallTiles > 4)
+                map[x][y].walkable = false;
+            else if (neighbourWallTiles < 4)
+                map[x][y].walkable = true;
+        }
+    }
 }
 //--------------------------------------------------------------
 void MapGenerator::growCloud()
@@ -464,19 +505,6 @@ void MapGenerator::growCloud()
             else {
                 
             }
-        }
-    }
-}
-//--------------------------------------------------------------
-void MapGenerator::smoothMap()
-{
-    for (int x = 0; x < _width; x ++) {
-        for (int y = 0; y < _height; y ++) {
-            int neighbourWallTiles = getSurroundingTileCount(x,y);
-            if (neighbourWallTiles > 4)
-                map[x][y].walkable = false;
-            else if (neighbourWallTiles < 4)
-                map[x][y].walkable = true;
         }
     }
 }
@@ -523,65 +551,213 @@ void MapGenerator::expandDangerAreas(int num)
     }
 }
 //--------------------------------------------------------------
-void MapGenerator::generatePolylines(int blurMap,int iRR[2],int iRY[2],int iRG[2])
+bool MapGenerator::isInMapRange(int x, int y)
 {
-    mapFbo->begin();
-        ofClear(0, 0, 0);
-        draw(false);
-        glReadPixels(0, 0, _newWidth, _newHeight, GL_RGB, GL_UNSIGNED_BYTE, fboPixels);
-    mapFbo->end();
+    return x >= 0 && x < _width && y >= 0 && y < _height;
+}
+#pragma mark - Getters
+//--------------------------------------------------------------
+// *
+// *    Getters Functions
+// *
+//--------------------------------------------------------------
+deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
+{
+    deque<Tile> neighbours;
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
+            if ((x == 0 && y == 0)) {
+                continue;
+            }
+            
+            int checkX = tile.gridX + x;
+            int checkY = tile.gridY + y;
+            if (checkX >= 0 && checkX < _width && checkY >= 0 && checkY < _height) {
+                neighbours.push_back(map[checkX][checkY]);
+            }
+            else {
+                
+            }
+        }
+    }
+    return neighbours;
+}
+//--------------------------------------------------------------
+Tile MapGenerator::getTileFromGridRef(int x,int y)
+{
+    return map[x][y];
+}
+//--------------------------------------------------------------
+int MapGenerator::getSurroundingTileCount(int gridX, int gridY)
+{
+    int wallCount = 0;
+    Tile currentTile = getTileFromGridRef(gridX, gridY);
     
-    mapTexture->setFromPixels(fboPixels, _newWidth, _newHeight, OF_IMAGE_COLOR);
-    mapTexture->update();
-    
-    copy(mapTexture->getPixels(), _mapTexture);
-    GaussianBlur(_mapTexture, _blurred,blurMap);
-    
-    // Get all the Various Color Images
-    inRange(_blurred, Scalar(iRR[0],0,0), Scalar(iRR[1],0,0), _redOnly);
-    inRange(_blurred, Scalar(iRY[0],iRY[0],0), Scalar(iRY[1],iRY[1],0), _yellowOnly);
-    inRange(_blurred, Scalar(0,iRG[0],0), Scalar(0,iRG[1],0), _greenOnly);
-    
-    // Blur it
-//    GaussianBlur(_greenOnly, 9);
-    
-    // Find Contours
-    deadColorFinder.findContours(_redOnly);
-    dangerColorFinder.findContours(_yellowOnly);
-    okColorFinder.findContours(_greenOnly);
-    
-    deadlyArea.clear();
-    dangerArea.clear();
-    okArea.clear();
-    
-    for (int i = 0; i < deadColorFinder.size(); i++) {
-        ofPolyline l;
-        l = deadColorFinder.getPolyline(i);
-        l.simplify();
-        deadlyArea.push_back(l);
+    for(auto tile : getNeighbouringTiles(currentTile)) {
+        if (tile.gridX == gridX && tile.gridY == gridY) {
+            continue;
+        }
+        
+        if (!tile.walkable) {
+            wallCount++;
+        }
+        else {
+            
+        }
+    }
+    return wallCount;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getDeadlyOutlines()
+{
+    return deadlyArea;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getDangerOutlines()
+{
+    return dangerArea;
+}
+//--------------------------------------------------------------
+vector<ofPolyline> MapGenerator::getOkOutlines()
+{
+    return okArea;
+}
+//--------------------------------------------------------------
+void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
+{
+    ofPushMatrix();
+
+    for (int player = 0; player < playerCoords.size(); player++) {
+        for (int i = 0; i < okArea.size(); i++) {
+            okArea[i].simplify(0.1);
+            if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "OK");
+            }
+            ofSetColor(ofColor::green);
+            okArea[i].draw();
+        }
+        
+        for (int i = 0; i < dangerArea.size(); i++) {
+            dangerArea[i].simplify(0.1);
+            if (dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "Danger");
+            }
+            ofSetColor(ofColor::yellow);
+            dangerArea[i].draw();
+        }
+        
+        for (int i = 0; i < deadlyArea.size(); i++) {
+            deadlyArea[i].simplify(0.1);
+            if (deadlyArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "Deadly");
+            }
+            ofSetColor(ofColor::red);
+            deadlyArea[i].draw();
+        }
+        
+        if (!playerCoords.empty()) {
+            for (auto player : playerCoords) {
+                ofSetColor(255, 255, 255);
+                ofDrawCircle(player.x, player.y, 10);
+            }
+        }
     }
     
-    for (int i = 0; i < dangerColorFinder.size(); i++) {
-        ofPolyline l;
-        l = dangerColorFinder.getPolyline(i);
-        l.simplify();
-        dangerArea.push_back(l);
-    }
-    for (int i = 0; i < okColorFinder.size(); i++) {
-        ofPolyline l;
-        l = okColorFinder.getPolyline(i);
-        l.simplify();
-        okArea.push_back(l);
-    }
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 ofImage MapGenerator::getFinderImage()
 {
     return *finderImg;
 }
-#pragma mark - Drawing
+//--------------------------------------------------------------
+int MapGenerator::getWidth()
+{
+    return _width;
+}
+//--------------------------------------------------------------
+int MapGenerator::getHeight()
+{
+    return _height;
+}
+//--------------------------------------------------------------
+int MapGenerator::getTileSize()
+{
+    return _tileSize;
+}
+//--------------------------------------------------------------
+int MapGenerator::getGrowthLoops()
+{
+    return _growthLoops;
+}
+//--------------------------------------------------------------
+int MapGenerator::getDangerAreaSize()
+{
+    return _dangerAreaSize;
+}
+//--------------------------------------------------------------
+int MapGenerator::getNumberOfClouds()
+{
+    return _numberOfClouds;
+}
+//--------------------------------------------------------------
+int MapGenerator::getSmoothingLoops()
+{
+    return _smoothingLoops;
+}
+//--------------------------------------------------------------
+float MapGenerator::getRandomSeedValue()
+{
+    return _RseedValue;
+}
+#pragma mark - Setters
 //--------------------------------------------------------------
 // *
+// *    Setters
+// *
+//--------------------------------------------------------------
+void MapGenerator::setWidth(int width)
+{
+    _width = width;
+}
+//--------------------------------------------------------------
+void MapGenerator::setHeight(int height)
+{
+    _height = height;
+}
+//--------------------------------------------------------------
+void MapGenerator::setTileSize(int tileSize)
+{
+    _tileSize = tileSize;
+}
+//--------------------------------------------------------------
+void MapGenerator::setDangerAreaSize(int size)
+{
+    _dangerAreaSize = size;
+}
+//--------------------------------------------------------------
+void MapGenerator::setGrowthLoops(int growthLoops)
+{
+    _growthLoops = growthLoops;
+}
+//--------------------------------------------------------------
+void MapGenerator::setRandomSeedValue(float randomSeed)
+{
+    _RseedValue = randomSeed;
+}
+//--------------------------------------------------------------
+void MapGenerator::setNumberOfClouds(int numberOfClouds)
+{
+    _numberOfClouds = numberOfClouds;
+}
+//--------------------------------------------------------------
+void MapGenerator::setSmoothingLoops(int smoothingLoops)
+{
+    _smoothingLoops = smoothingLoops;
+}
+#pragma mark - Drawing
+//--------------------------------------------------------------
+
 // *    Drawing Functions
 // *
 //--------------------------------------------------------------
@@ -733,118 +909,6 @@ void MapGenerator::drawPolylines()
         finishArea[i].draw();
     }
     
-    ofPopMatrix();
-}
-#pragma mark - Getters
-//--------------------------------------------------------------
-// *
-// *    Getters Functions
-// *
-//--------------------------------------------------------------
-deque<Tile> MapGenerator::getNeighbouringTiles(Tile tile)
-{
-    deque<Tile> neighbours;
-    for (int x = -1; x <= 1; x++) {
-        for (int y = -1; y <= 1; y++) {
-            if ((x == 0 && y == 0)) {
-                continue;
-            }
-            
-            int checkX = tile.gridX + x;
-            int checkY = tile.gridY + y;
-            if (checkX >= 0 && checkX < _width && checkY >= 0 && checkY < _height) {
-                neighbours.push_back(map[checkX][checkY]);
-            }
-            else {
-                
-            }
-        }
-    }
-    return neighbours;
-}
-//--------------------------------------------------------------
-Tile MapGenerator::getTileFromGridRef(int x,int y)
-{
-    return map[x][y];
-}
-//--------------------------------------------------------------
-int MapGenerator::getSurroundingTileCount(int gridX, int gridY)
-{
-    int wallCount = 0;
-    Tile currentTile = getTileFromGridRef(gridX, gridY);
-    
-    for(auto tile : getNeighbouringTiles(currentTile)) {
-        if (tile.gridX == gridX && tile.gridY == gridY) {
-            continue;
-        }
-        
-        if (!tile.walkable) {
-            wallCount++;
-        }
-        else {
-            
-        }
-    }
-    return wallCount;
-}
-//--------------------------------------------------------------
-vector<ofPolyline> MapGenerator::getDeadlyOutlines()
-{
-    return deadlyArea;
-}
-//--------------------------------------------------------------
-vector<ofPolyline> MapGenerator::getDangerOutlines()
-{
-    return dangerArea;
-}
-//--------------------------------------------------------------
-vector<ofPolyline> MapGenerator::getOkOutlines()
-{
-    return okArea;
-}
-//--------------------------------------------------------------
-void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
-{
-    ofPushMatrix();
-//    ofTranslate(_newWidth/2, _newHeight);
-//    ofScale(0.5,0.5);
-    
-    for (int player = 0; player < playerCoords.size(); player++) {
-        for (int i = 0; i < okArea.size(); i++) {
-            okArea[i].simplify(0.1);
-            if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
-                fireEvent(player, "OK");
-            }
-            ofSetColor(ofColor::green);
-            okArea[i].draw();
-        }
-        
-        for (int i = 0; i < dangerArea.size(); i++) {
-            dangerArea[i].simplify(0.1);
-            if (dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
-                fireEvent(player, "Danger");
-            }
-            ofSetColor(ofColor::yellow);
-            dangerArea[i].draw();
-        }
-        
-        for (int i = 0; i < deadlyArea.size(); i++) {
-            deadlyArea[i].simplify(0.1);
-            if (deadlyArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
-                fireEvent(player, "Deadly");
-            }
-            ofSetColor(ofColor::red);
-            deadlyArea[i].draw();
-        }
-        
-        if (!playerCoords.empty()) {
-            for (auto player : playerCoords) {
-                ofSetColor(255, 255, 255);
-                ofDrawCircle(player.x, player.y, 10);
-            }
-        }
-    }
-
     ofPopMatrix();
 }
 #pragma mark - Fire Events
