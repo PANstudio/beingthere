@@ -24,30 +24,133 @@ using namespace ofxCv;
 
 class MapGenerator {
 public:
-    void setup();    
-    void resetMap();
-    void clearMap();
-    void update(int blurMap,int iRR[2],int iRY[2],int iRG[2]);
-    void generateMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
-    void generateMap(Map m);
-    void generateCustomMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
     
+    //--------------------------------------------------------------
+    // *
+    // *    Setup Functions
+    // *
+    //--------------------------------------------------------------
+    // Initialize with these variables
+    void setup(int width = 100,int height = 100, int tileSize = 5);
+    
+    // Generate New Grid
+    void generateNewGrid(int width,int height,int tileSize);
+    
+    // This resets the map entirely including the size and tile size
+    void resetMap();
+    
+    // This clears the array of data so all tiles are walkable
+    void clearMap();
+    
+    // Elegantly Clean Memory
+    void close();
+    //--------------------------------------------------------------
+    // *
+    // *    Generator Setup Functions
+    // *
+    //--------------------------------------------------------------
+    // Generate a Predefined Map
+    void generateMap(Map m);
+
+    // Generate a New Map
+    void generateNewMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
+    
+    // Generate Map with these parameters
+    void generateMap(int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
+    
+    // Generate Map Based on users inputs
+    void generateCustomMap(int smoothingValue,int growthLoops, int dangerAreaSize);
+    
+    // Generate Images for flushing
+    void generateImages(int width,int height,int tileSize);
+    
+    // Generate Clouds
+    void generateClouds(int width, int height,int offsetEdge,int numberOfClouds);
+    //--------------------------------------------------------------
+    // *
+    // *    Animator Functions
+    // *
+    //--------------------------------------------------------------
+    void startAnimation(int numberOfClouds,int smoothingLoops,int growthLoops,float seedValue);
+    
+    bool isAnimating();
+    
+    bool isAnimationFinished();
+    
+    // Only used for visualising the system
+    void animate();
+    
+    
+    //--------------------------------------------------------------
+    // *
+    // *    Generator Operations
+    // *
+    //--------------------------------------------------------------
+    // Generates the Lines and Areas
+    void generatePolylines(int blurMap,int iRR[2],int iRY[2],int iRG[2]);
+    
+    // Smooths the Map
     void smoothMap();
+    
+    // Grows the origin points
     void growCloud();
+    
+    // Generates the danger points
     void generateDangerAreas();
+    
+    // Expands the area
     void expandDangerAreas(int times);
     
+    // Check if Tile is Valid
+    bool isInMapRange(int x, int y);
+    
+    //--------------------------------------------------------------
+    // *
+    // *    Getters
+    // *
+    //--------------------------------------------------------------
     vector<ofPolyline> getDeadlyOutlines();
     vector<ofPolyline> getDangerOutlines();
     vector<ofPolyline> getOkOutlines();
     
     deque<Tile> getNeighbouringTiles(Tile tile);
+    
     int getSurroundingTileCount(int gridX, int gridY);
-    bool isInMapRange(int x, int y);
+
     Tile getTileFromGridRef(int x,int y);
     
     void getPlayerCoordinates(vector <ofPoint> playerCoords);
     
+    ofImage getFinderImage();
+    
+    int getWidth();
+    int getHeight();
+    int getTileSize();
+    int getGrowthLoops();
+    int getNumberOfClouds();
+    int getSmoothingLoops();
+    int getDangerAreaSize();
+    float getRandomSeedValue();
+    
+    //--------------------------------------------------------------
+    // *
+    // *    Setters
+    // *
+    //--------------------------------------------------------------
+    void setWidth(int width);
+    void setHeight(int height);
+    void setTileSize(int tileSize);
+    void setDangerAreaSize(int size);
+    void setGrowthLoops(int growthLoops);
+    void setRandomSeedValue(float randomSeed);
+    void setNumberOfClouds(int numberOfClouds);
+    void setSmoothingLoops(int smoothingLoops);
+    
+    //--------------------------------------------------------------
+    // *
+    // *    Draw Functions
+    // *
+    //--------------------------------------------------------------
     void draw(bool showGrid);
     void drawComputerVision(int x, int y);
     void drawPolylines();
@@ -55,16 +158,23 @@ public:
     void drawEditor();
     void drawFinderMap(int x,int y);
     
-    ofImage getFinderImage();
-    ofImage blurredGray;
-    
     void fireEvent(int playerId, string area);
     
+    //--------------------------------------------------------------
+    // *
+    // *    Mouse Functions
+    // *
+    //--------------------------------------------------------------
     void mouseOver(int x, int y);
     void mouseDown(int x, int y,int pressed);
     void mouseReleased(int x, int y,int pressed);
     void mouseDragged(int x, int y,int pressed);
     
+    //--------------------------------------------------------------
+    // *
+    // *    Load and Save Systems
+    // *
+    //--------------------------------------------------------------
     void loadMaps(string mapsFile);
     
     Map getMap(string mapDifficulty,int mapLevel);
@@ -128,7 +238,20 @@ private:
     
 protected:
     int whichButton;
+    int aX;
+    int aY;
+    bool genLoop;
+    bool smLoop;
+    bool danLoop;
+    bool grLoop;
+    bool exLoop;
     
+    bool bAnimate;
+    int _smoothingLoops;
+    int _growthLoops;
+    float _RseedValue;
+    
+    vector<ofVec2f> cloudPos;
 };
 
 

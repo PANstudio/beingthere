@@ -46,11 +46,16 @@ void ofApp::setup()
     scoreBoard.setup();
     
     mapGenerator.setup();
-    mapGenerator.generateMap(50, 50, 0, 10, 25, 1, 3, 1.9, 3);
+    
+    mapGenerator.generateNewMap(100,100,3, 5, 20, 3, 4, 3.13, 5);
     
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
-    playerManager.getFinderImage(mapGenerator.getFinderImage());
+    
+    if (mapGenerator.getFinderImage().isAllocated()) {
+        playerManager.getFinderImage(mapGenerator.getFinderImage());        
+    }
+
     
     countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
     styledMap.setup(500,500);
@@ -63,6 +68,10 @@ void ofApp::update()
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
     displayWindow->getTimeLeft(countDown.getTimeLeft());
+    
+    if(mapGenerator.isAnimating()) {
+        mapGenerator.animate();
+    }
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -98,7 +107,6 @@ void ofApp::draw()
     }
     ofSetColor(ofColor::white);
     heading.drawString(mode, 15, 530);
-//    styledMap.drawStyledMap(0, 0);
     
     // Window Layout
     drawWindows();
@@ -326,6 +334,10 @@ void ofApp::setupGUI()
     mapGui->addBreak();
     mapGui->addButton("Generate Custom Map");
     mapGui->addBreak();
+    mapGui->addButton("Animate Map");
+    mapGui->addBreak();
+    mapGui->addButton("Generate New Map");
+    mapGui->addBreak();
     mapGui->addButton("Flush Map");
     
     mapGui->addBreak();
@@ -425,16 +437,19 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
     if (e.target->is("Generate Map")) {
-        mapGenerator.generateMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+        mapGenerator.generateMap(_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
         playerManager.getFinderImage(mapGenerator.getFinderImage());
     }
     else if (e.target->is("Flush Map")) {
-        mapGenerator.update(_blur,_iRR,_iRY,_iRG);
+        mapGenerator.generatePolylines(_blur,_iRR,_iRY,_iRG);
         styledMap.setShapes(mapGenerator.getDeadlyOutlines(),mapGenerator.getDangerOutlines());
     }
     else if (e.target->is("Generate Custom Map")) {
-        mapGenerator.generateCustomMap(_width, _height,_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+        mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
         playerManager.getFinderImage(mapGenerator.getFinderImage());
+    }
+    else if (e.target->is("Animate Map")) {
+        mapGenerator.startAnimation(_numberOfIslands,_smooth,_growthNo,_rs);
     }
     else if (e.target->is("Use Random Seed")) {
         _urs = e.target->getEnabled();
