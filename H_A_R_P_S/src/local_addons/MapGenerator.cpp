@@ -7,16 +7,39 @@
 //
 //--------------------------------------------------------------
 #include "MapGenerator.hpp"
-#pragma mark - Generation
+#pragma mark - Setup
 //--------------------------------------------------------------
 // *
-// *    Generator Functions
+// *    Setup Functions
 // *
+//--------------------------------------------------------------
+void MapGenerator::setup(int width,int height, int tileSize)
+{
+    for (int i = 0; i < 14; i++) {
+        if (i < 7) {
+            buttons.push_back(SimpleButton(510+(i*45), 10, 40, 40, i, "", ofColor(255,175)));
+        }
+        else {
+            buttons.push_back(SimpleButton(510+((i-7)*45), 60, 40, 40, i, "", ofColor(255,175)));
+        }
+    }
+    whichButton = 0;
+    bAnimate = false;
+    
+    _width = width;
+    _height = height;
+    
+    generateNewGrid(width, height, tileSize);
+}
+//--------------------------------------------------------------
+// *    Reset Map
 //--------------------------------------------------------------
 void MapGenerator::resetMap()
 {
     delete map;
 }
+//--------------------------------------------------------------
+// *    Clean Map
 //--------------------------------------------------------------
 void MapGenerator::clearMap()
 {
@@ -29,108 +52,54 @@ void MapGenerator::clearMap()
     }
 }
 //--------------------------------------------------------------
-void MapGenerator::generateMap(Map m)
-{
-    generateMap(m.width, m.height, m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
-}
+// *    Generate New Grid
 //--------------------------------------------------------------
-void MapGenerator::setup()
-{
-    for (int i = 0; i < 14; i++) {
-        if (i < 7) {
-            buttons.push_back(SimpleButton(510+(i*45), 10, 40, 40, i, "", ofColor(255,175)));
-        }
-        else {
-            buttons.push_back(SimpleButton(510+((i-7)*45), 60, 40, 40, i, "", ofColor(255,175)));
-        }
-    }
-    whichButton = 0;
-    bAnimate = false;
-}
-//--------------------------------------------------------------
-void MapGenerator::generateCustomMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
-{
-    
-    // Set Variables
-    _width = width;
-    _height = height;
-    _offsetEdge = offsetEdge;
-    _dangerAreaSize = dangerAreaSize;
-    _tileSize = tileSize;
-    
-    _newWidth = _width*tileSize;
-    _newHeight = _height*tileSize;
-    
-    // Create Map Texture for openCV
-    mapTexture = new ofImage();
-    mapTexture->allocate(_newWidth,_newHeight, OF_IMAGE_COLOR);
-    mapTexture->clear();
-    
-    fboPixels = new unsigned char[_newWidth*_newHeight*3];
-    
-    mapFbo = new ofFbo();
-    mapFbo->allocate(_newWidth, _newHeight);
-    
-    mapFbo->begin();
-        ofClear(0, 0, 0);
-    mapFbo->end();
-    
-    
-//    // Smooth the Map
-//    for (int i = 0; i < smoothingValue; i++) {
-//        smoothMap();
-//    }
-    
-    // Generate the Danger Zone
-    generateDangerAreas();
-    
-    // Expand the Zones
-    for (int i = 0; i < dangerAreaSize; i++) {
-        expandDangerAreas(i);
-    }
-    
-    
-    if (finderImg == nullptr) {
-        delete finderImg;
-    }
-    finderImg = new ofImage();
-    finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
-    if (microImg == nullptr) {
-        delete microImg;
-    }
-    
-    microImg = new ofImage();
-    microImg->allocate(_width, _height, OF_IMAGE_COLOR);
-    
-    for (int x = 0; x < _width; x ++) {
-        for (int y = 0; y < _height; y ++) {
-            if(!map[x][y].walkable) {
-                finderImg->setColor(x, y,ofColor::black);
-                microImg->setColor(x, y, ofColor::red);
-            }
-            else {
-                if (map[x][y].toxicity == 0) {
-                    finderImg->setColor(x, y,ofColor::white);
-                    microImg->setColor(x, y, ofColor::green);
-                }
-                else {
-                    ofColor c;
-                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
-                    finderImg->setColor(x, y,c);
-                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255), ofMap(255/(map[x][y].toxicity+1),255,0,0,255), 0);
-                    microImg->setColor(x, y, c);
-                }
-            }
-        }
-    }
-    microImg->update();
-}
-//--------------------------------------------------------------
-void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
+void MapGenerator::generateNewGrid(int width, int height, int tileSize)
 {
     if (map == nullptr) {
         resetMap();
     }
+    
+    map = new Tile*[width];
+    for (int x = 0; x < width; x++)
+        map[x] = new Tile[height];
+    
+    // Make the Map Walkable
+    for (int x = 0; x < _width; x ++) {
+        for (int y = 0; y < _height; y ++) {
+            map[x][y] = *new Tile(true,0,ofVec2f(x*tileSize,y*tileSize),x,y,tileSize);
+        }
+    }
+}
+//--------------------------------------------------------------
+// *    Close
+//--------------------------------------------------------------
+void MapGenerator::close()
+{
+    resetMap();
+}
+#pragma mark - Generation
+//--------------------------------------------------------------
+// *
+// *    Generator Functions
+// *
+//--------------------------------------------------------------
+void MapGenerator::generateMap(Map m)
+{
+    if (m.width != _width && m.height != _height) {
+        generateNewMap(m.width,m.height,m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
+    }
+    else {
+        generateMap(m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
+    }
+}
+//--------------------------------------------------------------
+// *    Generate New Map
+//--------------------------------------------------------------
+void MapGenerator::generateNewMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
+{
+    // Generate New Grid
+    generateNewGrid(width, height, tileSize);
     
     // Set Variables
     _width = width;
@@ -143,38 +112,63 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     _newWidth = _width*tileSize;
     _newHeight = _height*tileSize;
     
-    // Create Map Texture for openCV
-    mapTexture = new ofImage();
-    mapTexture->allocate(_newWidth,_newHeight, OF_IMAGE_COLOR);
-    mapTexture->clear();
-    
-    fboPixels = new unsigned char[_newWidth*_newHeight*3];
-    
-    mapFbo = new ofFbo();
-    mapFbo->allocate(_newWidth, _newHeight);
-    
-    mapFbo->begin();
-        ofClear(0, 0, 0);
-    mapFbo->end();
-    
-    map = new Tile*[width];
-    for (int x = 0; x < width; x++)
-        map[x] = new Tile[height];
-        
     ofSeedRandom(seedValue);
     
-    // Make the Map Walkable
-    for (int x = 0; x < _width; x ++) {
-        for (int y = 0; y < _height; y ++) {
-            map[x][y] = *new Tile(true,0,ofVec2f(x*_tileSize,y*_tileSize),x,y,_tileSize);
-        }
+    generateClouds(_width, _height, offsetEdge, numberOfClouds);
+    
+    // Grow the Cloud
+    for(int i = 0; i < growthLoops; i++) {
+        growCloud();
     }
     
-    for (int i = 0; i < _numberOfClouds; i++) {
-        int x1 = ofRandom(0+_offsetEdge, (_width)-_offsetEdge);
-        int y1 = ofRandom(0+_offsetEdge, (_height)-_offsetEdge);
-        map[x1][y1].walkable = false;
+    // Smooth the Map
+    for (int i = 0; i < smoothingValue; i++) {
+        smoothMap();
     }
+    
+    // Generate the Danger Zone
+    generateDangerAreas();
+    
+    // Expand the Zones
+    for (int i = 0; i < dangerAreaSize; i++) {
+        expandDangerAreas(i);
+    }
+    
+    generateImages(width, height, tileSize);
+    
+}
+//--------------------------------------------------------------
+// *    Generate Custom Map
+//--------------------------------------------------------------
+void MapGenerator::generateCustomMap(int smoothingValue, int growthLoops, int dangerAreaSize)
+{
+    // Generate the Danger Zone
+    generateDangerAreas();
+    
+    // Expand the Zones
+    for (int i = 0; i < dangerAreaSize; i++) {
+        expandDangerAreas(i);
+    }
+    
+    generateImages(_width, _height, _tileSize);
+}
+//--------------------------------------------------------------
+// *    Generate Random Map
+//--------------------------------------------------------------
+void MapGenerator::generateMap(int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
+{
+    
+    _offsetEdge = offsetEdge;
+    _numberOfClouds = numberOfClouds;
+    _dangerAreaSize = dangerAreaSize;
+    
+    ofSeedRandom(seedValue);
+    
+    // Clear the Current context
+    clearMap();
+
+    // Generate Clouds
+    generateClouds(_width, _height, offsetEdge, numberOfClouds);
     
     // Grow the Cloud
     for(int i = 0; i < growthLoops; i++) {
@@ -194,8 +188,29 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
         expandDangerAreas(i);
     }
     
-//    mapTexture->setFromPixels(fboPixels, _newWidth, _newHeight, OF_IMAGE_COLOR);
-//    mapTexture->update();
+    generateImages(_width, _height, tileSize);
+}
+//--------------------------------------------------------------
+// *    Generate Images for Line Generator
+//--------------------------------------------------------------
+void MapGenerator::generateImages(int width, int height, int tileSize)
+{
+    int nWidth = width*tileSize;
+    int nHeight = height*tileSize;
+    
+    // Create Map Texture for openCV
+    mapTexture = new ofImage();
+    mapTexture->allocate(nHeight,nHeight, OF_IMAGE_COLOR);
+    mapTexture->clear();
+    
+    fboPixels = new unsigned char[nWidth*nHeight*3];
+    
+    mapFbo = new ofFbo();
+    mapFbo->allocate(nWidth, nHeight);
+    
+    mapFbo->begin();
+    ofClear(0, 0, 0);
+    mapFbo->end();
     
     if (finderImg == nullptr) {
         delete finderImg;
@@ -237,9 +252,29 @@ void MapGenerator::generateMap(int width, int height, int offsetEdge, int tileSi
     GaussianBlur(test, 5);
     toOf(test, blurredGray);
     blurredGray.update();
-//    copy(test, finderImg);
     
     microImg->update();
+}
+//--------------------------------------------------------------
+// *    Generate Clouds
+//--------------------------------------------------------------
+void MapGenerator::generateClouds(int width, int height, int offsetEdge,int numberOfClouds)
+{
+    
+    // Clear Previous Clouds
+    // and Generate new points
+    cloudPos.clear();
+    for (int i = 0; i < numberOfClouds; i++) {
+        int x1 = ofRandom(0+offsetEdge, (width)-offsetEdge);
+        int y1 = ofRandom(0+offsetEdge, (height)-offsetEdge);
+        cloudPos.push_back(ofVec2f(x1, y1));
+    }
+
+    for (int i = 0; i < cloudPos.size(); i++) {
+        int wx = cloudPos[i].x;
+        int wy = cloudPos[i].y;
+        map[wx][wy].walkable = false;
+    }
 }
 //--------------------------------------------------------------
 // *
@@ -262,12 +297,7 @@ void MapGenerator::startAnimation(int numberOfClouds,int smoothingLoops,int grow
     
     ofSeedRandom(_RseedValue);
     
-    cloudPos.clear();
-    for (int i = 0; i < numberOfClouds; i++) {
-        int x1 = ofRandom(0, 100);
-        int y1 = ofRandom(0, 100);
-        cloudPos.push_back(ofVec2f(x1, y1));
-    }
+    generateClouds(_width, _height, _offsetEdge, numberOfClouds);
     
     aX = 0;
     aY = 0;
@@ -493,7 +523,7 @@ void MapGenerator::expandDangerAreas(int num)
     }
 }
 //--------------------------------------------------------------
-void MapGenerator::update(int blurMap,int iRR[2],int iRY[2],int iRG[2])
+void MapGenerator::generatePolylines(int blurMap,int iRR[2],int iRY[2],int iRG[2])
 {
     mapFbo->begin();
         ofClear(0, 0, 0);
@@ -563,9 +593,14 @@ void MapGenerator::draw(bool showGrid)
             map[x][y].draw();
         }
     }
-//    ofSetColor(255);
-//    blurredGray.draw(0, 200,200,200);
-    //    drawMat(_blurred, 0, 0);
+    
+    if (isAnimating()) {
+        ofPushStyle();
+        ofSetColor(0, 0, 0);
+        ofSetLineWidth(3);
+        ofDrawLine(0, aY*_tileSize, 500, aY*_tileSize);
+        ofPopStyle();
+    }
 }
 //--------------------------------------------------------------
 void MapGenerator::drawMicroMap()
