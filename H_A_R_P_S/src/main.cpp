@@ -17,8 +17,8 @@ int main( ){
     shared_ptr<ofAppBaseWindow> operatorWindow = ofCreateWindow(settings);
     
     
-    settings.width = 500;
-    settings.height = 500;
+    settings.width = 750;
+    settings.height = 750;
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = true;
     settings.monitor = 1;

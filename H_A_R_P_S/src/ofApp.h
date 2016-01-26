@@ -90,6 +90,7 @@ class ofApp : public ofBaseApp{
         StyledMap styledMap;
     
         bool _showShaded;
+        bool _showPreviewWindow;
         ofTrueTypeFont heading;
         //--------------------------------------------------------------
         // *
@@ -105,8 +106,9 @@ class ofApp : public ofBaseApp{
         // GUI Objects
         ofxDatGui * gui;
         ofxDatGui * mapGui;
-        ofxDatGui * operationElements;
+        ofxDatGui * styleGui;
         ofxDatGui * calibrationGui;
+        ofxDatGui * operationElements;
     
         void setGuiListeners(ofxDatGui* guiRef);
     

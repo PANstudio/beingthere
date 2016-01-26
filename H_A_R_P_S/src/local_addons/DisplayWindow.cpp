@@ -17,13 +17,47 @@ void DisplayWindow::setup()
     // Align Center the Text
     w = (ofGetWidth()/2) - (font.getStringBoundingBox(title, 0, 0).width/2);
     h = (ofGetHeight()/2) - (font.getStringBoundingBox(title, 0, 0).height/2);
-    timestring = "";
+    timestring = "0000";
+    
+    setupFlag = false;
     
 }
 //--------------------------------------------------------------
 void DisplayWindow::update()
 {
+    
+}
+//--------------------------------------------------------------
+void DisplayWindow::setupSegmentDisplay()
+{
+    // if the old display exists delete
+    if (timerDisplay == nullptr) {
+        delete timerDisplay;        
+    }
+    // Make new object
+    timerDisplay = new ofxSegmentDisplay::UnitArray;
+    
+    ofxSegmentDisplay::Unit::Style& style = timerDisplay->getUnitStyleRef();
+    style.segment_width = 10;
+    style.padding = ofVec2f(9,16);
+    style.skew = 9;
+    style.width = SEGMENT_WIDTH;
+    style.height = SEGMENT_HEIGHT;
+    style.segment_margin = 1;
+    timerDisplay->setUnitInterval(64);
+    style.updated = true;
+    _segmentColor = ofColor::red;
+    _backColor = ofColor::black;
 
+    timestring = "0000";
+    cout << "Have setup segment display" << endl;
+    setupFlag = true;
+}
+//--------------------------------------------------------------
+void DisplayWindow::setTimerColors(ofColor segmentColor, ofColor backColor)
+{
+    _segmentColor = segmentColor;
+    _backColor = backColor;
 }
 //--------------------------------------------------------------
 void DisplayWindow::setNumberOfHealthBars(int num)
@@ -45,23 +79,38 @@ void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
 //--------------------------------------------------------------
 void DisplayWindow::draw()
 {
-    ofBackground(0, 0, 0);
-
-    if (calibration) {
-        calibrationScreen.draw();
+    ofPushStyle();
+//    ofEnableAlphaBlending();
+    ofSetColor(0, 0, 0);
+    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+//    if (calibration) {
+//        calibrationScreen.draw();
+//    }
+//    else {
+    ofSetColor(ofColor::ivory);
+    font.drawString(title, w, h);
+    for (int i = 0; i < playerHealth.size(); i++) {
+        playerHealth[i].draw(ofPoint(10,10+(i*50)));
     }
-    else {
-        ofSetColor(ofColor::ivory);
-        font.drawString(title, w, h);
-        for (int i = 0; i < playerHealth.size(); i++) {
-            playerHealth[i].draw(ofPoint(10,10+(i*50)));
+
+    int x = (ofGetWidth()/2)-(SEGMENT_WIDTH*timestring.size())/2;
+    int y = 10;
+
+    if (setupFlag) {
+        ofPushMatrix();
+        ofTranslate(x,y);
+        if (ofToInt(timestring) < 10) {
+            if (ofGetFrameNum() % 60 == 0) {
+                timerDisplay->draw(timestring, _segmentColor, _backColor);
+            }
         }
-        
-        int x = (ofGetWidth()/2) - (font.getStringBoundingBox(timestring, 0, 0).width/2);
-        int y = (ofGetHeight()/2) - (font.getStringBoundingBox(timestring, 0, 0).height/2)+40;
-        font.drawString(timestring, x, y);
-    }
+        else {
+            timerDisplay->draw(timestring, _segmentColor, _backColor);
+        }
 
+        ofPopMatrix();
+    }
+    ofPopStyle();
 }
 //--------------------------------------------------------------
 void DisplayWindow::doCalibration(bool show)
@@ -69,9 +118,32 @@ void DisplayWindow::doCalibration(bool show)
     calibration = show;
 }
 //--------------------------------------------------------------
+void DisplayWindow::close()
+{
+    if (timerDisplay == nullptr) {
+        delete timerDisplay;
+    }
+}
+//--------------------------------------------------------------
 void DisplayWindow::drawCalibration()
 {
 
+}
+//--------------------------------------------------------------
+void DisplayWindow::drawPreview(int x, int y)
+{
+    ofPushMatrix();
+    ofTranslate(x, y);
+    ofScale(0.25,0.25);
+    ofPushStyle();
+    this->draw();
+    ofPushStyle();
+    ofSetColor(ofColor::white);
+    ofNoFill();
+    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+    ofPopStyle();
+    ofPopStyle();
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 void DisplayWindow::getTimeLeft(string time)

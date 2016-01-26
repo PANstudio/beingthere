@@ -15,9 +15,6 @@
 
 class MyTimer {
     public:
-//    
-//        MyTimer(float timerLength,string timerName,bool loop,string fontFile);
-//        ~MyTimer();
     
         void setup(float timerLength,string timerName,bool loop,string fontFile);
         void update();
@@ -28,6 +25,7 @@ class MyTimer {
         void reset();
         void setNewTimerLength(int timerLength);
         string getTimeLeft();
+        int getSecondsLeft();
     
     private:
         float startTime;

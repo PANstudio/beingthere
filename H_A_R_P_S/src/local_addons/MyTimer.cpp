@@ -78,7 +78,7 @@ string MyTimer::getTimeLeft()
     else {
         secs = ofToString((int)(a*60));
     }
-    time << mins << ":" << secs << endl;
+    time << mins << secs;
     return time.str();
 }
 //--------------------------------------------------------------
@@ -92,6 +92,11 @@ void MyTimer::draw(int x, int y)
     else {
         
     }
+}
+//--------------------------------------------------------------
+int MyTimer::getSecondsLeft()
+{
+    return timeLeft;
 }
 //--------------------------------------------------------------
 void MyTimer::setNewTimerLength(int timerLength)

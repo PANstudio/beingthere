@@ -5,6 +5,7 @@
 void ofApp::setupVariables()
 {
     _urs = false;
+    _showPreviewWindow = false;
     _width = 100;
     _height = 100;
     _dangerAreaSize = 5;
@@ -41,7 +42,7 @@ void ofApp::setup()
     ofSetFullscreen(true);
     setupGUI();
     setupVariables();
-    
+        
     scoreBoard.loadScoreboard("scoreboard.json");
     scoreBoard.setup();
     
@@ -69,6 +70,13 @@ void ofApp::update()
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
     displayWindow->getTimeLeft(countDown.getTimeLeft());
     
+    if (countDown.getSecondsLeft() <= 10000) {
+        displayWindow->setTimerColors(ofColor::red, 25);
+    }
+    else {
+        displayWindow->setTimerColors(ofColor::green, 25);
+    }
+    
     if(mapGenerator.isAnimating()) {
         mapGenerator.animate();
     }
@@ -79,10 +87,18 @@ void ofApp::draw()
     ofBackground(0, 0, 0);
     if (_Appmode == 0) {
         mode = "Calibration Mode";
+        if (_showPreviewWindow) {
+            ofPushMatrix();
+            ofPushStyle();
+            displayWindow->drawPreview(500, 500);
+            ofPopStyle();
+            ofPopMatrix();
+        }
     }
     else if (_Appmode == 1) {
         mapGenerator.drawEditor();
         mode = "Editor Mode";
+        
     }
     else if (_Appmode == 2) {
         mapGenerator.draw(false);
@@ -104,9 +120,21 @@ void ofApp::draw()
         playerManager.drawPlayerManager();
         playerManager.drawPlayerHealth(680,20,0.5);
         mode = "Operation Mode";
+        if (_showPreviewWindow) {
+            ofPushMatrix();
+            ofPushStyle();
+            displayWindow->drawPreview(500, 500);
+            ofPopStyle();
+            ofPopMatrix();
+        }
     }
+    
     ofSetColor(ofColor::white);
     heading.drawString(mode, 15, 530);
+    
+    
+   
+
     
     // Window Layout
     drawWindows();
@@ -114,6 +142,7 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::exit()
 {
+    displayWindow->close();
     // Delete GUI Objects
     delete gui;
     delete mapGui;
@@ -138,6 +167,9 @@ void ofApp::keyPressed(int key)
         case 'c':
             drawCalibrationGui = !drawCalibrationGui;
             calibrationGui->setVisible(drawCalibrationGui);
+            break;
+        case ' ':
+            displayWindow->setupSegmentDisplay();
             break;
         default:
             break;
@@ -296,12 +328,11 @@ void ofApp::setupGUI()
     gui->addBreak();
     gui->addMatrix("Levels", levels.size(),true);
     gui->getMatrix("Levels")->setRadioMode(true);
-
     gui->addBreak();
-    gui->addToggle("Show Shaded Map");
+    gui->addToggle("Show Preview Window");
     gui->addBreak();
-    gui->addButton("Start Level");
     
+    gui->addButton("Start Level");
     gui->addBreak();
     gui->addButton("Stop Level");
     
@@ -461,7 +492,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         displayWindow->setCalibration(_numberOfXLines, _numberOfYLines, _spacingX, _spacingY);
     }
     else if (e.target->is("Start Level")) {
-        countDown.setNewTimerLength(ofRandom(10000));
+        countDown.setNewTimerLength(ofRandom(10000,60000));
         countDown.start();
     }
     else if (e.target->is("Stop Level")) {
@@ -469,6 +500,9 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if (e.target->is("Clear Map")) {
         mapGenerator.clearMap();
+    }
+    else if (e.target->is("Show Preview Window")) {
+        _showPreviewWindow = e.target->getEnabled();
     }
     else if(e.target->is("Save")) {
         Map m;
@@ -501,22 +535,22 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
     if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
-            cout << _Appmode << endl;
+//            cout << _Appmode << endl;
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 1;
-            cout << _Appmode << endl;
+//            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 2;
-            cout << _Appmode << endl;
+//            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
             _Appmode = 3;
-            cout << _Appmode << endl;
+//            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
     }

@@ -31,6 +31,10 @@
 		60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E018EA5B6B752E53BD00D9E4 /* ofxEasingQuint.cpp */; };
 		61DD69DC8EEC05F4180E5A3A /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE5201E4C9247E2A335BB47E /* ofxCvFloatImage.cpp */; };
 		632D97CB1C37663E00F4792E /* ofxPathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632D97C91C37663E00F4792E /* ofxPathfinder.cpp */; settings = {ASSET_TAGS = (); }; };
+		63311BB31C556D0000BD598E /* ofxSegmentDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BAE1C556D0000BD598E /* ofxSegmentDisplay.cpp */; settings = {ASSET_TAGS = (); }; };
+		63311BB41C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB01C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp */; settings = {ASSET_TAGS = (); }; };
+		63311BB51C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB11C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp */; settings = {ASSET_TAGS = (); }; };
+		63311BB61C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB21C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp */; settings = {ASSET_TAGS = (); }; };
 		635E7E5F1C3C68DF008ACD32 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E551C3C68DF008ACD32 /* ofxDatGuiComponent.cpp */; settings = {ASSET_TAGS = (); }; };
 		635E7E601C3C68DF008ACD32 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E5A1C3C68DF008ACD32 /* ofxDatGui.cpp */; settings = {ASSET_TAGS = (); }; };
 		637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244351C20DB17002F7BD5 /* DisplayWindow.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -222,6 +226,11 @@
 		6320D84AFB1B36D3CEC35D89 /* affine.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = affine.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/core/affine.hpp; sourceTree = SOURCE_ROOT; };
 		632D97C91C37663E00F4792E /* ofxPathfinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPathfinder.cpp; sourceTree = "<group>"; };
 		632D97CA1C37663E00F4792E /* ofxPathfinder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxPathfinder.h; sourceTree = "<group>"; };
+		63311BAE1C556D0000BD598E /* ofxSegmentDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSegmentDisplay.cpp; sourceTree = "<group>"; };
+		63311BAF1C556D0000BD598E /* ofxSegmentDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSegmentDisplay.h; sourceTree = "<group>"; };
+		63311BB01C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSegmentDisplay14SegImpl.cpp; sourceTree = "<group>"; };
+		63311BB11C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSegmentDisplay16SegImpl.cpp; sourceTree = "<group>"; };
+		63311BB21C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSegmentDisplay7SegImpl.cpp; sourceTree = "<group>"; };
 		6337C65EC7317260BA2400E0 /* global_motion.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = global_motion.hpp; path = ../../../../of_v0.9.0_osx_release/addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/global_motion.hpp; sourceTree = SOURCE_ROOT; };
 		634A7E831C42DA2B00753B2E /* SimpleButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleButton.h; path = src/local_addons/SimpleButton.h; sourceTree = "<group>"; };
 		635E7E481C3C68DF008ACD32 /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
@@ -816,6 +825,27 @@
 			path = ../../../../of_v0.9.0_osx_release/addons/ofxPathfinder/src;
 			sourceTree = "<group>";
 		};
+		63311BAC1C556D0000BD598E /* ofxSegmentDisplay */ = {
+			isa = PBXGroup;
+			children = (
+				63311BAD1C556D0000BD598E /* src */,
+			);
+			name = ofxSegmentDisplay;
+			sourceTree = "<group>";
+		};
+		63311BAD1C556D0000BD598E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63311BAE1C556D0000BD598E /* ofxSegmentDisplay.cpp */,
+				63311BAF1C556D0000BD598E /* ofxSegmentDisplay.h */,
+				63311BB01C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp */,
+				63311BB11C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp */,
+				63311BB21C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp */,
+			);
+			name = src;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxSegmentDisplay/src;
+			sourceTree = "<group>";
+		};
 		635E7E451C3C68DF008ACD32 /* ofxDatGui */ = {
 			isa = PBXGroup;
 			children = (
@@ -1190,6 +1220,7 @@
 				632D97C71C37663E00F4792E /* ofxPathfinder */,
 				635E7E451C3C68DF008ACD32 /* ofxDatGui */,
 				63FB3E601C4BEDC30006421A /* ofxSpreadsheet */,
+				63311BAC1C556D0000BD598E /* ofxSegmentDisplay */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1553,6 +1584,8 @@
 				6372443C1C20E4CF002F7BD5 /* CalibrationScreen.cpp in Sources */,
 				639756B81C1E373B00B512AD /* PlayerManager.cpp in Sources */,
 				B5D71195731FE4DBB32256FE /* ContourFinder.cpp in Sources */,
+				63311BB51C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp in Sources */,
+				63311BB41C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp in Sources */,
 				4AD2491B84F2022BA1D161CA /* Distance.cpp in Sources */,
 				637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */,
 				6C2E89161CA335E9F476A206 /* Flow.cpp in Sources */,
@@ -1606,8 +1639,10 @@
 				D81FFB8FFF77A9F1649FC259 /* ofxEasingElastic.cpp in Sources */,
 				5EB4394F89E6C7B6CB63E407 /* ofxEasingExpo.cpp in Sources */,
 				79FEB1058235F02AC6492834 /* ofxEasingLinear.cpp in Sources */,
+				63311BB61C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp in Sources */,
 				93E1EE179A71AB237BAB71C7 /* ofxEasingQuad.cpp in Sources */,
 				77A6502077B932A1B969A7CD /* ofxEasingQuart.cpp in Sources */,
+				63311BB31C556D0000BD598E /* ofxSegmentDisplay.cpp in Sources */,
 				60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */,
 				639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */,
 				3E4A5983D6208AC9A0904FC2 /* ofxEasingSine.cpp in Sources */,
