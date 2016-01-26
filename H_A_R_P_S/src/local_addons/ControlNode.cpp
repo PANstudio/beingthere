@@ -17,9 +17,15 @@ ControlNode::ControlNode(int x,int y,int id)
     isOver = false;
     _id = id;
     this->set(x, y, 14, 14);
+    nReading = NodeReadings(this->_id);
 }
 //--------------------------------------------------------------
 ControlNode::~ControlNode() {}
+//--------------------------------------------------------------
+void ControlNode::setValues(float _var1, float _var2, float _var3, float _var4, float _var5, float _var6)
+{
+    nReading = NodeReadings(this->_id, _var1, _var2, _var3, _var4, _var5, _var6);
+}
 //--------------------------------------------------------------
 void ControlNode::draw()
 {
@@ -50,6 +56,19 @@ void ControlNode::draw()
     ofSetColor(ofColor::white);
     ofDrawBitmapString(_id, x, y+15);
     ofPopStyle();
+}
+//--------------------------------------------------------------
+vector<string> ControlNode::getReadings()
+{
+    vector<string> readings;
+    readings.push_back(ofToString(nReading.nodeID));
+    readings.push_back(ofToString(nReading.var1));
+    readings.push_back(ofToString(nReading.var2));
+    readings.push_back(ofToString(nReading.var3));
+    readings.push_back(ofToString(nReading.var4));
+    readings.push_back(ofToString(nReading.var5));
+    readings.push_back(ofToString(nReading.var6));
+    return readings;
 }
 //--------------------------------------------------------------
 void ControlNode::mouseOver(int x,int y)

@@ -18,6 +18,22 @@ void CalibrationScreen::setup(int gridSizeX, int gridSizeY, int gridSpacingX, in
             count++;
         }
     }
+    vector<string> header;
+    header.push_back("Node ID");
+    for (int i = 1; i <= 6; i++) {
+        string s = "Var " + ofToString(i);
+        header.push_back(s);
+    }
+    spreadsheet.setHeaders(header);
+    spreadsheet.setup(500, 0, 25, header.size());
+}
+//--------------------------------------------------------------
+void CalibrationScreen::setNodeReadings(int node)
+{
+    if (!nodes.empty()) {
+        nodes[node].setValues(ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100));
+        spreadsheet.addEntry(nodes[node].getReadings());
+    }
 }
 //--------------------------------------------------------------
 void CalibrationScreen::draw()
@@ -25,6 +41,23 @@ void CalibrationScreen::draw()
     for (auto node : nodes) {
         node.draw();
     }
+    
+    ofSetColor(255);
+    spreadsheet.draw();
+}
+//--------------------------------------------------------------
+void CalibrationScreen::saveCalibrationData()
+{
+    vector<vector<string>> data;
+    data.push_back(spreadsheet.getHeaders());
+    
+    int entryNumbers = spreadsheet.getEntries().size();
+    for (int i = 0; i < entryNumbers; i++) {
+        data.push_back(spreadsheet.getEntries()[i]);
+    }
+    
+    readingsFile.setData(data);
+    readingsFile.saveFile(ofToDataPath("readings.csv"));
 }
 //--------------------------------------------------------------
 void CalibrationScreen::mousePos(int x, int y)
@@ -44,7 +77,13 @@ void CalibrationScreen::mousePressed(int x, int y,int button)
     }
     else {
         for (int i = 0; i < nodes.size(); i++) {
+            if (nodes[i].isActive) {
+                nodes[i].isActive = false;
+            }
             nodes[i].nodeClicked(x, y, 1);
+            if (nodes[i].isActive) {
+                setNodeReadings(i);
+            }
         }
     }
 }

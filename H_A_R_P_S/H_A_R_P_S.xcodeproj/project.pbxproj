@@ -49,6 +49,7 @@
 		639756B91C1E373B00B512AD /* RobotManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AF1C1E373B00B512AD /* RobotManager.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756BA1C1E373B00B512AD /* TargetTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B11C1E373B00B512AD /* TargetTile.cpp */; settings = {ASSET_TAGS = (); }; };
 		639756BB1C1E373B00B512AD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B31C1E373B00B512AD /* Tile.cpp */; settings = {ASSET_TAGS = (); }; };
+		63C32B0A1C57690800384A63 /* ofxCsv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63C32B081C57690800384A63 /* ofxCsv.cpp */; settings = {ASSET_TAGS = (); }; };
 		63EA95F31C336E2900721819 /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63EA95F01C336E2900721819 /* ofxBlurShader.cpp */; settings = {ASSET_TAGS = (); }; };
 		63FB3E641C4BEDC30006421A /* ofxSpreadsheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */; settings = {ASSET_TAGS = (); }; };
 		6C06F287580ED82420253165 /* ObjectFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6B65A774AC83F4FC4103DEF /* ObjectFinder.cpp */; };
@@ -282,6 +283,8 @@
 		639756B31C1E373B00B512AD /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile.cpp; path = src/local_addons/Tile.cpp; sourceTree = "<group>"; };
 		639756B41C1E373B00B512AD /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Tile.hpp; path = src/local_addons/Tile.hpp; sourceTree = "<group>"; };
 		639756BD1C1E48F700B512AD /* MapHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapHelpers.hpp; path = src/local_addons/MapHelpers.hpp; sourceTree = "<group>"; };
+		63C32B081C57690800384A63 /* ofxCsv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCsv.cpp; sourceTree = "<group>"; };
+		63C32B091C57690800384A63 /* ofxCsv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxCsv.h; sourceTree = "<group>"; };
 		63EA95F01C336E2900721819 /* ofxBlurShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBlurShader.cpp; sourceTree = "<group>"; };
 		63EA95F11C336E2900721819 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
 		63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSpreadsheet.cpp; sourceTree = "<group>"; };
@@ -907,6 +910,24 @@
 			path = themes;
 			sourceTree = "<group>";
 		};
+		63C32B061C57690800384A63 /* ofxCsv */ = {
+			isa = PBXGroup;
+			children = (
+				63C32B071C57690800384A63 /* src */,
+			);
+			name = ofxCsv;
+			sourceTree = "<group>";
+		};
+		63C32B071C57690800384A63 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63C32B081C57690800384A63 /* ofxCsv.cpp */,
+				63C32B091C57690800384A63 /* ofxCsv.h */,
+			);
+			name = src;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxCsv/src;
+			sourceTree = "<group>";
+		};
 		63EA95EE1C336E2900721819 /* ofxBlurShader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1221,6 +1242,7 @@
 				635E7E451C3C68DF008ACD32 /* ofxDatGui */,
 				63FB3E601C4BEDC30006421A /* ofxSpreadsheet */,
 				63311BAC1C556D0000BD598E /* ofxSegmentDisplay */,
+				63C32B061C57690800384A63 /* ofxCsv */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1642,6 +1664,7 @@
 				63311BB61C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp in Sources */,
 				93E1EE179A71AB237BAB71C7 /* ofxEasingQuad.cpp in Sources */,
 				77A6502077B932A1B969A7CD /* ofxEasingQuart.cpp in Sources */,
+				63C32B0A1C57690800384A63 /* ofxCsv.cpp in Sources */,
 				63311BB31C556D0000BD598E /* ofxSegmentDisplay.cpp in Sources */,
 				60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */,
 				639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */,

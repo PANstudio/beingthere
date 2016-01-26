@@ -169,7 +169,8 @@ void ofApp::keyPressed(int key)
             calibrationGui->setVisible(drawCalibrationGui);
             break;
         case ' ':
-            displayWindow->setupSegmentDisplay();
+            displayWindow->calibrationScreen.saveCalibrationData();
+//            displayWindow->setupSegmentDisplay();
             break;
         default:
             break;

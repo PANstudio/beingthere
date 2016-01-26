@@ -12,11 +12,17 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ControlNode.hpp"
+#include "ofxSpreadsheet.h"
+#include "ofxCsv.h"
+
+using namespace wng;
 
 class CalibrationScreen {
 public:
     void setup(int gridSizeX,int gridSizeY,int gridSpacingX,int gridSpacingY);
+    void setNodeReadings(int node);
     void draw();
+    void saveCalibrationData();
     void mousePos(int x,int y);
     void mousePressed(int x,int y,int button);
 private:
@@ -26,6 +32,8 @@ private:
     int _gridSpacingY;
     
     vector<ControlNode> nodes;
+    ofxSpreadsheet spreadsheet;
+    ofxCsv readingsFile;
 };
 
 #endif /* CalibrationScreen_hpp */

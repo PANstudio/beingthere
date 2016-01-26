@@ -20,7 +20,6 @@ void DisplayWindow::setup()
     timestring = "0000";
     
     setupFlag = false;
-    
 }
 //--------------------------------------------------------------
 void DisplayWindow::update()
@@ -83,32 +82,33 @@ void DisplayWindow::draw()
 //    ofEnableAlphaBlending();
     ofSetColor(0, 0, 0);
     ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
-//    if (calibration) {
-//        calibrationScreen.draw();
-//    }
-//    else {
-    ofSetColor(ofColor::ivory);
-    font.drawString(title, w, h);
-    for (int i = 0; i < playerHealth.size(); i++) {
-        playerHealth[i].draw(ofPoint(10,10+(i*50)));
+    if (calibration) {
+        calibrationScreen.draw();
     }
+    else {
+        ofSetColor(ofColor::ivory);
+        font.drawString(title, w, h);
+        for (int i = 0; i < playerHealth.size(); i++) {
+            playerHealth[i].draw(ofPoint(10,10+(i*50)));
+        }
 
-    int x = (ofGetWidth()/2)-(SEGMENT_WIDTH*timestring.size())/2;
-    int y = 10;
+        int x = (ofGetWidth()/2)-(SEGMENT_WIDTH*timestring.size())/2;
+        int y = 10;
 
-    if (setupFlag) {
-        ofPushMatrix();
-        ofTranslate(x,y);
-        if (ofToInt(timestring) < 10) {
-            if (ofGetFrameNum() % 60 == 0) {
+        if (setupFlag) {
+            ofPushMatrix();
+            ofTranslate(x,y);
+            if (ofToInt(timestring) < 10) {
+                if (ofGetFrameNum() % 60 == 0) {
+                    timerDisplay->draw(timestring, _segmentColor, _backColor);
+                }
+            }
+            else {
                 timerDisplay->draw(timestring, _segmentColor, _backColor);
             }
-        }
-        else {
-            timerDisplay->draw(timestring, _segmentColor, _backColor);
-        }
 
-        ofPopMatrix();
+            ofPopMatrix();
+        }
     }
     ofPopStyle();
 }
