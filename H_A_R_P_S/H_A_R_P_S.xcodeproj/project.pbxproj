@@ -285,6 +285,7 @@
 		639756BD1C1E48F700B512AD /* MapHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapHelpers.hpp; path = src/local_addons/MapHelpers.hpp; sourceTree = "<group>"; };
 		63C32B081C57690800384A63 /* ofxCsv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCsv.cpp; sourceTree = "<group>"; };
 		63C32B091C57690800384A63 /* ofxCsv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxCsv.h; sourceTree = "<group>"; };
+		63C32B0B1C576CE000384A63 /* CalibrationConfirmDialogue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CalibrationConfirmDialogue.h; path = src/local_addons/CalibrationConfirmDialogue.h; sourceTree = "<group>"; };
 		63EA95F01C336E2900721819 /* ofxBlurShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBlurShader.cpp; sourceTree = "<group>"; };
 		63EA95F11C336E2900721819 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
 		63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSpreadsheet.cpp; sourceTree = "<group>"; };
@@ -1011,6 +1012,7 @@
 				637244361C20DB17002F7BD5 /* DisplayWindow.hpp */,
 				6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */,
 				6372443B1C20E4CF002F7BD5 /* CalibrationScreen.hpp */,
+				63C32B0B1C576CE000384A63 /* CalibrationConfirmDialogue.h */,
 				6372443D1C20E503002F7BD5 /* ControlNode.cpp */,
 				6372443E1C20E503002F7BD5 /* ControlNode.hpp */,
 			);

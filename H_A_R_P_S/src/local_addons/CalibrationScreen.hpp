@@ -13,6 +13,7 @@
 #include "ofMain.h"
 #include "ControlNode.hpp"
 #include "ofxSpreadsheet.h"
+#include "CalibrationConfirmDialogue.h"
 #include "ofxCsv.h"
 
 using namespace wng;
@@ -23,6 +24,7 @@ public:
     void setNodeReadings(int node);
     void draw();
     void saveCalibrationData();
+    void buttonClicked(string &str);
     void mousePos(int x,int y);
     void mousePressed(int x,int y,int button);
 private:
@@ -34,6 +36,8 @@ private:
     vector<ControlNode> nodes;
     ofxSpreadsheet spreadsheet;
     ofxCsv readingsFile;
+    ConfirmReadings confirmation;
+    
 };
 
 #endif /* CalibrationScreen_hpp */

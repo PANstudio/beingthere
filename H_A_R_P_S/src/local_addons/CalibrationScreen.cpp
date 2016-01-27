@@ -24,6 +24,10 @@ void CalibrationScreen::setup(int gridSizeX, int gridSizeY, int gridSpacingX, in
         string s = "Var " + ofToString(i);
         header.push_back(s);
     }
+    
+    confirmation.setup(200,200);
+    ofAddListener(confirmation.confirmButton.CLICKED, this, &CalibrationScreen::buttonClicked);
+    ofAddListener(confirmation.cancelButton.CLICKED, this, &CalibrationScreen::buttonClicked);
     spreadsheet.setHeaders(header);
     spreadsheet.setup(500, 0, 25, header.size());
 }
@@ -44,6 +48,8 @@ void CalibrationScreen::draw()
     
     ofSetColor(255);
     spreadsheet.draw();
+    
+    confirmation.draw();
 }
 //--------------------------------------------------------------
 void CalibrationScreen::saveCalibrationData()
@@ -65,6 +71,13 @@ void CalibrationScreen::mousePos(int x, int y)
     for (int i = 0; i < nodes.size(); i++) {
         nodes[i].mouseOver(x, y);
     }
+    confirmation.confirmButton.mouseOver(x, y);
+    confirmation.cancelButton.mouseOver(x, y);
+}
+//--------------------------------------------------------------
+void CalibrationScreen::buttonClicked(string &str)
+{
+    cout << str << endl;
 }
 //--------------------------------------------------------------
 void CalibrationScreen::mousePressed(int x, int y,int button)
@@ -76,6 +89,11 @@ void CalibrationScreen::mousePressed(int x, int y,int button)
         }
     }
     else {
+        
+        confirmation.confirmButton.buttonPressed(x, y, button);
+        confirmation.cancelButton.buttonPressed(x, y, button);
+        
+        
         for (int i = 0; i < nodes.size(); i++) {
             if (nodes[i].isActive) {
                 nodes[i].isActive = false;
