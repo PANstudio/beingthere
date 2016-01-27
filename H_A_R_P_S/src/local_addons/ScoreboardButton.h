@@ -10,8 +10,9 @@
 #define ScoreboardButton_h
 
 #include "ofMain.h"
+#include "BaseButton.h"
 //---------------------------------------------------
-class ScoreboardButton : public ofRectangle {
+class ScoreboardButton : public BaseButton {
 public:
     ScoreboardButton() {}
     //---------------------------------------------------
@@ -19,11 +20,8 @@ public:
     {
         _orderBy = orderBy;
         this->set(x,y,w,h);
-        standardColor = c;
-        buttonName = name;
-        isActive = false;
-        isOver = false;
-        
+        _baseColor = c;
+        _buttonName = name;
     }
     //---------------------------------------------------
     ~ScoreboardButton() {}
@@ -32,58 +30,11 @@ public:
     {
         _orderBy = orderBy;
         this->set(x,y,w,h);
-        standardColor = c;
-        buttonName = name;
-        isActive = false;
-        isOver = false;
-    }
-    //---------------------------------------------------
-    void draw()
-    {
-        ofPushStyle();
-        if (isOver) {
-            ofSetColor(ofColor::orange);
-        }
-        else if(isActive) {
-            ofSetColor(ofColor::seaGreen);
-        }
-        else {
-            ofSetColor(standardColor);
-        }
-        
-//        ofDrawRectangle(this->getStandardized());
-        ofDrawRectangle(this->getStandardized());
-        ofPopStyle();
-        ofPushStyle();
-        ofSetColor(0, 0, 0);
-        ofDrawBitmapString(buttonName, this->getCenter());
-        ofSetColor(ofColor::ivory);
-        ofNoFill();
-        ofDrawRectangle(this->getStandardized());        
-        ofPopStyle();
+        _baseColor = c;
+        _buttonName = name;
     }
     
-    //---------------------------------------------------
-    void mouseOver(int x,int y)
-    {
-        if (inside(x,y)) {
-            isOver = true;
-        }
-        else {
-            isOver = false;
-        }
-    }
-    //---------------------------------------------------
-    void buttonPressed(int x,int y,int button)
-    {
-        if (inside(x,y)) {
-            isActive = !isActive;
-        }
-    }
     int _orderBy;
-    bool isActive = false;
-    bool isOver = false;
-    ofColor standardColor;
-    string buttonName;
+    
 };
 #endif /* ScoreboardButton_h */

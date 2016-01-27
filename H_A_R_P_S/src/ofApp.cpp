@@ -39,7 +39,7 @@ void ofApp::setupVariables()
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     setupGUI();
     setupVariables();
         
@@ -94,6 +94,7 @@ void ofApp::draw()
             ofPopStyle();
             ofPopMatrix();
         }
+        displayWindow->calibrationScreen.drawSpreadsheet();
     }
     else if (_Appmode == 1) {
         mapGenerator.drawEditor();
@@ -298,7 +299,7 @@ void ofApp::setupGUI()
         "STYLE MODE",
         "OPERATION MODE"
     };
-    
+    gui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
     gui->addDropdown("App Mode", AppMode);
     gui->addBreak();
     
@@ -529,7 +530,12 @@ void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 {   }
 //--------------------------------------------------------------
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
-{   }
+{
+    if (e.target->is("Calibration Nodes")) {
+        displayWindow->calibrationScreen.moveNodes(e.x, e.y);
+    }
+
+}
 //--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {

@@ -22,7 +22,9 @@ class CalibrationScreen {
 public:
     void setup(int gridSizeX,int gridSizeY,int gridSpacingX,int gridSpacingY);
     void setNodeReadings(int node);
+    void moveNodes(int x,int y);
     void draw();
+    void drawSpreadsheet();
     void saveCalibrationData();
     void buttonClicked(string &str);
     void mousePos(int x,int y);

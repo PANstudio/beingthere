@@ -75,6 +75,7 @@ void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
 {
     playerHealth = healthLevels;
 }
+
 //--------------------------------------------------------------
 void DisplayWindow::draw()
 {

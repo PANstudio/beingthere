@@ -8,6 +8,7 @@
 #include "PlayerManager.hpp"
 #include "ScoreBoard.hpp"
 #include "StyledMap.hpp"
+#include "BaseButton.h"
 //#include "SimpleButton.h"
 
 class ofApp : public ofBaseApp{

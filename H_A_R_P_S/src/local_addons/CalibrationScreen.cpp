@@ -14,28 +14,57 @@ void CalibrationScreen::setup(int gridSizeX, int gridSizeY, int gridSpacingX, in
     int count = 0;
         for (int y = 0; y < gridSizeY; y++) {
              for (int x = 0; x < gridSizeX; x++) {
-            nodes.push_back(ControlNode(x*gridSpacingX, y*gridSpacingY, count));
+            nodes.push_back(ControlNode(x, y,gridSpacingX, count));
             count++;
         }
     }
     vector<string> header;
     header.push_back("Node ID");
-    for (int i = 1; i <= 6; i++) {
-        string s = "Var " + ofToString(i);
-        header.push_back(s);
-    }
     
-    confirmation.setup(200,200);
-    ofAddListener(confirmation.confirmButton.CLICKED, this, &CalibrationScreen::buttonClicked);
-    ofAddListener(confirmation.cancelButton.CLICKED, this, &CalibrationScreen::buttonClicked);
+    // Receiver Posistion
+    header.push_back("RXDistX");
+    header.push_back("RXDistY");
+    header.push_back("TX1-RXDist");
+    
+    // Transmitter 1
+    header.push_back("TX1RSSI1");
+    header.push_back("C1-1");
+    header.push_back("C1-2");
+    header.push_back("C1-3");
+    header.push_back("C1-4");
+    header.push_back("C1-5");
+    header.push_back("C1-6");
+    
+    // Transmitter 2
+    header.push_back("TX2RSS2");
+    header.push_back("C2-1");
+    header.push_back("C2-2");
+    header.push_back("C2-3");
+    header.push_back("C2-4");
+    header.push_back("C2-5");
+    header.push_back("C2-6");
+    
+    // Transmitter 3
+    header.push_back("TX3RSS3");
+    header.push_back("C3-1");
+    header.push_back("C3-2");
+    header.push_back("C3-3");
+    header.push_back("C3-4");
+    header.push_back("C3-5");
+    header.push_back("C3-6");
+    
+    confirmation.setup(0,500,200,200);
+    ofAddListener(confirmation.confirmButton.pressed, this, &CalibrationScreen::buttonClicked);
+    ofAddListener(confirmation.cancelButton.pressed, this, &CalibrationScreen::buttonClicked);
     spreadsheet.setHeaders(header);
-    spreadsheet.setup(500, 0, 25, header.size());
+    spreadsheet.setup(10, 0, 25, header.size());
 }
 //--------------------------------------------------------------
 void CalibrationScreen::setNodeReadings(int node)
 {
     if (!nodes.empty()) {
-        nodes[node].setValues(ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100));
+        NodeReadings r = NodeReadings(nodes[node]._id,nodes[node]._x/100,nodes[node]._y/100, ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100));
+        nodes[node].setValues(r);
         spreadsheet.addEntry(nodes[node].getReadings());
     }
 }
@@ -46,10 +75,23 @@ void CalibrationScreen::draw()
         node.draw();
     }
     
+    
+    drawSpreadsheet();
+    confirmation.draw();
+}
+//--------------------------------------------------------------
+void CalibrationScreen::drawSpreadsheet()
+{
     ofSetColor(255);
     spreadsheet.draw();
-    
-    confirmation.draw();
+}
+//--------------------------------------------------------------
+void CalibrationScreen::moveNodes(int x, int y)
+{
+    cout << x << " " << y << endl;
+    for (int i = 0; i < nodes.size(); i++) {
+        nodes[i].updatePosition(x, y);
+    }
 }
 //--------------------------------------------------------------
 void CalibrationScreen::saveCalibrationData()

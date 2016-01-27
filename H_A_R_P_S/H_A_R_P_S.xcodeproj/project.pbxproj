@@ -286,6 +286,8 @@
 		63C32B081C57690800384A63 /* ofxCsv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCsv.cpp; sourceTree = "<group>"; };
 		63C32B091C57690800384A63 /* ofxCsv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxCsv.h; sourceTree = "<group>"; };
 		63C32B0B1C576CE000384A63 /* CalibrationConfirmDialogue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CalibrationConfirmDialogue.h; path = src/local_addons/CalibrationConfirmDialogue.h; sourceTree = "<group>"; };
+		63D961231C59039600CC6FE6 /* BaseButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseButton.h; path = src/local_addons/BaseButton.h; sourceTree = "<group>"; };
+		63D961291C5968EE00CC6FE6 /* readings.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = readings.csv; path = bin/data/readings.csv; sourceTree = "<group>"; };
 		63EA95F01C336E2900721819 /* ofxBlurShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBlurShader.cpp; sourceTree = "<group>"; };
 		63EA95F11C336E2900721819 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
 		63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSpreadsheet.cpp; sourceTree = "<group>"; };
@@ -989,6 +991,7 @@
 				639756A71C1E373B00B512AD /* MapGenerator.cpp */,
 				639756A81C1E373B00B512AD /* MapGenerator.hpp */,
 				634A7E831C42DA2B00753B2E /* SimpleButton.h */,
+				63D961231C59039600CC6FE6 /* BaseButton.h */,
 				639756BD1C1E48F700B512AD /* MapHelpers.hpp */,
 				637723B81C2624810081998C /* StyledMap.cpp */,
 				637723B91C2624810081998C /* StyledMap.hpp */,
@@ -1421,6 +1424,7 @@
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				639217191C4AE72600962DB6 /* scoreboard.json */,
+				63D961291C5968EE00CC6FE6 /* readings.csv */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,

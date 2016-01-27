@@ -72,6 +72,7 @@ public:
     void mouseOver(int x, int y);
     void mouseDown(int x, int y,int pressed);
     
+    void buttonPressed(string &str);
     deque <ScoreboardButton> buttons;
     
     void sortByQuickest(bool acendingOrder);
