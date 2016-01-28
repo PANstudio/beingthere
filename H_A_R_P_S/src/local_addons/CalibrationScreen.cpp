@@ -79,69 +79,34 @@ void CalibrationScreen::update()
 
         if(m.getAddress() == "/calibration/TX1RXDist") {
             currentReadings.TX1RXDist = m.getArgAsFloat(0);
+            cout << m.getArgAsFloat(0) << endl;
         }
         else if(m.getAddress() == "/calibration/TX1_RSSI1") {
             currentReadings.TX1_RSSI1 = m.getArgAsFloat(0);
+            currentReadings.C1_1 = m.getArgAsFloat(1);
+            currentReadings.C1_2 = m.getArgAsFloat(2);
+            currentReadings.C1_3 = m.getArgAsFloat(3);
+            currentReadings.C1_4 = m.getArgAsFloat(4);
+            currentReadings.C1_5 = m.getArgAsFloat(5);
+            currentReadings.C1_6 = m.getArgAsFloat(6);
         }
-        else if(m.getAddress() == "/calibration/C1_1") {
-            currentReadings.C1_1 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C1_2") {
-            currentReadings.C1_2 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C1_3") {
-            currentReadings.C1_3 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C1_4") {
-            currentReadings.C1_4 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C1_5") {
-            currentReadings.C1_5 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C1_6") {
-            currentReadings.C1_6 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/TX2_RSS2") {
+        else if(m.getAddress() == "/calibration/TX2_RSSI2") {
             currentReadings.TX2_RSS2 = m.getArgAsFloat(0);
+            currentReadings.C2_1 = m.getArgAsFloat(1);
+            currentReadings.C2_2 = m.getArgAsFloat(2);
+            currentReadings.C2_3 = m.getArgAsFloat(3);
+            currentReadings.C2_4 = m.getArgAsFloat(4);
+            currentReadings.C2_5 = m.getArgAsFloat(5);
+            currentReadings.C2_6 = m.getArgAsFloat(6);
         }
-        else if(m.getAddress() == "/calibration/C2_1") {
-            currentReadings.C2_1 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C2_2") {
-            currentReadings.C2_2 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C2_3") {
-            currentReadings.C2_3 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C2_4") {
-            currentReadings.C2_4 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C2_5") {
-            currentReadings.C2_5 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C2_6") {
-            currentReadings.C2_6 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/TX3_RSS3") {
+        else if(m.getAddress() == "/calibration/TX3_RSSI3") {
             currentReadings.TX3_RSS3 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C3_1") {
-            currentReadings.C3_1 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C3_2") {
-            currentReadings.C3_2 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C3_3") {
-            currentReadings.C3_3 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C3_4") {
-            currentReadings.C3_4 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C3_5") {
-            currentReadings.C3_5 = m.getArgAsFloat(0);
-        }
-        else if(m.getAddress() == "/calibration/C3_6") {
-            currentReadings.C3_6 = m.getArgAsFloat(0);
+            currentReadings.C3_1 = m.getArgAsFloat(1);
+            currentReadings.C3_2 = m.getArgAsFloat(2);
+            currentReadings.C3_3 = m.getArgAsFloat(3);
+            currentReadings.C3_4 = m.getArgAsFloat(4);
+            currentReadings.C3_5 = m.getArgAsFloat(5);
+            currentReadings.C3_6 = m.getArgAsFloat(6);
         }
     }
 }
@@ -153,8 +118,8 @@ void CalibrationScreen::draw()
     }
     
     
-    drawSpreadsheet();
-   
+//    drawSpreadsheet();
+    currentReadings.draw();
     if (showConfirmation) {
         confirmation.draw();
     }
@@ -213,6 +178,7 @@ void CalibrationScreen::buttonClicked(string &str)
                 cout << "Node " << nodes[i]._id << endl;
             }
         }
+       
         showConfirmation = false;
     }
     else if (str == "Cancel") {
@@ -248,6 +214,9 @@ void CalibrationScreen::mousePressed(int x, int y,int button)
                 showConfirmation = true;
                 
                 confirmation.setNode(nodes[i]._id);
+                currentReadings.nodeID = nodes[i]._id;
+                currentReadings.RXDistX = nodes[i]._x/100;
+                currentReadings.RXDistY = nodes[i]._y/100;
             }
             
             

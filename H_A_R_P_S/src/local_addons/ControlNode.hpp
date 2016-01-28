@@ -78,7 +78,38 @@ struct NodeReadings {
         cout << "C3_6 " <<  _C3_6 << endl;
         
     }
-    
+    void draw()
+    {
+        stringstream strs;
+        strs << "---------------" << endl;
+        strs << "Node " << nodeID << endl;
+        strs << "RXDistX " <<  RXDistX << endl;
+        strs << "RXDistY " <<  RXDistY << endl;
+        strs << "TX1RXDist " <<  TX1RXDist << endl;
+        strs << "TX1_RSSI1 " <<  TX1_RSSI1 << endl;
+        strs << "C1_1 " <<  C1_1 << endl;
+        strs << "C1_2 " <<  C1_2 << endl;
+        strs << "C1_3 " <<  C1_3 << endl;
+        strs << "C1_4 " <<  C1_4 << endl;
+        strs << "C1_5 " <<  C1_5 << endl;
+        strs << "C1_6 " <<  C1_6 << endl;
+        strs << "TX2_RSS2 " <<  TX2_RSS2 << endl;
+        strs << "C2_1 " <<  C2_1 << endl;
+        strs << "C2_2 " <<  C2_2 << endl;
+        strs << "C2_3 " <<  C2_3 << endl;
+        strs << "C2_4 " <<  C2_4 << endl;
+        strs << "C2_5 " <<  C2_5 << endl;
+        strs << "C2_6 " <<  C2_6 << endl;
+        strs << "TX3_RSS3 " <<  TX3_RSS3 << endl;
+        strs << "C3_1 " <<  C3_1 << endl;
+        strs << "C3_2 " <<  C3_2 << endl;
+        strs << "C3_3 " <<  C3_3 << endl;
+        strs << "C3_4 " <<  C3_4 << endl;
+        strs << "C3_5 " <<  C3_5 << endl;
+        strs << "C3_6 " <<  C3_6 << endl;
+        
+        ofDrawBitmapStringHighlight(strs.str(), 15, 15);
+    }
     //-----------------------------------------------------
     NodeReadings(int _nodeID,float _var1 = 0,float _var2 = 0,float _var3 = 0,float _var4 = 0,float _var5 = 0,float _var6 = 0) {
 //        nodeID = _nodeID;
