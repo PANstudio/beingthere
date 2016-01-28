@@ -24,7 +24,7 @@ void DisplayWindow::setup()
 //--------------------------------------------------------------
 void DisplayWindow::update()
 {
-    
+    calibrationScreen.update();
 }
 //--------------------------------------------------------------
 void DisplayWindow::setupSegmentDisplay()

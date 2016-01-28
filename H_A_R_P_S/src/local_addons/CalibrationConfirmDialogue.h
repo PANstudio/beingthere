@@ -23,8 +23,8 @@ public:
         _x = x;
         _y = y;
         _confirmed = false;
-        confirmButton = BaseButton(x, y, 50, 20, "Confirm", ofColor::green);
-        cancelButton = BaseButton(x+50, y, 50, 20, "Cancel", ofColor::red);
+        confirmButton = BaseButton(_x+20, _y+50, 75, 20, "Confirm", ofColor::green);
+        cancelButton = BaseButton(_x+110, _y+50, 75, 20, "Cancel", ofColor::red);
     }
     //---------------------------------------------------
     void setNode(int _nodeID)
@@ -40,26 +40,28 @@ public:
     void draw()
     {
         ofPushMatrix();
-        ofTranslate(_x, _y);
+//        ofTranslate(_x, _y);
         ofPushStyle();
         ofPushStyle();
         ofSetColor(0);
         ofFill();
-        ofDrawRectangle(0,0,400,100);
+        ofDrawRectangle(_x,_y,400,100);
         ofSetColor(255);
         ofNoFill();
-        ofDrawRectangle(0,0,400,100);
+        ofDrawRectangle(_x,_y,400,100);
         ofPopStyle();
         ofSetColor(255);
         stringstream ss;
         ss << "Node " << nodeID << endl;
         ss << "Are you sure you want to save these readings?" << endl;
-        ofDrawBitmapString(ss.str(), 15, 15);
+        ofDrawBitmapString(ss.str(), _x+15,_y+15);
         confirmButton.drawBase();
         cancelButton.drawBase();
         ofPopStyle();
         ofPopMatrix();
     }
+    
+
     
     int nodeID;
     bool _confirmed;

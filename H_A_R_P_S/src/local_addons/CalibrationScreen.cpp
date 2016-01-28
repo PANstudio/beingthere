@@ -10,6 +10,7 @@
 //--------------------------------------------------------------
 void CalibrationScreen::setup(int gridSizeX, int gridSizeY, int gridSpacingX, int gridSpacingY)
 {
+    calibrationListener.setup(12345);
     nodes.clear();
     int count = 0;
         for (int y = 0; y < gridSizeY; y++) {
@@ -58,14 +59,90 @@ void CalibrationScreen::setup(int gridSizeX, int gridSizeY, int gridSpacingX, in
     ofAddListener(confirmation.cancelButton.pressed, this, &CalibrationScreen::buttonClicked);
     spreadsheet.setHeaders(header);
     spreadsheet.setup(10, 0, 25, header.size());
+    showConfirmation = false;
 }
 //--------------------------------------------------------------
 void CalibrationScreen::setNodeReadings(int node)
 {
     if (!nodes.empty()) {
-        NodeReadings r = NodeReadings(nodes[node]._id,nodes[node]._x/100,nodes[node]._y/100, ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100));
-        nodes[node].setValues(r);
-        spreadsheet.addEntry(nodes[node].getReadings());
+//        NodeReadings r = NodeReadings(nodes[node]._id,nodes[node]._x/100,nodes[node]._y/100, ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100), ofRandom(100));
+//        nodes[node].setValues(r);
+//        spreadsheet.addEntry(nodes[node].getReadings());
+    }
+}
+//--------------------------------------------------------------
+void CalibrationScreen::update()
+{
+    while (calibrationListener.hasWaitingMessages()) {
+        ofxOscMessage m;
+        calibrationListener.getNextMessage(m);
+
+        if(m.getAddress() == "/calibration/TX1RXDist") {
+            currentReadings.TX1RXDist = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/TX1_RSSI1") {
+            currentReadings.TX1_RSSI1 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C1_1") {
+            currentReadings.C1_1 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C1_2") {
+            currentReadings.C1_2 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C1_3") {
+            currentReadings.C1_3 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C1_4") {
+            currentReadings.C1_4 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C1_5") {
+            currentReadings.C1_5 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C1_6") {
+            currentReadings.C1_6 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/TX2_RSS2") {
+            currentReadings.TX2_RSS2 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C2_1") {
+            currentReadings.C2_1 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C2_2") {
+            currentReadings.C2_2 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C2_3") {
+            currentReadings.C2_3 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C2_4") {
+            currentReadings.C2_4 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C2_5") {
+            currentReadings.C2_5 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C2_6") {
+            currentReadings.C2_6 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/TX3_RSS3") {
+            currentReadings.TX3_RSS3 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C3_1") {
+            currentReadings.C3_1 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C3_2") {
+            currentReadings.C3_2 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C3_3") {
+            currentReadings.C3_3 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C3_4") {
+            currentReadings.C3_4 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C3_5") {
+            currentReadings.C3_5 = m.getArgAsFloat(0);
+        }
+        else if(m.getAddress() == "/calibration/C3_6") {
+            currentReadings.C3_6 = m.getArgAsFloat(0);
+        }
     }
 }
 //--------------------------------------------------------------
@@ -77,7 +154,10 @@ void CalibrationScreen::draw()
     
     
     drawSpreadsheet();
-    confirmation.draw();
+   
+    if (showConfirmation) {
+        confirmation.draw();
+    }
 }
 //--------------------------------------------------------------
 void CalibrationScreen::drawSpreadsheet()
@@ -119,7 +199,30 @@ void CalibrationScreen::mousePos(int x, int y)
 //--------------------------------------------------------------
 void CalibrationScreen::buttonClicked(string &str)
 {
-    cout << str << endl;
+    if (str == "Confirm") {
+        for (int i = 0; i < nodes.size(); i++) {
+            if (nodes[i].isActive) {
+                
+                if (!nodes.empty()) {
+                    currentReadings.nodeID = nodes[i]._id;
+                    currentReadings.RXDistX = nodes[i]._x/100;
+                    currentReadings.RXDistY = nodes[i]._y/100;
+                    nodes[i].setValues(currentReadings);
+                    spreadsheet.addEntry(nodes[i].getReadings());
+                }
+                cout << "Node " << nodes[i]._id << endl;
+            }
+        }
+        showConfirmation = false;
+    }
+    else if (str == "Cancel") {
+        for (int i = 0; i < nodes.size(); i++) {
+            if (nodes[i].isActive) {
+                nodes[i].isActive = false;
+            }
+        }
+        showConfirmation = false;
+    }
 }
 //--------------------------------------------------------------
 void CalibrationScreen::mousePressed(int x, int y,int button)
@@ -142,8 +245,12 @@ void CalibrationScreen::mousePressed(int x, int y,int button)
             }
             nodes[i].nodeClicked(x, y, 1);
             if (nodes[i].isActive) {
-                setNodeReadings(i);
+                showConfirmation = true;
+                
+                confirmation.setNode(nodes[i]._id);
             }
+            
+            
         }
     }
 }

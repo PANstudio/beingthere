@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "ofMain.h"
+#include "ofxOsc.h"
 #include "ControlNode.hpp"
 #include "ofxSpreadsheet.h"
 #include "CalibrationConfirmDialogue.h"
@@ -23,6 +24,7 @@ public:
     void setup(int gridSizeX,int gridSizeY,int gridSpacingX,int gridSpacingY);
     void setNodeReadings(int node);
     void moveNodes(int x,int y);
+    void update();
     void draw();
     void drawSpreadsheet();
     void saveCalibrationData();
@@ -35,10 +37,15 @@ private:
     int _gridSpacingX;
     int _gridSpacingY;
     
+    bool showConfirmation;
+    
     vector<ControlNode> nodes;
     ofxSpreadsheet spreadsheet;
     ofxCsv readingsFile;
     ConfirmReadings confirmation;
+    ofxOscReceiver calibrationListener;
+    NodeReadings currentReadings;
+    
     
 };
 

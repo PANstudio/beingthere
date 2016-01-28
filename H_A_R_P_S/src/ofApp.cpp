@@ -95,6 +95,7 @@ void ofApp::draw()
             ofPopMatrix();
         }
         displayWindow->calibrationScreen.drawSpreadsheet();
+        displayWindow->calibrationScreen.draw();
     }
     else if (_Appmode == 1) {
         mapGenerator.drawEditor();
@@ -299,7 +300,6 @@ void ofApp::setupGUI()
         "STYLE MODE",
         "OPERATION MODE"
     };
-    gui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
     gui->addDropdown("App Mode", AppMode);
     gui->addBreak();
     
@@ -398,12 +398,9 @@ void ofApp::setupGUI()
     calibrationGui->setTheme(new ofxDatGuiThemeSmoke());
     calibrationGui->addHeader("Calibration Settings");
     calibrationGui->addToggle("From Centre / Top Left", false);
-    calibrationGui->addSlider("Grid X", 0,100, 50); // This is CM
-    calibrationGui->addSlider("Grid Y", 0,100, 50); // This is CM
-    calibrationGui->addSlider("Spacing X", 0,200, 10); // This is CM
-    calibrationGui->addSlider("Spacing Y", 0,200, 10); // This is CM
-    calibrationGui->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
-    calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
+    calibrationGui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
+    calibrationGui->addSlider("Spacing X", 0,200, 50); // This is CM
+    calibrationGui->addSlider("Spacing Y", 0,200, 50); // This is CM
     calibrationGui->addButton("Calibrate");
     
     
