@@ -27,7 +27,7 @@ void StyledMap::setup()
     }
     
     gradientImage.update();
-    colorMap.setMapFromName("RdYlGn_r");
+    colorMap.setMapFromName("bwr");
     colorMap.apply(gradientImage, colorGradientImage);
 }
 //--------------------------------------------------------------
@@ -42,8 +42,16 @@ void StyledMap::draw(int x, int y)
     ofTranslate(x, y);
     ofSetColor(255, 255, 255);
     colorMapImage.draw(0, 0);
+    ofPopMatrix();
+}
+//--------------------------------------------------------------
+void StyledMap::drawGradients(int x, int y)
+{
+    ofPushMatrix();
+    ofTranslate(x, y);
+    ofSetColor(255, 255, 255);
     gradientImage.draw(0, 0);
-    colorGradientImage.draw(gradientImage.getWidth(), 0);
+    colorGradientImage.draw(0, gradientImage.getHeight());
     ofPopMatrix();
 }
 //--------------------------------------------------------------

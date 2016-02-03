@@ -20,6 +20,7 @@ class StyledMap {
     void update();
 
     void draw(int x, int y);
+    void drawGradients(int x,int y);
     void getMapImage(cv::Mat _map);
     void setGradient(string gradient);
     
@@ -32,48 +33,4 @@ class StyledMap {
     ofImage colorGradientImage;
     ofxColorMap colorMap;
 };
-
-//struct textLine {
-//    
-//    textLine(int rotation,int x,int y,string text){
-//        _rotation = rotation;
-//        _x = x;
-//        _y = y;
-//        _text = text;
-//    }
-//    
-//    int _rotation;
-//    int _x;
-//    int _y;
-//    int _offsetPositionX;
-//    int _offsetPositionY;
-//    string _text;
-//};
-//
-//class StyledMap {
-//    public:
-//        void setup(int width,int height);
-//        void update();
-//        void setShapes(vector <ofPolyline> deadly,vector <ofPolyline> danger);
-//        void drawStyledMap(int x,int y);
-//    private:
-//        vector<ofPolyline> deadlyShapes;
-//        vector<ofPolyline> dangerShapes;
-//    
-//        vector <textLine> text;
-//        ofTrueTypeFont fontSmall;
-//        ofFbo test;
-//        ofFbo test1;
-//        ofFbo dangerMask;
-//        ofFbo deadlyMask;
-//        
-//        ofFbo masks;
-//        ofShader maskDeadlyShader;
-//        ofShader maskDangerShader;
-//        ofxBlurShader blur;
-//        ofxBlurShader blur1;
-//    protected:
-//    
-//};
-
 #endif /* StyledMap_hpp */
