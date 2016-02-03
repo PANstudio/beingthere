@@ -12,20 +12,21 @@ void DisplayWindow::setup()
 {
     font.load("ofxdatgui_assets/font-verdana.ttf",20);
     title = "Project H.A.R.P.S";
+
+    calibrationScreen.setup();
+    calibrationScreen.setupGrid(10, 10, 50, 50);
     
-    calibrationScreen.setup(10, 10, 50, 50);
     // Align Center the Text
     w = (ofGetWidth()/2) - (font.getStringBoundingBox(title, 0, 0).width/2);
     h = (ofGetHeight()/2) - (font.getStringBoundingBox(title, 0, 0).height/2);
     timestring = "0000";
     
     setupFlag = false;
-    
 }
 //--------------------------------------------------------------
 void DisplayWindow::update()
 {
-    
+    calibrationScreen.update();
 }
 //--------------------------------------------------------------
 void DisplayWindow::setupSegmentDisplay()
@@ -69,13 +70,14 @@ void DisplayWindow::setNumberOfHealthBars(int num)
 //--------------------------------------------------------------
 void DisplayWindow::setCalibration(int gridX, int gridY, int spacingX, int spacingY)
 {
-    calibrationScreen.setup(gridX, gridY, spacingX, spacingY);
+    calibrationScreen.setupGrid(gridX, gridY, spacingX, spacingY);
 }
 //--------------------------------------------------------------
 void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
 {
     playerHealth = healthLevels;
 }
+
 //--------------------------------------------------------------
 void DisplayWindow::draw()
 {
@@ -83,32 +85,31 @@ void DisplayWindow::draw()
 //    ofEnableAlphaBlending();
     ofSetColor(0, 0, 0);
     ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
-//    if (calibration) {
-//        calibrationScreen.draw();
-//    }
-//    else {
-    ofSetColor(ofColor::ivory);
-    font.drawString(title, w, h);
-    for (int i = 0; i < playerHealth.size(); i++) {
-        playerHealth[i].draw(ofPoint(10,10+(i*50)));
+    if (calibration) {
+        calibrationScreen.draw();
     }
+    else {
+        ofSetColor(ofColor::ivory);
+        font.drawString(title, w, h);
+        for (int i = 0; i < playerHealth.size(); i++) {
+            playerHealth[i].draw(ofPoint(10,10+(i*50)));
+        }
 
-    int x = (ofGetWidth()/2)-(SEGMENT_WIDTH*timestring.size())/2;
-    int y = 10;
+        int x = (ofGetWidth()/2)-(SEGMENT_WIDTH*timestring.size())/2;
+        int y = 10;
 
-    if (setupFlag) {
-        ofPushMatrix();
-        ofTranslate(x,y);
-        if (ofToInt(timestring) < 10) {
-            if (ofGetFrameNum() % 60 == 0) {
+        if (setupFlag) {
+            ofPushMatrix();
+            ofTranslate(x,y);
+            if (ofToInt(timestring) < 10) {
                 timerDisplay->draw(timestring, _segmentColor, _backColor);
             }
-        }
-        else {
-            timerDisplay->draw(timestring, _segmentColor, _backColor);
-        }
+            else {
+                timerDisplay->draw(timestring, _segmentColor, _backColor);
+            }
 
-        ofPopMatrix();
+            ofPopMatrix();
+        }
     }
     ofPopStyle();
 }

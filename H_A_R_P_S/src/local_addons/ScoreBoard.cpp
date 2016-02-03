@@ -63,6 +63,11 @@ void Scoreboard::setup()
             count++;
         }
     }
+    
+    for (int i = 0; i < buttons.size(); i++) {
+        ofAddListener(buttons[i].pressed, this, &Scoreboard::buttonPressed);
+    }
+    
     spreadsheet.setup(400, 500, 10, 20);
 }
 //----------------------------------------------------------
@@ -74,9 +79,14 @@ void Scoreboard::update()
 void Scoreboard::draw(int x, int y)
 {
     for (int i = 0; i < buttons.size(); i++) {
-        buttons[i].draw();
+        buttons[i].drawBase();
     }
     spreadsheet.draw();
+}
+//----------------------------------------------------------
+void Scoreboard::buttonPressed(string &str)
+{
+    cout << str << endl;
 }
 //----------------------------------------------------------
 void Scoreboard::addNewPlayerToBoard(ScoreboardElements elements)

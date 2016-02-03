@@ -8,20 +8,6 @@
 //--------------------------------------------------------------
 
 #include "MyTimer.hpp"
-////--------------------------------------------------------------
-//MyTimer::MyTimer(float timerLength,string timerName,bool loop,string fontFile)
-//{
-//    bTimerReached = true;
-//    _loop = loop;
-//    _timerLength = timerLength;
-//    _timerName = timerName;
-//    font.load(fontFile, 40);
-//}
-////--------------------------------------------------------------
-//MyTimer::~MyTimer()
-//{
-//    
-//}
 //--------------------------------------------------------------
 void MyTimer::setup(float timerLength,string timerName,bool loop,string fontFile)
 {
@@ -48,6 +34,7 @@ void MyTimer::update()
     if (timer >= _timerLength && !bTimerReached) {
         bTimerReached = true;
         ofMessage msg(_timerName + " Finished");
+        ofNotifyEvent(TimerFinished, _timerName, this);
         ofSendMessage(msg);
         if (_loop) {
             start();
@@ -109,6 +96,7 @@ void MyTimer::start()
     if (bTimerReached) {
         ofMessage msg(_timerName + " Started");
         ofSendMessage(msg);
+        ofNotifyEvent(TimerStarted, _timerName, this);
         bTimerReached = false;
         startTime = ofGetElapsedTimeMillis();
     }

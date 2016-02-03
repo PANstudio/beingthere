@@ -8,6 +8,7 @@
 #include "PlayerManager.hpp"
 #include "ScoreBoard.hpp"
 #include "StyledMap.hpp"
+#include "BaseButton.h"
 //#include "SimpleButton.h"
 
 class ofApp : public ofBaseApp{
@@ -76,6 +77,7 @@ class ofApp : public ofBaseApp{
         string feedBackMap;
         string saveDifficultly;
         string mode;
+    
         //--------------------------------------------------------------
         // *
         // * Other Objects

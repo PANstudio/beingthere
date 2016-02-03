@@ -8,18 +8,50 @@
 
 #include "ControlNode.hpp"
 //--------------------------------------------------------------
-ControlNode::ControlNode(int x,int y,int id)
+ControlNode::ControlNode(int x,int y,float gridSpacingX,float gridSpacingY,int id)
 {
-    _x = x;
-    _y = y;
+    _gridSpacingX = gridSpacingX;
+    _gridSpacingY = gridSpacingY;
+
+    _x = x*_gridSpacingX;
+    _y = y*_gridSpacingY;
+
+    initialX = _x;
+    initialY = _y;
+    
     isActive = false;
     isOrigin = false;
     isOver = false;
     _id = id;
-    this->set(x, y, 14, 14);
+    this->set(x*_gridSpacingX, y*_gridSpacingY, 14, 14);
+    nReading = NodeReadings(this->_id);
 }
 //--------------------------------------------------------------
 ControlNode::~ControlNode() {}
+//--------------------------------------------------------------
+void ControlNode::setValues(float _var1, float _var2, float _var3, float _var4, float _var5, float _var6)
+{
+    nReading = NodeReadings(this->_id, _var1, _var2, _var3, _var4, _var5, _var6);
+}
+//--------------------------------------------------------------
+void ControlNode::setValues(NodeReadings rs )
+{
+    nReading = NodeReadings(this->_id, rs.RXDistX, rs.RXDistY, rs.TX1RXDist, rs.TX1_RSSI1, rs.C1_1, rs.C1_2, rs.C1_3, rs.C1_4, rs.C1_5, rs.C1_6, rs.C2_1, rs.C2_2, rs.C2_3, rs.C2_4, rs.C2_5, rs.C2_6, rs.C3_1, rs.TX3_RSS3, rs.C3_1, rs.C3_2, rs.C3_3, rs.C3_4, rs.C3_5, rs.C3_6);
+}
+//--------------------------------------------------------------
+void ControlNode::updateRXDist(float x, float y)
+{
+    this->setX(x);
+    this->setY(y);
+}
+//--------------------------------------------------------------
+void ControlNode::updatePosition(int x, int y)
+{
+    int newPosX = _x + x;
+    int newPosY = _y + y;
+    this->setX(newPosX);
+    this->setY(newPosY);
+}
 //--------------------------------------------------------------
 void ControlNode::draw()
 {
@@ -48,15 +80,45 @@ void ControlNode::draw()
         ofDrawCircle(x, y, 5);
     }
     ofSetColor(ofColor::white);
-    ofDrawBitmapString(_id, x, y+15);
+    ofDrawBitmapString(_id, x-7, y+15);
     ofPopStyle();
+}
+//--------------------------------------------------------------
+vector<string> ControlNode::getReadings()
+{
+    vector<string> readings;
+    readings.push_back(ofToString(nReading.nodeID));
+    readings.push_back(ofToString(nReading.RXDistX));
+    readings.push_back(ofToString(nReading.RXDistY));
+    readings.push_back(ofToString(nReading.TX1RXDist));
+    readings.push_back(ofToString(nReading.TX1_RSSI1));
+    readings.push_back(ofToString(nReading.C1_1));
+    readings.push_back(ofToString(nReading.C1_2));
+    readings.push_back(ofToString(nReading.C1_3));
+    readings.push_back(ofToString(nReading.C1_4));
+    readings.push_back(ofToString(nReading.C1_5));
+    readings.push_back(ofToString(nReading.C1_6));
+    readings.push_back(ofToString(nReading.TX2_RSS2));
+    readings.push_back(ofToString(nReading.C2_1));
+    readings.push_back(ofToString(nReading.C2_2));
+    readings.push_back(ofToString(nReading.C2_3));
+    readings.push_back(ofToString(nReading.C2_4));
+    readings.push_back(ofToString(nReading.C2_5));
+    readings.push_back(ofToString(nReading.C2_6));
+    readings.push_back(ofToString(nReading.TX3_RSS3));
+    readings.push_back(ofToString(nReading.C3_1));
+    readings.push_back(ofToString(nReading.C3_2));
+    readings.push_back(ofToString(nReading.C3_3));
+    readings.push_back(ofToString(nReading.C3_4));
+    readings.push_back(ofToString(nReading.C3_5));
+    readings.push_back(ofToString(nReading.C3_6));
+    return readings;
 }
 //--------------------------------------------------------------
 void ControlNode::mouseOver(int x,int y)
 {
     if (this->inside(x, y)) {
         isOver = true;
-        cout << "Node Coordinates " << _x/50 << " " << _y/50 << endl;
     }
     else {
         isOver = false;

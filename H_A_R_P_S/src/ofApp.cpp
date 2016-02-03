@@ -39,7 +39,7 @@ void ofApp::setupVariables()
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     setupGUI();
     setupVariables();
         
@@ -56,10 +56,9 @@ void ofApp::setup()
     if (mapGenerator.getFinderImage().isAllocated()) {
         playerManager.getFinderImage(mapGenerator.getFinderImage());        
     }
-
     
     countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
-    styledMap.setup(500,500);
+    styledMap.setup();
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -80,6 +79,9 @@ void ofApp::update()
     if(mapGenerator.isAnimating()) {
         mapGenerator.animate();
     }
+    
+    displayWindow->calibrationScreen.setGridSpacing(_spacingX, _spacingY);
+    
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -94,6 +96,8 @@ void ofApp::draw()
             ofPopStyle();
             ofPopMatrix();
         }
+        displayWindow->calibrationScreen.drawSpreadsheet();
+        displayWindow->calibrationScreen.drawCurrentReadings(350, 500);
     }
     else if (_Appmode == 1) {
         mapGenerator.drawEditor();
@@ -109,7 +113,7 @@ void ofApp::draw()
     else if (_Appmode == 3) {
         mapGenerator.drawFinderMap(901, 0);
         scoreBoard.draw(500, 500);
-        
+        styledMap.draw(0, 0);
         // Player Status Feedback
         ofDrawBitmapStringHighlight("Player Status", 510,13);
         for (int i = 0; i < 3; i++) {
@@ -131,11 +135,7 @@ void ofApp::draw()
     
     ofSetColor(ofColor::white);
     heading.drawString(mode, 15, 530);
-    
-    
-   
-
-    
+ 
     // Window Layout
     drawWindows();
 }
@@ -169,6 +169,7 @@ void ofApp::keyPressed(int key)
             calibrationGui->setVisible(drawCalibrationGui);
             break;
         case ' ':
+//            displayWindow->calibrationScreen.saveCalibrationData();
             displayWindow->setupSegmentDisplay();
             break;
         default:
@@ -297,7 +298,6 @@ void ofApp::setupGUI()
         "STYLE MODE",
         "OPERATION MODE"
     };
-    
     gui->addDropdown("App Mode", AppMode);
     gui->addBreak();
     
@@ -396,12 +396,9 @@ void ofApp::setupGUI()
     calibrationGui->setTheme(new ofxDatGuiThemeSmoke());
     calibrationGui->addHeader("Calibration Settings");
     calibrationGui->addToggle("From Centre / Top Left", false);
-    calibrationGui->addSlider("Grid X", 0,100, 50); // This is CM
-    calibrationGui->addSlider("Grid Y", 0,100, 50); // This is CM
-    calibrationGui->addSlider("Spacing X", 0,200, 10); // This is CM
-    calibrationGui->addSlider("Spacing Y", 0,200, 10); // This is CM
-    calibrationGui->addSlider("Grid Offset X", 0,ofGetWidth(), 10); // This is CM
-    calibrationGui->addSlider("Grid Offset Y", 0,ofGetHeight(), 10); // This is
+    calibrationGui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
+    calibrationGui->addSlider("Spacing X", 0,200, 50); // This is CM
+    calibrationGui->addSlider("Spacing Y", 0,200, 50); // This is CM
     calibrationGui->addButton("Calibrate");
     
     
@@ -470,10 +467,11 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     if (e.target->is("Generate Map")) {
         mapGenerator.generateMap(_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
         playerManager.getFinderImage(mapGenerator.getFinderImage());
+        styledMap.getMapImage(mapGenerator.getSmoothMap());
     }
     else if (e.target->is("Flush Map")) {
         mapGenerator.generatePolylines(_blur,_iRR,_iRY,_iRG);
-        styledMap.setShapes(mapGenerator.getDeadlyOutlines(),mapGenerator.getDangerOutlines());
+//        styledMap.setShapes(mapGenerator.getDeadlyOutlines(),mapGenerator.getDangerOutlines());
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
@@ -528,7 +526,12 @@ void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 {   }
 //--------------------------------------------------------------
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
-{   }
+{
+    if (e.target->is("Calibration Nodes")) {
+        displayWindow->calibrationScreen.moveNodes(e.x, e.y);
+    }
+
+}
 //--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
@@ -634,5 +637,6 @@ void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
         countDown.setNewTimerLength(m.timeNeededToSolveMap);
         mapGenerator.generateMap(m);
         playerManager.getFinderImage(mapGenerator.getFinderImage());
+        styledMap.getMapImage(mapGenerator.getSmoothMap());
     }
 }

@@ -15,7 +15,6 @@
 #include "ofxSegmentDisplay.h"
 #include "CalibrationScreen.hpp"
 
-
 #define SEGMENT_WIDTH 60
 #define SEGMENT_HEIGHT 128
 
@@ -42,6 +41,7 @@ public:
     void setCalibration(int gridX,int gridY,int spacingX,int spacingY);
     
     void close();
+    CalibrationScreen calibrationScreen;
     
 private:
     ofTrueTypeFont font;
@@ -51,7 +51,7 @@ private:
     string title;
     bool calibration;
     vector <HealthBar> playerHealth;
-    CalibrationScreen calibrationScreen;
+
     string timestring;
     ofxSegmentDisplay::UnitArray *timerDisplay;
     
