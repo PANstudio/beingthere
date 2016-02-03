@@ -224,27 +224,41 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
     microImg->allocate(_width, _height, OF_IMAGE_COLOR);
     finderImg = new ofImage();
     finderImg->allocate(_width, _height, OF_IMAGE_GRAYSCALE);
+    
+    _distanceImage = Mat(_height, _width, CV_8UC1);
+    for (int y = 0; y < _height; y++) {
+        for (int x  = 0; x < _width; x++) {
+            _distanceImage.at<uchar>(y,x) = 255;
+        }
+    }
+    
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             if(!map[x][y].walkable) {
                 finderImg->setColor(x, y,ofColor::black);
+                _distanceImage.at<uchar>(y, x) = 255;
                 microImg->setColor(x, y, ofColor::red);
             }
             else {
                 if (map[x][y].toxicity == 0) {
+                    _distanceImage.at<uchar>(y, x) = 0;
                     finderImg->setColor(x, y,ofColor::white);
                     microImg->setColor(x, y, ofColor::green);
                 }
                 else {
                     ofColor c;
+                    int a = 255-ofMap(255/(map[x][y].toxicity+1),255,0,0,255);
                     c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
                     finderImg->setColor(x, y,c);
+                    _distanceImage.at<uchar>(y, x) = a;
                     c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255), ofMap(255/(map[x][y].toxicity+1),255,0,0,255), 0);
                     microImg->setColor(x, y, c);
                 }
             }
         }
     }
+    
+    GaussianBlur(_distanceImage, 21);
     
     microImg->update();
 }
@@ -418,7 +432,7 @@ void MapGenerator::animate()
             aX++;
         }
     }
-    
+    generateImages(_width, _height, _tileSize);
 }
 //--------------------------------------------------------------
 // *
@@ -710,6 +724,10 @@ float MapGenerator::getRandomSeedValue()
 {
     return _RseedValue;
 }
+Mat MapGenerator::getSmoothMap()
+{
+    return _distanceImage;
+}
 #pragma mark - Setters
 //--------------------------------------------------------------
 // *
@@ -769,6 +787,8 @@ void MapGenerator::draw(bool showGrid)
             map[x][y].draw();
         }
     }
+    ofSetColor(ofColor::white);
+    drawMat(_distanceImage, 0, 0,200,200);
     
     if (isAnimating()) {
         ofPushStyle();

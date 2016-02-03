@@ -132,6 +132,8 @@ public:
     int getDangerAreaSize();
     float getRandomSeedValue();
     
+    Mat getSmoothMap();
+    
     //--------------------------------------------------------------
     // *
     // *    Setters
@@ -220,6 +222,7 @@ private:
     Mat _greenOnly;
     Mat _blueOnly;
     Mat _blurredGrayscale;
+    Mat _distanceImage;
     
     ofImage *finderImg;
     ofImage *mapTexture;
