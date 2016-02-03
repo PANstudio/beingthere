@@ -787,8 +787,6 @@ void MapGenerator::draw(bool showGrid)
             map[x][y].draw();
         }
     }
-    ofSetColor(ofColor::white);
-    drawMat(_distanceImage, 0, 0,200,200);
     
     if (isAnimating()) {
         ofPushStyle();
@@ -816,6 +814,7 @@ void MapGenerator::drawFinderMap(int x, int y)
         getFinderImage().draw(0,0);
         microImg->draw(0,100);
     }
+    drawMat(_distanceImage, 0, 200);
 //    drawMicroMap();
     ofPopMatrix();
     ofPushMatrix();
