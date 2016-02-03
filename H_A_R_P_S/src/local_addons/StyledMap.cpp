@@ -65,6 +65,10 @@ void StyledMap::getMapImage(cv::Mat _map)
 void StyledMap::setGradient(string gradient)
 {
     colorMap.setMapFromName(gradient);
+    colorMap.apply(gradientImage, colorGradientImage);
+    colorMapImage.resize(mapImage.getWidth(), mapImage.getHeight());
+    colorMap.apply(mapImage,colorMapImage);
+    colorMapImage.resize(500, 500);
 }
 //--------------------------------------------------------------
 vector<string> StyledMap::getGradientsNames()
