@@ -16,17 +16,22 @@
 #include "ofxSpreadsheet.h"
 #include "CalibrationConfirmDialogue.h"
 #include "ofxCsv.h"
+#include "BaseButton.h"
 
 using namespace wng;
 
 class CalibrationScreen {
 public:
-    void setup(int gridSizeX,int gridSizeY,int gridSpacingX,int gridSpacingY);
+    void setup();
+    void setupGrid(int gridSizeX,int gridSizeY,int gridSpacingX,int gridSpacingY);
     void setNodeReadings(int node);
     void moveNodes(int x,int y);
+    void alterNodeSpacing(int x,int y);
+    void setGridSpacing(int spacingX,int spacingY);
     void update();
     void draw();
     void drawSpreadsheet();
+    void drawCurrentReadings(int x,int y);
     void saveCalibrationData();
     void buttonClicked(string &str);
     void mousePos(int x,int y);
@@ -45,6 +50,7 @@ private:
     ConfirmReadings confirmation;
     ofxOscReceiver calibrationListener;
     NodeReadings currentReadings;
+    BaseButton saveButton;
     
     
 };

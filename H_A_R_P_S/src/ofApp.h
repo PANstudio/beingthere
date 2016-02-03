@@ -77,6 +77,7 @@ class ofApp : public ofBaseApp{
         string feedBackMap;
         string saveDifficultly;
         string mode;
+    
         //--------------------------------------------------------------
         // *
         // * Other Objects

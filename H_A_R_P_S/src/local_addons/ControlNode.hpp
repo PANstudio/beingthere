@@ -83,51 +83,19 @@ struct NodeReadings {
         stringstream strs;
         strs << "---------------" << endl;
         strs << "Node " << nodeID << endl;
-        strs << "RXDistX " <<  RXDistX << endl;
-        strs << "RXDistY " <<  RXDistY << endl;
-        strs << "TX1RXDist " <<  TX1RXDist << endl;
+        strs << "RXDistX " <<  RXDistX << " RXDistY " <<  RXDistY << " TX1RXDist " <<  TX1RXDist << endl;
         strs << "TX1_RSSI1 " <<  TX1_RSSI1 << endl;
-        strs << "C1_1 " <<  C1_1 << endl;
-        strs << "C1_2 " <<  C1_2 << endl;
-        strs << "C1_3 " <<  C1_3 << endl;
-        strs << "C1_4 " <<  C1_4 << endl;
-        strs << "C1_5 " <<  C1_5 << endl;
-        strs << "C1_6 " <<  C1_6 << endl;
+        strs << "C1_1 " <<  C1_1 << " C1_2 " <<  C1_2 << " C1_3 " <<  C1_3 << " C1_4 " <<  C1_4 << " C1_5 " << C1_5 << " C1_6 " <<  C1_6 << endl;
         strs << "TX2_RSS2 " <<  TX2_RSS2 << endl;
-        strs << "C2_1 " <<  C2_1 << endl;
-        strs << "C2_2 " <<  C2_2 << endl;
-        strs << "C2_3 " <<  C2_3 << endl;
-        strs << "C2_4 " <<  C2_4 << endl;
-        strs << "C2_5 " <<  C2_5 << endl;
-        strs << "C2_6 " <<  C2_6 << endl;
+        strs << "C2_1 " <<  C2_1 << " C2_2 " <<  C2_2 << " C2_3 " <<  C2_3 << " C2_4 " <<  C2_4 << " C2_5 " << C2_5 << " C2_6 " <<  C2_6 << endl;
         strs << "TX3_RSS3 " <<  TX3_RSS3 << endl;
-        strs << "C3_1 " <<  C3_1 << endl;
-        strs << "C3_2 " <<  C3_2 << endl;
-        strs << "C3_3 " <<  C3_3 << endl;
-        strs << "C3_4 " <<  C3_4 << endl;
-        strs << "C3_5 " <<  C3_5 << endl;
-        strs << "C3_6 " <<  C3_6 << endl;
+        strs << "C3_1 " <<  C3_1 << " C3_2 " <<  C3_2 << " C3_3 " <<  C3_3 << " C3_4 " <<  C3_4 << " C3_5 " << C3_5 << " C3_6 " <<  C3_6 << endl;
         
         ofDrawBitmapStringHighlight(strs.str(), 15, 15);
     }
     //-----------------------------------------------------
     NodeReadings(int _nodeID,float _var1 = 0,float _var2 = 0,float _var3 = 0,float _var4 = 0,float _var5 = 0,float _var6 = 0) {
-//        nodeID = _nodeID;
-//        var1 = _var1;
-//        var2 = _var2;
-//        var3 = _var3;
-//        var4 = _var4;
-//        var5 = _var5;
-//        var6 = _var6;
-//        
-//        cout << "---------------" << endl;
-//        cout << "Node " << _nodeID << endl;
-//        cout << "Var 1 " << _var1 << endl;
-//        cout << "Var 2 " << _var2 << endl;
-//        cout << "Var 3 " << _var3 << endl;
-//        cout << "Var 4 " << _var4 << endl;
-//        cout << "Var 5 " << _var5 << endl;
-//        cout << "Var 6 " << _var6 << endl;
+
     }
 
     int nodeID;
@@ -173,7 +141,7 @@ struct NodeReadings {
 class ControlNode : public ofRectangle {
 
     public:
-        ControlNode(int x,int y,float gridSpacing,int id);
+        ControlNode(int x,int y,float gridSpacingX,float gridSpacingY,int id);
         ~ControlNode();
     
         void updatePosition(int x,int y);
@@ -193,11 +161,14 @@ class ControlNode : public ofRectangle {
         float _y;
         bool isActive;
         int _id;
-    float _gridSpacing;
+        float _gridSpacingX;
+        float _gridSpacingY;
     private:
         NodeReadings nReading;
         bool isOrigin;
         bool isOver;
+        float initialX;
+        float initialY;
     protected:
 
 };

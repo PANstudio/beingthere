@@ -12,8 +12,10 @@ void DisplayWindow::setup()
 {
     font.load("ofxdatgui_assets/font-verdana.ttf",20);
     title = "Project H.A.R.P.S";
+
+    calibrationScreen.setup();
+    calibrationScreen.setupGrid(10, 10, 50, 50);
     
-    calibrationScreen.setup(10, 10, 50, 50);
     // Align Center the Text
     w = (ofGetWidth()/2) - (font.getStringBoundingBox(title, 0, 0).width/2);
     h = (ofGetHeight()/2) - (font.getStringBoundingBox(title, 0, 0).height/2);
@@ -68,7 +70,7 @@ void DisplayWindow::setNumberOfHealthBars(int num)
 //--------------------------------------------------------------
 void DisplayWindow::setCalibration(int gridX, int gridY, int spacingX, int spacingY)
 {
-    calibrationScreen.setup(gridX, gridY, spacingX, spacingY);
+    calibrationScreen.setupGrid(gridX, gridY, spacingX, spacingY);
 }
 //--------------------------------------------------------------
 void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
@@ -100,9 +102,7 @@ void DisplayWindow::draw()
             ofPushMatrix();
             ofTranslate(x,y);
             if (ofToInt(timestring) < 10) {
-                if (ofGetFrameNum() % 60 == 0) {
-                    timerDisplay->draw(timestring, _segmentColor, _backColor);
-                }
+                timerDisplay->draw(timestring, _segmentColor, _backColor);
             }
             else {
                 timerDisplay->draw(timestring, _segmentColor, _backColor);

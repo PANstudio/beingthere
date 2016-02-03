@@ -8,17 +8,22 @@
 
 #include "ControlNode.hpp"
 //--------------------------------------------------------------
-ControlNode::ControlNode(int x,int y,float gridSpacing,int id)
+ControlNode::ControlNode(int x,int y,float gridSpacingX,float gridSpacingY,int id)
 {
-    _gridSpacing = gridSpacing;
-    _x = x*_gridSpacing;
-    _y = y*_gridSpacing;
+    _gridSpacingX = gridSpacingX;
+    _gridSpacingY = gridSpacingY;
+
+    _x = x*_gridSpacingX;
+    _y = y*_gridSpacingY;
+
+    initialX = _x;
+    initialY = _y;
     
     isActive = false;
     isOrigin = false;
     isOver = false;
     _id = id;
-    this->set(x*_gridSpacing, y*_gridSpacing, 14, 14);
+    this->set(x*_gridSpacingX, y*_gridSpacingY, 14, 14);
     nReading = NodeReadings(this->_id);
 }
 //--------------------------------------------------------------
@@ -32,6 +37,12 @@ void ControlNode::setValues(float _var1, float _var2, float _var3, float _var4, 
 void ControlNode::setValues(NodeReadings rs )
 {
     nReading = NodeReadings(this->_id, rs.RXDistX, rs.RXDistY, rs.TX1RXDist, rs.TX1_RSSI1, rs.C1_1, rs.C1_2, rs.C1_3, rs.C1_4, rs.C1_5, rs.C1_6, rs.C2_1, rs.C2_2, rs.C2_3, rs.C2_4, rs.C2_5, rs.C2_6, rs.C3_1, rs.TX3_RSS3, rs.C3_1, rs.C3_2, rs.C3_3, rs.C3_4, rs.C3_5, rs.C3_6);
+}
+//--------------------------------------------------------------
+void ControlNode::updateRXDist(float x, float y)
+{
+    this->setX(x);
+    this->setY(y);
 }
 //--------------------------------------------------------------
 void ControlNode::updatePosition(int x, int y)
@@ -69,7 +80,7 @@ void ControlNode::draw()
         ofDrawCircle(x, y, 5);
     }
     ofSetColor(ofColor::white);
-    ofDrawBitmapString(_id, x, y+15);
+    ofDrawBitmapString(_id, x-7, y+15);
     ofPopStyle();
 }
 //--------------------------------------------------------------

@@ -30,28 +30,30 @@
 		5EB4394F89E6C7B6CB63E407 /* ofxEasingExpo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FAA1F8FD8842B18FC644AB8 /* ofxEasingExpo.cpp */; };
 		60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E018EA5B6B752E53BD00D9E4 /* ofxEasingQuint.cpp */; };
 		61DD69DC8EEC05F4180E5A3A /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE5201E4C9247E2A335BB47E /* ofxCvFloatImage.cpp */; };
-		632D97CB1C37663E00F4792E /* ofxPathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632D97C91C37663E00F4792E /* ofxPathfinder.cpp */; settings = {ASSET_TAGS = (); }; };
-		63311BB31C556D0000BD598E /* ofxSegmentDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BAE1C556D0000BD598E /* ofxSegmentDisplay.cpp */; settings = {ASSET_TAGS = (); }; };
-		63311BB41C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB01C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp */; settings = {ASSET_TAGS = (); }; };
-		63311BB51C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB11C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp */; settings = {ASSET_TAGS = (); }; };
-		63311BB61C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB21C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp */; settings = {ASSET_TAGS = (); }; };
-		635E7E5F1C3C68DF008ACD32 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E551C3C68DF008ACD32 /* ofxDatGuiComponent.cpp */; settings = {ASSET_TAGS = (); }; };
-		635E7E601C3C68DF008ACD32 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E5A1C3C68DF008ACD32 /* ofxDatGui.cpp */; settings = {ASSET_TAGS = (); }; };
-		637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244351C20DB17002F7BD5 /* DisplayWindow.cpp */; settings = {ASSET_TAGS = (); }; };
-		6372443C1C20E4CF002F7BD5 /* CalibrationScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */; settings = {ASSET_TAGS = (); }; };
-		6372443F1C20E503002F7BD5 /* ControlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443D1C20E503002F7BD5 /* ControlNode.cpp */; settings = {ASSET_TAGS = (); }; };
-		637723BA1C2624810081998C /* StyledMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723B81C2624810081998C /* StyledMap.cpp */; settings = {ASSET_TAGS = (); }; };
-		637723BD1C2625190081998C /* ScoreBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723BB1C2625190081998C /* ScoreBoard.cpp */; settings = {ASSET_TAGS = (); }; };
-		639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A71C1E373B00B512AD /* MapGenerator.cpp */; settings = {ASSET_TAGS = (); }; };
-		639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A91C1E373B00B512AD /* MyTimer.cpp */; settings = {ASSET_TAGS = (); }; };
-		639756B71C1E373B00B512AD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AB1C1E373B00B512AD /* Player.cpp */; settings = {ASSET_TAGS = (); }; };
-		639756B81C1E373B00B512AD /* PlayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AD1C1E373B00B512AD /* PlayerManager.cpp */; settings = {ASSET_TAGS = (); }; };
-		639756B91C1E373B00B512AD /* RobotManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AF1C1E373B00B512AD /* RobotManager.cpp */; settings = {ASSET_TAGS = (); }; };
-		639756BA1C1E373B00B512AD /* TargetTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B11C1E373B00B512AD /* TargetTile.cpp */; settings = {ASSET_TAGS = (); }; };
-		639756BB1C1E373B00B512AD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B31C1E373B00B512AD /* Tile.cpp */; settings = {ASSET_TAGS = (); }; };
-		63C32B0A1C57690800384A63 /* ofxCsv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63C32B081C57690800384A63 /* ofxCsv.cpp */; settings = {ASSET_TAGS = (); }; };
-		63EA95F31C336E2900721819 /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63EA95F01C336E2900721819 /* ofxBlurShader.cpp */; settings = {ASSET_TAGS = (); }; };
-		63FB3E641C4BEDC30006421A /* ofxSpreadsheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */; settings = {ASSET_TAGS = (); }; };
+		632D97CB1C37663E00F4792E /* ofxPathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632D97C91C37663E00F4792E /* ofxPathfinder.cpp */; };
+		63311BB31C556D0000BD598E /* ofxSegmentDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BAE1C556D0000BD598E /* ofxSegmentDisplay.cpp */; };
+		63311BB41C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB01C556D0000BD598E /* ofxSegmentDisplay14SegImpl.cpp */; };
+		63311BB51C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB11C556D0000BD598E /* ofxSegmentDisplay16SegImpl.cpp */; };
+		63311BB61C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63311BB21C556D0000BD598E /* ofxSegmentDisplay7SegImpl.cpp */; };
+		635E7E5F1C3C68DF008ACD32 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E551C3C68DF008ACD32 /* ofxDatGuiComponent.cpp */; };
+		635E7E601C3C68DF008ACD32 /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 635E7E5A1C3C68DF008ACD32 /* ofxDatGui.cpp */; };
+		637244371C20DB17002F7BD5 /* DisplayWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637244351C20DB17002F7BD5 /* DisplayWindow.cpp */; };
+		6372443C1C20E4CF002F7BD5 /* CalibrationScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443A1C20E4CF002F7BD5 /* CalibrationScreen.cpp */; };
+		6372443F1C20E503002F7BD5 /* ControlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443D1C20E503002F7BD5 /* ControlNode.cpp */; };
+		637723BA1C2624810081998C /* StyledMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723B81C2624810081998C /* StyledMap.cpp */; };
+		637723BD1C2625190081998C /* ScoreBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723BB1C2625190081998C /* ScoreBoard.cpp */; };
+		639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A71C1E373B00B512AD /* MapGenerator.cpp */; };
+		639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A91C1E373B00B512AD /* MyTimer.cpp */; };
+		639756B71C1E373B00B512AD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AB1C1E373B00B512AD /* Player.cpp */; };
+		639756B81C1E373B00B512AD /* PlayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AD1C1E373B00B512AD /* PlayerManager.cpp */; };
+		639756B91C1E373B00B512AD /* RobotManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AF1C1E373B00B512AD /* RobotManager.cpp */; };
+		639756BA1C1E373B00B512AD /* TargetTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B11C1E373B00B512AD /* TargetTile.cpp */; };
+		639756BB1C1E373B00B512AD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B31C1E373B00B512AD /* Tile.cpp */; };
+		63B90F671C62A70000C666F0 /* namedMaps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B90F641C62A70000C666F0 /* namedMaps.cpp */; };
+		63B90F681C62A70000C666F0 /* ofxColorMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B90F651C62A70000C666F0 /* ofxColorMap.cpp */; };
+		63C32B0A1C57690800384A63 /* ofxCsv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63C32B081C57690800384A63 /* ofxCsv.cpp */; };
+		63EA95F31C336E2900721819 /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63EA95F01C336E2900721819 /* ofxBlurShader.cpp */; };
+		63FB3E641C4BEDC30006421A /* ofxSpreadsheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63FB3E621C4BEDC30006421A /* ofxSpreadsheet.cpp */; };
 		6C06F287580ED82420253165 /* ObjectFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6B65A774AC83F4FC4103DEF /* ObjectFinder.cpp */; };
 		6C2E89161CA335E9F476A206 /* Flow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4192C0B6E450B11BF26797F /* Flow.cpp */; };
 		72BABC6CF54D263B2D4E2895 /* Kalman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2668E5B55A315A73B7296637 /* Kalman.cpp */; };
@@ -283,6 +285,9 @@
 		639756B31C1E373B00B512AD /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile.cpp; path = src/local_addons/Tile.cpp; sourceTree = "<group>"; };
 		639756B41C1E373B00B512AD /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Tile.hpp; path = src/local_addons/Tile.hpp; sourceTree = "<group>"; };
 		639756BD1C1E48F700B512AD /* MapHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapHelpers.hpp; path = src/local_addons/MapHelpers.hpp; sourceTree = "<group>"; };
+		63B90F641C62A70000C666F0 /* namedMaps.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = namedMaps.cpp; sourceTree = "<group>"; };
+		63B90F651C62A70000C666F0 /* ofxColorMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxColorMap.cpp; sourceTree = "<group>"; };
+		63B90F661C62A70000C666F0 /* ofxColorMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxColorMap.h; sourceTree = "<group>"; };
 		63C32B081C57690800384A63 /* ofxCsv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCsv.cpp; sourceTree = "<group>"; };
 		63C32B091C57690800384A63 /* ofxCsv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxCsv.h; sourceTree = "<group>"; };
 		63C32B0B1C576CE000384A63 /* CalibrationConfirmDialogue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CalibrationConfirmDialogue.h; path = src/local_addons/CalibrationConfirmDialogue.h; sourceTree = "<group>"; };
@@ -913,6 +918,25 @@
 			path = themes;
 			sourceTree = "<group>";
 		};
+		63B90F621C62A70000C666F0 /* ofxColorMap */ = {
+			isa = PBXGroup;
+			children = (
+				63B90F631C62A70000C666F0 /* src */,
+			);
+			name = ofxColorMap;
+			sourceTree = "<group>";
+		};
+		63B90F631C62A70000C666F0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63B90F641C62A70000C666F0 /* namedMaps.cpp */,
+				63B90F651C62A70000C666F0 /* ofxColorMap.cpp */,
+				63B90F661C62A70000C666F0 /* ofxColorMap.h */,
+			);
+			name = src;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxColorMap/src;
+			sourceTree = "<group>";
+		};
 		63C32B061C57690800384A63 /* ofxCsv */ = {
 			isa = PBXGroup;
 			children = (
@@ -1248,6 +1272,7 @@
 				63FB3E601C4BEDC30006421A /* ofxSpreadsheet */,
 				63311BAC1C556D0000BD598E /* ofxSegmentDisplay */,
 				63C32B061C57690800384A63 /* ofxCsv */,
+				63B90F621C62A70000C666F0 /* ofxColorMap */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1657,6 +1682,7 @@
 				9E3D94644874B53F109A7DB0 /* OscReceivedElements.cpp in Sources */,
 				21020EE07395C0E961FE4E47 /* OscTypes.cpp in Sources */,
 				C6118AFD739E5CCDB2DBDC21 /* ofxQuadWarp.cpp in Sources */,
+				63B90F681C62A70000C666F0 /* ofxColorMap.cpp in Sources */,
 				8AFDF5BE7319178A8BCA33A4 /* easing_terms_of_use.html in Sources */,
 				F81DCB9CBD1C9E31B3A25450 /* ofxEasing.cpp in Sources */,
 				5B25B4642967FA330CDBB410 /* ofxEasingBack.cpp in Sources */,
@@ -1673,6 +1699,7 @@
 				63C32B0A1C57690800384A63 /* ofxCsv.cpp in Sources */,
 				63311BB31C556D0000BD598E /* ofxSegmentDisplay.cpp in Sources */,
 				60DB4B5310FFFA5010DF83B0 /* ofxEasingQuint.cpp in Sources */,
+				63B90F671C62A70000C666F0 /* namedMaps.cpp in Sources */,
 				639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */,
 				3E4A5983D6208AC9A0904FC2 /* ofxEasingSine.cpp in Sources */,
 				3A1C46801C4E3F1DE74CA645 /* ofxTween.cpp in Sources */,

@@ -37,5 +37,7 @@ class MyTimer {
         string _timeLeftString;
         string _timerName;
         ofTrueTypeFont font;
+        ofEvent<string> TimerFinished;
+        ofEvent<string> TimerStarted;
 };
 #endif /* MyTimer_hpp */

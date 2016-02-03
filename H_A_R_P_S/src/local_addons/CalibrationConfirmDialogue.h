@@ -40,7 +40,6 @@ public:
     void draw()
     {
         ofPushMatrix();
-//        ofTranslate(_x, _y);
         ofPushStyle();
         ofPushStyle();
         ofSetColor(0);

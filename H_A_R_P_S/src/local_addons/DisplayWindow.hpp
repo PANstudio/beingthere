@@ -15,7 +15,6 @@
 #include "ofxSegmentDisplay.h"
 #include "CalibrationScreen.hpp"
 
-
 #define SEGMENT_WIDTH 60
 #define SEGMENT_HEIGHT 128
 
