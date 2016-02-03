@@ -91,6 +91,7 @@ class ofApp : public ofBaseApp{
         Scoreboard scoreBoard;
         StyledMap styledMap;
     
+    
         bool _showShaded;
         bool _showPreviewWindow;
         ofTrueTypeFont heading;
@@ -111,6 +112,9 @@ class ofApp : public ofBaseApp{
         ofxDatGui * styleGui;
         ofxDatGui * calibrationGui;
         ofxDatGui * operationElements;
+        ofxDatGuiButton* addItem;
+        ofxDatGuiScrollView* view;
+
     
         void setGuiListeners(ofxDatGui* guiRef);
     
@@ -121,5 +125,6 @@ class ofApp : public ofBaseApp{
         void onDropdownEvent(ofxDatGuiDropdownEvent e);
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
+        void onScrollViewEvent(ofxDatGuiScrollViewEvent e);
 		
 };

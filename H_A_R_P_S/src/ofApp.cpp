@@ -39,7 +39,11 @@ void ofApp::setupVariables()
 void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
+    
+    // This is independant of other setup routines so can be called before the gui
+    styledMap.setup();
+
     setupGUI();
     setupVariables();
         
@@ -49,6 +53,7 @@ void ofApp::setup()
     mapGenerator.setup();
     
     mapGenerator.generateNewMap(100,100,3, 5, 20, 3, 4, 3.13, 5);
+    styledMap.getMapImage(mapGenerator.getSmoothMap());
     
     playerManager.setup("localhost", 7890);
     playerManager.setNumberOfPlayers(3);
@@ -58,11 +63,11 @@ void ofApp::setup()
     }
     
     countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
-    styledMap.setup();
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    view->update();
     styledMap.update();
     countDown.update();
     playerManager.listen();
@@ -112,8 +117,9 @@ void ofApp::draw()
     }
     else if (_Appmode == 3) {
         mapGenerator.drawFinderMap(901, 0);
-        scoreBoard.draw(500, 500);
+//        scoreBoard.draw(500, 500);
         styledMap.draw(0, 0);
+        
         // Player Status Feedback
         ofDrawBitmapStringHighlight("Player Status", 510,13);
         for (int i = 0; i < 3; i++) {
@@ -131,6 +137,9 @@ void ofApp::draw()
             ofPopStyle();
             ofPopMatrix();
         }
+        // Draw Style Selector
+        view->draw();
+        styledMap.drawGradients(view->getX(), view->getHeight());
     }
     
     ofSetColor(ofColor::white);
@@ -138,6 +147,7 @@ void ofApp::draw()
  
     // Window Layout
     drawWindows();
+
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -147,6 +157,7 @@ void ofApp::exit()
     delete gui;
     delete mapGui;
     delete calibrationGui;
+    delete view;
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -286,6 +297,7 @@ void ofApp::setupGUI()
     
     int spacing = 5;
     gui = new ofxDatGui(0,550);
+
     gui->setTheme(new ofxDatGuiThemeSmoke());
     gui->addHeader("H_A_R_P_S");
     gui->addFRM(10.0f);
@@ -322,13 +334,14 @@ void ofApp::setupGUI()
     }
     
     gui->addDropdown("Select Difficulty", difficulty);
-    gui->getDropdown("Select Difficulty")->select(0);
-    gui->getDropdown("Select Difficulty")->collapse();
-
     gui->addBreak();
     gui->addMatrix("Levels", levels.size(),true);
     gui->getMatrix("Levels")->setRadioMode(true);
     gui->addBreak();
+    
+    gui->addButton("Flush Map");
+    gui->addBreak();
+    
     gui->addToggle("Show Preview Window");
     gui->addBreak();
     
@@ -336,7 +349,7 @@ void ofApp::setupGUI()
     gui->addBreak();
     gui->addButton("Stop Level");
     
-    mapGui = new ofxDatGui(901,0);
+    mapGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
     mapGui->setTheme(new ofxDatGuiThemeSmoke());
     mapGui->setWidth(400);
     mapGui->addHeader("Map Generation");
@@ -369,7 +382,7 @@ void ofApp::setupGUI()
     mapGui->addBreak();
     mapGui->addButton("Generate New Map");
     mapGui->addBreak();
-    mapGui->addButton("Flush Map");
+//    mapGui->addButton("Flush Map");
     
     mapGui->addBreak();
     mapGui->addHeader("Save Settings");
@@ -380,6 +393,8 @@ void ofApp::setupGUI()
     operationElements->setWidth(250);
     operationElements->setTheme(new ofxDatGuiThemeSmoke());
     operationElements->addHeader("Operational");
+    operationElements->addDropdown("Map Style", styledMap.getGradientsNames());
+    
     ofxDatGuiFolder * player = operationElements->addFolder("Player");
     player->addSlider("Player Size", 0,25, 10);
     player->addColorPicker("Player Color");
@@ -416,6 +431,15 @@ void ofApp::setupGUI()
     calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
     
 
+    view = new ofxDatGuiScrollView("Styles", 8);
+    view->setWidth(250);
+    view->setPosition(ofGetWidth()-250, 0);
+//    view->setAnchor(ofxDatGuiAnchor::TOP_RIGHT);
+    view->onScrollViewEvent(this, &ofApp::onScrollViewEvent);
+    for(int i = 0; i < styledMap.getGradientsNames().size(); i++) {
+        view->add(styledMap.getGradientsNames()[i]);
+    }
+    
     setGuiListeners(gui);
     setGuiListeners(mapGui);
     setGuiListeners(operationElements);
@@ -424,6 +448,9 @@ void ofApp::setupGUI()
     mapGui->setVisible(false);
     operationElements->setVisible(false);
     calibrationGui->setVisible(false);
+    
+    gui->getDropdown("Select Difficulty")->select(0);
+    gui->getDropdown("Select Difficulty")->collapse();
 }
 //--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)
@@ -471,11 +498,11 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if (e.target->is("Flush Map")) {
         mapGenerator.generatePolylines(_blur,_iRR,_iRY,_iRG);
-//        styledMap.setShapes(mapGenerator.getDeadlyOutlines(),mapGenerator.getDangerOutlines());
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
         playerManager.getFinderImage(mapGenerator.getFinderImage());
+        styledMap.getMapImage(mapGenerator.getSmoothMap());
     }
     else if (e.target->is("Animate Map")) {
         mapGenerator.startAnimation(_numberOfIslands,_smooth,_growthNo,_rs);
@@ -530,7 +557,6 @@ void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
     if (e.target->is("Calibration Nodes")) {
         displayWindow->calibrationScreen.moveNodes(e.x, e.y);
     }
-
 }
 //--------------------------------------------------------------
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
@@ -538,22 +564,18 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
     if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
-//            cout << _Appmode << endl;
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 1;
-//            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 2;
-//            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
             _Appmode = 3;
-//            cout << _Appmode << endl;
             displayWindow->doCalibration(false);
         }
     }
@@ -597,27 +619,10 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
     }
     else if(e.target->is("Set Difficulty")) {
         saveDifficultly = e.target->getLabel();
-        if (saveDifficultly == "NOVICE") {
-
-        }
-        else if (_difficulty == "ROOKIE") {
-           
-        }
-        else if (_difficulty == "NORMAL") {
-           
-        }
-        else if (_difficulty == "HARD") {
-           
-        }
-        else if (_difficulty == "REALLY HARD") {
-           
-        }
-        else if (_difficulty == "IMPOSSIBLE") {
-           
-        }
-        else if (_difficulty == "GOD LIKE") {
-           
-        }
+    }
+    else if(e.target->is("Map Style")) {
+        cout << styledMap.getGradientsNames()[e.child] << endl;
+        styledMap.setGradient(styledMap.getGradientsNames()[e.child]);
     }
 }
 //--------------------------------------------------------------
@@ -639,4 +644,10 @@ void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
         playerManager.getFinderImage(mapGenerator.getFinderImage());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
     }
+}
+//--------------------------------------------------------------
+void ofApp::onScrollViewEvent(ofxDatGuiScrollViewEvent e)
+{
+    cout << styledMap.getGradientsNames()[e.index] << endl;
+    styledMap.setGradient(styledMap.getGradientsNames()[e.index]);
 }
