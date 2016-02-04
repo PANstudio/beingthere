@@ -87,7 +87,7 @@ public:
     // *
     //--------------------------------------------------------------
     // Generates the Lines and Areas
-    void generatePolylines(int blurMap,int iRR[2],int iRY[2],int iRG[2]);
+    void generatePolylines(int blurMap,int deadlyThreshold, int dangerThreshold,int okThreshold);
     
     // Smooths the Map
     void smoothMap();

@@ -497,7 +497,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         styledMap.getMapImage(mapGenerator.getSmoothMap());
     }
     else if (e.target->is("Flush Map")) {
-        mapGenerator.generatePolylines(_blur,_iRR,_iRY,_iRG);
+        mapGenerator.generatePolylines(_blur,_iRR[1],_iRY[1],_iRG[1]);
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);

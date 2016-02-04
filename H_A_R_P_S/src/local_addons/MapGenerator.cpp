@@ -439,7 +439,7 @@ void MapGenerator::animate()
 // *    Generator Operations
 // *
 //--------------------------------------------------------------
-void MapGenerator::generatePolylines(int blurMap,int iRR[2],int iRY[2],int iRG[2])
+void MapGenerator::generatePolylines(int blurMap,int deadlyThreshold,int dangerThreshold,int okThreshold)
 {
     mapFbo->begin();
     ofClear(0, 0, 0);
@@ -451,40 +451,75 @@ void MapGenerator::generatePolylines(int blurMap,int iRR[2],int iRY[2],int iRG[2
     mapTexture->update();
     
     copy(mapTexture->getPixels(), _mapTexture);
-    GaussianBlur(_mapTexture, _blurred,blurMap);
+    GaussianBlur(_mapTexture, _blurred,9);
+
+    _distanceImage.copyTo(_redOnly);
+    _distanceImage.copyTo(_greenOnly);
+    cv::threshold(_redOnly, _redOnly, deadlyThreshold, 255, cv::THRESH_BINARY);
+    cv::threshold(_greenOnly, _greenOnly, okThreshold, 255, cv::THRESH_BINARY_INV);
     
-    // Get all the Various Color Images
-    inRange(_blurred, Scalar(iRR[0],0,0), Scalar(iRR[1],0,0), _redOnly);
-    inRange(_blurred, Scalar(iRY[0],iRY[0],0), Scalar(iRY[1],iRY[1],0), _yellowOnly);
-    inRange(_blurred, Scalar(0,iRG[0],0), Scalar(0,iRG[1],0), _greenOnly);
+    // Combine the matrices and invert
+    _yellowOnly = _redOnly + _greenOnly;
+    invert(_yellowOnly);
     
     // Find Contours
+    deadColorFinder.setFindHoles(true);
+    deadColorFinder.setThreshold(170);
     deadColorFinder.findContours(_redOnly);
-    dangerColorFinder.findContours(_yellowOnly);
+    
+    okColorFinder.setFindHoles(true);
+    okColorFinder.setThreshold(170);
     okColorFinder.findContours(_greenOnly);
     
+    dangerColorFinder.setFindHoles(true);
+    dangerColorFinder.setThreshold(170);
+    dangerColorFinder.findContours(_yellowOnly);
+
     deadlyArea.clear();
     dangerArea.clear();
     okArea.clear();
-    
+
     for (int i = 0; i < deadColorFinder.size(); i++) {
         ofPolyline l;
-        l = deadColorFinder.getPolyline(i).getSmoothed(3);
+        int dS = deadColorFinder.getPolyline(i).size();
+        for (int e = 0; e < dS; e++) {
+            float newX = ofMap(deadColorFinder.getPolyline(i)[e].x,0,100, 0, 500);
+            float newY = ofMap(deadColorFinder.getPolyline(i)[e].y,0,100, 0, 500);
+            l.addVertex(newX, newY);
+            l.close();
+        }
+    
         l.simplify();
         deadlyArea.push_back(l);
     }
     
-    for (int i = 0; i < dangerColorFinder.size(); i++) {
-        ofPolyline l;
-        l = dangerColorFinder.getPolyline(i);;
-        l.simplify();
-        dangerArea.push_back(l);
-    }
     for (int i = 0; i < okColorFinder.size(); i++) {
         ofPolyline l;
-        l = okColorFinder.getPolyline(i);
+        int dS = okColorFinder.getPolyline(i).size();
+        for (int e = 0; e < dS; e++) {
+            float newX = ofMap(okColorFinder.getPolyline(i)[e].x,0,100, 0, 500);
+            float newY = ofMap(okColorFinder.getPolyline(i)[e].y,0,100, 0, 500);
+            l.addVertex(newX, newY);
+        }
+    
         l.simplify();
+        l.close();
         okArea.push_back(l);
+    }
+    
+    
+    for (int i = 0; i < dangerColorFinder.size(); i++) {
+        ofPolyline l;
+        int dS = dangerColorFinder.getPolyline(i).size();
+        for (int e = 0; e < dS; e++) {
+            float newX = ofMap(dangerColorFinder.getPolyline(i)[e].x,0,100, 0, 500);
+            float newY = ofMap(dangerColorFinder.getPolyline(i)[e].y,0,100, 0, 500);
+            l.addVertex(newX, newY);
+        }
+        
+        l.simplify();
+        l.close();
+        dangerArea.push_back(l);
     }
 }
 //--------------------------------------------------------------
