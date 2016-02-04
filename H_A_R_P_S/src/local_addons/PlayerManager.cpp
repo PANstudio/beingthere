@@ -38,6 +38,7 @@ void PlayerManager::listen()
         reducerTimer[i].update();
     }
     
+    players[0].setPlayerPosition(ofPoint(ofGetMouseX(),ofGetMouseY()),0);
     while (oscReceiver.hasWaitingMessages()) {
         ofxOscMessage m;
         oscReceiver.getNextMessage(m);

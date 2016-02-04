@@ -259,7 +259,6 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
     }
     
     GaussianBlur(_distanceImage, 21);
-    
     microImg->update();
 }
 //--------------------------------------------------------------
@@ -677,15 +676,7 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
     ofPushMatrix();
 
     for (int player = 0; player < playerCoords.size(); player++) {
-        for (int i = 0; i < okArea.size(); i++) {
-            okArea[i].simplify(0.1);
-            if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
-                fireEvent(player, "OK");
-            }
-            ofSetColor(ofColor::green);
-            okArea[i].draw();
-        }
-        
+       
         for (int i = 0; i < dangerArea.size(); i++) {
             dangerArea[i].simplify(0.1);
             if (dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
@@ -693,6 +684,14 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
             }
             ofSetColor(ofColor::yellow);
             dangerArea[i].draw();
+        }
+        for (int i = 0; i < okArea.size(); i++) {
+            okArea[i].simplify(0.1);
+            if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "OK");
+            }
+            ofSetColor(ofColor::green);
+            okArea[i].draw();
         }
         
         for (int i = 0; i < deadlyArea.size(); i++) {
