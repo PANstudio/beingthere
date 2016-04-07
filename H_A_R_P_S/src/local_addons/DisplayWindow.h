@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "HealthBar.h"
-#include "MyTimer.hpp"
+#include "MyTimer.h"
 #include "ofxSegmentDisplay.h"
 #include "CalibrationScreen.h"
 

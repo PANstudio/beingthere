@@ -16,22 +16,38 @@
 
 class StyledMap {
     public:
-    void setup();
-    void update();
-
-    void draw(int x, int y);
-    void draw(int x, int y,float scaleX,float scaleY);
-    void drawGradients(int x,int y);
-    void getMapImage(cv::Mat _map);
-    void setGradient(string gradient);
-    ofImage getStyledMap();
-    vector<string> getGradientsNames();
-    vector<string> gradientsNames;
     
-    ofImage mapImage;
-    ofImage colorMapImage;
-    ofImage gradientImage;
-    ofImage colorGradientImage;
-    ofxColorMap colorMap;
+        //! Setup
+        void setup();
+
+        //! Update
+        void update();
+
+        //! Draw the map
+        void draw(int x, int y);
+        void draw(int x, int y,float scaleX,float scaleY);
+
+        //! Draw the Gradients
+        void drawGradients(int x,int y);
+    
+        //! Get the Map Image
+        void getMapImage(cv::Mat _map);
+    
+        //! Set the Gradient Type
+        void setGradient(string gradient);
+
+        //! Get Styled Map
+        ofImage getStyledMap();
+    
+        //! Get the gradients
+        vector<string> getGradientsNames();
+
+    private:
+        vector<string> gradientsNames;
+        ofImage mapImage;
+        ofImage colorMapImage;
+        ofImage gradientImage;
+        ofImage colorGradientImage;
+        ofxColorMap colorMap;
 };
 #endif /* StyledMap_h */

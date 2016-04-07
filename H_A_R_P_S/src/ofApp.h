@@ -2,12 +2,12 @@
 
 #include "ofMain.h"
 #include "ofxDatGui.h"
-#include "MapGenerator.hpp"
-#include "DisplayWindow.hpp"
-#include "MyTimer.hpp"
-#include "PlayerManager.hpp"
-#include "ScoreBoard.hpp"
-#include "StyledMap.hpp"
+#include "MapGenerator.h"
+#include "DisplayWindow.h"
+#include "MyTimer.h"
+#include "PlayerManager.h"
+#include "ScoreBoard.h"
+#include "StyledMap.h"
 #include "BaseButton.h"
 //#include "SimpleButton.h"
 

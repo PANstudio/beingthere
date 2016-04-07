@@ -15,7 +15,7 @@
 #include "ofxCv.h"
 #include "ofxJSON.h"
 #include "MapHelpers.h"
-#include "Tile.hpp"
+#include "Tile.h"
 #include "ofxPathfinder.h"
 #include "SimpleButton.h"
 
@@ -67,19 +67,23 @@ public:
     //! Generate Clouds
     void generateClouds(int width, int height,int offsetEdge,int numberOfClouds);
     
+    //! Regenerate Clouds
     void reGenerateClouds();
     //--------------------------------------------------------------
     // *
     // *    Animator Functions
     // *
     //--------------------------------------------------------------
+    //! Start Animating Generation
     void startAnimation(int numberOfClouds,int smoothingLoops,int growthLoops,float seedValue);
     
+    //! Is the Generating Animating
     bool isAnimating();
     
+    //! Has the Animation Finished
     bool isAnimationFinished();
     
-    // Only used for visualising the system
+    //! Only used for visualising the system
     void animate();
     
     //--------------------------------------------------------------
@@ -87,7 +91,7 @@ public:
     // *    Generator Operations
     // *
     //--------------------------------------------------------------
-    // Generates the Lines and Areas
+    //! Generates the Lines and Areas
     void generatePolylines(int blurMap,int deadlyThreshold, int dangerThreshold,int okThreshold);
     
     //! Smooths the Map
@@ -114,16 +118,22 @@ public:
     vector<ofPolyline> getDangerOutlines();
     vector<ofPolyline> getOkOutlines();
     
+    //! Get the Neighbouring Tiles
     deque<Tile> getNeighbouringTiles(Tile tile);
     
+    //! Get the Count of the Surrounding Tiles
     int getSurroundingTileCount(int gridX, int gridY);
 
+    //! Get Tile from Coords
     Tile getTileFromGridRef(int x,int y);
     
+    //! Get the Players Cooridinates
     void getPlayerCoordinates(vector <ofPoint> playerCoords);
     
+    //! Get the Finder Image
     ofImage getFinderImage();
     
+    //! Get all the variables
     int getWidth();
     int getHeight();
     int getTileSize();
@@ -140,13 +150,28 @@ public:
     // *    Setters
     // *
     //--------------------------------------------------------------
+    //! Set the Width of the Map
     void setWidth(int width);
+
+    //! Set the Height of the Map
     void setHeight(int height);
+    
+    //! Set the Tile Size
     void setTileSize(int tileSize);
+    
+    //! Set the Danger Size
     void setDangerAreaSize(int size);
+    
+    //! Set how many growth loops there are
     void setGrowthLoops(int growthLoops);
+    
+    //! Set Random Seed Value
     void setRandomSeedValue(float randomSeed);
+    
+    //! Set Number of Clouds
     void setNumberOfClouds(int numberOfClouds);
+    
+    //! Set number of smoothing loops
     void setSmoothingLoops(int smoothingLoops);
     
     //--------------------------------------------------------------
@@ -154,13 +179,25 @@ public:
     // *    Draw Functions
     // *
     //--------------------------------------------------------------
+    //! Draw
     void draw(bool showGrid);
+
+    //! Draw the Computer Vision
     void drawComputerVision(int x, int y);
+
+    //! Draw the Polyines
     void drawPolylines();
+    
+    //! Draw the Micromap
     void drawMicroMap();
+    
+    //! Draw the Editor
     void drawEditor();
+
+    //! Draw the Finder Map
     void drawFinderMap(int x,int y);
     
+    //! 
     void fireEvent(int playerId, string area);
     
     //--------------------------------------------------------------

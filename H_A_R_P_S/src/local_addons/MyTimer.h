@@ -14,30 +14,45 @@
 #include "ofMain.h"
 
 class MyTimer {
-    public:
+public:
+    //! Setup the Timer. Timer Name will be referenced on events
+    void setup(float timerLength,string timerName,bool loop);
     
-        void setup(float timerLength,string timerName,bool loop,string fontFile);
-        void update();
-        void draw(int x, int y);
-        
-        void start();
-        void stop();
-        void reset();
-        void setNewTimerLength(int timerLength);
-        string getTimeLeft();
-        int getSecondsLeft();
+    //! Update the Timer
+    void update();
     
-    private:
-        float startTime;
-        float endTime;
-        float timeLeft;
-        bool  bTimerReached;
-        bool _loop;
-        float _timerLength;
-        string _timeLeftString;
-        string _timerName;
-        ofTrueTypeFont font;
-        ofEvent<string> TimerFinished;
-        ofEvent<string> TimerStarted;
+    //! Start the Timer
+    void start();
+    
+    //! Stop the Timer
+    void stop();
+    
+    //! Reset the Timer
+    void reset();
+    
+    //! As it Sounds
+    void setNewTimerLength(int timerLength);
+    
+    //! How long is left on the timer
+    float getTimeLeft();
+    
+    //! How long is left on the timer
+    string getTimeLeftStr();
+    
+    //! How long is left on the timer
+    bool hasTimerFinished();
+    
+    // Events
+    ofEvent<string> timerStarted;
+    ofEvent<string> timerFinished;
+    
+private:
+    float startTime;
+    float endTime;
+    float timeLeft;
+    bool  bTimerReached;
+    bool _loop;
+    float _timerLength;
+    string _timerName;
 };
 #endif /* MyTimer_h */

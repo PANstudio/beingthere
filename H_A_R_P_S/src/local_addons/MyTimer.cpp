@@ -7,20 +7,14 @@
 //
 //--------------------------------------------------------------
 
-#include "MyTimer.hpp"
+#include "MyTimer.h"
 //--------------------------------------------------------------
-void MyTimer::setup(float timerLength,string timerName,bool loop,string fontFile)
+void MyTimer::setup(float timerLength,string timerName,bool loop)
 {
     bTimerReached = true;
     _loop = loop;
     _timerLength = timerLength;
     _timerName = timerName;
-    if (fontFile.size() < 1) {
-        
-    }
-    else {
-        font.load(fontFile, 40);
-    }
 }
 //--------------------------------------------------------------
 void MyTimer::update()
@@ -33,20 +27,18 @@ void MyTimer::update()
     
     if (timer >= _timerLength && !bTimerReached) {
         bTimerReached = true;
-        ofMessage msg(_timerName + " Finished");
-        ofNotifyEvent(TimerFinished, _timerName, this);
-        ofSendMessage(msg);
+        string ev = _timerName + " Finished";
+        ofNotifyEvent(timerFinished, ev, this);
         if (_loop) {
             start();
         }
     }
 }
 //--------------------------------------------------------------
-string MyTimer::getTimeLeft()
+string MyTimer::getTimeLeftStr()
 {
     stringstream time;
     float timeString;
-    //    double fractpart;
     if (bTimerReached) {
         timeString = (_timerLength/1000)/60;
     }
@@ -69,21 +61,14 @@ string MyTimer::getTimeLeft()
     return time.str();
 }
 //--------------------------------------------------------------
-void MyTimer::draw(int x, int y)
-{
-    ofSetColor(255, 255, 255);
-    ofRectangle r = font.getStringBoundingBox(getTimeLeft(), x,y);
-    if (font.isLoaded()) {
-        font.drawString(getTimeLeft(), r.getCenter().x,r.getCenter().y);
-    }
-    else {
-        
-    }
-}
-//--------------------------------------------------------------
-int MyTimer::getSecondsLeft()
+float MyTimer::getTimeLeft()
 {
     return timeLeft;
+}
+//--------------------------------------------------------------
+bool MyTimer::hasTimerFinished()
+{
+    return bTimerReached;
 }
 //--------------------------------------------------------------
 void MyTimer::setNewTimerLength(int timerLength)
@@ -94,9 +79,8 @@ void MyTimer::setNewTimerLength(int timerLength)
 void MyTimer::start()
 {
     if (bTimerReached) {
-        ofMessage msg(_timerName + " Started");
-        ofSendMessage(msg);
-        ofNotifyEvent(TimerStarted, _timerName, this);
+        string ev = _timerName + " Started";
+        ofNotifyEvent(timerStarted, ev, this);
         bTimerReached = false;
         startTime = ofGetElapsedTimeMillis();
     }

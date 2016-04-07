@@ -62,7 +62,7 @@ void ofApp::setup()
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
     }
     
-    countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
+    countDown.setup(500, "Count Down", false);
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -72,9 +72,9 @@ void ofApp::update()
     countDown.update();
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
-    displayWindow->getTimeLeft(countDown.getTimeLeft());
+    displayWindow->getTimeLeft("");
     
-    if (countDown.getSecondsLeft() <= 10000) {
+    if (countDown.getTimeLeft() <= 10000) {
         displayWindow->setTimerColors(ofColor::red, 25);
     }
     else {
@@ -125,7 +125,7 @@ void ofApp::draw()
         for (int i = 0; i < 3; i++) {
             ofDrawBitmapString(event[i], 510,40+(i*60));
         }
-        ofDrawBitmapStringHighlight(countDown.getTimeLeft(), 508,480);
+        ofDrawBitmapStringHighlight(countDown.getTimeLeftStr(), 508,480);
         mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
         playerManager.drawPlayerManager();
         playerManager.drawPlayerHealth(680,20,0.5);

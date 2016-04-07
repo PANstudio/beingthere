@@ -22,7 +22,7 @@ void PlayerManager::setNumberOfPlayers(int numberOfPlayers)
     for (int player = 0; player < _numberOfPlayers; player++) {
         players.push_back(Player(player,ofColor::ivory));
         MyTimer t;
-        t.setup(500, ofToString(player)+" Reducer", false, "");
+        t.setup(500, ofToString(player)+" Reducer", false);
         reducerTimer.push_back(t);
     }
 }
