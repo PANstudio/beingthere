@@ -1,5 +1,5 @@
 //
-//  DisplayWindow.hpp
+//  DisplayWindow.h
 //  H_A_R_P_S
 //
 //  Created by David Haylock on 15/12/2015.
@@ -13,7 +13,7 @@
 #include "HealthBar.h"
 #include "MyTimer.hpp"
 #include "ofxSegmentDisplay.h"
-#include "CalibrationScreen.hpp"
+#include "CalibrationScreen.h"
 
 #define SEGMENT_WIDTH 60
 #define SEGMENT_HEIGHT 128

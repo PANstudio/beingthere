@@ -6,7 +6,7 @@
 //
 //
 
-#include "DisplayWindow.hpp"
+#include "DisplayWindow.h"
 //--------------------------------------------------------------
 void DisplayWindow::setup()
 {
