@@ -6,7 +6,7 @@
 //
 //
 
-#include "StyledMap.hpp"
+#include "StyledMap.h"
 //--------------------------------------------------------------
 void StyledMap::setup()
 {

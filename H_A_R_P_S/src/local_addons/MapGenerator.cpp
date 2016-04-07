@@ -6,7 +6,7 @@
 //  Created by David Haylock on 11/11/2015.
 //
 //--------------------------------------------------------------
-#include "MapGenerator.hpp"
+#include "MapGenerator.h"
 #pragma mark - Setup
 //--------------------------------------------------------------
 // *

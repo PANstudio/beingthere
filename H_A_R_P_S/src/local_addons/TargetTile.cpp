@@ -6,7 +6,7 @@
 //  Created by David Haylock on 11/11/2015.
 //
 //--------------------------------------------------------------
-#include "TargetTile.hpp"
+#include "TargetTile.h"
 //--------------------------------------------------------------
 void TargetTile::setTargetPosition(ofPoint center,int size,int mapWidth,int mapHeight)
 {

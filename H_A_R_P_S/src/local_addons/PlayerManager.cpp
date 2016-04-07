@@ -6,7 +6,7 @@
 //  Created by David Haylock on 11/11/2015.
 //
 //--------------------------------------------------------------
-#include "PlayerManager.hpp"
+#include "PlayerManager.h"
 //--------------------------------------------------------------
 void PlayerManager::setup(string address, int port)
 {
