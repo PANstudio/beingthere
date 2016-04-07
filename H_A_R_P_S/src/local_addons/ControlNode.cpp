@@ -6,7 +6,7 @@
 //
 //
 
-#include "ControlNode.hpp"
+#include "ControlNode.h"
 //--------------------------------------------------------------
 ControlNode::ControlNode(int x,int y,float gridSpacingX,float gridSpacingY,int id)
 {
