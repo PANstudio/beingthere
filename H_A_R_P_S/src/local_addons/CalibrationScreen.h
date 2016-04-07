@@ -1,18 +1,18 @@
 //
-//  CalibrationScreen.hpp
+//  CalibrationScreen.h
 //  H_A_R_P_S
 //
 //  Created by David Haylock on 16/12/2015.
 //
 //
 
-#ifndef CalibrationScreen_hpp
-#define CalibrationScreen_hpp
+#ifndef CalibrationScreen_h
+#define CalibrationScreen_h
 
 #include <stdio.h>
 #include "ofMain.h"
 #include "ofxOsc.h"
-#include "ControlNode.hpp"
+#include "ControlNode.h"
 #include "ofxSpreadsheet.h"
 #include "CalibrationConfirmDialogue.h"
 #include "ofxCsv.h"
@@ -51,8 +51,6 @@ private:
     ofxOscReceiver calibrationListener;
     NodeReadings currentReadings;
     BaseButton saveButton;
-    
-    
 };
 
-#endif /* CalibrationScreen_hpp */
+#endif /* CalibrationScreen_h */
