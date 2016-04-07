@@ -6,7 +6,7 @@
 //
 //
 
-#include "ScoreBoard.hpp"
+#include "ScoreBoard.h"
 //----------------------------------------------------------
 void Scoreboard::loadScoreboard(string file)
 {

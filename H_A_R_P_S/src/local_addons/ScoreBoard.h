@@ -1,13 +1,13 @@
 //
-//  ScoreBoard.hpp
+//  ScoreBoard.h
 //  H_A_R_P_S
 //
 //  Created by David Haylock on 19/12/2015.
 //
 //
 
-#ifndef ScoreBoard_hpp
-#define ScoreBoard_hpp
+#ifndef ScoreBoard_h
+#define ScoreBoard_h
 
 #include <stdio.h>
 #include <algorithm>
@@ -87,4 +87,4 @@ private:
     deque<ScoreboardElements> scoreBoardData;
     ofxSpreadsheet spreadsheet;
 };
-#endif /* ScoreBoard_hpp */
+#endif /* ScoreBoard_h */
