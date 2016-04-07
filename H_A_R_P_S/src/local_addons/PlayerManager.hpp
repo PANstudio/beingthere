@@ -16,28 +16,56 @@
 #include "ofxOsc.h"
 #include "MyTimer.hpp"
 #include "ofxPathfinder.h"
+#include "ofxCv.h"
 
-class PlayerManager {
+class PlayerManager : public ofThread {
 public:
+    //! Setup the OSC Port
     void setup(string address,int port);
+    
+    //! Set the Number of Players
     void setNumberOfPlayers(int numberOfPlayers);
+
+    //! Listen for messages
     void listen();
+    
+    //! Shut down the listener
     void closeListener();
-    void getFinderImage(ofImage img);
+    
+    //! Grab image for the path finder
+    void getFinderImage(cv::Mat img);
+    
+    //! Draw the Pathfinder
     void drawPath();
+    
+    //! Draw all the data
     void drawPlayerManager();
+    
+    //! Draw Health
     void drawPlayerHealth(int x, int y,float scale);
+    
+    //! Get the player health
     vector<HealthBar>getPlayerHealth();
     
+    //! Get the Debug Data
     string getDebugData();
     
+    //! Start Reducing the Players Health
     void startReducingPlayerHealth(int id);
+    
+    //! Action to reduce the health
     void reducePlayerHealth(int id,int amount);
+    
+    //! Stop Reducing the Players Health
     void stopReducingPlayerHealth(int id);
     
+    //! Get the Player current Postion
     ofPoint getPlayerCoords();
+    
+    //! Get the Players Current Positions
     vector<ofPoint> getPlayersCoords();
     
+    // Might Go
     ofxPathfinder finder;
     
 private:

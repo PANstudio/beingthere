@@ -27,7 +27,7 @@ public:
     void setNumberOfHealthBars(int num);
     void setHealthBars(vector<HealthBar>healthLevels);
     void setTimerColors(ofColor segmentColor,ofColor backColor);
-    
+    void setMapImage(ofImage mapImg);
     void doCalibration(bool show);
     void drawCalibration();
 
@@ -47,7 +47,7 @@ private:
     ofTrueTypeFont font;
     int w;
     int h;
-    
+    ofImage mapImage;
     string title;
     bool calibration;
     vector <HealthBar> playerHealth;

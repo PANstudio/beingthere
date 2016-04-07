@@ -27,7 +27,7 @@ void PlayerManager::setNumberOfPlayers(int numberOfPlayers)
     }
 }
 //--------------------------------------------------------------
-void PlayerManager::getFinderImage(ofImage img)
+void PlayerManager::getFinderImage(cv::Mat img)
 {
     finder.setup(img);
 }
@@ -39,6 +39,10 @@ void PlayerManager::listen()
     }
     
     players[0].setPlayerPosition(ofPoint(ofGetMouseX(),ofGetMouseY()),0);
+    int mx = ofMap(ofGetMouseX(), 0, 500, 0, 100);
+    int my = ofMap(ofGetMouseY(), 0, 500, 0, 100);
+//    finder.find(mx, my, 10, 10);
+    
     while (oscReceiver.hasWaitingMessages()) {
         ofxOscMessage m;
         oscReceiver.getNextMessage(m);

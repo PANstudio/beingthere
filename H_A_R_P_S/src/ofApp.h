@@ -90,11 +90,10 @@ class ofApp : public ofBaseApp{
         MyTimer countDown;
         Scoreboard scoreBoard;
         StyledMap styledMap;
-    
-    
+        ofTrueTypeFont heading;
         bool _showShaded;
         bool _showPreviewWindow;
-        ofTrueTypeFont heading;
+    
         //--------------------------------------------------------------
         // *
         // * GUI
@@ -115,9 +114,7 @@ class ofApp : public ofBaseApp{
         ofxDatGuiButton* addItem;
         ofxDatGuiScrollView* view;
 
-    
         void setGuiListeners(ofxDatGui* guiRef);
-    
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);
         void onTextInputEvent(ofxDatGuiTextInputEvent e);
@@ -126,5 +123,4 @@ class ofApp : public ofBaseApp{
         void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
         void onMatrixEvent(ofxDatGuiMatrixEvent e);
         void onScrollViewEvent(ofxDatGuiScrollViewEvent e);
-		
 };

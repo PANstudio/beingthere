@@ -59,7 +59,7 @@ void ofApp::setup()
     playerManager.setNumberOfPlayers(3);
     
     if (mapGenerator.getFinderImage().isAllocated()) {
-        playerManager.getFinderImage(mapGenerator.getFinderImage());        
+        playerManager.getFinderImage(mapGenerator.getSmoothMap());
     }
     
     countDown.setup(500, "Count Down", false, "ofxdatgui_assets/font-verdana.ttf");
@@ -86,7 +86,6 @@ void ofApp::update()
     }
     
     displayWindow->calibrationScreen.setGridSpacing(_spacingX, _spacingY);
-    
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -106,13 +105,14 @@ void ofApp::draw()
     }
     else if (_Appmode == 1) {
         mapGenerator.drawEditor();
+        styledMap.draw(500, 250, 250, 250);
         mode = "Editor Mode";
-        
     }
     else if (_Appmode == 2) {
         mapGenerator.draw(false);
         mapGenerator.drawComputerVision(500,0);
         mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
+        styledMap.draw(500, 250, 250, 250);
         mode = "Generation Mode";
     }
     else if (_Appmode == 3) {
@@ -129,7 +129,6 @@ void ofApp::draw()
         mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
         playerManager.drawPlayerManager();
         playerManager.drawPlayerHealth(680,20,0.5);
-        mode = "Operation Mode";
         if (_showPreviewWindow) {
             ofPushMatrix();
             ofPushStyle();
@@ -139,7 +138,7 @@ void ofApp::draw()
         }
         // Draw Style Selector
         view->draw();
-        styledMap.drawGradients(view->getX(), view->getHeight());
+        styledMap.drawGradients(view->getX(), view->getY()-50);
     }
     
     ofSetColor(ofColor::white);
@@ -180,8 +179,25 @@ void ofApp::keyPressed(int key)
             calibrationGui->setVisible(drawCalibrationGui);
             break;
         case ' ':
+            mapGenerator.reGenerateClouds();
 //            displayWindow->calibrationScreen.saveCalibrationData();
-            displayWindow->setupSegmentDisplay();
+//            displayWindow->setupSegmentDisplay();
+            break;
+        case '0':
+            _Appmode = 0;
+            mode = "Calibration Mode";
+            break;
+        case '1':
+            _Appmode = 1;
+            mode = "Editor Mode";
+            break;
+        case '2':
+            mode = "Generation Mode";
+            _Appmode = 2;
+            break;
+        case '3':
+            mode = "Operation Mode";
+            _Appmode = 3;
             break;
         default:
             break;
@@ -269,19 +285,22 @@ void ofApp::drawWindows()
     ofTranslate(500, 0);
     ofPushStyle();
     ofNoFill();
-    ofSetColor(ofColor::ivory);
-    if (_Appmode == 2) {
+    ofSetColor(ofColor::white);
+    if (_Appmode == 1) {
+        ofDrawRectangle(0, 0, 400, 175);
+        ofDrawBitmapStringHighlight("Editors",7,160);
+        ofDrawRectangle(0, 175, 400, 325);
+    }
+    else if (_Appmode == 2) {
         ofDrawRectangle(0, 0, 400, 145);
         ofDrawBitmapStringHighlight("Computer Vision",7,130);
-        ofDrawRectangle(0, 145, 400, 350);
+        ofDrawRectangle(0, 145, 400, 355);
     }
-//    ofDrawRectangle(0, 250, 400, 250);
-    if (_Appmode == 3) {
+    else if (_Appmode == 3) {
         ofDrawRectangle(0, 0, 400, 250);
         ofDrawRectangle(0, 250, 400, 250);
         ofDrawBitmapString(feedBackMap, 5, 265);
     }
-    
     ofPopStyle();
     ofPopMatrix();
 }
@@ -298,11 +317,8 @@ void ofApp::setupGUI()
     int spacing = 5;
     gui = new ofxDatGui(0,550);
 
-    gui->setTheme(new ofxDatGuiThemeSmoke());
-    gui->addHeader("H_A_R_P_S");
+    gui->addHeader("Happilee");
     gui->addFRM(10.0f);
-    gui->addBreak();
-    
     gui->addBreak();
     vector<string> AppMode = {"CALIBRATION MODE",
         "EDITOR MODE",
@@ -350,7 +366,6 @@ void ofApp::setupGUI()
     gui->addButton("Stop Level");
     
     mapGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-    mapGui->setTheme(new ofxDatGuiThemeSmoke());
     mapGui->setWidth(400);
     mapGui->addHeader("Map Generation");
     mapGui->addSlider("Map Width", 0, 100, 0);
@@ -391,7 +406,6 @@ void ofApp::setupGUI()
     
     operationElements = new ofxDatGui(901,300);
     operationElements->setWidth(250);
-    operationElements->setTheme(new ofxDatGuiThemeSmoke());
     operationElements->addHeader("Operational");
     operationElements->addDropdown("Map Style", styledMap.getGradientsNames());
     
@@ -408,7 +422,6 @@ void ofApp::setupGUI()
     
     
     calibrationGui = new ofxDatGui(501,250);
-    calibrationGui->setTheme(new ofxDatGuiThemeSmoke());
     calibrationGui->addHeader("Calibration Settings");
     calibrationGui->addToggle("From Centre / Top Left", false);
     calibrationGui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
@@ -433,8 +446,7 @@ void ofApp::setupGUI()
 
     view = new ofxDatGuiScrollView("Styles", 8);
     view->setWidth(250);
-    view->setPosition(ofGetWidth()-250, 0);
-//    view->setAnchor(ofxDatGuiAnchor::TOP_RIGHT);
+    view->setPosition((gui->getPosition().x+gui->getWidth()), gui->getPosition().y+50);
     view->onScrollViewEvent(this, &ofApp::onScrollViewEvent);
     for(int i = 0; i < styledMap.getGradientsNames().size(); i++) {
         view->add(styledMap.getGradientsNames()[i]);
@@ -493,16 +505,18 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
     if (e.target->is("Generate Map")) {
         mapGenerator.generateMap(_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
-        playerManager.getFinderImage(mapGenerator.getFinderImage());
+        playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
+        displayWindow->setMapImage(styledMap.getStyledMap());
     }
     else if (e.target->is("Flush Map")) {
         mapGenerator.generatePolylines(_blur,_iRR[1],_iRY[1],_iRG[1]);
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
-        playerManager.getFinderImage(mapGenerator.getFinderImage());
+        playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
+        displayWindow->setMapImage(styledMap.getStyledMap());
     }
     else if (e.target->is("Animate Map")) {
         mapGenerator.startAnimation(_numberOfIslands,_smooth,_growthNo,_rs);
@@ -564,17 +578,21 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
     if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
+            mode = "Calibration Mode";
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 1;
+            mode = "Editor Mode";
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 2;
+            mode = "Generation Mode";
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
+            mode = "Operation Mode";
             _Appmode = 3;
             displayWindow->doCalibration(false);
         }
@@ -641,8 +659,9 @@ void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
         feedBackMap = m.MapDetailsString().str();
         countDown.setNewTimerLength(m.timeNeededToSolveMap);
         mapGenerator.generateMap(m);
-        playerManager.getFinderImage(mapGenerator.getFinderImage());
+        playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
+        displayWindow->setMapImage(styledMap.getStyledMap());
     }
 }
 //--------------------------------------------------------------

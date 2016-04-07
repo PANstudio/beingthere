@@ -22,11 +22,23 @@ void DisplayWindow::setup()
     timestring = "0000";
     
     setupFlag = false;
+    mapImage.clear();
+    mapImage.allocate(100, 100, OF_IMAGE_COLOR);
 }
 //--------------------------------------------------------------
 void DisplayWindow::update()
 {
     calibrationScreen.update();
+}
+//--------------------------------------------------------------
+void DisplayWindow::setMapImage(ofImage mapImg)
+{
+    mapImage.clear();
+    mapImage.allocate(mapImg.getWidth(), mapImg.getHeight(), OF_IMAGE_COLOR);
+//    mapImage = mapImg;
+    cout << mapImg.getPixels().getData() << endl;
+    mapImage.setFromPixels(mapImg.getPixels().getData(), mapImg.getWidth(), mapImg.getHeight(), OF_IMAGE_COLOR);
+    cout << mapImage.getHeight() << endl;
 }
 //--------------------------------------------------------------
 void DisplayWindow::setupSegmentDisplay()
@@ -77,18 +89,18 @@ void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
 {
     playerHealth = healthLevels;
 }
-
 //--------------------------------------------------------------
 void DisplayWindow::draw()
 {
     ofPushStyle();
-//    ofEnableAlphaBlending();
     ofSetColor(0, 0, 0);
     ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
     if (calibration) {
         calibrationScreen.draw();
     }
     else {
+        ofSetColor(255, 255, 252);
+        mapImage.draw(0, 0);
         ofSetColor(ofColor::ivory);
         font.drawString(title, w, h);
         for (int i = 0; i < playerHealth.size(); i++) {
@@ -107,7 +119,6 @@ void DisplayWindow::draw()
             else {
                 timerDisplay->draw(timestring, _segmentColor, _backColor);
             }
-
             ofPopMatrix();
         }
     }

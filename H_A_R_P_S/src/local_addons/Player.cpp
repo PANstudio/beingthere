@@ -57,7 +57,12 @@ void Player::draw()
     ofTranslate(_pos);
     ofPushMatrix();
     ofRotateZ(_heading);
-    ofDrawCircle(0,0,4);
+
+    ofFill();
+    ofSetColor(ofColor::white);
+    ofDrawCircle(0,0, 2+(int)(7 + 7 * sin(ofGetElapsedTimef()*5)));
+    ofSetColor(ofColor::red);
+    ofDrawCircle(0,0, 2+(int)(5 + 5 * sin(ofGetElapsedTimef()*5)));
     ofSetColor(ofColor::black);
     ofDrawBitmapString(ofToString(_id), 0, 0);
     ofPopMatrix();

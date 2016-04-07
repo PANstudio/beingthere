@@ -44,13 +44,11 @@ void Scoreboard::loadScoreboard(string file)
         header.push_back("objects");
         header.push_back("toxicity");
         header.push_back("timestamp");
-        
         spreadsheet.setHeaders(header);
-        
+
         for (int i = 0; i < scoreBoardData.size(); i++) {
             spreadsheet.addEntry(scoreBoardData[i].getDetails());
         }
-        
     }
 }
 //----------------------------------------------------------

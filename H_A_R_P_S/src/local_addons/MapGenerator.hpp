@@ -22,7 +22,7 @@
 using namespace cv;
 using namespace ofxCv;
 
-class MapGenerator {
+class MapGenerator : public ofThread {
 public:
     
     //--------------------------------------------------------------
@@ -30,42 +30,44 @@ public:
     // *    Setup Functions
     // *
     //--------------------------------------------------------------
-    // Initialize with these variables
+    //! Initialize with these variables
     void setup(int width = 100,int height = 100, int tileSize = 5);
     
-    // Generate New Grid
+    //! Generate New Grid
     void generateNewGrid(int width,int height,int tileSize);
     
-    // This resets the map entirely including the size and tile size
+    //! This resets the map entirely including the size and tile size
     void resetMap();
     
-    // This clears the array of data so all tiles are walkable
+    //! This clears the array of data so all tiles are walkable
     void clearMap();
     
-    // Elegantly Clean Memory
+    //! Elegantly Clean Memory
     void close();
     //--------------------------------------------------------------
     // *
     // *    Generator Setup Functions
     // *
     //--------------------------------------------------------------
-    // Generate a Predefined Map
+    //! Generate a Predefined Map
     void generateMap(Map m);
 
-    // Generate a New Map
+    //! Generate a New Map
     void generateNewMap(int width,int height,int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
     
-    // Generate Map with these parameters
+    //! Generate Map with these parameters
     void generateMap(int offsetEdge, int tileSize,int numberOfClouds,int smoothingValue,int growthLoops,float seedValue, int dangerAreaSize);
     
-    // Generate Map Based on users inputs
+    //! Generate Map Based on users inputs
     void generateCustomMap(int smoothingValue,int growthLoops, int dangerAreaSize);
     
-    // Generate Images for flushing
+    //! Generate Images for flushing
     void generateImages(int width,int height,int tileSize);
     
-    // Generate Clouds
+    //! Generate Clouds
     void generateClouds(int width, int height,int offsetEdge,int numberOfClouds);
+    
+    void reGenerateClouds();
     //--------------------------------------------------------------
     // *
     // *    Animator Functions
@@ -80,7 +82,6 @@ public:
     // Only used for visualising the system
     void animate();
     
-    
     //--------------------------------------------------------------
     // *
     // *    Generator Operations
@@ -89,19 +90,19 @@ public:
     // Generates the Lines and Areas
     void generatePolylines(int blurMap,int deadlyThreshold, int dangerThreshold,int okThreshold);
     
-    // Smooths the Map
+    //! Smooths the Map
     void smoothMap();
     
-    // Grows the origin points
+    //! Grows the origin points
     void growCloud();
     
-    // Generates the danger points
+    //! Generates the danger points
     void generateDangerAreas();
     
-    // Expands the area
+    //! Expands the area
     void expandDangerAreas(int times);
     
-    // Check if Tile is Valid
+    //! Check if Tile is Valid
     bool isInMapRange(int x, int y);
     
     //--------------------------------------------------------------

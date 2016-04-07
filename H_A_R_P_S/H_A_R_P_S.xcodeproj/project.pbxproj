@@ -49,6 +49,7 @@
 		639756B91C1E373B00B512AD /* RobotManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AF1C1E373B00B512AD /* RobotManager.cpp */; };
 		639756BA1C1E373B00B512AD /* TargetTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B11C1E373B00B512AD /* TargetTile.cpp */; };
 		639756BB1C1E373B00B512AD /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756B31C1E373B00B512AD /* Tile.cpp */; };
+		63A11EAE1C65628C009CB1F5 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63A11EAD1C65628C009CB1F5 /* Icon.icns */; };
 		63B90F671C62A70000C666F0 /* namedMaps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B90F641C62A70000C666F0 /* namedMaps.cpp */; };
 		63B90F681C62A70000C666F0 /* ofxColorMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B90F651C62A70000C666F0 /* ofxColorMap.cpp */; };
 		63C32B0A1C57690800384A63 /* ofxCsv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63C32B081C57690800384A63 /* ofxCsv.cpp */; };
@@ -285,6 +286,9 @@
 		639756B31C1E373B00B512AD /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile.cpp; path = src/local_addons/Tile.cpp; sourceTree = "<group>"; };
 		639756B41C1E373B00B512AD /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Tile.hpp; path = src/local_addons/Tile.hpp; sourceTree = "<group>"; };
 		639756BD1C1E48F700B512AD /* MapHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapHelpers.hpp; path = src/local_addons/MapHelpers.hpp; sourceTree = "<group>"; };
+		63A11EAA1C655AB4009CB1F5 /* config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = config.json; path = bin/data/config.json; sourceTree = "<group>"; };
+		63A11EAB1C655F56009CB1F5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = H_A_R_P_S/Images.xcassets; sourceTree = "<group>"; };
+		63A11EAD1C65628C009CB1F5 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = bin/data/Icon.icns; sourceTree = "<group>"; };
 		63B90F641C62A70000C666F0 /* namedMaps.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = namedMaps.cpp; sourceTree = "<group>"; };
 		63B90F651C62A70000C666F0 /* ofxColorMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxColorMap.cpp; sourceTree = "<group>"; };
 		63B90F661C62A70000C666F0 /* ofxColorMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxColorMap.h; sourceTree = "<group>"; };
@@ -1446,10 +1450,13 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				63A11EAD1C65628C009CB1F5 /* Icon.icns */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				639217191C4AE72600962DB6 /* scoreboard.json */,
+				63A11EAA1C655AB4009CB1F5 /* config.json */,
 				63D961291C5968EE00CC6FE6 /* readings.csv */,
+				63A11EAB1C655F56009CB1F5 /* Images.xcassets */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
@@ -1548,6 +1555,7 @@
 				E4B69B590A3A1756003C02F2 /* Frameworks */,
 				E4B6FFFD0C3F9AB9008CF71C /* ShellScript */,
 				E4C2427710CC5ABF004149E2 /* CopyFiles */,
+				63A11EAC1C65626A009CB1F5 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1602,6 +1610,17 @@
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		63A11EAC1C65626A009CB1F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63A11EAE1C65628C009CB1F5 /* Icon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		E4B6FFFD0C3F9AB9008CF71C /* ShellScript */ = {
@@ -1921,6 +1940,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2017,6 +2037,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -91,7 +91,8 @@ struct NodeReadings {
         strs << "TX3_RSS3 " <<  TX3_RSS3 << endl;
         strs << "C3_1 " <<  C3_1 << " C3_2 " <<  C3_2 << " C3_3 " <<  C3_3 << " C3_4 " <<  C3_4 << " C3_5 " << C3_5 << " C3_6 " <<  C3_6 << endl;
         
-        ofDrawBitmapStringHighlight(strs.str(), 15, 15);
+        ofSetColor(ofColor::white);
+        ofDrawBitmapString(strs.str(), 15, 15);
     }
     //-----------------------------------------------------
     NodeReadings(int _nodeID,float _var1 = 0,float _var2 = 0,float _var3 = 0,float _var4 = 0,float _var5 = 0,float _var6 = 0) {

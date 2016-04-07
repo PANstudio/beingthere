@@ -220,14 +220,12 @@ void CalibrationScreen::mousePressed(int x, int y,int button)
     if (button == OF_MOUSE_BUTTON_RIGHT) {
         for (int i = 0; i < nodes.size(); i++) {
             nodes[i].setOriginNode();
-
         }
     }
     else {
         
         confirmation.confirmButton.buttonPressed(x, y, button);
         confirmation.cancelButton.buttonPressed(x, y, button);
-        
         
         for (int i = 0; i < nodes.size(); i++) {
             if (nodes[i].isActive) {

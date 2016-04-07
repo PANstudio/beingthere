@@ -20,10 +20,11 @@ class StyledMap {
     void update();
 
     void draw(int x, int y);
+    void draw(int x, int y,float scaleX,float scaleY);
     void drawGradients(int x,int y);
     void getMapImage(cv::Mat _map);
     void setGradient(string gradient);
-    
+    ofImage getStyledMap();
     vector<string> getGradientsNames();
     vector<string> gradientsNames;
     

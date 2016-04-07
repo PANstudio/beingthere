@@ -16,11 +16,14 @@
 void MapGenerator::setup(int width,int height, int tileSize)
 {
     for (int i = 0; i < 14; i++) {
-        if (i < 7) {
+        if (i < 4) {
             buttons.push_back(SimpleButton(510+(i*45), 10, 40, 40, i, "", ofColor(255,175)));
         }
-        else {
-            buttons.push_back(SimpleButton(510+((i-7)*45), 60, 40, 40, i, "", ofColor(255,175)));
+        else if (i > 4 && i < 9) {
+            buttons.push_back(SimpleButton(510+((i-5)*45), 60, 40, 40, i, "", ofColor(255,175)));
+        }
+        else if (i > 9 && i < 14) {
+            buttons.push_back(SimpleButton(510+((i-10)*45), 110, 40, 40, i, "", ofColor(255,175)));
         }
     }
     whichButton = 0;
@@ -189,6 +192,24 @@ void MapGenerator::generateMap(int offsetEdge, int tileSize, int numberOfClouds,
     }
     
     generateImages(_width, _height, tileSize);
+    generatePolylines(9, 200, 20, 90);
+}
+//--------------------------------------------------------------
+// *    Generate Images for Line Generator
+//--------------------------------------------------------------
+void MapGenerator::reGenerateClouds()
+{
+//    uchar * pixels = _distanceImage.data;
+//    for (int y = 0; y < _distanceImage.rows; y++) {
+//        for (int x = 0; x < _distanceImage.cols; x++) {
+//            int value = 255*ofNoise(x/100,y/100,ofGetElapsedTimef()*0.5);
+//            pixels[(int)(x,y*_distanceImage.cols)] = value;
+//        }
+//    }
+//
+//    Mat newdistanceImage = cv::Mat( //Mat(_distanceImage.rows, _distanceImage.cols, CV_8UC1);
+//    
+////    _distanceImage = newdistanceImage + _distanceImage;
 }
 //--------------------------------------------------------------
 // *    Generate Images for Line Generator
@@ -533,12 +554,43 @@ void MapGenerator::smoothMap()
                 map[x][y].walkable = true;
         }
     }
+    
+    // Reverse
+    for (int x = _width-1; x > 0; x--) {
+        for (int y = _height-1; y > 0; y--) {
+            int neighbourWallTiles = getSurroundingTileCount(x,y);
+            if (neighbourWallTiles > 4)
+                map[x][y].walkable = false;
+            else if (neighbourWallTiles < 4)
+                map[x][y].walkable = true;
+        }
+    }
 }
 //--------------------------------------------------------------
 void MapGenerator::growCloud()
 {
     for (int x = 0; x < _width; x++) {
         for (int y = 0 ; y < _height; y++) {
+            if(!map[x][y].walkable) {
+                if (x == 0 || x == _width-1 || y == 0 || y == _height-1) {
+                    map[x][y].walkable = true;
+                }
+                else {
+                    for (auto tile : getNeighbouringTiles(map[x][y])) {
+                        bool a = (ofRandom(0,100) < 50) ? true : false;
+                        map[tile.gridX][tile.gridY].walkable = a;
+                    }
+                }
+            }
+            else {
+                
+            }
+        }
+    }
+    
+    // Reverse
+    for (int x = _width-1; x > 0; x--) {
+        for (int y = _height-1; y > 0; y--) {
             if(!map[x][y].walkable) {
                 if (x == 0 || x == _width-1 || y == 0 || y == _height-1) {
                     map[x][y].walkable = true;
@@ -575,12 +627,50 @@ void MapGenerator::generateDangerAreas()
             }
         }
     }
+    
+    // Reverse
+    for (int x = _width-1; x > 0; x--) {
+        for (int y = _height-1; y > 0; y--) {
+            if (x == 0 || x == _width-1 || y == 0 || y == _height-1) {
+                
+            }
+            else {
+                Tile currentTile = getTileFromGridRef(x, y);
+                for(auto tile : getNeighbouringTiles(currentTile)) {
+                    if (!currentTile.walkable && tile.walkable) {
+                        map[tile.gridX][tile.gridY].walkable = true;
+                        map[tile.gridX][tile.gridY].toxicity = 1;
+                    }
+                }
+            }
+        }
+    }
 }
 //--------------------------------------------------------------
 void MapGenerator::expandDangerAreas(int num)
 {
     for (int x = 0; x < _width; x++) {
         for (int y = 0; y < _height; y++) {
+            if (x == 0 || x == _width-1 || y == 0 || y == _height-1) {
+                
+            }
+            else {
+                for (int i = 0; i <= num; i++) {
+                    if (map[x][y].toxicity == 1+i) {
+                        for (auto tile : getNeighbouringTiles(map[x][y])) {
+                            if (tile.toxicity == 0 && tile.walkable) {
+                                map[tile.gridX][tile.gridY].toxicity = 1+i+1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Reverse
+    for (int x = _width-1; x > 0; x--) {
+        for (int y = _height-1; y > 0; y--) {
             if (x == 0 || x == _width-1 || y == 0 || y == _height-1) {
                 
             }
@@ -684,6 +774,7 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
             }
             ofSetColor(ofColor::yellow);
             dangerArea[i].draw();
+            
         }
         for (int i = 0; i < okArea.size(); i++) {
             okArea[i].simplify(0.1);
@@ -758,6 +849,7 @@ float MapGenerator::getRandomSeedValue()
 {
     return _RseedValue;
 }
+//--------------------------------------------------------------
 Mat MapGenerator::getSmoothMap()
 {
     return _distanceImage;
