@@ -306,6 +306,32 @@ void ofApp::drawWindows()
 }
 //--------------------------------------------------------------
 // *
+// * Listeners
+// *
+//--------------------------------------------------------------
+void ofApp::setupListeners()
+{
+    ofAddListener(countDown.timerStarted, this, &ofApp::countDownStarted);
+    ofAddListener(countDown.timerFinished, this, &ofApp::countDownFinished);
+}
+//--------------------------------------------------------------
+void ofApp::removeListeners()
+{
+    ofRemoveListener(countDown.timerStarted, this, &ofApp::countDownStarted);
+    ofRemoveListener(countDown.timerFinished, this, &ofApp::countDownFinished);
+}
+//--------------------------------------------------------------
+void ofApp::countDownStarted(string &str)
+{
+    cout << "Count Down Started  " << str << endl;
+}
+//--------------------------------------------------------------
+void ofApp::countDownFinished(string &str)
+{
+    cout << "Count Down Finished " << str << endl;
+}
+//--------------------------------------------------------------
+// *
 // * GUI
 // *
 //--------------------------------------------------------------
