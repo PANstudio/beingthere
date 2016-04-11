@@ -15,6 +15,10 @@
 //--------------------------------------------------------------
 void MapGenerator::setup(int width,int height, int tileSize)
 {
+    
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << "Map Generator Setup";
+#endif
     for (int i = 0; i < 14; i++) {
         if (i < 4) {
             buttons.push_back(SimpleButton(510+(i*45), 10, 40, 40, i, "", ofColor(255,175)));
@@ -39,6 +43,9 @@ void MapGenerator::setup(int width,int height, int tileSize)
 //--------------------------------------------------------------
 void MapGenerator::resetMap()
 {
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << "Delete Map";
+#endif
     delete map;
 }
 //--------------------------------------------------------------
@@ -46,6 +53,9 @@ void MapGenerator::resetMap()
 //--------------------------------------------------------------
 void MapGenerator::clearMap()
 {
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Clear Map";
+#endif
     // Make the Map Walkable
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
@@ -59,6 +69,9 @@ void MapGenerator::clearMap()
 //--------------------------------------------------------------
 void MapGenerator::generateNewGrid(int width, int height, int tileSize)
 {
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate New Grid";
+#endif
     if (map == nullptr) {
         resetMap();
     }
@@ -80,6 +93,9 @@ void MapGenerator::generateNewGrid(int width, int height, int tileSize)
 void MapGenerator::close()
 {
     resetMap();
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Delete Map Generator";
+#endif
 }
 #pragma mark - Generation
 //--------------------------------------------------------------
@@ -89,6 +105,9 @@ void MapGenerator::close()
 //--------------------------------------------------------------
 void MapGenerator::generateMap(Map m)
 {
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate Map based on Map Object";
+#endif
     if (m.width != _width && m.height != _height) {
         generateNewMap(m.width,m.height,m.offsetEdge, m.tileSize, m.numberOfClouds, m.smoothingValue, m.growthLoops, m.seedValue, m.dangerAreaSize);
     }
@@ -101,6 +120,10 @@ void MapGenerator::generateMap(Map m)
 //--------------------------------------------------------------
 void MapGenerator::generateNewMap(int width, int height, int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
 {
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate New Map";
+#endif
+    
     // Generate New Grid
     generateNewGrid(width, height, tileSize);
     
@@ -145,6 +168,10 @@ void MapGenerator::generateNewMap(int width, int height, int offsetEdge, int til
 //--------------------------------------------------------------
 void MapGenerator::generateCustomMap(int smoothingValue, int growthLoops, int dangerAreaSize)
 {
+    
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate Custom Map";
+#endif
     // Generate the Danger Zone
     generateDangerAreas();
     
@@ -161,6 +188,9 @@ void MapGenerator::generateCustomMap(int smoothingValue, int growthLoops, int da
 void MapGenerator::generateMap(int offsetEdge, int tileSize, int numberOfClouds, int smoothingValue, int growthLoops, float seedValue, int dangerAreaSize)
 {
     
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate Map based on Variables";
+#endif
     _offsetEdge = offsetEdge;
     _numberOfClouds = numberOfClouds;
     _dangerAreaSize = dangerAreaSize;
@@ -216,6 +246,9 @@ void MapGenerator::reGenerateClouds()
 //--------------------------------------------------------------
 void MapGenerator::generateImages(int width, int height, int tileSize)
 {
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate Images";
+#endif
     int nWidth = width*tileSize;
     int nHeight = height*tileSize;
     
@@ -287,7 +320,10 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
 //--------------------------------------------------------------
 void MapGenerator::generateClouds(int width, int height, int offsetEdge,int numberOfClouds)
 {
-    
+ 
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate Clouds";
+#endif
     // Clear Previous Clouds
     // and Generate new points
     cloudPos.clear();
@@ -461,6 +497,11 @@ void MapGenerator::animate()
 //--------------------------------------------------------------
 void MapGenerator::generatePolylines(int blurMap,int deadlyThreshold,int dangerThreshold,int okThreshold)
 {
+    
+#ifdef DEBUG_LOG
+    ofLogNotice() << "Map Generator:" << " Generate Polylines";
+#endif
+    
     mapFbo->begin();
     ofClear(0, 0, 0);
     draw(false);
@@ -1248,32 +1289,32 @@ void MapGenerator::saveMap(Map m)
 //--------------------------------------------------------------
 void MapGenerator::saveMap()
 {
-    stringstream ss;
-    ss << "{" << endl;
-    int x = 0;
-    int y = 0;
-    ss << "\"Line " << 0 << "\"" <<  endl;
-    ss << "{" << endl;
-    while (x < _width) {
-        if(x == _width) {       }
-        else {
-            ss << "\"" << map[x][y] << "\"" << ",";
-        }
-        
-        
-        x++;
-        if (x == _width) {
-            ss << "}" << endl;
-            ss << "{" << endl;
-            y++;
-            x = 0;
-        }
-        if(y == _height) {
-            break;
-        }
-    }
-    ss << "}" << endl;
-    cout << ss.str() << endl;
+//    stringstream ss;
+//    ss << "{" << endl;
+//    int x = 0;
+//    int y = 0;
+//    ss << "\"Line " << 0 << "\"" <<  endl;
+//    ss << "{" << endl;
+//    while (x < _width) {
+//        if(x == _width) {       }
+//        else {
+//            ss << "\"" << map[x][y] << "\"" << ",";
+//        }
+//        
+//        
+//        x++;
+//        if (x == _width) {
+//            ss << "}" << endl;
+//            ss << "{" << endl;
+//            y++;
+//            x = 0;
+//        }
+//        if(y == _height) {
+//            break;
+//        }
+//    }
+//    ss << "}" << endl;
+//    cout << ss.str() << endl;
 }
 //--------------------------------------------------------------
 vector<MapDetails> MapGenerator::getMapsInfo()
