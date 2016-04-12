@@ -35,10 +35,7 @@ void DisplayWindow::setMapImage(ofImage mapImg)
 {
     mapImage.clear();
     mapImage.allocate(mapImg.getWidth(), mapImg.getHeight(), OF_IMAGE_COLOR);
-//    mapImage = mapImg;
-    cout << mapImg.getPixels().getData() << endl;
     mapImage.setFromPixels(mapImg.getPixels().getData(), mapImg.getWidth(), mapImg.getHeight(), OF_IMAGE_COLOR);
-    cout << mapImage.getHeight() << endl;
 }
 //--------------------------------------------------------------
 void DisplayWindow::setupSegmentDisplay()
