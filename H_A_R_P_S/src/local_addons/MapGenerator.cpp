@@ -36,7 +36,7 @@ void MapGenerator::setup(int width,int height, int tileSize)
     _width = width;
     _height = height;
     
-    generateNewGrid(width, height, tileSize);
+//    generateNewGrid(width, height, tileSize);
 }
 //--------------------------------------------------------------
 // *    Reset Map
@@ -44,7 +44,7 @@ void MapGenerator::setup(int width,int height, int tileSize)
 void MapGenerator::resetMap()
 {
 #ifdef DEBUG_LOG
-    ofLogNotice() << "Map Generator:" << "Delete Map";
+    ofLogNotice() << "Map Generator:" << " Delete Map";
 #endif
     delete map;
 }
@@ -249,6 +249,23 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
 #ifdef DEBUG_LOG
     ofLogNotice() << "Map Generator:" << " Generate Images";
 #endif
+    
+    if (finderImg == nullptr) {
+        delete finderImg;
+    }
+    
+    if (microImg == nullptr) {
+        delete microImg;
+    }
+    
+    if (mapTexture == nullptr) {
+        delete mapTexture;
+    }
+    
+    if (mapFbo == nullptr) {
+        delete mapFbo;
+    }
+    
     int nWidth = width*tileSize;
     int nHeight = height*tileSize;
     
@@ -265,14 +282,6 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
     mapFbo->begin();
     ofClear(0, 0, 0);
     mapFbo->end();
-    
-    if (finderImg == nullptr) {
-        delete finderImg;
-    }
-    
-    if (microImg == nullptr) {
-        delete microImg;
-    }
     
     microImg = new ofImage();
     microImg->allocate(_width, _height, OF_IMAGE_COLOR);
@@ -567,7 +576,6 @@ void MapGenerator::generatePolylines(int blurMap,int deadlyThreshold,int dangerT
         l.close();
         okArea.push_back(l);
     }
-    
     
     for (int i = 0; i < dangerColorFinder.size(); i++) {
         ofPolyline l;
@@ -1021,7 +1029,6 @@ void MapGenerator::drawEditor()
         ofDrawRectangle(ofGetMouseX()-((_tileSize*3)/2), ofGetMouseY()-((_tileSize*3)/2), (_tileSize*3), (_tileSize*3));
         ofPopStyle();
     }
-    
 }
 //--------------------------------------------------------------
 void MapGenerator::drawComputerVision(int x, int y)
@@ -1029,7 +1036,7 @@ void MapGenerator::drawComputerVision(int x, int y)
     ofPushMatrix();
     ofTranslate(x, y);
     
-    float scaleValue = 0.25;
+    float scaleValue = 1;
     
     if (!_redOnly.empty()) {
         ofPushMatrix();
@@ -1083,7 +1090,6 @@ void MapGenerator::drawPolylines()
     }
     
     for (int i = 0; i < deadlyArea.size(); i++) {
-        
         deadlyArea[i].simplify(0.8);
         ofSetColor(ofColor::red);
         deadlyArea[i].draw();
@@ -1105,8 +1111,12 @@ void MapGenerator::drawPolylines()
 //--------------------------------------------------------------
 void MapGenerator::fireEvent(int playerId, string area)
 {
-    ofMessage msg(ofToString(playerId)+": "+area);
-    ofSendMessage(msg);
+    event e;
+    e.id = ofToString(playerId);
+    e.area = area;
+    ofNotifyEvent(eventListener, e, this);
+//    ofMessage msg(ofToString(playerId)+": "+area);
+//    ofSendMessage(msg);
 }
 #pragma mark - Mouse Events
 //--------------------------------------------------------------

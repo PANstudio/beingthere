@@ -22,6 +22,11 @@
 using namespace cv;
 using namespace ofxCv;
 
+struct event {
+    string id;
+    string area;
+};
+
 class MapGenerator : public ofThread {
 public:
     
@@ -222,6 +227,8 @@ public:
     vector<MapDetails> getMapsInfo();
     
     vector<SimpleButton> buttons;
+    
+    ofEvent<event> eventListener;
     
     // To Do
     void saveMap();
