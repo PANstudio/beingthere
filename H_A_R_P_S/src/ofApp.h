@@ -33,6 +33,11 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+        void drawCalibrationMode();
+        void drawEditorMode();
+        void drawGeneratorMode();
+        void drawOperationMode();
+
         //--------------------------------------------------------------
         // *
         // * Second Window
@@ -104,16 +109,22 @@ class ofApp : public ofBaseApp{
         void countDownStarted(string &str);
         void countDownFinished(string &str);
     
+        void getMapEvent(struct event &ev);
+        void reduceHealth(string &ev);
+    
         //--------------------------------------------------------------
         // *
         // * GUI
         // *
         //--------------------------------------------------------------
         void setupGUI();
+        void setupOperationsButton();
+        bool drawOperationsButtons;
         bool drawGui;
         bool drawMapGui;
         bool drawOperationalElementsGui;
         bool drawCalibrationGui;
+    
     
         // GUI Objects
         ofxDatGui * gui;
@@ -121,8 +132,19 @@ class ofApp : public ofBaseApp{
         ofxDatGui * styleGui;
         ofxDatGui * calibrationGui;
         ofxDatGui * operationElements;
-        ofxDatGuiButton* addItem;
-        ofxDatGuiScrollView* view;
+    
+        ofxDatGuiButton * addItem;
+    
+        ofxDatGuiScrollView * view;
+        ofxDatGuiDropdown * appMode;
+        ofxDatGuiButton * startLevel;
+        ofxDatGuiButton * stopLevel;
+        ofxDatGuiButton * resetLevel;
+        ofxDatGuiFRM * fpsIndicator;
+        ofxDatGuiLabel * title;
+        ofxDatGuiDropdown * difficultyBar;
+        ofxDatGuiMatrix * levelSelect;
+//        ofxDatGuiButton *resetLevel;
 
         void setGuiListeners(ofxDatGui* guiRef);
         void onButtonEvent(ofxDatGuiButtonEvent e);

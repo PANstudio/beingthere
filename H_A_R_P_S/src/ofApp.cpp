@@ -1,40 +1,5 @@
 #include "ofApp.h"
-
-
-//--------------------------------------------------------------
-void ofApp::setupVariables()
-{
-    _urs = false;
-    _showPreviewWindow = false;
-    _width = 100;
-    _height = 100;
-    _dangerAreaSize = 5;
-    _rs = 3.13;
-    _fillPercent = 5;
-    _numberOfIslands = 10;
-    _growthNo = 10;
-    _smooth = 5;
-    _offsetEdge = 5;
-    _Appmode = 3;
-    _numberOfXLines = 10;
-    _numberOfYLines = 10;
-    _spacingX = 10;
-    _spacingY = 10;
-    _showShaded = false;
-    _iRR[0] = 25;
-    _iRR[1] = 255;
-
-    _iRY[0] = 25;
-    _iRY[1] = 255;
-
-    _iRG[0] = 25;
-    _iRG[1] = 255;
-
-    for(int i = 0; i < 10; i ++) {
-        event[i] = "Player ";
-    }
-    heading.load("ofxdatgui_assets/font-verdana.ttf",20);
-}
+#pragma mark - OF Methods
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -46,12 +11,12 @@ void ofApp::setup()
 
     setupGUI();
     setupVariables();
+    setupOperationsButton();
         
     scoreBoard.loadScoreboard("scoreboard.json");
     scoreBoard.setup();
     
     mapGenerator.setup();
-    
     mapGenerator.generateNewMap(100,100,3, 5, 20, 3, 4, 3.13, 5);
     styledMap.getMapImage(mapGenerator.getSmoothMap());
     
@@ -63,13 +28,30 @@ void ofApp::setup()
     }
     
     countDown.setup(500, "Count Down", false);
+    setupListeners();
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    startLevel->update();
+    stopLevel->update();
+    resetLevel->update();
+    fpsIndicator->update();
+    appMode->update();
+    difficultyBar->update();
+    levelSelect->update();
+    
+    if (!appMode->getIsExpanded()) {
+        appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
+    }
+    else {
+        appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
+    }
+    
     view->update();
     styledMap.update();
     countDown.update();
+    
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
     displayWindow->getTimeLeft("");
@@ -91,62 +73,33 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
-    if (_Appmode == 0) {
-        mode = "Calibration Mode";
-        if (_showPreviewWindow) {
-            ofPushMatrix();
-            ofPushStyle();
-            displayWindow->drawPreview(500, 500);
-            ofPopStyle();
-            ofPopMatrix();
-        }
-        displayWindow->calibrationScreen.drawSpreadsheet();
-        displayWindow->calibrationScreen.drawCurrentReadings(350, 500);
-    }
-    else if (_Appmode == 1) {
-        mapGenerator.drawEditor();
-        styledMap.draw(500, 250, 250, 250);
-        mode = "Editor Mode";
-    }
-    else if (_Appmode == 2) {
-        mapGenerator.draw(false);
-        mapGenerator.drawComputerVision(500,0);
-        mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
-        styledMap.draw(500, 250, 250, 250);
-        mode = "Generation Mode";
-    }
-    else if (_Appmode == 3) {
-        mapGenerator.drawFinderMap(901, 0);
-//        scoreBoard.draw(500, 500);
-        styledMap.draw(0, 0);
-        
-        // Player Status Feedback
-        ofDrawBitmapStringHighlight("Player Status", 510,13);
-        for (int i = 0; i < 3; i++) {
-            ofDrawBitmapString(event[i], 510,40+(i*60));
-        }
-        ofDrawBitmapStringHighlight(countDown.getTimeLeftStr(), 508,480);
-        mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
-        playerManager.drawPlayerManager();
-        playerManager.drawPlayerHealth(680,20,0.5);
-        if (_showPreviewWindow) {
-            ofPushMatrix();
-            ofPushStyle();
-            displayWindow->drawPreview(500, 500);
-            ofPopStyle();
-            ofPopMatrix();
-        }
-        // Draw Style Selector
-        view->draw();
-        styledMap.drawGradients(view->getX(), view->getY()-50);
-    }
     
+    switch (_Appmode) {
+        case 0:
+            drawCalibrationMode();
+            break;
+        case 1:
+            drawEditorMode();
+            break;
+        case 2:
+            drawGeneratorMode();
+            break;
+        case 3:
+            drawOperationMode();
+            break;
+        default:
+            break;
+    }
+
     ofSetColor(ofColor::white);
     heading.drawString(mode, 15, 530);
  
     // Window Layout
-    drawWindows();
-
+//    drawWindows();
+    
+    fpsIndicator->draw();
+    appMode->draw();
+    title->draw();
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -182,22 +135,6 @@ void ofApp::keyPressed(int key)
             mapGenerator.reGenerateClouds();
 //            displayWindow->calibrationScreen.saveCalibrationData();
 //            displayWindow->setupSegmentDisplay();
-            break;
-        case '0':
-            _Appmode = 0;
-            mode = "Calibration Mode";
-            break;
-        case '1':
-            _Appmode = 1;
-            mode = "Editor Mode";
-            break;
-        case '2':
-            mode = "Generation Mode";
-            _Appmode = 2;
-            break;
-        case '3':
-            mode = "Operation Mode";
-            _Appmode = 3;
             break;
         default:
             break;
@@ -255,29 +192,18 @@ void ofApp::windowResized(int w, int h)
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg)
 {
-    for (int i = 0; i < 3; i++) {
-        if (msg.message == ofToString(i)+": OK") {
-            event[i] = "Player "+ofToString(i)+" OK";
-            playerManager.stopReducingPlayerHealth(i);
-        }
-        else if (msg.message == ofToString(i)+": Danger") {
-            event[i] = "Player "+ofToString(i)+" Danger";
-        }
-        else if (msg.message == ofToString(i)+": Deadly") {
-            event[i] = "Player "+ofToString(i)+" Deadly";
-            playerManager.startReducingPlayerHealth(i);
-        }
-        
-        if (msg.message == ofToString(i)+" Reducer Finished" ) {
-            playerManager.reducePlayerHealth(i, 5);
-        }
-    }
+
 }
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
 {
     
 }
+#pragma mark - OF Methods
+//--------------------------------------------------------------
+// *
+// *
+// *
 //--------------------------------------------------------------
 void ofApp::drawWindows()
 {
@@ -304,6 +230,7 @@ void ofApp::drawWindows()
     ofPopStyle();
     ofPopMatrix();
 }
+#pragma mark - Setup Listeners
 //--------------------------------------------------------------
 // *
 // * Listeners
@@ -313,12 +240,16 @@ void ofApp::setupListeners()
 {
     ofAddListener(countDown.timerStarted, this, &ofApp::countDownStarted);
     ofAddListener(countDown.timerFinished, this, &ofApp::countDownFinished);
+    ofAddListener(mapGenerator.eventListener, this, &ofApp::getMapEvent);
+    ofAddListener(playerManager.reducerTimer[0].timerFinished, this, &ofApp::reduceHealth);
 }
 //--------------------------------------------------------------
 void ofApp::removeListeners()
 {
     ofRemoveListener(countDown.timerStarted, this, &ofApp::countDownStarted);
     ofRemoveListener(countDown.timerFinished, this, &ofApp::countDownFinished);
+    ofRemoveListener(mapGenerator.eventListener, this, &ofApp::getMapEvent);
+    ofRemoveListener(playerManager.reducerTimer[0].timerFinished, this, &ofApp::reduceHealth);
 }
 //--------------------------------------------------------------
 void ofApp::countDownStarted(string &str)
@@ -331,6 +262,113 @@ void ofApp::countDownFinished(string &str)
     cout << "Count Down Finished " << str << endl;
 }
 //--------------------------------------------------------------
+void ofApp::getMapEvent(struct event &ev)
+{
+    cout << ev.id << " " << ev.area << endl;
+    for (int i = 0; i < 3; i++) {
+        if (ev.id == ofToString(i)) {
+            if (ev.area == "OK") {
+                event[i] = "Player "+ofToString(i)+" OK";
+                playerManager.stopReducingPlayerHealth(i);
+            }
+            else if (ev.area == "Danger") {
+                event[i] = "Player "+ofToString(i)+" Danger";
+                //                playerManager.stopReducingPlayerHealth(i);
+            }
+            else if (ev.area == "Deadly") {
+                event[i] = "Player "+ofToString(i)+" Deadly";
+                playerManager.startReducingPlayerHealth(i);
+            }
+        }
+    }
+}
+//--------------------------------------------------------------
+void ofApp::reduceHealth(string &ev)
+{
+    cout << ev << endl;
+    for (int i = 0; i < 3; i++) {
+        if (ev == ofToString(i)+" Reducer Finished" ) {
+            playerManager.reducePlayerHealth(i, 5);
+        }
+    }
+}
+#pragma mark - Draw
+//--------------------------------------------------------------
+// *
+// * Draw Modes
+// *
+//--------------------------------------------------------------
+void ofApp::drawCalibrationMode()
+{
+    mode = "Calibration Mode";
+    if (_showPreviewWindow) {
+        ofPushMatrix();
+        ofPushStyle();
+        displayWindow->drawPreview(500, 500);
+        ofPopStyle();
+        ofPopMatrix();
+    }
+    displayWindow->calibrationScreen.drawSpreadsheet();
+    displayWindow->calibrationScreen.drawCurrentReadings(350, 500);
+}
+//--------------------------------------------------------------
+void ofApp::drawEditorMode()
+{
+    mode = "Editor Mode";
+    ofPushStyle();
+    ofNoFill();
+    ofSetColor(ofColor::white);
+    ofDrawRectangle(500, 0, 400, 175);
+    ofPopStyle();
+    mapGenerator.drawEditor();
+    styledMap.draw(500, 250, 250, 250);
+}
+//--------------------------------------------------------------
+void ofApp::drawGeneratorMode()
+{
+    mode = "Generator Mode";
+    ofDrawRectangle(500, 0, 400, 145);
+    ofDrawBitmapStringHighlight("Computer Vision",7,130);
+    mapGenerator.draw(false);
+    mapGenerator.drawComputerVision(500,0);
+    mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
+    styledMap.draw(500, 250, 250, 250);
+}
+//--------------------------------------------------------------
+void ofApp::drawOperationMode()
+{
+    mapGenerator.drawFinderMap(901, 0);
+    styledMap.draw(0, 0);
+
+    // Player Status Feedback
+    ofDrawBitmapStringHighlight("Player Status", 510,13);
+    for (int i = 0; i < 3; i++) {
+        ofDrawBitmapString(event[i], 510,40+(i*60));
+    }
+    ofDrawBitmapStringHighlight(countDown.getTimeLeftStr(), 508,480);
+    mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
+    
+    playerManager.drawPlayerManager();
+    playerManager.drawPlayerHealth(680,20,0.5);
+    
+    if (_showPreviewWindow) {
+        ofPushMatrix();
+        ofPushStyle();
+        displayWindow->drawPreview(500, 500);
+        ofPopStyle();
+        ofPopMatrix();
+    }
+    // Draw Style Selector
+    view->draw();
+    styledMap.drawGradients(view->getX(), view->getY()-50);
+    startLevel->draw();
+    stopLevel->draw();
+    resetLevel->draw();
+    difficultyBar->draw();
+    levelSelect->draw();
+}
+#pragma mark - GUI Setup
+//--------------------------------------------------------------
 // *
 // * GUI
 // *
@@ -342,44 +380,12 @@ void ofApp::setupGUI()
     
     int spacing = 5;
     gui = new ofxDatGui(0,550);
-
-    gui->addHeader("Happilee");
-    gui->addFRM(10.0f);
-    gui->addBreak();
-    vector<string> AppMode = {"CALIBRATION MODE",
-        "EDITOR MODE",
-        "GENERATION MODE",
-        "STYLE MODE",
-        "OPERATION MODE"
-    };
-    gui->addDropdown("App Mode", AppMode);
-    gui->addBreak();
     
-    vector<string> difficulty;
-    vector<string> levels = {"1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10"
-    };
+    
+    
     
     mapGenerator.loadMaps("config.json");
-    
-    for(int i = 0; i < mapGenerator.getMapsInfo().size(); i++) {
-        difficulty.push_back(mapGenerator.getMapsInfo()[i].Difficulty);
-        dLvs.push_back(mapGenerator.getMapsInfo()[i].numberOfLevels);
-    }
-    
-    gui->addDropdown("Select Difficulty", difficulty);
-    gui->addBreak();
-    gui->addMatrix("Levels", levels.size(),true);
-    gui->getMatrix("Levels")->setRadioMode(true);
-    gui->addBreak();
+
     
     gui->addButton("Flush Map");
     gui->addBreak();
@@ -387,12 +393,8 @@ void ofApp::setupGUI()
     gui->addToggle("Show Preview Window");
     gui->addBreak();
     
-    gui->addButton("Start Level");
-    gui->addBreak();
-    gui->addButton("Stop Level");
-    
     mapGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-    mapGui->setWidth(400);
+    mapGui->setWidth(350);
     mapGui->addHeader("Map Generation");
     mapGui->addSlider("Map Width", 0, 100, 0);
     mapGui->addSlider("Map Height", 0, 100, 0);
@@ -423,11 +425,7 @@ void ofApp::setupGUI()
     mapGui->addBreak();
     mapGui->addButton("Generate New Map");
     mapGui->addBreak();
-//    mapGui->addButton("Flush Map");
-    
-    mapGui->addBreak();
     mapGui->addHeader("Save Settings");
-    mapGui->addDropdown("Set Difficulty", difficulty);
     mapGui->addButton("Save");
     
     operationElements = new ofxDatGui(901,300);
@@ -491,6 +489,84 @@ void ofApp::setupGUI()
     gui->getDropdown("Select Difficulty")->collapse();
 }
 //--------------------------------------------------------------
+void ofApp::setupOperationsButton()
+{
+
+    vector<string> AppMode = {"CALIBRATION MODE",
+        "EDITOR MODE",
+        "GENERATION MODE",
+        "STYLE MODE",
+        "OPERATION MODE"
+    };
+    
+    title = new ofxDatGuiLabel("Hapilee");
+    appMode = new ofxDatGuiDropdown("App Mode",AppMode);
+    appMode->expand();
+    
+    startLevel = new ofxDatGuiButton("Start Level");
+    stopLevel = new ofxDatGuiButton("Stop Level");
+    resetLevel = new ofxDatGuiButton("Reset Level");
+    fpsIndicator = new ofxDatGuiFRM();
+    
+    
+    vector<string> difficulty;
+    for(int i = 0; i < mapGenerator.getMapsInfo().size(); i++) {
+        difficulty.push_back(mapGenerator.getMapsInfo()[i].Difficulty);
+        dLvs.push_back(mapGenerator.getMapsInfo()[i].numberOfLevels);
+    }
+    
+    difficultyBar = new ofxDatGuiDropdown("Select Difficulty", difficulty);
+    difficultyBar->setStripe(ofColor::orange, 5);
+    difficultyBar->setPosition(500+300, 0);
+    difficultyBar->setWidth(250);
+    
+    
+    vector<string> levels = {"1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+    };
+
+    levelSelect = new ofxDatGuiMatrix("Levels",levels.size(),true);
+    levelSelect->setRadioMode(true);
+    levelSelect->setPosition(500+300+difficultyBar->getWidth(), 0);
+    levelSelect->onMatrixEvent(this, &ofApp::onMatrixEvent);
+    
+    appMode->setWidth(200);
+    startLevel->setWidth(200);
+    stopLevel->setWidth(200);
+    resetLevel->setWidth(200);
+    title->setStripe(ofColor::mediumSlateBlue, 5);
+    title->setWidth(200);
+    fpsIndicator->setWidth(200, 100);
+    fpsIndicator->setStripeVisible(false);
+    
+    
+    int height = ofGetHeight();
+    
+    title->setPosition(ofGetWidth()-(fpsIndicator->getWidth()+title->getWidth()), height-fpsIndicator->getHeight());
+    appMode->setPosition(0, height-appMode->getHeight());
+    startLevel->setPosition(appMode->getWidth(), height-startLevel->getHeight());
+    stopLevel->setPosition(startLevel->getX()+startLevel->getWidth(), height-stopLevel->getHeight());
+    resetLevel->setPosition(stopLevel->getX()+stopLevel->getWidth(), height-resetLevel->getHeight());
+    fpsIndicator->setPosition(ofGetWidth()-fpsIndicator->getWidth(), height-fpsIndicator->getHeight());
+    
+    startLevel->setStripe(ofColor::mediumSpringGreen, 5);
+    stopLevel->setStripe(ofColor::red, 5);
+    
+    startLevel->onButtonEvent(this, &ofApp::onButtonEvent);
+    stopLevel->onButtonEvent(this, &ofApp::onButtonEvent);
+    resetLevel->onButtonEvent(this, &ofApp::onButtonEvent);
+    appMode->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    difficultyBar->onDropdownEvent(this, &ofApp::onDropdownEvent);
+}
+//--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)
 {
     // Listeners
@@ -502,6 +578,11 @@ void ofApp::setGuiListeners(ofxDatGui *guiRef)
     guiRef->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
     guiRef->onMatrixEvent(this, &ofApp::onMatrixEvent);
 }
+#pragma mark - GUI Listeners
+//--------------------------------------------------------------
+// *
+// *    GUI Listeners
+// *
 //--------------------------------------------------------------
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
@@ -605,21 +686,25 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
             mode = "Calibration Mode";
+            mapGui->setVisible(false);
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 1;
             mode = "Editor Mode";
+            mapGui->setVisible(false);
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 2;
             mode = "Generation Mode";
             displayWindow->doCalibration(false);
+            mapGui->setVisible(true);
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
             mode = "Operation Mode";
             _Appmode = 3;
+            mapGui->setVisible(false);
             displayWindow->doCalibration(false);
         }
     }
@@ -627,38 +712,32 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         _difficulty = e.target->getLabel();
         if (_difficulty == "NOVICE") {
             _difficultyMode = 0;
-            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
-            gui->update();
+            levelSelect->setVisible(dLvs[_difficultyMode]);
+
         }
         else if (_difficulty == "ROOKIE") {
             _difficultyMode = 1;
-            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
-            gui->update();
+            levelSelect->setVisible(dLvs[_difficultyMode]);
         }
         else if (_difficulty == "NORMAL") {
             _difficultyMode = 2;
-            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
-            gui->update();
+            levelSelect->setVisible(dLvs[_difficultyMode]);
         }
         else if (_difficulty == "HARD") {
             _difficultyMode = 3;
-            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
-            gui->update();
+            levelSelect->setVisible(dLvs[_difficultyMode]);
         }
         else if (_difficulty == "REALLY HARD") {
             _difficultyMode = 4;
-            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
-            gui->update();
+            levelSelect->setVisible(dLvs[_difficultyMode]);
         }
         else if (_difficulty == "IMPOSSIBLE") {
             _difficultyMode = 5;
-            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
-            gui->update();
+            levelSelect->setVisible(dLvs[_difficultyMode]);
         }
         else if (_difficulty == "GOD LIKE") {
             _difficultyMode = 6;
-            gui->getMatrix("Levels")->setVisible(dLvs[_difficultyMode]);
-            gui->update();
+            levelSelect->setVisible(dLvs[_difficultyMode]);
         }
     }
     else if(e.target->is("Set Difficulty")) {
@@ -696,3 +775,38 @@ void ofApp::onScrollViewEvent(ofxDatGuiScrollViewEvent e)
     cout << styledMap.getGradientsNames()[e.index] << endl;
     styledMap.setGradient(styledMap.getGradientsNames()[e.index]);
 }
+//--------------------------------------------------------------
+void ofApp::setupVariables()
+{
+    _urs = false;
+    _showPreviewWindow = false;
+    _width = 100;
+    _height = 100;
+    _dangerAreaSize = 5;
+    _rs = 3.13;
+    _fillPercent = 5;
+    _numberOfIslands = 10;
+    _growthNo = 10;
+    _smooth = 5;
+    _offsetEdge = 5;
+    _Appmode = 3;
+    _numberOfXLines = 10;
+    _numberOfYLines = 10;
+    _spacingX = 10;
+    _spacingY = 10;
+    _showShaded = false;
+    _iRR[0] = 25;
+    _iRR[1] = 255;
+    
+    _iRY[0] = 25;
+    _iRY[1] = 255;
+    
+    _iRG[0] = 25;
+    _iRG[1] = 255;
+    
+    for(int i = 0; i < 10; i ++) {
+        event[i] = "Player ";
+    }
+    heading.load("ofxdatgui_assets/font-verdana.ttf",20);
+}
+
