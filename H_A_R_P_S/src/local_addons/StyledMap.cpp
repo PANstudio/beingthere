@@ -13,11 +13,11 @@ void StyledMap::setup()
     for(map<string,ofxColorMap::ColorMap>::const_iterator it = colorMap.namedMaps.begin();
         it != colorMap.namedMaps.end(); it++) {
         const string& name = it->first;
-        cout << name << endl;
         gradientsNames.push_back(name);
     }
     gradientImage.allocate(250, 25, OF_IMAGE_GRAYSCALE);
     colorGradientImage.allocate(250, 25, OF_IMAGE_COLOR);
+    
     unsigned char *p = gradientImage.getPixels();
     for (int x = 0; x < gradientImage.getWidth(); x++) {
         for (int y = 0; y < gradientImage.getHeight(); y++) {
