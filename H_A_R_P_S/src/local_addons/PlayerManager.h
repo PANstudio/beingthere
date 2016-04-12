@@ -67,12 +67,12 @@ public:
     
     // Might Go
     ofxPathfinder finder;
+    vector <MyTimer> reducerTimer;
     
 private:
     ofxOscReceiver oscReceiver;
     int _numberOfPlayers;
     vector <Player> players;
-    vector<MyTimer> reducerTimer;
     
 protected:
     
