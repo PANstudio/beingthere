@@ -43,6 +43,8 @@
 		637723BA1C2624810081998C /* StyledMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723B81C2624810081998C /* StyledMap.cpp */; };
 		637723BD1C2625190081998C /* ScoreBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723BB1C2625190081998C /* ScoreBoard.cpp */; };
 		63902E611CBD3E0B0081723F /* maps.json in Resources */ = {isa = PBXBuildFile; fileRef = 63902E601CBD3E0B0081723F /* maps.json */; };
+		63902E641CBE96940081723F /* MapViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63902E621CBE96940081723F /* MapViewer.cpp */; };
+		63902E691CBE97500081723F /* ofxThreadedImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63902E671CBE97500081723F /* ofxThreadedImageLoader.cpp */; };
 		639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A71C1E373B00B512AD /* MapGenerator.cpp */; };
 		639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A91C1E373B00B512AD /* MyTimer.cpp */; };
 		639756B71C1E373B00B512AD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AB1C1E373B00B512AD /* Player.cpp */; };
@@ -271,6 +273,10 @@
 		637723BB1C2625190081998C /* ScoreBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScoreBoard.cpp; path = src/local_addons/ScoreBoard.cpp; sourceTree = "<group>"; };
 		637723BC1C2625190081998C /* ScoreBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScoreBoard.h; path = src/local_addons/ScoreBoard.h; sourceTree = "<group>"; };
 		63902E601CBD3E0B0081723F /* maps.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = maps.json; path = bin/data/maps/maps.json; sourceTree = "<group>"; };
+		63902E621CBE96940081723F /* MapViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapViewer.cpp; path = src/local_addons/MapViewer.cpp; sourceTree = "<group>"; };
+		63902E631CBE96940081723F /* MapViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewer.h; path = src/local_addons/MapViewer.h; sourceTree = "<group>"; };
+		63902E671CBE97500081723F /* ofxThreadedImageLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxThreadedImageLoader.cpp; sourceTree = "<group>"; };
+		63902E681CBE97500081723F /* ofxThreadedImageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxThreadedImageLoader.h; sourceTree = "<group>"; };
 		639217191C4AE72600962DB6 /* scoreboard.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = scoreboard.json; path = bin/data/scoreboard.json; sourceTree = "<group>"; };
 		6392171A1C4AE9EB00962DB6 /* ScoreboardButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScoreboardButton.h; path = src/local_addons/ScoreboardButton.h; sourceTree = "<group>"; };
 		639756A71C1E373B00B512AD /* MapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapGenerator.cpp; path = src/local_addons/MapGenerator.cpp; sourceTree = "<group>"; };
@@ -924,6 +930,24 @@
 			path = themes;
 			sourceTree = "<group>";
 		};
+		63902E651CBE97500081723F /* ofxThreadedImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				63902E661CBE97500081723F /* src */,
+			);
+			name = ofxThreadedImageLoader;
+			sourceTree = "<group>";
+		};
+		63902E661CBE97500081723F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63902E671CBE97500081723F /* ofxThreadedImageLoader.cpp */,
+				63902E681CBE97500081723F /* ofxThreadedImageLoader.h */,
+			);
+			name = src;
+			path = ../../../../of_v0.9.0_osx_release/addons/ofxThreadedImageLoader/src;
+			sourceTree = "<group>";
+		};
 		63B90F621C62A70000C666F0 /* ofxColorMap */ = {
 			isa = PBXGroup;
 			children = (
@@ -1018,6 +1042,8 @@
 		6948EE371B920CB800B5AC1A /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
+				63902E621CBE96940081723F /* MapViewer.cpp */,
+				63902E631CBE96940081723F /* MapViewer.h */,
 				639756A71C1E373B00B512AD /* MapGenerator.cpp */,
 				639756A81C1E373B00B512AD /* MapGenerator.h */,
 				634A7E831C42DA2B00753B2E /* SimpleButton.h */,
@@ -1279,6 +1305,7 @@
 				63311BAC1C556D0000BD598E /* ofxSegmentDisplay */,
 				63C32B061C57690800384A63 /* ofxCsv */,
 				63B90F621C62A70000C666F0 /* ofxColorMap */,
+				63902E651CBE97500081723F /* ofxThreadedImageLoader */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1672,6 +1699,7 @@
 				63FB3E641C4BEDC30006421A /* ofxSpreadsheet.cpp in Sources */,
 				635E7E5F1C3C68DF008ACD32 /* ofxDatGuiComponent.cpp in Sources */,
 				73DE68F015CBE423FCE122A0 /* Tracker.cpp in Sources */,
+				63902E691CBE97500081723F /* ofxThreadedImageLoader.cpp in Sources */,
 				9A6686A968B6E92EBDA0EEEF /* Utilities.cpp in Sources */,
 				00508B41C766C5D216407E19 /* Wrappers.cpp in Sources */,
 				3E3609DF832A8E10F8593D9B /* ofxJSONElement.cpp in Sources */,
@@ -1725,6 +1753,7 @@
 				63B90F671C62A70000C666F0 /* namedMaps.cpp in Sources */,
 				639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */,
 				3E4A5983D6208AC9A0904FC2 /* ofxEasingSine.cpp in Sources */,
+				63902E641CBE96940081723F /* MapViewer.cpp in Sources */,
 				3A1C46801C4E3F1DE74CA645 /* ofxTween.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

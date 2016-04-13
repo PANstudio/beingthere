@@ -5,6 +5,7 @@ void ofApp::setup()
 {
     ofSetWindowTitle("H.A.R.P.S");
     ofSetFullscreen(true);
+    ofSetVerticalSync(true);
     
     // This is independant of other setup routines so can be called before the gui
     styledMap.setup();
@@ -15,6 +16,8 @@ void ofApp::setup()
         
     scoreBoard.loadScoreboard("scoreboard.json");
     scoreBoard.setup();
+    
+
     
     mapGenerator.setup();
     mapGenerator.generateNewMap(100,100,3, 5, 20, 3, 4, 3.13, 5);
@@ -29,6 +32,8 @@ void ofApp::setup()
     
     countDown.setup(500, "Count Down", false);
     setupListeners();
+    mapViewer.setup();
+    
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -75,7 +80,6 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(0, 0, 0);
-    
     switch (_Appmode) {
         case 0:
             drawCalibrationMode();
@@ -89,10 +93,12 @@ void ofApp::draw()
         case 3:
             drawOperationMode();
             break;
+        case 4:
+            mapViewer.draw();
+            break;
         default:
             break;
     }
- 
     fpsIndicator->draw();
     appMode->draw();
     title->draw();
@@ -107,6 +113,7 @@ void ofApp::exit()
     delete mapGui;
     delete calibrationGui;
     delete view;
+    mapViewer.close();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -478,8 +485,9 @@ void ofApp::setupOperationsButton()
     vector<string> AppMode = {"CALIBRATION MODE",
         "EDITOR MODE",
         "GENERATION MODE",
-        "STYLE MODE",
+        "MAP VIEWER",
         "OPERATION MODE"
+        
     };
     
     title = new ofxDatGuiLabel("Happilee");
@@ -676,7 +684,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         m.dangerAreaToxicity = 1; //todo
         m.deadAreaToxicity = 1; //todo
         m.timeNeededToSolveMap = 5000; //todp
-        string vas = "maps/thumbnails/"+ofGetTimestampString()+".png";
+        string vas = "maps/thumbnails/"+ofGetTimestampString()+".jpg";
         ofSaveImage(styledMap.getStyledMap(), vas);
         mapGenerator.saveMap(vas,styledMap.getCurrentStyle(),m);
     }
@@ -718,6 +726,12 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
             _Appmode = 3;
             mapGui->setVisible(false);
             displayWindow->doCalibration(false);
+        }
+        else if (e.target->getLabel() == "MAP VIEWER") {
+            mode = "Map Viewer";
+            _Appmode = 4;
+            mapGui->setVisible(false);
+//            displayWindow->doCalibration(false);
         }
     }
     else if(e.target->is("Select Difficulty")) {

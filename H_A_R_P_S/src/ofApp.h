@@ -9,6 +9,7 @@
 #include "ScoreBoard.h"
 #include "StyledMap.h"
 #include "BaseButton.h"
+#include "MapViewer.h"
 //#include "SimpleButton.h"
 
 class ofApp : public ofBaseApp{
@@ -91,6 +92,13 @@ class ofApp : public ofBaseApp{
         string event[10];
         int _Appmode;
         void setupVariables();
+    
+        MapViewer mapViewer;
+    ofxThreadedImageLoader mapLoader;
+    vector<ofImage> maps;
+    int noMaps;
+    
+    
         PlayerManager playerManager;
         MyTimer countDown;
         Scoreboard scoreBoard;
