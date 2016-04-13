@@ -329,7 +329,6 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
 //--------------------------------------------------------------
 void MapGenerator::generateClouds(int width, int height, int offsetEdge,int numberOfClouds)
 {
- 
 #ifdef DEBUG_LOG
     ofLogNotice() << "Map Generator:" << " Generate Clouds";
 #endif
@@ -1036,7 +1035,7 @@ void MapGenerator::drawComputerVision(int x, int y)
     ofPushMatrix();
     ofTranslate(x, y);
     
-    float scaleValue = 1;
+    float scaleValue = 0.5;
     
     if (!_redOnly.empty()) {
         ofPushMatrix();
@@ -1274,7 +1273,7 @@ void MapGenerator::saveMap(Map m)
     ofxJSONElement mapConfig1;
     
     if(!mapConfig.open("config.json")) {
-        cout << "File not Loaded" << endl;
+        ofLogError() << "File not Loaded";
         return;
     }
     else {
@@ -1297,34 +1296,33 @@ void MapGenerator::saveMap(Map m)
     }
 }
 //--------------------------------------------------------------
-void MapGenerator::saveMap()
+void MapGenerator::saveMap(string mapName,string style,Map m)
 {
-//    stringstream ss;
-//    ss << "{" << endl;
-//    int x = 0;
-//    int y = 0;
-//    ss << "\"Line " << 0 << "\"" <<  endl;
-//    ss << "{" << endl;
-//    while (x < _width) {
-//        if(x == _width) {       }
-//        else {
-//            ss << "\"" << map[x][y] << "\"" << ",";
-//        }
-//        
-//        
-//        x++;
-//        if (x == _width) {
-//            ss << "}" << endl;
-//            ss << "{" << endl;
-//            y++;
-//            x = 0;
-//        }
-//        if(y == _height) {
-//            break;
-//        }
-//    }
-//    ss << "}" << endl;
-//    cout << ss.str() << endl;
+    ofxJSONElement generatedMaps;
+    
+    if(!generatedMaps.open("maps/maps.json")) {
+        
+    }
+    else {
+        int nMaps = generatedMaps["Maps"].size();
+        generatedMaps["Maps"][nMaps]["difficulty"] = m.difficulty;
+        generatedMaps["Maps"][nMaps]["level"] = 1;
+        generatedMaps["Maps"][nMaps]["tilesize"] = m.tileSize;
+        generatedMaps["Maps"][nMaps]["numberofclouds"] = m.numberOfClouds;
+        generatedMaps["Maps"][nMaps]["growthloops"] = m.growthLoops;
+        generatedMaps["Maps"][nMaps]["smoothingloops"] = m.smoothingValue;
+        generatedMaps["Maps"][nMaps]["width"] = m.width;
+        generatedMaps["Maps"][nMaps]["height"] = m.height;
+        generatedMaps["Maps"][nMaps]["offsetedge"] = m.offsetEdge;
+        generatedMaps["Maps"][nMaps]["timetocomplete"] = m.timeNeededToSolveMap;
+        generatedMaps["Maps"][nMaps]["randomseed"] = m.seedValue;
+        generatedMaps["Maps"][nMaps]["dangerareasize"] = m.dangerAreaSize;
+        generatedMaps["Maps"][nMaps]["dangerAreaToxicity"] = m.dangerAreaToxicity;
+        generatedMaps["Maps"][nMaps]["deadAreaToxicity"] = m.deadAreaToxicity;
+        generatedMaps["Maps"][nMaps]["image"] = mapName;
+        generatedMaps["Maps"][nMaps]["style"] = style;
+        generatedMaps.save("maps/maps.json",true);
+    }
 }
 //--------------------------------------------------------------
 vector<MapDetails> MapGenerator::getMapsInfo()

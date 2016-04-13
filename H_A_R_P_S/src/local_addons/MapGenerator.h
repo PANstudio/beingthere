@@ -231,7 +231,7 @@ public:
     ofEvent<event> eventListener;
     
     // To Do
-    void saveMap();
+    void saveMap(string mapName,string style,Map m);
     void saveMap(Map m);
 private:
     

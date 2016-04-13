@@ -1,0 +1,23 @@
+{
+   "Maps" : [
+      {
+         "dangerAreaToxicity" : 1,
+         "dangerareasize" : 5,
+         "deadAreaToxicity" : 1,
+         "difficulty" : "",
+         "growthloops" : 10,
+         "height" : 100,
+         "image" : "maps/thumbnails/2016-04-13-15-57-08-976.png",
+         "level" : 1,
+         "numberofclouds" : 10,
+         "offsetedge" : 5,
+         "randomseed" : 3,
+         "smoothingloops" : 5,
+         "style" : "RdYlGn_r",
+         "tilesize" : 5,
+         "timetocomplete" : 5000,
+         "width" : 100
+      }
+   ]
+}
+

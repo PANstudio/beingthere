@@ -42,6 +42,7 @@
 		6372443F1C20E503002F7BD5 /* ControlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6372443D1C20E503002F7BD5 /* ControlNode.cpp */; };
 		637723BA1C2624810081998C /* StyledMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723B81C2624810081998C /* StyledMap.cpp */; };
 		637723BD1C2625190081998C /* ScoreBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 637723BB1C2625190081998C /* ScoreBoard.cpp */; };
+		63902E611CBD3E0B0081723F /* maps.json in Resources */ = {isa = PBXBuildFile; fileRef = 63902E601CBD3E0B0081723F /* maps.json */; };
 		639756B51C1E373B00B512AD /* MapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A71C1E373B00B512AD /* MapGenerator.cpp */; };
 		639756B61C1E373B00B512AD /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756A91C1E373B00B512AD /* MyTimer.cpp */; };
 		639756B71C1E373B00B512AD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 639756AB1C1E373B00B512AD /* Player.cpp */; };
@@ -269,6 +270,7 @@
 		637723B91C2624810081998C /* StyledMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StyledMap.h; path = src/local_addons/StyledMap.h; sourceTree = "<group>"; };
 		637723BB1C2625190081998C /* ScoreBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScoreBoard.cpp; path = src/local_addons/ScoreBoard.cpp; sourceTree = "<group>"; };
 		637723BC1C2625190081998C /* ScoreBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScoreBoard.h; path = src/local_addons/ScoreBoard.h; sourceTree = "<group>"; };
+		63902E601CBD3E0B0081723F /* maps.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = maps.json; path = bin/data/maps/maps.json; sourceTree = "<group>"; };
 		639217191C4AE72600962DB6 /* scoreboard.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = scoreboard.json; path = bin/data/scoreboard.json; sourceTree = "<group>"; };
 		6392171A1C4AE9EB00962DB6 /* ScoreboardButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScoreboardButton.h; path = src/local_addons/ScoreboardButton.h; sourceTree = "<group>"; };
 		639756A71C1E373B00B512AD /* MapGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapGenerator.cpp; path = src/local_addons/MapGenerator.cpp; sourceTree = "<group>"; };
@@ -1454,6 +1456,7 @@
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				639217191C4AE72600962DB6 /* scoreboard.json */,
+				63902E601CBD3E0B0081723F /* maps.json */,
 				63A11EAA1C655AB4009CB1F5 /* config.json */,
 				63D961291C5968EE00CC6FE6 /* readings.csv */,
 				63A11EAB1C655F56009CB1F5 /* Images.xcassets */,
@@ -1616,6 +1619,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63902E611CBD3E0B0081723F /* maps.json in Resources */,
 				63A11EAE1C65628C009CB1F5 /* Icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1748,6 +1752,7 @@
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG_LOG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
@@ -1848,6 +1853,7 @@
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG_LOG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_UNROLL_LOOPS = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;

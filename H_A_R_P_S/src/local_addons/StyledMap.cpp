@@ -28,7 +28,13 @@ void StyledMap::setup()
     
     gradientImage.update();
     colorMap.setMapFromName("RdYlGn_r");
+    currentStyle = "RdYlGn_r";
     colorMap.apply(gradientImage, colorGradientImage);
+}
+//--------------------------------------------------------------
+string StyledMap::getCurrentStyle()
+{
+    return currentStyle;
 }
 //--------------------------------------------------------------
 void StyledMap::update()
@@ -86,6 +92,7 @@ void StyledMap::getMapImage(cv::Mat _map)
 //--------------------------------------------------------------
 void StyledMap::setGradient(string gradient)
 {
+    currentStyle = gradient;
     colorMap.setMapFromName(gradient);
     colorMap.apply(gradientImage, colorGradientImage);
     colorMapImage.resize(mapImage.getWidth(), mapImage.getHeight());

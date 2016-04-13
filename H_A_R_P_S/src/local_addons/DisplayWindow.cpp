@@ -35,7 +35,7 @@ void DisplayWindow::setMapImage(ofImage mapImg)
 {
     mapImage.clear();
     mapImage.allocate(mapImg.getWidth(), mapImg.getHeight(), OF_IMAGE_COLOR);
-    mapImage.setFromPixels(mapImg.getPixels().getData(), mapImg.getWidth(), mapImg.getHeight(), OF_IMAGE_COLOR);
+    mapImage.setFromPixels(mapImg.getPixels(), mapImg.getWidth(), mapImg.getHeight(), OF_IMAGE_COLOR);
 }
 //--------------------------------------------------------------
 void DisplayWindow::setupSegmentDisplay()
@@ -96,8 +96,7 @@ void DisplayWindow::draw()
         calibrationScreen.draw();
     }
     else {
-        ofSetColor(255, 255, 252);
-        mapImage.draw(0, 0);
+
         ofSetColor(ofColor::ivory);
         font.drawString(title, w, h);
         for (int i = 0; i < playerHealth.size(); i++) {
@@ -118,6 +117,8 @@ void DisplayWindow::draw()
             }
             ofPopMatrix();
         }
+        ofSetColor(255, 255, 255);
+        mapImage.draw(0, 0);
     }
     ofPopStyle();
 }

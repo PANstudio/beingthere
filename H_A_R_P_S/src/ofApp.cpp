@@ -40,6 +40,8 @@ void ofApp::update()
     appMode->update();
     difficultyBar->update();
     levelSelect->update();
+    showSecondWindow->update();
+    saveMapRecord->update();
     
     if (!appMode->getIsExpanded()) {
         appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
@@ -90,23 +92,18 @@ void ofApp::draw()
         default:
             break;
     }
-
-    ofSetColor(ofColor::white);
-    heading.drawString(mode, 15, 530);
  
-    // Window Layout
-//    drawWindows();
-    
     fpsIndicator->draw();
     appMode->draw();
     title->draw();
+    showSecondWindow->draw();
 }
 //--------------------------------------------------------------
 void ofApp::exit()
 {
     displayWindow->close();
     // Delete GUI Objects
-    delete gui;
+//    delete gui;
     delete mapGui;
     delete calibrationGui;
     delete view;
@@ -114,6 +111,7 @@ void ofApp::exit()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+
     switch (key) {
         case OF_KEY_RETURN:
             drawGui = !drawGui;
@@ -132,9 +130,7 @@ void ofApp::keyPressed(int key)
             calibrationGui->setVisible(drawCalibrationGui);
             break;
         case ' ':
-            mapGenerator.reGenerateClouds();
-//            displayWindow->calibrationScreen.saveCalibrationData();
-//            displayWindow->setupSegmentDisplay();
+
             break;
         default:
             break;
@@ -264,7 +260,6 @@ void ofApp::countDownFinished(string &str)
 //--------------------------------------------------------------
 void ofApp::getMapEvent(struct event &ev)
 {
-    cout << ev.id << " " << ev.area << endl;
     for (int i = 0; i < 3; i++) {
         if (ev.id == ofToString(i)) {
             if (ev.area == "OK") {
@@ -285,7 +280,6 @@ void ofApp::getMapEvent(struct event &ev)
 //--------------------------------------------------------------
 void ofApp::reduceHealth(string &ev)
 {
-    cout << ev << endl;
     for (int i = 0; i < 3; i++) {
         if (ev == ofToString(i)+" Reducer Finished" ) {
             playerManager.reducePlayerHealth(i, 5);
@@ -337,19 +331,20 @@ void ofApp::drawGeneratorMode()
 //--------------------------------------------------------------
 void ofApp::drawOperationMode()
 {
-    mapGenerator.drawFinderMap(901, 0);
+    ofSetColor(255,255);
     styledMap.draw(0, 0);
 
     // Player Status Feedback
-    ofDrawBitmapStringHighlight("Player Status", 510,13);
+    ofDrawBitmapStringHighlight("Player Status", 230,510);
     for (int i = 0; i < 3; i++) {
-        ofDrawBitmapString(event[i], 510,40+(i*60));
+        ofDrawBitmapString(event[i], 230,530+(i*60));
     }
-    ofDrawBitmapStringHighlight(countDown.getTimeLeftStr(), 508,480);
+    
+//    ofDrawBitmapStringHighlight(countDown.getTimeLeftStr(), 508,480);
     mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
     
     playerManager.drawPlayerManager();
-    playerManager.drawPlayerHealth(680,20,0.5);
+    playerManager.drawPlayerHealth(15,520,0.5);
     
     if (_showPreviewWindow) {
         ofPushMatrix();
@@ -358,6 +353,7 @@ void ofApp::drawOperationMode()
         ofPopStyle();
         ofPopMatrix();
     }
+ 
     // Draw Style Selector
     view->draw();
     styledMap.drawGradients(view->getX(), view->getY()-50);
@@ -366,6 +362,7 @@ void ofApp::drawOperationMode()
     resetLevel->draw();
     difficultyBar->draw();
     levelSelect->draw();
+    saveMapRecord->draw();
 }
 #pragma mark - GUI Setup
 //--------------------------------------------------------------
@@ -379,19 +376,11 @@ void ofApp::setupGUI()
     drawCalibrationGui = false;
     
     int spacing = 5;
-    gui = new ofxDatGui(0,550);
     
     
     
     
     mapGenerator.loadMaps("config.json");
-
-    
-    gui->addButton("Flush Map");
-    gui->addBreak();
-    
-    gui->addToggle("Show Preview Window");
-    gui->addBreak();
     
     mapGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
     mapGui->setWidth(350);
@@ -438,6 +427,7 @@ void ofApp::setupGUI()
     player->addColorPicker("Player Color");
     player->addSlider("Player Pulse Rate", 0,250, 10);
     player->addButton("Spawn New Start Posistion");
+    
     ofxDatGuiFolder * target = operationElements->addFolder("Target");
     target->addSlider("Target Size", 0,25, 10);
     target->addColorPicker("Target Color");
@@ -453,11 +443,6 @@ void ofApp::setupGUI()
     calibrationGui->addSlider("Spacing Y", 0,200, 50); // This is CM
     calibrationGui->addButton("Calibrate");
     
-    
-    // Set Element Colors
-    gui->getButton("Start Level")->setStripeColor(ofColor::mediumSpringGreen);
-    gui->getButton("Stop Level")->setStripeColor(ofColor::red);
-    
     mapGui->getButton("Flush Map")->setStripeColor(ofColor::red);
     mapGui->getButton("Clear Map")->setStripeColor(ofColor::mediumPurple);
     mapGui->getButton("Generate Map")->setStripeColor(ofColor::red);
@@ -470,13 +455,12 @@ void ofApp::setupGUI()
 
     view = new ofxDatGuiScrollView("Styles", 8);
     view->setWidth(250);
-    view->setPosition((gui->getPosition().x+gui->getWidth()), gui->getPosition().y+50);
+    view->setPosition(505,50);
     view->onScrollViewEvent(this, &ofApp::onScrollViewEvent);
     for(int i = 0; i < styledMap.getGradientsNames().size(); i++) {
         view->add(styledMap.getGradientsNames()[i]);
     }
     
-    setGuiListeners(gui);
     setGuiListeners(mapGui);
     setGuiListeners(operationElements);
     setGuiListeners(calibrationGui);
@@ -484,13 +468,12 @@ void ofApp::setupGUI()
     mapGui->setVisible(false);
     operationElements->setVisible(false);
     calibrationGui->setVisible(false);
-    
-    gui->getDropdown("Select Difficulty")->select(0);
-    gui->getDropdown("Select Difficulty")->collapse();
+
 }
 //--------------------------------------------------------------
 void ofApp::setupOperationsButton()
 {
+    int height = ofGetHeight();
 
     vector<string> AppMode = {"CALIBRATION MODE",
         "EDITOR MODE",
@@ -499,14 +482,33 @@ void ofApp::setupOperationsButton()
         "OPERATION MODE"
     };
     
-    title = new ofxDatGuiLabel("Hapilee");
+    title = new ofxDatGuiLabel("Happilee");
+    title->setStripe(ofColor::mediumSlateBlue, 5);
+    title->setWidth(200);
+
+    
     appMode = new ofxDatGuiDropdown("App Mode",AppMode);
+    appMode->setWidth(200);
     appMode->expand();
+    appMode->setPosition(0, height-appMode->getHeight());
+    appMode->onDropdownEvent(this, &ofApp::onDropdownEvent);
     
     startLevel = new ofxDatGuiButton("Start Level");
+    startLevel->setWidth(150);
+    startLevel->setPosition(appMode->getWidth(), height-startLevel->getHeight());
+    startLevel->setStripe(ofColor::mediumSpringGreen, 5);
+    startLevel->onButtonEvent(this, &ofApp::onButtonEvent);
+    
     stopLevel = new ofxDatGuiButton("Stop Level");
-    resetLevel = new ofxDatGuiButton("Reset Level");
+    stopLevel->setWidth(150);
+    stopLevel->setPosition(startLevel->getX()+startLevel->getWidth(), height-stopLevel->getHeight());
+    stopLevel->setStripe(ofColor::red, 5);
+    stopLevel->onButtonEvent(this, &ofApp::onButtonEvent);
+
     fpsIndicator = new ofxDatGuiFRM();
+    fpsIndicator->setWidth(100, 50);
+    fpsIndicator->setStripeVisible(false);
+    fpsIndicator->setPosition(ofGetWidth()-fpsIndicator->getWidth(), height-fpsIndicator->getHeight());
     
     
     vector<string> difficulty;
@@ -520,6 +522,7 @@ void ofApp::setupOperationsButton()
     difficultyBar->setPosition(500+300, 0);
     difficultyBar->setWidth(250);
     
+    difficultyBar->onDropdownEvent(this, &ofApp::onDropdownEvent);
     
     vector<string> levels = {"1",
         "2",
@@ -535,36 +538,26 @@ void ofApp::setupOperationsButton()
 
     levelSelect = new ofxDatGuiMatrix("Levels",levels.size(),true);
     levelSelect->setRadioMode(true);
+    levelSelect->setWidth(450, 100);
     levelSelect->setPosition(500+300+difficultyBar->getWidth(), 0);
     levelSelect->onMatrixEvent(this, &ofApp::onMatrixEvent);
     
-    appMode->setWidth(200);
-    startLevel->setWidth(200);
-    stopLevel->setWidth(200);
-    resetLevel->setWidth(200);
-    title->setStripe(ofColor::mediumSlateBlue, 5);
-    title->setWidth(200);
-    fpsIndicator->setWidth(200, 100);
-    fpsIndicator->setStripeVisible(false);
-    
-    
-    int height = ofGetHeight();
+    resetLevel = new ofxDatGuiButton("Reset Level");
+    resetLevel->setWidth(100);
+    resetLevel->setPosition(stopLevel->getX()+stopLevel->getWidth(), height-resetLevel->getHeight());
+    resetLevel->onButtonEvent(this, &ofApp::onButtonEvent);
     
     title->setPosition(ofGetWidth()-(fpsIndicator->getWidth()+title->getWidth()), height-fpsIndicator->getHeight());
-    appMode->setPosition(0, height-appMode->getHeight());
-    startLevel->setPosition(appMode->getWidth(), height-startLevel->getHeight());
-    stopLevel->setPosition(startLevel->getX()+startLevel->getWidth(), height-stopLevel->getHeight());
-    resetLevel->setPosition(stopLevel->getX()+stopLevel->getWidth(), height-resetLevel->getHeight());
-    fpsIndicator->setPosition(ofGetWidth()-fpsIndicator->getWidth(), height-fpsIndicator->getHeight());
     
-    startLevel->setStripe(ofColor::mediumSpringGreen, 5);
-    stopLevel->setStripe(ofColor::red, 5);
+    showSecondWindow = new ofxDatGuiToggle("Show Preview Window", false);
+    showSecondWindow->setWidth(200);
+    showSecondWindow->setPosition(resetLevel->getX()+resetLevel->getWidth(), height-showSecondWindow->getHeight());
+    showSecondWindow->onButtonEvent(this, &ofApp::onButtonEvent);
     
-    startLevel->onButtonEvent(this, &ofApp::onButtonEvent);
-    stopLevel->onButtonEvent(this, &ofApp::onButtonEvent);
-    resetLevel->onButtonEvent(this, &ofApp::onButtonEvent);
-    appMode->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    difficultyBar->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    saveMapRecord = new ofxDatGuiButton("Save Map");
+    saveMapRecord->setWidth(150);
+    saveMapRecord->setPosition(showSecondWindow->getX()+showSecondWindow->getWidth(), height-saveMapRecord->getHeight());
+    saveMapRecord->onButtonEvent(this, &ofApp::onButtonEvent);
 }
 //--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)
@@ -605,7 +598,6 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     else if (e.target->is("Yellow Threshold")) _iRY[1] = e.target->getValue();
     else if (e.target->is("Green Threshold")) _iRG[1] = e.target->getValue();
     else if (e.target->is("Blur Amount")) _blur = e.target->getValue();
-    
 }
 //--------------------------------------------------------------
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
@@ -667,6 +659,26 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         m.deadAreaToxicity = 1; //todo
         m.timeNeededToSolveMap = 5000; //todp
         mapGenerator.saveMap(m);
+    }
+    else if(e.target->is("Save Map")) {
+        Map m;
+        m.width = _width;
+        m.height = _height;
+        m.difficulty = saveDifficultly;
+        m.level = 1; //todo
+        m.offsetEdge = _offsetEdge;
+        m.tileSize = _fillPercent;
+        m.numberOfClouds = _numberOfIslands;
+        m.smoothingValue = _smooth;
+        m.growthLoops = _growthNo;
+        m.seedValue = _rs;
+        m.dangerAreaSize = _dangerAreaSize;
+        m.dangerAreaToxicity = 1; //todo
+        m.deadAreaToxicity = 1; //todo
+        m.timeNeededToSolveMap = 5000; //todp
+        string vas = "maps/thumbnails/"+ofGetTimestampString()+".png";
+        ofSaveImage(styledMap.getStyledMap(), vas);
+        mapGenerator.saveMap(vas,styledMap.getCurrentStyle(),m);
     }
 }
 //--------------------------------------------------------------

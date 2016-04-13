@@ -111,6 +111,8 @@ class ofApp : public ofBaseApp{
     
         void getMapEvent(struct event &ev);
         void reduceHealth(string &ev);
+
+        void debugLog(string &ev);
     
         //--------------------------------------------------------------
         // *
@@ -144,8 +146,9 @@ class ofApp : public ofBaseApp{
         ofxDatGuiLabel * title;
         ofxDatGuiDropdown * difficultyBar;
         ofxDatGuiMatrix * levelSelect;
-//        ofxDatGuiButton *resetLevel;
-
+        ofxDatGuiToggle * showSecondWindow;
+        ofxDatGuiButton * saveMapRecord;
+    
         void setGuiListeners(ofxDatGui* guiRef);
         void onButtonEvent(ofxDatGuiButtonEvent e);
         void onSliderEvent(ofxDatGuiSliderEvent e);

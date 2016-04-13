@@ -33,6 +33,8 @@ class StyledMap {
         //! Get the Map Image
         void getMapImage(cv::Mat _map);
     
+        string getCurrentStyle();
+    
         //! Set the Gradient Type
         void setGradient(string gradient);
 
@@ -49,5 +51,6 @@ class StyledMap {
         ofImage gradientImage;
         ofImage colorGradientImage;
         ofxColorMap colorMap;
+        string currentStyle;
 };
 #endif /* StyledMap_h */
