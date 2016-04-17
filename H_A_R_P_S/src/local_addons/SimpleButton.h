@@ -193,6 +193,14 @@ public:
                     ofSetColor(ofColor::green);
                 }
             }
+            else if (_config == 15) {
+                if(config_16[e] == 2) {
+                    ofSetColor(ofColor::yellow);
+                }
+                else if(config_16[e] == 0) {
+                    ofSetColor(ofColor::green);
+                }
+            }
             ofDrawRectangle(rects[e]);
         }
         ofPopStyle();
@@ -260,6 +268,9 @@ public:
         }
         else if (_config == 14) {
             return config_15;
+        }
+        else if (_config == 15) {
+            return config_16;
         }
     }
     
@@ -331,5 +342,9 @@ private:
     int config_15[9] = {1,0,0,
                         0,1,0,
                         0,0,1}; // Config Right Line
+
+    int config_16[9] = {2,2,2,
+        2,2,2,
+        2,2,2}; // Config Right Line
 };
 #endif /* SimpleButton_h */

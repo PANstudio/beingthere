@@ -161,7 +161,7 @@ void MapGenerator::generateNewMap(int width, int height, int offsetEdge, int til
     }
     
     generateImages(width, height, tileSize);
-    
+    generatePolylines();
 }
 //--------------------------------------------------------------
 // *    Generate Custom Map
@@ -181,6 +181,7 @@ void MapGenerator::generateCustomMap(int smoothingValue, int growthLoops, int da
     }
     
     generateImages(_width, _height, _tileSize);
+    generatePolylines();
 }
 //--------------------------------------------------------------
 // *    Generate Random Map
@@ -222,7 +223,63 @@ void MapGenerator::generateMap(int offsetEdge, int tileSize, int numberOfClouds,
     }
     
     generateImages(_width, _height, tileSize);
-    generatePolylines(9, 200, 20, 90);
+    generatePolylines();
+}
+//--------------------------------------------------------------
+// *    Generate Images for Line Generator
+//--------------------------------------------------------------
+void MapGenerator::updateCV(int red,int green)
+{
+    _distanceImage.copyTo(_redOnly);
+    _distanceImage.copyTo(_greenOnly);
+    cv::threshold(_redOnly, _redOnly, red, 255, cv::THRESH_BINARY);
+    cv::threshold(_greenOnly, _greenOnly, green, 255, cv::THRESH_BINARY_INV);
+
+    // Combine the matrices and invert
+    _yellowOnly = _redOnly + _greenOnly;
+    invert(_yellowOnly);
+}
+//--------------------------------------------------------------
+// *    Generate Images for Line Generator
+//--------------------------------------------------------------
+void MapGenerator::updateEditor()
+{
+    // Generate the Danger Zone
+    generateDangerAreas();
+    
+    // Expand the Zones
+    for (int i = 0; i < 3; i++) {
+        expandDangerAreas(i);
+    }
+    
+    for (int x = 0; x < _width; x ++) {
+        for (int y = 0; y < _height; y ++) {
+            if(!map[x][y].walkable) {
+                finderImg->setColor(x, y,ofColor::black);
+                _distanceImage.at<uchar>(y, x) = 255;
+                microImg->setColor(x, y, ofColor::red);
+            }
+            else {
+                if (map[x][y].toxicity == 0) {
+                    _distanceImage.at<uchar>(y, x) = 0;
+                    finderImg->setColor(x, y,ofColor::white);
+                    microImg->setColor(x, y, ofColor::green);
+                }
+                else {
+                    ofColor c;
+                    int a = 255-ofMap(255/(map[x][y].toxicity+1),255,0,0,255);
+                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
+                    finderImg->setColor(x, y,c);
+                    _distanceImage.at<uchar>(y, x) = a;
+                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255), ofMap(255/(map[x][y].toxicity+1),255,0,0,255), 0);
+                    microImg->setColor(x, y, c);
+                }
+            }
+        }
+    }
+
+    GaussianBlur(_distanceImage, 21);
+    microImg->update();
 }
 //--------------------------------------------------------------
 // *    Generate Images for Line Generator
@@ -503,7 +560,7 @@ void MapGenerator::animate()
 // *    Generator Operations
 // *
 //--------------------------------------------------------------
-void MapGenerator::generatePolylines(int blurMap,int deadlyThreshold,int dangerThreshold,int okThreshold)
+void MapGenerator::generatePolylines()
 {
     
 #ifdef DEBUG_LOG
@@ -524,14 +581,14 @@ void MapGenerator::generatePolylines(int blurMap,int deadlyThreshold,int dangerT
 
     _distanceImage.copyTo(_redOnly);
     _distanceImage.copyTo(_greenOnly);
-    cv::threshold(_redOnly, _redOnly, deadlyThreshold, 255, cv::THRESH_BINARY);
-    cv::threshold(_greenOnly, _greenOnly, okThreshold, 255, cv::THRESH_BINARY_INV);
+    cv::threshold(_redOnly, _redOnly, _redThreshold, 255, cv::THRESH_BINARY);
+    cv::threshold(_greenOnly, _greenOnly, _greenThreshold, 255, cv::THRESH_BINARY_INV);
     
     // Combine the matrices and invert
     _yellowOnly = _redOnly + _greenOnly;
     invert(_yellowOnly);
     
-    // Find Contours
+//     Find Contours
     deadColorFinder.setFindHoles(true);
     deadColorFinder.setThreshold(170);
     deadColorFinder.findContours(_redOnly);
@@ -947,6 +1004,16 @@ void MapGenerator::setSmoothingLoops(int smoothingLoops)
 {
     _smoothingLoops = smoothingLoops;
 }
+//--------------------------------------------------------------
+void MapGenerator::setRedThreshold(int redThresh)
+{
+    _redThreshold = redThresh;
+}
+//--------------------------------------------------------------
+void MapGenerator::setGreenThreshold(int greenThresh)
+{
+    _greenThreshold = greenThresh;
+}
 #pragma mark - Drawing
 //--------------------------------------------------------------
 
@@ -996,6 +1063,7 @@ void MapGenerator::drawFinderMap(int x, int y)
 //--------------------------------------------------------------
 void MapGenerator::drawEditor()
 {
+    updateEditor();
     for (int x = 0; x < _width; x ++) {
         for (int y = 0; y < _height; y ++) {
             if (map[x][y].inside(ofGetMouseX(), ofGetMouseY()) && map[x][y].walkable) {
@@ -1036,36 +1104,48 @@ void MapGenerator::drawComputerVision(int x, int y)
     ofTranslate(x, y);
     
     float scaleValue = 0.5;
+    int pos = 0;
     
     if (!_redOnly.empty()) {
         ofPushMatrix();
         ofScale(scaleValue,scaleValue);
         ofSetColor(ofColor::white);
         drawMat(_redOnly,0,0,500,500);
+        ofPopMatrix();
+        ofPushMatrix();
+        ofScale(2.5,2.5);
         ofSetColor(ofColor::red);
         deadColorFinder.draw();
         ofPopMatrix();
     }
     if (!_yellowOnly.empty()){
         ofPushMatrix();
-        ofTranslate(125,0);
+        ofTranslate(500*scaleValue,0);
         ofScale(scaleValue,scaleValue);
         ofSetColor(ofColor::white);
         drawMat(_yellowOnly,0,0,500,500);
+        ofPopMatrix();
+        ofPushMatrix();
+        ofTranslate(500*scaleValue,0);
+        ofScale(2.5,2.5);
         ofSetColor(ofColor::yellow);
         dangerColorFinder.draw();
         ofPopMatrix();
     }
     if (!_greenOnly.empty()){
         ofPushMatrix();
-        ofTranslate(250,0);
+        ofTranslate(1000*scaleValue,0);
         ofScale(scaleValue,scaleValue);
         ofSetColor(ofColor::white);
         drawMat(_greenOnly,0,0,500,500);
+        ofPopMatrix();
+        ofPushMatrix();
+        ofTranslate(1000*scaleValue,0);
+        ofScale(2.5,2.5);
         ofSetColor(ofColor::green);
         okColorFinder.draw();
         ofPopMatrix();
-    }    
+    }
     ofPopMatrix();
 }
 //--------------------------------------------------------------
@@ -1077,19 +1157,19 @@ void MapGenerator::drawPolylines()
     ofFill();
     
     for (int i = 0; i < okArea.size(); i++) {
-        okArea[i].simplify(0.8);
+//        okArea[i].simplify(0.8);
         ofSetColor(ofColor::green);
         okArea[i].draw();
     }
     
     for (int i = 0; i < dangerArea.size(); i++) {
-        dangerArea[i].simplify(0.8);
+//        dangerArea[i].simplify(0.8);
         ofSetColor(ofColor::yellow);
         dangerArea[i].draw();
     }
     
     for (int i = 0; i < deadlyArea.size(); i++) {
-        deadlyArea[i].simplify(0.8);
+//        deadlyArea[i].simplify(0.8);
         ofSetColor(ofColor::red);
         deadlyArea[i].draw();
     }

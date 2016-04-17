@@ -3,24 +3,25 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    ofSetWindowTitle("H.A.R.P.S");
+    ofSetWindowTitle("Happilee");
     ofSetFullscreen(true);
     ofSetVerticalSync(true);
     
     // This is independant of other setup routines so can be called before the gui
     styledMap.setup();
 
-    setupGUI();
+    setupGuis();
     setupVariables();
-    setupOperationsButton();
         
     scoreBoard.loadScoreboard("scoreboard.json");
     scoreBoard.setup();
     
-
-    
     mapGenerator.setup();
+    mapGenerator.setGreenThreshold(64);
+    mapGenerator.setRedThreshold(128);
+    
     mapGenerator.generateNewMap(100,100,3, 5, 20, 3, 4, 3.13, 5);
+
     styledMap.getMapImage(mapGenerator.getSmoothMap());
     
     playerManager.setup("localhost", 7890);
@@ -32,36 +33,22 @@ void ofApp::setup()
     
     countDown.setup(500, "Count Down", false);
     setupListeners();
-    mapViewer.setup();
     
+    mapViewer.setup();
+    splashScreen.load();
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    startLevel->update();
-    stopLevel->update();
-    resetLevel->update();
-    fpsIndicator->update();
-    appMode->update();
-    difficultyBar->update();
-    levelSelect->update();
-    showSecondWindow->update();
-    saveMapRecord->update();
+    updateGui();
     
-    if (!appMode->getIsExpanded()) {
-        appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
-    }
-    else {
-        appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
-    }
-    
-    view->update();
     styledMap.update();
-    countDown.update();
+    splashScreen.update();
+    mapGenerator.updateCV(lRT, lGT);
     
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
-    displayWindow->getTimeLeft("");
+//    displayWindow->getTimeLeft("");
     
     if (countDown.getTimeLeft() <= 10000) {
         displayWindow->setTimerColors(ofColor::red, 25);
@@ -75,11 +62,13 @@ void ofApp::update()
     }
     
     displayWindow->calibrationScreen.setGridSpacing(_spacingX, _spacingY);
+
+    countDown.update();
 }
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    ofBackground(0, 0, 0);
+    ofBackground(0);
     switch (_Appmode) {
         case 0:
             drawCalibrationMode();
@@ -103,38 +92,34 @@ void ofApp::draw()
     appMode->draw();
     title->draw();
     showSecondWindow->draw();
+    
+    if (!splashScreen.isDone()) {
+        splashScreen.draw();
+    }
 }
 //--------------------------------------------------------------
 void ofApp::exit()
 {
     displayWindow->close();
     // Delete GUI Objects
-//    delete gui;
-    delete mapGui;
-    delete calibrationGui;
     delete view;
     mapViewer.close();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-
     switch (key) {
         case OF_KEY_RETURN:
             drawGui = !drawGui;
-            gui->setVisible(drawGui);
             break;
         case 'm':
             drawMapGui = !drawMapGui;
-            mapGui->setVisible(drawMapGui);
             break;
         case 'o':
             drawOperationalElementsGui = !drawOperationalElementsGui;
-            operationElements->setVisible(drawOperationalElementsGui);
             break;
         case 'c':
             drawCalibrationGui = !drawCalibrationGui;
-            calibrationGui->setVisible(drawCalibrationGui);
             break;
         case ' ':
 
@@ -178,6 +163,26 @@ void ofApp::mouseReleased(int x, int y, int button)
 
 }
 //--------------------------------------------------------------
+void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY )
+{
+    switch (_Appmode) {
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            mapViewer.scroll(scrollY);
+            break;
+        default:
+            break;
+    }
+
+}
+//--------------------------------------------------------------
 void ofApp::mouseEntered(int x, int y)
 {
 
@@ -201,37 +206,6 @@ void ofApp::gotMessage(ofMessage msg)
 void ofApp::dragEvent(ofDragInfo dragInfo)
 {
     
-}
-#pragma mark - OF Methods
-//--------------------------------------------------------------
-// *
-// *
-// *
-//--------------------------------------------------------------
-void ofApp::drawWindows()
-{
-    ofPushMatrix();
-    ofTranslate(500, 0);
-    ofPushStyle();
-    ofNoFill();
-    ofSetColor(ofColor::white);
-    if (_Appmode == 1) {
-        ofDrawRectangle(0, 0, 400, 175);
-        ofDrawBitmapStringHighlight("Editors",7,160);
-        ofDrawRectangle(0, 175, 400, 325);
-    }
-    else if (_Appmode == 2) {
-        ofDrawRectangle(0, 0, 400, 145);
-        ofDrawBitmapStringHighlight("Computer Vision",7,130);
-        ofDrawRectangle(0, 145, 400, 355);
-    }
-    else if (_Appmode == 3) {
-        ofDrawRectangle(0, 0, 400, 250);
-        ofDrawRectangle(0, 250, 400, 250);
-        ofDrawBitmapString(feedBackMap, 5, 265);
-    }
-    ofPopStyle();
-    ofPopMatrix();
 }
 #pragma mark - Setup Listeners
 //--------------------------------------------------------------
@@ -310,7 +284,7 @@ void ofApp::drawCalibrationMode()
         ofPopMatrix();
     }
     displayWindow->calibrationScreen.drawSpreadsheet();
-    displayWindow->calibrationScreen.drawCurrentReadings(350, 500);
+    displayWindow->calibrationScreen.drawCurrentReadings(0, 525);
 }
 //--------------------------------------------------------------
 void ofApp::drawEditorMode()
@@ -322,7 +296,9 @@ void ofApp::drawEditorMode()
     ofDrawRectangle(500, 0, 400, 175);
     ofPopStyle();
     mapGenerator.drawEditor();
-    styledMap.draw(500, 250, 250, 250);
+    styledMap.getMapImage(mapGenerator.getSmoothMap());
+    styledMap.draw(ofGetWidth()-500, 0,500, 500);
+    drawEditorGui();
 }
 //--------------------------------------------------------------
 void ofApp::drawGeneratorMode()
@@ -333,7 +309,8 @@ void ofApp::drawGeneratorMode()
     mapGenerator.draw(false);
     mapGenerator.drawComputerVision(500,0);
     mapGenerator.getPlayerCoordinates(playerManager.getPlayersCoords());
-    styledMap.draw(500, 250, 250, 250);
+    styledMap.draw(500, 500, 250, 250);
+    drawGeneratorGui();
 }
 //--------------------------------------------------------------
 void ofApp::drawOperationMode()
@@ -342,9 +319,9 @@ void ofApp::drawOperationMode()
     styledMap.draw(0, 0);
 
     // Player Status Feedback
-    ofDrawBitmapStringHighlight("Player Status", 230,510);
+    ofDrawBitmapStringHighlight("Player Status", 230,520);
     for (int i = 0; i < 3; i++) {
-        ofDrawBitmapString(event[i], 230,530+(i*60));
+        ofDrawBitmapString(event[i], 230,535+(i*60));
     }
     
 //    ofDrawBitmapStringHighlight(countDown.getTimeLeftStr(), 508,480);
@@ -356,7 +333,7 @@ void ofApp::drawOperationMode()
     if (_showPreviewWindow) {
         ofPushMatrix();
         ofPushStyle();
-        displayWindow->drawPreview(500, 500);
+        displayWindow->drawPreview(510, view->getY()+view->getHeight());
         ofPopStyle();
         ofPopMatrix();
     }
@@ -377,7 +354,7 @@ void ofApp::drawOperationMode()
 // * GUI
 // *
 //--------------------------------------------------------------
-void ofApp::setupGUI()
+void ofApp::setupGuis()
 {
     drawOperationalElementsGui = false;
     drawCalibrationGui = false;
@@ -388,77 +365,31 @@ void ofApp::setupGUI()
     
     
     mapGenerator.loadMaps("config.json");
-    
-    mapGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-    mapGui->setWidth(350);
-    mapGui->addHeader("Map Generation");
-    mapGui->addSlider("Map Width", 0, 100, 0);
-    mapGui->addSlider("Map Height", 0, 100, 0);
-    mapGui->addSlider("Tile Size", 0.00, 100.00, 0);
-    mapGui->addSlider("Offset Edge", 0, 100, 0);
-    mapGui->addSlider("Random Seed", 0.00, 2000.00, 0);
-    mapGui->addSlider("Obsticles", 0.00, 100.00, 0);
-    mapGui->addSlider("Danger Area Size", 0, 25, 0);
-    mapGui->addSlider("Smoothing Loops", 0, 25, 0);
-    mapGui->addSlider("Growth Loops", 0, 25, 0);
-    mapGui->addBreak();
+    setupOperationsGui();
+    setupGeneratorGui();
+//    ofxDatGuiFolder * player = operationElements->addFolder("Player");
+//    player->addSlider("Player Size", 0,25, 10);
+//    player->addColorPicker("Player Color");
+//    player->addSlider("Player Pulse Rate", 0,250, 10);
+//    player->addButton("Spawn New Start Posistion");
+//    
+//    ofxDatGuiFolder * target = operationElements->addFolder("Target");
+//    target->addSlider("Target Size", 0,25, 10);
+//    target->addColorPicker("Target Color");
+//    target->addSlider("Target Pulse Rate", 0,250, 10);
+//    target->addButton("Spawn New End Posistion");
+//    
+//    
+//    calibrationGui = new ofxDatGui(501,250);
+//    calibrationGui->addHeader("Calibration Settings");
+//    calibrationGui->addToggle("From Centre / Top Left", false);
+//    calibrationGui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
+//    calibrationGui->addSlider("Spacing X", 0,200, 50); // This is CM
+//    calibrationGui->addSlider("Spacing Y", 0,200, 50); // This is CM
+//    calibrationGui->addButton("Calibrate");
 
-    ofxDatGuiFolder* vision = mapGui->addFolder("Vision",ofColor::beige);
-    vision->addSlider("Green Threshold", 0,255,200);
-    vision->addSlider("Yellow Threshold", 0,255,200);
-    vision->addSlider("Red Threshold", 0,255,200);
-    vision->addSlider("Blur Amount", 0, 21,9);
-    vision->addSlider("Simplify Contour", 0.0, 5.0,0.5);
-    mapGui->addBreak();
-    
-    mapGui->addButton("Clear Map");
-    mapGui->addBreak();
-    mapGui->addButton("Generate Map");
-    mapGui->addBreak();
-    mapGui->addButton("Generate Custom Map");
-    mapGui->addBreak();
-    mapGui->addButton("Animate Map");
-    mapGui->addBreak();
-    mapGui->addButton("Generate New Map");
-    mapGui->addBreak();
-    mapGui->addHeader("Save Settings");
-    mapGui->addButton("Save");
-    
-    operationElements = new ofxDatGui(901,300);
-    operationElements->setWidth(250);
-    operationElements->addHeader("Operational");
-    operationElements->addDropdown("Map Style", styledMap.getGradientsNames());
-    
-    ofxDatGuiFolder * player = operationElements->addFolder("Player");
-    player->addSlider("Player Size", 0,25, 10);
-    player->addColorPicker("Player Color");
-    player->addSlider("Player Pulse Rate", 0,250, 10);
-    player->addButton("Spawn New Start Posistion");
-    
-    ofxDatGuiFolder * target = operationElements->addFolder("Target");
-    target->addSlider("Target Size", 0,25, 10);
-    target->addColorPicker("Target Color");
-    target->addSlider("Target Pulse Rate", 0,250, 10);
-    target->addButton("Spawn New End Posistion");
-    
-    
-    calibrationGui = new ofxDatGui(501,250);
-    calibrationGui->addHeader("Calibration Settings");
-    calibrationGui->addToggle("From Centre / Top Left", false);
-    calibrationGui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
-    calibrationGui->addSlider("Spacing X", 0,200, 50); // This is CM
-    calibrationGui->addSlider("Spacing Y", 0,200, 50); // This is CM
-    calibrationGui->addButton("Calibrate");
-    
-    mapGui->getButton("Flush Map")->setStripeColor(ofColor::red);
-    mapGui->getButton("Clear Map")->setStripeColor(ofColor::mediumPurple);
-    mapGui->getButton("Generate Map")->setStripeColor(ofColor::red);
-    
-    mapGui->getSlider("Green Threshold")->setStripeColor(ofColor::green);
-    mapGui->getSlider("Yellow Threshold")->setStripeColor(ofColor::yellow);;
-    mapGui->getSlider("Red Threshold")->setStripeColor(ofColor::red);
-    calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
-    
+//    calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
+//    
 
     view = new ofxDatGuiScrollView("Styles", 8);
     view->setWidth(250);
@@ -467,18 +398,143 @@ void ofApp::setupGUI()
     for(int i = 0; i < styledMap.getGradientsNames().size(); i++) {
         view->add(styledMap.getGradientsNames()[i]);
     }
+}
+//--------------------------------------------------------------
+void ofApp::drawGeneratorGui()
+{
+    for (int i = 0; i < genComponents.size(); i++) {
+        genComponents[i]->draw();
+    }
+}
+//--------------------------------------------------------------
+void ofApp::drawEditorGui()
+{
+    genComponents[9]->draw();
+    genComponents[11]->draw();
+}
+//--------------------------------------------------------------
+void ofApp::setupGeneratorGui()
+{
+    mapWidth = new ofxDatGuiSlider("Map Width", 0, 100, 100);
+    mapWidth->setWidth(250,100);
+    mapWidth->setPrecision(0);
+    mapWidth->setPosition(0,501);
+    mapWidth->onSliderEvent(this,&ofApp::onSliderEvent);
     
-    setGuiListeners(mapGui);
-    setGuiListeners(operationElements);
-    setGuiListeners(calibrationGui);
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(0, mapWidth));
+    
+    mapHeight = new ofxDatGuiSlider("Map Height", 0, 100, 100);
+    mapHeight->setWidth(250,100);
+    mapHeight->setPrecision(0);
+    mapHeight->setPosition(mapWidth->getWidth(),501);
+    mapHeight->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(1, mapHeight));
+    
+    tileSize = new ofxDatGuiSlider("Tile Size", 0, 10, 5);
+    tileSize->setWidth(250,100);
+    tileSize->setPrecision(0);
+    tileSize->setPosition(0,mapWidth->getY()+mapWidth->getHeight());
+    tileSize->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(2, tileSize));
+    
+    offsetEdge = new ofxDatGuiSlider("Offset Edge", 0, 50, 5);
+    offsetEdge->setWidth(250,100);
+    offsetEdge->setPrecision(0);
+    offsetEdge->setPosition(mapWidth->getWidth(),mapWidth->getY()+mapWidth->getHeight());
+    offsetEdge->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(3, offsetEdge));
+    
+    randomSeed = new ofxDatGuiSlider("Random Seed", 0, 5000, 0);
+    randomSeed->setWidth(500,100);
+    randomSeed->setPosition(0,tileSize->getY()+tileSize->getHeight());
+    randomSeed->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(4, randomSeed));
+    
+    obsticles = new ofxDatGuiSlider("Obsticles", 0, 100, 0);
+    obsticles->setWidth(500,100);
+    obsticles->setPrecision(0);
+    obsticles->setPosition(0,randomSeed->getY()+randomSeed->getHeight());
+    obsticles->onSliderEvent(this,&ofApp::onSliderEvent);
 
-    mapGui->setVisible(false);
-    operationElements->setVisible(false);
-    calibrationGui->setVisible(false);
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(5, obsticles));
+    
+    dangerAreaSize = new ofxDatGuiSlider("Danger Area Size", 0, 25, 0);
+    dangerAreaSize->setWidth(500,150);
+    dangerAreaSize->setPrecision(0);
+    dangerAreaSize->setPosition(0,obsticles->getY()+obsticles->getHeight());
+    dangerAreaSize->onSliderEvent(this,&ofApp::onSliderEvent);
+
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(6, dangerAreaSize));
+    
+    smoothingLoops = new ofxDatGuiSlider("Smoothing Loops", 0, 25, 0);
+    smoothingLoops->setWidth(500,150);
+    smoothingLoops->setPrecision(0);
+    smoothingLoops->setPosition(0,dangerAreaSize->getY()+dangerAreaSize->getHeight());
+    smoothingLoops->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(7, smoothingLoops));
+    
+    growthLoops = new ofxDatGuiSlider("Growth Loops", 0, 25, 0);
+    growthLoops->setWidth(500,150);
+    growthLoops->setPrecision(0);
+    growthLoops->setPosition(0,smoothingLoops->getY()+smoothingLoops->getHeight());
+    growthLoops->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(8, growthLoops));
+    
+    clearMap = new ofxDatGuiButton("Clear Map");
+    clearMap->setWidth(500);
+    clearMap->setPosition(0,growthLoops->getY()+growthLoops->getHeight());
+    clearMap->onButtonEvent(this,&ofApp::onButtonEvent);
+
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(9, clearMap));
+//    genStrComponents.insert(std::pair<string, ofxDatGuiComponent*>("Clear Map", clearMap));
+    
+    generateMap = new ofxDatGuiButton("Generate Map");
+    generateMap->setWidth(500);
+    generateMap->setPosition(0,clearMap->getY()+clearMap->getHeight());
+    generateMap->onButtonEvent(this,&ofApp::onButtonEvent);
+
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(10, generateMap));
+    
+    generateCustomMap = new ofxDatGuiButton("Generate Custom Map");
+    generateCustomMap->setWidth(500);
+    generateCustomMap->setPosition(0,generateMap->getY()+generateMap->getHeight());
+    generateCustomMap->onButtonEvent(this,&ofApp::onButtonEvent);
+
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(11, generateCustomMap));
+    
+    highRedThreshold = new ofxDatGuiSlider("Red High Thresh", 0, 255, 0);
+    highRedThreshold->setWidth(250,150);
+    highRedThreshold->setPrecision(0);
+    highRedThreshold->setPosition(501,251);
+    highRedThreshold->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(12, highRedThreshold));
+    
+    highYellowThreshold = new ofxDatGuiSlider("Yellow High Thresh", 0, 255, 0);
+    highYellowThreshold->setWidth(250,150);
+    highYellowThreshold->setPrecision(0);
+    highYellowThreshold->setPosition(501+highRedThreshold->getWidth(),251);
+    highYellowThreshold->onSliderEvent(this,&ofApp::onSliderEvent);
+
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(13, highYellowThreshold));
+    
+    highGreenThreshold = new ofxDatGuiSlider("Green High Thresh", 0, 255, 0);
+    highGreenThreshold->setWidth(250,150);
+    highGreenThreshold->setPrecision(0);
+    highGreenThreshold->setPosition(501+(250*2),251);
+    highGreenThreshold->onSliderEvent(this,&ofApp::onSliderEvent);
+    
+    genComponents.insert(std::pair<int, ofxDatGuiComponent*>(14, highGreenThreshold));
 
 }
 //--------------------------------------------------------------
-void ofApp::setupOperationsButton()
+void ofApp::setupOperationsGui()
 {
     int height = ofGetHeight();
 
@@ -487,13 +543,11 @@ void ofApp::setupOperationsButton()
         "GENERATION MODE",
         "MAP VIEWER",
         "OPERATION MODE"
-        
     };
     
     title = new ofxDatGuiLabel("Happilee");
     title->setStripe(ofColor::mediumSlateBlue, 5);
     title->setWidth(200);
-
     
     appMode = new ofxDatGuiDropdown("App Mode",AppMode);
     appMode->setWidth(200);
@@ -514,7 +568,8 @@ void ofApp::setupOperationsButton()
     stopLevel->onButtonEvent(this, &ofApp::onButtonEvent);
 
     fpsIndicator = new ofxDatGuiFRM();
-    fpsIndicator->setWidth(100, 50);
+    fpsIndicator->setWidth(100, 10);
+    fpsIndicator->setLabel("");
     fpsIndicator->setStripeVisible(false);
     fpsIndicator->setPosition(ofGetWidth()-fpsIndicator->getWidth(), height-fpsIndicator->getHeight());
     
@@ -568,6 +623,73 @@ void ofApp::setupOperationsButton()
     saveMapRecord->onButtonEvent(this, &ofApp::onButtonEvent);
 }
 //--------------------------------------------------------------
+void ofApp::updateGui()
+{
+    startLevel->update();
+    stopLevel->update();
+    resetLevel->update();
+    fpsIndicator->update();
+    appMode->update();
+    difficultyBar->update();
+    levelSelect->update();
+    showSecondWindow->update();
+    saveMapRecord->update();
+    
+
+
+    ofBackground(0, 0, 0);
+    switch (_Appmode) {
+        case 0:
+//            drawCalibrationMode();
+            break;
+        case 1:
+            genComponents[9]->update();
+            genComponents[11]->update();
+            //drawEditorMode();
+            break;
+        case 2:
+            for (int i = 0; i < genComponents.size(); i++) {
+                genComponents[i]->update();
+            }
+            break;
+        case 3:
+            view->update();
+            break;
+        default:
+            break;
+    }
+    
+    
+//    mapWidth->update();
+//    mapHeight->update();
+//    tileSize->update();
+//    offsetEdge->update();
+//    randomSeed->update();
+//    obsticles->update();
+//    dangerAreaSize->update();
+//    smoothingLoops->update();
+//    growthLoops->update();
+//    clearMap->update();
+//    generateMap->update();
+//    generateCustomMap->update();
+//
+//    lowRedThreshold->update();
+//    highRedThreshold->update();
+//    lowGreenThreshold->update();
+//    highGreenThreshold->update();
+//    lowYellowThreshold->update();
+//    highYellowThreshold->update();
+    //    blurImage->update();
+    
+    if (!appMode->getIsExpanded()) {
+        appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
+    }
+    else {
+        appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
+    }
+    
+}
+//--------------------------------------------------------------
 void ofApp::setGuiListeners(ofxDatGui *guiRef)
 {
     // Listeners
@@ -606,18 +728,28 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     else if (e.target->is("Yellow Threshold")) _iRY[1] = e.target->getValue();
     else if (e.target->is("Green Threshold")) _iRG[1] = e.target->getValue();
     else if (e.target->is("Blur Amount")) _blur = e.target->getValue();
+    else if (e.target->is("Green High Thresh")) {
+        lGT = e.target->getValue();
+        mapGenerator.setGreenThreshold(e.target->getValue());
+    }
+    else if (e.target->is("Red High Thresh")) {
+        lRT = e.target->getValue();
+        mapGenerator.setRedThreshold(e.target->getValue());
+    }
+//    else if (e.target->is("Yellow High Thresh")) lYT = e.target->getValue();
 }
 //--------------------------------------------------------------
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
     if (e.target->is("Generate Map")) {
         mapGenerator.generateMap(_offsetEdge, _fillPercent,_numberOfIslands,_smooth,_growthNo,_rs,_dangerAreaSize);
+//        mapGenerator.updateCV(lRT, lGT);
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
         displayWindow->setMapImage(styledMap.getStyledMap());
     }
     else if (e.target->is("Flush Map")) {
-        mapGenerator.generatePolylines(_blur,_iRR[1],_iRY[1],_iRG[1]);
+        mapGenerator.generatePolylines();
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
@@ -706,31 +838,29 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
             mode = "Calibration Mode";
-            mapGui->setVisible(false);
             displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 1;
             mode = "Editor Mode";
-            mapGui->setVisible(false);
+            genComponents[9]->setPosition(0, 501);
+            generateCustomMap->setPosition(0,genComponents[9]->getY()+genComponents[9]->getHeight());
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 2;
             mode = "Generation Mode";
-            displayWindow->doCalibration(false);
-            mapGui->setVisible(true);
+            genComponents[9]->setPosition(0,growthLoops->getY()+growthLoops->getHeight());
+            generateCustomMap->setPosition(0,generateMap->getY()+generateMap->getHeight());
         }
         else if (e.target->getLabel() == "OPERATION MODE") {
             mode = "Operation Mode";
             _Appmode = 3;
-            mapGui->setVisible(false);
             displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "MAP VIEWER") {
             mode = "Map Viewer";
             _Appmode = 4;
-            mapGui->setVisible(false);
 //            displayWindow->doCalibration(false);
         }
     }
@@ -739,7 +869,6 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         if (_difficulty == "NOVICE") {
             _difficultyMode = 0;
             levelSelect->setVisible(dLvs[_difficultyMode]);
-
         }
         else if (_difficulty == "ROOKIE") {
             _difficultyMode = 1;
@@ -801,6 +930,7 @@ void ofApp::onScrollViewEvent(ofxDatGuiScrollViewEvent e)
     cout << styledMap.getGradientsNames()[e.index] << endl;
     styledMap.setGradient(styledMap.getGradientsNames()[e.index]);
 }
+
 //--------------------------------------------------------------
 void ofApp::setupVariables()
 {
@@ -823,7 +953,9 @@ void ofApp::setupVariables()
     _showShaded = false;
     _iRR[0] = 25;
     _iRR[1] = 255;
-    
+    lGT = 0;
+    lYT = 0;
+    lRT = 0;
     _iRY[0] = 25;
     _iRY[1] = 255;
     

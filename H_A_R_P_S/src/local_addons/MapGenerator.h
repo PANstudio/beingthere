@@ -49,6 +49,11 @@ public:
     
     //! Elegantly Clean Memory
     void close();
+    
+    //! update
+    void updateCV(int red,int green);
+    
+    void updateEditor();
     //--------------------------------------------------------------
     // *
     // *    Generator Setup Functions
@@ -98,7 +103,7 @@ public:
     // *
     //--------------------------------------------------------------
     //! Generates the Lines and Areas
-    void generatePolylines(int blurMap,int deadlyThreshold, int dangerThreshold,int okThreshold);
+    void generatePolylines();
     
     //! Smooths the Map
     void smoothMap();
@@ -180,6 +185,12 @@ public:
     //! Set number of smoothing loops
     void setSmoothingLoops(int smoothingLoops);
     
+    //! Set Red Threshold
+    void setRedThreshold(int redThresh);
+
+    //! Set Green Threshold
+    void setGreenThreshold(int greenThresh);
+
     //--------------------------------------------------------------
     // *
     // *    Draw Functions
@@ -255,6 +266,8 @@ private:
     int _offsetEdge;
     int _dangerAreaSize;
     int _mapMultiplier;
+    int _redThreshold;
+    int _greenThreshold;
     
     ofxCv::ContourFinder deadColorFinder;
     ofxCv::ContourFinder dangerColorFinder;

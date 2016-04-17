@@ -24,6 +24,7 @@ void DisplayWindow::setup()
     setupFlag = false;
     mapImage.clear();
     mapImage.allocate(100, 100, OF_IMAGE_COLOR);
+    setupSegmentDisplay();
 }
 //--------------------------------------------------------------
 void DisplayWindow::update()
@@ -90,8 +91,13 @@ void DisplayWindow::setHealthBars(vector<HealthBar> healthLevels)
 void DisplayWindow::draw()
 {
     ofPushStyle();
+    
     ofSetColor(0, 0, 0);
     ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+    
+    ofSetColor(255, 255, 255);
+    mapImage.draw(0, 0);
+    
     if (calibration) {
         calibrationScreen.draw();
     }
@@ -117,8 +123,6 @@ void DisplayWindow::draw()
             }
             ofPopMatrix();
         }
-        ofSetColor(255, 255, 255);
-        mapImage.draw(0, 0);
     }
     ofPopStyle();
 }
@@ -138,6 +142,12 @@ void DisplayWindow::close()
 void DisplayWindow::drawCalibration()
 {
 
+}
+//--------------------------------------------------------------
+void DisplayWindow::modeSelector(int &mode)
+{
+    cout << "Mode Selector" << endl;
+    cout << mode << endl;
 }
 //--------------------------------------------------------------
 void DisplayWindow::drawPreview(int x, int y)

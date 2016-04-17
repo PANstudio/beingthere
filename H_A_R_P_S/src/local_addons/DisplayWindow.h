@@ -40,8 +40,11 @@ public:
     
     void setCalibration(int gridX,int gridY,int spacingX,int spacingY);
     
+    void modeSelector(int &mode);
+    
     void close();
     CalibrationScreen calibrationScreen;
+    ofEvent<int> currentMode;
     
 private:
     ofTrueTypeFont font;

@@ -4,21 +4,27 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "0AF53AFCDB9C3AA651696D0850C95DDEB9DC9DA3" : 0,
     "7792F5AE7090BC2984A3600595150D6E08106727" : 0,
-    "124CCB9B44A9FE82887AA6F64CCD17FE54B342A7" : 0,
-    "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : 0,
+    "2541E93095FA21F9BE201FC6B163A35AE7DF6104" : 0,
     "1A53E27D85D76A0A4431130E1DC76F54EED9EC13" : 0,
-    "5DB7C332A3A89035E93556A2A38BF414005BA671" : 0
+    "0AF53AFCDB9C3AA651696D0850C95DDEB9DC9DA3" : 0,
+    "124CCB9B44A9FE82887AA6F64CCD17FE54B342A7" : 0,
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : 0,
+    "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE" : 0,
+    "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : 0,
+    "2584CBCDB6905860AE3F296114B31C017465CDE7" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "711036BD-4C96-41A8-9444-F070797FE4DA",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "0AF53AFCDB9C3AA651696D0850C95DDEB9DC9DA3" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxSegmentDisplay",
     "7792F5AE7090BC2984A3600595150D6E08106727" : "HARPS\/",
-    "124CCB9B44A9FE82887AA6F64CCD17FE54B342A7" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxCsv",
-    "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxDatGui",
+    "2541E93095FA21F9BE201FC6B163A35AE7DF6104" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxModal",
     "1A53E27D85D76A0A4431130E1DC76F54EED9EC13" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxSpreadsheet",
-    "5DB7C332A3A89035E93556A2A38BF414005BA671" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxJSON"
+    "0AF53AFCDB9C3AA651696D0850C95DDEB9DC9DA3" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxSegmentDisplay",
+    "124CCB9B44A9FE82887AA6F64CCD17FE54B342A7" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxCsv",
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxJSON",
+    "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxParagraph",
+    "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxDatGui",
+    "2584CBCDB6905860AE3F296114B31C017465CDE7" : "..\/..\/of_v0.9.0_osx_release\/addons\/ofxSmartFont"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "H_A_R_P_S",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -40,6 +46,16 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1A53E27D85D76A0A4431130E1DC76F54EED9EC13"
     },
     {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxModal.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2541E93095FA21F9BE201FC6B163A35AE7DF6104"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxSmartFont.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2584CBCDB6905860AE3F296114B31C017465CDE7"
+    },
+    {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jefftimesten\/ofxJSON.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5DB7C332A3A89035E93556A2A38BF414005BA671"
@@ -53,6 +69,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxDatGui.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9233F0F4A2BE011BD468E5177A5AD6623263B23D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxParagraph.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE"
     }
   ]
 }

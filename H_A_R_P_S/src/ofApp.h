@@ -10,7 +10,19 @@
 #include "StyledMap.h"
 #include "BaseButton.h"
 #include "MapViewer.h"
+#include "SplashScreen.h"
 //#include "SimpleButton.h"
+struct guiStruct {
+    guiStruct() {}
+    guiStruct(int _id,string _name){
+        id = _id;
+        name = _name;
+    }
+    int id;
+    string name;
+};
+
+bool operator<(const guiStruct &a,const guiStruct &b){return a.name < b.name;}
 
 class ofApp : public ofBaseApp{
 
@@ -28,7 +40,8 @@ class ofApp : public ofBaseApp{
 		void mouseDragged(int x, int y, int button);
 		void mousePressed(int x, int y, int button);
 		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
+        void mouseScrolled(int x, int y, float scrollX, float scrollY);
+        void mouseEntered(int x, int y);
 		void mouseExited(int x, int y);
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
@@ -39,6 +52,7 @@ class ofApp : public ofBaseApp{
         void drawGeneratorMode();
         void drawOperationMode();
 
+    
         //--------------------------------------------------------------
         // *
         // * Second Window
@@ -52,6 +66,7 @@ class ofApp : public ofBaseApp{
         // *
         //--------------------------------------------------------------
         MapGenerator mapGenerator;
+    
         vector<int> dLvs;
         int _level;
         string _difficulty;
@@ -80,6 +95,10 @@ class ofApp : public ofBaseApp{
         int _iRY[2];
         int _iRG[2];
         int _blur;
+    
+        int lRT;
+        int lGT;
+        int lYT;
         string feedBackMap;
         string saveDifficultly;
         string mode;
@@ -92,17 +111,14 @@ class ofApp : public ofBaseApp{
         string event[10];
         int _Appmode;
         void setupVariables();
-    
-        MapViewer mapViewer;
-    ofxThreadedImageLoader mapLoader;
-    vector<ofImage> maps;
-    int noMaps;
-    
-    
+
         PlayerManager playerManager;
-        MyTimer countDown;
+        SplashScreen splashScreen;
         Scoreboard scoreBoard;
+        MapViewer mapViewer;
         StyledMap styledMap;
+        MyTimer countDown;
+
         ofTrueTypeFont heading;
         bool _showShaded;
         bool _showPreviewWindow;
@@ -116,10 +132,8 @@ class ofApp : public ofBaseApp{
         void removeListeners();
         void countDownStarted(string &str);
         void countDownFinished(string &str);
-    
         void getMapEvent(struct event &ev);
         void reduceHealth(string &ev);
-
         void debugLog(string &ev);
     
         //--------------------------------------------------------------
@@ -127,24 +141,25 @@ class ofApp : public ofBaseApp{
         // * GUI
         // *
         //--------------------------------------------------------------
-        void setupGUI();
-        void setupOperationsButton();
+        void setupGuis();
+        void setupOperationsGui();
+        void setupGeneratorGui();
+    
+        void drawGeneratorGui();
+        void drawEditorGui();
+    
+        void updateGui();
         bool drawOperationsButtons;
         bool drawGui;
         bool drawMapGui;
         bool drawOperationalElementsGui;
         bool drawCalibrationGui;
     
-    
-        // GUI Objects
-        ofxDatGui * gui;
-        ofxDatGui * mapGui;
-        ofxDatGui * styleGui;
-        ofxDatGui * calibrationGui;
-        ofxDatGui * operationElements;
-    
-        ofxDatGuiButton * addItem;
-    
+        //---------------------------------
+        // *
+        // *    Operations Gui
+        // *
+        //---------------------------------
         ofxDatGuiScrollView * view;
         ofxDatGuiDropdown * appMode;
         ofxDatGuiButton * startLevel;
@@ -156,6 +171,40 @@ class ofApp : public ofBaseApp{
         ofxDatGuiMatrix * levelSelect;
         ofxDatGuiToggle * showSecondWindow;
         ofxDatGuiButton * saveMapRecord;
+    
+        //---------------------------------
+        // *
+        // *    Map Generation Gui
+        // *
+        //---------------------------------
+    
+        std::map<int, ofxDatGuiComponent*> genComponents;
+        std::map<string, ofxDatGuiComponent*> genStrComponents;
+    
+        ofxDatGuiSlider * mapWidth;
+        ofxDatGuiSlider * mapHeight;
+        ofxDatGuiSlider * tileSize;
+        ofxDatGuiSlider * offsetEdge;
+        ofxDatGuiSlider * randomSeed;
+        ofxDatGuiSlider * obsticles;
+        ofxDatGuiSlider * dangerAreaSize;
+        ofxDatGuiSlider * smoothingLoops;
+        ofxDatGuiSlider * growthLoops;
+    
+        ofxDatGuiButton * save;
+        ofxDatGuiButton * clearMap;
+        ofxDatGuiButton * generateMap;
+        ofxDatGuiButton * generateCustomMap;
+        ofxDatGuiButton * animateMap;
+        ofxDatGuiButton * saveSettings;
+    
+        ofxDatGuiSlider * lowRedThreshold;
+        ofxDatGuiSlider * highRedThreshold;
+        ofxDatGuiSlider * lowGreenThreshold;
+        ofxDatGuiSlider * highGreenThreshold;
+        ofxDatGuiSlider * lowYellowThreshold;
+        ofxDatGuiSlider * highYellowThreshold;
+        ofxDatGuiSlider * blurImage;
     
         void setGuiListeners(ofxDatGui* guiRef);
         void onButtonEvent(ofxDatGuiButtonEvent e);
