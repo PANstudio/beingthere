@@ -367,11 +367,36 @@ void MapGenerator::generateImages(int width, int height, int tileSize)
                 }
                 else {
                     ofColor c;
-                    int a = 255-ofMap(255/(map[x][y].toxicity+1),255,0,0,255);
-                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255));
+                    int a = 255-ofMap(
+                                      255/(map[x][y].toxicity+1),
+                                      255,
+                                      0,
+                                      0,
+                                      255
+                                      );
+                    c.set(ofMap(
+                                255/(map[x][y].toxicity+1),
+                                255,
+                                0,
+                                0,
+                                255
+                                )
+                          );
                     finderImg->setColor(x, y,c);
                     _distanceImage.at<uchar>(y, x) = a;
-                    c.set(ofMap(255/(map[x][y].toxicity+1),255,0,0,255), ofMap(255/(map[x][y].toxicity+1),255,0,0,255), 0);
+                    c.set(
+                          ofMap(255/(map[x][y].toxicity+1),
+                                255,
+                                0,
+                                0,
+                                255),
+                          ofMap(255/(map[x][y].toxicity+1),
+                                255,
+                                0,
+                                0,
+                                255
+                                ),
+                          0);
                     microImg->setColor(x, y, c);
                 }
             }
@@ -1050,11 +1075,11 @@ void MapGenerator::drawFinderMap(int x, int y)
     ofPushMatrix();
     ofTranslate(x, y);
     ofScale(1.5, 1.5);
-    if (getFinderImage().isAllocated()) {
-        ofSetColor(255, 255, 255);
-        getFinderImage().draw(0,0);
-        microImg->draw(0,100);
-    }
+//    if (getFinderImage().isAllocated()) {
+//        ofSetColor(255, 255, 255);
+//        getFinderImage().draw(0,0);
+//        microImg->draw(0,100);
+//    }
     drawMat(_distanceImage, 0, 200);
 //    drawMicroMap();
     ofPopMatrix();

@@ -12,7 +12,10 @@ void ofApp::setup()
 
     setupGuis();
     setupVariables();
-        
+    
+    robotManager.loadCommands();
+    robotManager.setup();
+    
     scoreBoard.loadScoreboard("scoreboard.json");
     scoreBoard.setup();
     
@@ -121,8 +124,11 @@ void ofApp::keyPressed(int key)
         case 'c':
             drawCalibrationGui = !drawCalibrationGui;
             break;
-        case ' ':
-
+        case '1':
+            robotManager.fireCommand(0, HPL_IN_DANGER);
+            break;
+        case '2':
+            robotManager.fireCommand(0, HPL_IS_OK);
             break;
         default:
             break;
@@ -243,18 +249,32 @@ void ofApp::getMapEvent(struct event &ev)
 {
     for (int i = 0; i < 3; i++) {
         if (ev.id == ofToString(i)) {
-            if (ev.area == "OK") {
-                event[i] = "Player "+ofToString(i)+" OK";
-                playerManager.stopReducingPlayerHealth(i);
+            if (previousState[i] != ev.area) {
+                if (ev.area == "OK") {
+                    event[i] = "Player "+ofToString(i)+" OK";
+                    playerManager.stopReducingPlayerHealth(i);
+                    robotManager.fireCommand(i, HPL_IS_OK);
+                }
+                else if (ev.area == "Danger") {
+                    event[i] = "Player "+ofToString(i)+" Danger";
+                    robotManager.fireCommand(i, HPL_IN_DANGER);
+                    //                playerManager.stopReducingPlayerHealth(i);
+                }
             }
-            else if (ev.area == "Danger") {
-                event[i] = "Player "+ofToString(i)+" Danger";
-                //                playerManager.stopReducingPlayerHealth(i);
+            else {
+                if (ev.area == "Deadly") {
+                    if (playerManager.getPlayerHealth()[i].noHealth() && !malfunctioned[i]) {
+                        event[i] = "Player "+ofToString(i)+" Malfunction";
+                        robotManager.fireCommand(i, HPL_MALFUNCTION);
+                        malfunctioned[i] = true;
+                    }
+                    else {
+                        event[i] = "Player "+ofToString(i)+" Deadly";
+                        playerManager.startReducingPlayerHealth(i);
+                    }
+                }
             }
-            else if (ev.area == "Deadly") {
-                event[i] = "Player "+ofToString(i)+" Deadly";
-                playerManager.startReducingPlayerHealth(i);
-            }
+            previousState[i] = ev.area;
         }
     }
 }
@@ -264,6 +284,7 @@ void ofApp::reduceHealth(string &ev)
     for (int i = 0; i < 3; i++) {
         if (ev == ofToString(i)+" Reducer Finished" ) {
             playerManager.reducePlayerHealth(i, 5);
+            robotManager.fireCommand(i, HPL_REDUCE_HEALTH);
         }
     }
 }
@@ -347,6 +368,8 @@ void ofApp::drawOperationMode()
     difficultyBar->draw();
     levelSelect->draw();
     saveMapRecord->draw();
+    robotManager.draw(500, 500);
+    mapMesh.draw();
 }
 #pragma mark - GUI Setup
 //--------------------------------------------------------------
@@ -605,7 +628,7 @@ void ofApp::setupOperationsGui()
     levelSelect->setPosition(500+300+difficultyBar->getWidth(), 0);
     levelSelect->onMatrixEvent(this, &ofApp::onMatrixEvent);
     
-    resetLevel = new ofxDatGuiButton("Reset Level");
+    resetLevel = new ofxDatGuiButton("Reset Health");
     resetLevel->setWidth(100);
     resetLevel->setPosition(stopLevel->getX()+stopLevel->getWidth(), height-resetLevel->getHeight());
     resetLevel->onButtonEvent(this, &ofApp::onButtonEvent);
@@ -635,17 +658,12 @@ void ofApp::updateGui()
     showSecondWindow->update();
     saveMapRecord->update();
     
-
-
-    ofBackground(0, 0, 0);
     switch (_Appmode) {
         case 0:
-//            drawCalibrationMode();
             break;
         case 1:
             genComponents[9]->update();
             genComponents[11]->update();
-            //drawEditorMode();
             break;
         case 2:
             for (int i = 0; i < genComponents.size(); i++) {
@@ -658,28 +676,6 @@ void ofApp::updateGui()
         default:
             break;
     }
-    
-    
-//    mapWidth->update();
-//    mapHeight->update();
-//    tileSize->update();
-//    offsetEdge->update();
-//    randomSeed->update();
-//    obsticles->update();
-//    dangerAreaSize->update();
-//    smoothingLoops->update();
-//    growthLoops->update();
-//    clearMap->update();
-//    generateMap->update();
-//    generateCustomMap->update();
-//
-//    lowRedThreshold->update();
-//    highRedThreshold->update();
-//    lowGreenThreshold->update();
-//    highGreenThreshold->update();
-//    lowYellowThreshold->update();
-//    highYellowThreshold->update();
-    //    blurImage->update();
     
     if (!appMode->getIsExpanded()) {
         appMode->setPosition(0, ofGetHeight()-appMode->getHeight());
@@ -736,7 +732,6 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
         lRT = e.target->getValue();
         mapGenerator.setRedThreshold(e.target->getValue());
     }
-//    else if (e.target->is("Yellow High Thresh")) lYT = e.target->getValue();
 }
 //--------------------------------------------------------------
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
@@ -747,9 +742,12 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
         displayWindow->setMapImage(styledMap.getStyledMap());
+        mapMesh.clear();
+        mapMesh.getMapImage(mapGenerator.getSmoothMap(),styledMap.getStyledMap());
     }
-    else if (e.target->is("Flush Map")) {
-        mapGenerator.generatePolylines();
+    else if (e.target->is("Reset Health")) {
+        playerManager.resetHealth();
+        robotManager.fireCommand(0, HPL_RESET_HEALTH);
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
@@ -930,11 +928,13 @@ void ofApp::onScrollViewEvent(ofxDatGuiScrollViewEvent e)
     cout << styledMap.getGradientsNames()[e.index] << endl;
     styledMap.setGradient(styledMap.getGradientsNames()[e.index]);
 }
-
 //--------------------------------------------------------------
 void ofApp::setupVariables()
 {
     _urs = false;
+    previousState[0] = "";
+    previousState[1] = "";
+    previousState[2] = "";
     _showPreviewWindow = false;
     _width = 100;
     _height = 100;

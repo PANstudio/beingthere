@@ -6,11 +6,13 @@
 #include "DisplayWindow.h"
 #include "MyTimer.h"
 #include "PlayerManager.h"
+#include "RobotManager.h"
 #include "ScoreBoard.h"
 #include "StyledMap.h"
 #include "BaseButton.h"
 #include "MapViewer.h"
 #include "SplashScreen.h"
+#include "MapMesh.h"
 //#include "SimpleButton.h"
 struct guiStruct {
     guiStruct() {}
@@ -66,6 +68,7 @@ class ofApp : public ofBaseApp{
         // *
         //--------------------------------------------------------------
         MapGenerator mapGenerator;
+        MapMesh mapMesh;
     
         vector<int> dLvs;
         int _level;
@@ -99,9 +102,13 @@ class ofApp : public ofBaseApp{
         int lRT;
         int lGT;
         int lYT;
+    
+        bool malfunctioned[3];
+    
         string feedBackMap;
         string saveDifficultly;
         string mode;
+        string previousState[3];
     
         //--------------------------------------------------------------
         // *
@@ -112,12 +119,15 @@ class ofApp : public ofBaseApp{
         int _Appmode;
         void setupVariables();
 
+
         PlayerManager playerManager;
+        RobotManager robotManager;
         SplashScreen splashScreen;
         Scoreboard scoreBoard;
         MapViewer mapViewer;
         StyledMap styledMap;
         MyTimer countDown;
+    
 
         ofTrueTypeFont heading;
         bool _showShaded;
@@ -167,6 +177,7 @@ class ofApp : public ofBaseApp{
         ofxDatGuiButton * resetLevel;
         ofxDatGuiFRM * fpsIndicator;
         ofxDatGuiLabel * title;
+        ofxDatGuiToggle * showMesh;
         ofxDatGuiDropdown * difficultyBar;
         ofxDatGuiMatrix * levelSelect;
         ofxDatGuiToggle * showSecondWindow;
