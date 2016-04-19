@@ -33,6 +33,8 @@ struct Map {
     int dangerAreaSize;
     int dangerAreaToxicity;
     int deadAreaToxicity;
+    int redThreshold;
+    int greenThreshold;
     ofPoint startingPosition;
     ofPoint endPosition;
     
@@ -55,6 +57,8 @@ struct Map {
         cout << "Danger Area Toxicity "  << dangerAreaToxicity << endl;
         cout << "Starting Position " << startingPosition << endl;
         cout << "End Position " << endPosition << endl;
+        cout << "Red Threshold " << redThreshold << endl;
+        cout << "Green Threshold " << greenThreshold << endl;
     }
     stringstream MapDetailsString() {
         stringstream str;
@@ -75,6 +79,8 @@ struct Map {
         str << "Danger Area Toxicity "  << dangerAreaToxicity << endl;
         str << "Starting Position " << startingPosition << endl;
         str << "End Position " << endPosition << endl;
+        str << "Red Threshold " << redThreshold << endl;
+        str << "Green Threshold " << greenThreshold << endl;
         return str;
     }
 };
