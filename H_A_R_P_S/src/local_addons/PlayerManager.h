@@ -59,6 +59,9 @@ public:
     //! Stop Reducing the Players Health
     void stopReducingPlayerHealth(int id);
     
+    //! Reset Health
+    void resetHealth();
+    
     //! Get the Player current Postion
     ofPoint getPlayerCoords();
     

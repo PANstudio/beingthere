@@ -48,7 +48,7 @@ void PlayerManager::listen()
         oscReceiver.getNextMessage(m);
         if (m.getAddress() == "/player"+ofToString(0)) {
             players[0].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)),                m.getArgAsFloat(2));
-            finder.find(ofMap(m.getArgAsFloat(0),0,500,0,100),ofMap(m.getArgAsFloat(1),0,500,0,100), 10, 10);
+//            finder.find(ofMap(m.getArgAsFloat(0),0,500,0,100),ofMap(m.getArgAsFloat(1),0,500,0,100), 10, 10);
         }
         for(int i = 0; i < _numberOfPlayers; i++)
         {
@@ -101,6 +101,13 @@ void PlayerManager::reducePlayerHealth(int id, int amount)
     }
     else {
         players[id].reduceHealth(amount);
+    }
+}
+//--------------------------------------------------------------
+void PlayerManager::resetHealth()
+{
+    for (int i = 0; i < players.size(); i++) {
+        players[i].resetHealth();
     }
 }
 //--------------------------------------------------------------
