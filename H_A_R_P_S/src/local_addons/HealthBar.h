@@ -48,6 +48,7 @@ public:
     void reset()
     {
         _health = 100;
+        _died = false;
     }
     //----------------------------------------
     bool noHealth()
@@ -96,7 +97,6 @@ public:
         ofDrawRectangle(0, 0, _width, _height);
         ofPushStyle();
 
-        
         if (_died) {
             ofSetColor((int)(175 + 80 * sin(ofGetElapsedTimef()*2)),0,0);
             ofFill();
