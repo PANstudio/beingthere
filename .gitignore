@@ -106,3 +106,8 @@ MapStyler/src/main.cpp
 MapStyler/src/ofApp.cpp
 MapStyler/src/ofApp.h
 *.pxm
+
+RobotSimulatorMac/*
+
+H_A_R_P_S/bin/data/maps/thumbnails/*
+HappileeRobotVisualEncoder/*
