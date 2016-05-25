@@ -19,6 +19,11 @@ void RobotManager::setup()
     commandsSent.resize(receiversHostname.size());
 }
 //--------------------------------------------------------------
+map<int,cmds> RobotManager::getCommands()
+{
+    return commands;
+}
+//--------------------------------------------------------------
 void RobotManager::loadCommands()
 {
     ofxJSONElement commandFile;
@@ -35,7 +40,10 @@ void RobotManager::loadCommands()
         
         int commandsNo = commandFile["RobotCommands"].size();
         for (int i = 0; i < commandsNo; i++) {
-            commands.insert(std::pair<int, string>(commandFile["RobotCommands"][i]["id"].asInt(),commandFile["RobotCommands"][i]["command"].asString()));
+            cmds c;
+            c.cmd = commandFile["RobotCommands"][i]["command"].asString();
+            c.cmdname = commandFile["RobotCommands"][i]["commandname"].asString();
+            commands.insert(std::pair<int, cmds>(commandFile["RobotCommands"][i]["id"].asInt(),c));
         }
     }
 }
@@ -43,14 +51,32 @@ void RobotManager::loadCommands()
 void RobotManager::fireCommand(int whichRobot, int command)
 {
     ofxOscMessage e;
-    e.setAddress("/robot/"+commands[command]);
+    e.setAddress("/robot/"+commands[command].cmd);
+    
+//    if (command == 12) {
+//        e.addBlobArg(imgAsBuffer);
+//    }
+    
     senders[receiversHostname[whichRobot]].sendMessage(e);
-    string cmds = "Robot "+ofToString(whichRobot) + " "+commands[command] + " " + ofToString(command);
+    
+    string cmds = "Robot "+ofToString(whichRobot) + " "+commands[command].cmdname + " " + ofToString(command);
     commandsSent[whichRobot].push_back(cmds);
+}
+//--------------------------------------------------------------
+void RobotManager::getMap(string mapName)
+{
+    imgAsBuffer = ofBufferFromFile(mapName,true);
 }
 //--------------------------------------------------------------
 void RobotManager::draw(int x, int y)
 {
+    ofxOscMessage e;
+    e.setAddress("/robot/position");
+    e.addFloatArg(ofGetMouseX());
+    e.addFloatArg(ofGetMouseY());
+    senders[receiversHostname[0]].sendMessage(e);
+    
+    
     ofPushMatrix();
     ofTranslate(x, y);
     for (int i = 0; i < commandsSent.size(); i++) {

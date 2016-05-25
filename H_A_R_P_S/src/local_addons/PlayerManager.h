@@ -62,6 +62,15 @@ public:
     //! Reset Health
     void resetHealth();
     
+    //! Do Scaling
+    void setScaleValues(bool scale);
+    
+    //! Scale Position Value X
+    void scalePositionX(int maxRangeX);
+    
+    //! Scale Position Value Y
+    void scalePositionY(int maxRangeY);
+    
     //! Get the Player current Postion
     ofPoint getPlayerCoords();
     
@@ -76,6 +85,10 @@ private:
     ofxOscReceiver oscReceiver;
     int _numberOfPlayers;
     vector <Player> players;
+    
+    int _scaleX;
+    int _scaleY;
+    bool _scale;
     
 protected:
     

@@ -10,10 +10,15 @@ void ofApp::setup()
     // This is independant of other setup routines so can be called before the gui
     styledMap.setup();
 
+    robotManager.loadCommands();
+    
+    setupCommandsGui(robotManager.getCommands());
+    
+    
     setupGuis();
     setupVariables();
+    setupDirectoryWatcher();
     
-    robotManager.loadCommands();
     robotManager.setup();
     
     scoreBoard.loadScoreboard("scoreboard.json");
@@ -34,24 +39,33 @@ void ofApp::setup()
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
     }
     
+    for (int i = 0; i < 3; i++) {
+        bUnitMalfunctioned[i] = false;
+    }
+    
     countDown.setup(500, "Count Down", false);
     setupListeners();
     
     mapViewer.setup();
     splashScreen.load();
+    server.setup();
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
     updateGui();
     
+    
     styledMap.update();
+    
+    server.update(2048);
     splashScreen.update();
     mapGenerator.updateCV(lRT, lGT);
     
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
-//    displayWindow->getTimeLeft("");
+
+    
     
     if (countDown.getTimeLeft() <= 10000) {
         displayWindow->setTimerColors(ofColor::red, 25);
@@ -95,10 +109,16 @@ void ofApp::draw()
     appMode->draw();
     title->draw();
     showSecondWindow->draw();
+    string statusStr =  "status: " + server.getStateStr();
+    statusStr += " -- sent "+ofToString(server.getPctSent(), 2)+"%";
+    
+    ofSetColor(255, 0, 255);
+    ofDrawBitmapString(statusStr, 510,520);
     
     if (!splashScreen.isDone()) {
         splashScreen.draw();
     }
+  
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -186,7 +206,6 @@ void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY )
         default:
             break;
     }
-
 }
 //--------------------------------------------------------------
 void ofApp::mouseEntered(int x, int y)
@@ -249,7 +268,18 @@ void ofApp::getMapEvent(struct event &ev)
 {
     for (int i = 0; i < 3; i++) {
         if (ev.id == ofToString(i)) {
-            if (previousState[i] != ev.area) {
+//            switch (ev.area) {
+//                case <#constant#>:
+//                    <#statements#>
+//                    break;
+//                    
+//                default:
+//                    break;
+//            }
+            
+            
+//            if (previousState[i] != ev.area) {
+            if (!bUnitMalfunctioned[i]) {
                 if (ev.area == "OK") {
                     event[i] = "Player "+ofToString(i)+" OK";
                     playerManager.stopReducingPlayerHealth(i);
@@ -258,15 +288,12 @@ void ofApp::getMapEvent(struct event &ev)
                 else if (ev.area == "Danger") {
                     event[i] = "Player "+ofToString(i)+" Danger";
                     robotManager.fireCommand(i, HPL_IN_DANGER);
-                    //                playerManager.stopReducingPlayerHealth(i);
                 }
-            }
-            else {
-                if (ev.area == "Deadly") {
-                    if (playerManager.getPlayerHealth()[i].noHealth() && !malfunctioned[i]) {
+                else if (ev.area == "Deadly") {
+                    if (playerManager.getPlayerHealth()[i].noHealth()) {
                         event[i] = "Player "+ofToString(i)+" Malfunction";
                         robotManager.fireCommand(i, HPL_MALFUNCTION);
-                        malfunctioned[i] = true;
+                        bUnitMalfunctioned[i] = true;
                     }
                     else {
                         event[i] = "Player "+ofToString(i)+" Deadly";
@@ -274,7 +301,6 @@ void ofApp::getMapEvent(struct event &ev)
                     }
                 }
             }
-            previousState[i] = ev.area;
         }
     }
 }
@@ -368,8 +394,61 @@ void ofApp::drawOperationMode()
     difficultyBar->draw();
     levelSelect->draw();
     saveMapRecord->draw();
+    scaleX->draw();
+    scaleY->draw();
+    
+    for (int i = 0; i < commands.size(); i++) {
+        commands[i]->draw();
+    }
+    
     robotManager.draw(500, 500);
+    
     mapMesh.draw();
+}
+#pragma mark - Directory Watcher
+//--------------------------------------------------------------
+// *
+// * Directory Watcher
+// *
+//--------------------------------------------------------------
+void ofApp::setupDirectoryWatcher()
+{
+    watcher.registerAllEvents(this);
+    std::string folderToWatch = ofToDataPath("tempMaps", true);
+    bool listExistingItemsOnStart = false;
+    
+    watcher.addPath(folderToWatch, listExistingItemsOnStart, &fileFilter);
+}
+//--------------------------------------------------------------
+void ofApp::onDirectoryWatcherItemAdded(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt)
+{
+    ofLogNotice() << "Added: " << evt.item.path();
+}
+//--------------------------------------------------------------
+void ofApp::onDirectoryWatcherItemRemoved(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt)
+{
+    ofLogNotice() << "Removed: " << evt.item.path();
+}
+//--------------------------------------------------------------
+void ofApp::onDirectoryWatcherItemModified(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt)
+{
+    ofLogNotice() << "Modified: " << evt.item.path();
+    latestMap = evt.item.path();
+}
+//--------------------------------------------------------------
+void ofApp::onDirectoryWatcherItemMovedFrom(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt)
+{
+    ofLogNotice("ofApp::onDirectoryWatcherItemMovedFrom") << "Moved From: " << evt.item.path();
+}
+//--------------------------------------------------------------
+void ofApp::onDirectoryWatcherItemMovedTo(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt)
+{
+    ofLogNotice("ofApp::onDirectoryWatcherItemMovedTo") << "Moved To: " << evt.item.path();
+}
+//--------------------------------------------------------------
+void ofApp::onDirectoryWatcherError(const Poco::Exception& exc)
+{
+    ofLogError("ofApp::onDirectoryWatcherError") << "Error: " << exc.displayText();
 }
 #pragma mark - GUI Setup
 //--------------------------------------------------------------
@@ -383,43 +462,30 @@ void ofApp::setupGuis()
     drawCalibrationGui = false;
     
     int spacing = 5;
-    
-    
-    
-    
     mapGenerator.loadMaps("config.json");
     setupOperationsGui();
     setupGeneratorGui();
-//    ofxDatGuiFolder * player = operationElements->addFolder("Player");
-//    player->addSlider("Player Size", 0,25, 10);
-//    player->addColorPicker("Player Color");
-//    player->addSlider("Player Pulse Rate", 0,250, 10);
-//    player->addButton("Spawn New Start Posistion");
-//    
-//    ofxDatGuiFolder * target = operationElements->addFolder("Target");
-//    target->addSlider("Target Size", 0,25, 10);
-//    target->addColorPicker("Target Color");
-//    target->addSlider("Target Pulse Rate", 0,250, 10);
-//    target->addButton("Spawn New End Posistion");
-//    
-//    
-//    calibrationGui = new ofxDatGui(501,250);
-//    calibrationGui->addHeader("Calibration Settings");
-//    calibrationGui->addToggle("From Centre / Top Left", false);
-//    calibrationGui->add2dPad("Calibration Nodes", ofRectangle(0, 0, 500, 500));
-//    calibrationGui->addSlider("Spacing X", 0,200, 50); // This is CM
-//    calibrationGui->addSlider("Spacing Y", 0,200, 50); // This is CM
-//    calibrationGui->addButton("Calibrate");
-
-//    calibrationGui->getButton("Calibrate")->setStripeColor(ofColor::red);
-//    
 
     view = new ofxDatGuiScrollView("Styles", 8);
     view->setWidth(250);
-    view->setPosition(505,50);
+    view->setPosition(ofGetWidth()-250,125);
     view->onScrollViewEvent(this, &ofApp::onScrollViewEvent);
     for(int i = 0; i < styledMap.getGradientsNames().size(); i++) {
         view->add(styledMap.getGradientsNames()[i]);
+    }
+}
+//--------------------------------------------------------------
+void ofApp::setupCommandsGui(map<int,cmds> _commands)
+{
+    int y = 0;
+    for (int i = 0; i < _commands.size(); i++) {
+        ofxDatGuiButton * cmdBtn;
+        cmdBtn = new ofxDatGuiButton(_commands.at(i).cmdname);
+        cmdBtn->setPosition(501,y);
+        cmdBtn->setWidth(300);
+        y += cmdBtn->getHeight();
+        cmdBtn->onButtonEvent(this, &ofApp::onButtonEvent);
+        commands.push_back(cmdBtn);
     }
 }
 //--------------------------------------------------------------
@@ -644,6 +710,17 @@ void ofApp::setupOperationsGui()
     saveMapRecord->setWidth(150);
     saveMapRecord->setPosition(showSecondWindow->getX()+showSecondWindow->getWidth(), height-saveMapRecord->getHeight());
     saveMapRecord->onButtonEvent(this, &ofApp::onButtonEvent);
+    
+    scaleX = new ofxDatGuiSlider("Scale X", 0, 1000, 500);
+    scaleX->setPosition(levelSelect->getX(), levelSelect->getHeight());
+    scaleX->setWidth(450, 100);
+    scaleX->onSliderEvent(this, &ofApp::onSliderEvent);
+    
+    scaleY = new ofxDatGuiSlider("Scale Y", 0, 1000, 500);
+    scaleY->setPosition(scaleX->getX(), levelSelect->getHeight()+scaleX->getHeight());
+    scaleY->setWidth(450, 100);
+    scaleY->onSliderEvent(this, &ofApp::onSliderEvent);
+    
 }
 //--------------------------------------------------------------
 void ofApp::updateGui()
@@ -657,6 +734,9 @@ void ofApp::updateGui()
     levelSelect->update();
     showSecondWindow->update();
     saveMapRecord->update();
+    scaleX->update();
+    scaleY->update();
+    
     
     switch (_Appmode) {
         case 0:
@@ -672,6 +752,9 @@ void ofApp::updateGui()
             break;
         case 3:
             view->update();
+            for (int i = 0; i < commands.size(); i++) {
+                commands.at(i)->update();
+            }
             break;
         default:
             break;
@@ -724,6 +807,8 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
     else if (e.target->is("Yellow Threshold")) _iRY[1] = e.target->getValue();
     else if (e.target->is("Green Threshold")) _iRG[1] = e.target->getValue();
     else if (e.target->is("Blur Amount")) _blur = e.target->getValue();
+    else if (e.target->is("Scale X")) playerManager.scalePositionX(e.target->getValue());
+    else if (e.target->is("Scale Y")) playerManager.scalePositionY(e.target->getValue());
     else if (e.target->is("Green High Thresh")) {
         lGT = e.target->getValue();
         mapGenerator.setGreenThreshold(e.target->getValue());
@@ -744,10 +829,6 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         displayWindow->setMapImage(styledMap.getStyledMap());
         mapMesh.clear();
         mapMesh.getMapImage(mapGenerator.getSmoothMap(),styledMap.getStyledMap());
-    }
-    else if (e.target->is("Reset Health")) {
-        playerManager.resetHealth();
-        robotManager.fireCommand(0, HPL_RESET_HEALTH);
     }
     else if (e.target->is("Generate Custom Map")) {
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
@@ -816,8 +897,59 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         m.timeNeededToSolveMap = 5000; //todp
         string vas = "maps/thumbnails/"+ofGetTimestampString()+".jpg";
         ofSaveImage(styledMap.getStyledMap(), vas);
+        
+        ofImage oscMap;
+        oscMap.setFromPixels(styledMap.getStyledMap().getPixels().getData(), styledMap.getStyledMap().getWidth(), styledMap.getStyledMap().getHeight(), OF_IMAGE_COLOR);
+        oscMap.resize(styledMap.getStyledMap().getWidth()/2, styledMap.getStyledMap().getHeight()/2);
+        ofSaveImage(oscMap, "tempMaps/"+ofGetTimestampString()+".png");
+        
         mapGenerator.saveMap(vas,styledMap.getCurrentStyle(),m);
     }
+    else if (e.target->is("Reset Health")) {
+        playerManager.resetHealth();
+        for (int i = 0; i < 3; i++) {
+            bUnitMalfunctioned[i] = false;
+        }
+        robotManager.fireCommand(0, HPL_RESET_HEALTH);
+    }
+    else if (e.target->is("Reduce Health")) {
+        robotManager.fireCommand(0, HPL_REDUCE_HEALTH);
+    }
+    else if (e.target->is("Malfunction")) {
+        robotManager.fireCommand(0, HPL_MALFUNCTION);
+    }
+    else if (e.target->is("Start")) {
+        robotManager.fireCommand(0, HPL_START);
+    }
+    else if (e.target->is("Instructions")) {
+        robotManager.fireCommand(0, HPL_INSTRUCTIONS);
+    }
+    else if (e.target->is("Flash Lights")) {
+        robotManager.fireCommand(0, HPL_FLASH_LIGHTS);
+    }
+    else if (e.target->is("Turn Off Screen")) {
+        robotManager.fireCommand(0, HPL_TURN_OFF_SCREEN);
+    }
+    else if (e.target->is("Turn On Screen")) {
+        robotManager.fireCommand(0, HPL_TURN_ON_SCREEN);
+    }
+    else if (e.target->is("Extend Aerial")) {
+        robotManager.fireCommand(0, HPL_EXTEND_AERIAL);
+    }
+    else if (e.target->is("Retract Aerial")) {
+        robotManager.fireCommand(0, HPL_RETRACT_AERIAL);
+    }
+    else if (e.target->is("In Danger")) {
+        robotManager.fireCommand(0, HPL_IN_DANGER);
+    }
+    else if (e.target->is("Ok")) {
+        robotManager.fireCommand(0, HPL_IS_OK);
+    }
+    else if (e.target->is("Send Map")) {
+        unsigned char * pix = styledMap.getStyledMap().getPixels();
+        server.sendPixels(pix);
+    }
+    
 }
 //--------------------------------------------------------------
 void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)

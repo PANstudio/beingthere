@@ -39,16 +39,23 @@ enum ROBOT_COMMAND {
     HPL_EXTEND_AERIAL,
     HPL_RETRACT_AERIAL,
     HPL_IN_DANGER,
-    HPL_IS_OK
+    HPL_IS_OK,
+    HPL_SEND_MAP
 };
 
+struct cmds {
+    string cmd;
+    string cmdname;
+};
 
 class RobotManager {
 
     public:
         void setup();
         void loadCommands();
+        map <int,cmds> getCommands();
         void update();
+        void getMap(string mapName);
         void fireCommand(int whichRobot, int command);
         void draw(int x, int y);
         void close();
@@ -56,10 +63,13 @@ class RobotManager {
     protected:
         vector <string> sendingTo;
         int _port;
-        map<int,string> commands;
+        map<int,cmds> commands;
         vector <string> receiversHostname;
         vector <deque<string> > commandsSent;
         map<string,ofxOscSender> senders;
+        ofImage _map;
+        ofBuffer imgAsBuffer;
+        ofImage img;
 };
 
 #endif /* RobotManager_h */

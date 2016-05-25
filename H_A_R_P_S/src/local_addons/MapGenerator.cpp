@@ -896,33 +896,49 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
     ofPushMatrix();
 
     for (int player = 0; player < playerCoords.size(); player++) {
-       
-        for (int i = 0; i < dangerArea.size(); i++) {
-            dangerArea[i].simplify(0.1);
-            if (dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
-                fireEvent(player, "Danger");
-            }
-            ofSetColor(ofColor::yellow);
-            dangerArea[i].draw();
-            
-        }
+        bool inOkArea = false;
+        bool inDangerArea = false;
+        bool inDeadlyArea = false;
+        
         for (int i = 0; i < okArea.size(); i++) {
             okArea[i].simplify(0.1);
             if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
                 fireEvent(player, "OK");
+                inOkArea = true;
             }
             ofSetColor(ofColor::green);
             okArea[i].draw();
+        }
+        
+        for (int i = 0; i < dangerArea.size(); i++) {
+            dangerArea[i].simplify(0.1);
+            if (!inOkArea && dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+                fireEvent(player, "Danger");
+                inDangerArea = true;
+            }
+            ofSetColor(ofColor::yellow);
+            dangerArea[i].draw();
         }
         
         for (int i = 0; i < deadlyArea.size(); i++) {
             deadlyArea[i].simplify(0.1);
             if (deadlyArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
                 fireEvent(player, "Deadly");
+                inDeadlyArea = true;
             }
             ofSetColor(ofColor::red);
             deadlyArea[i].draw();
         }
+        
+//        if (inOkArea && !inDangerArea && !inDeadlyArea) {
+//            fireEvent(player, "OK");
+//        }
+//        else if((inOkArea || !inOkArea) && inDangerArea && !inDeadlyArea) {
+//            fireEvent(player, "Danger");
+//        }
+//        else if(inOkArea && inDangerArea && inDeadlyArea) {
+//            fireEvent(player, "Deadly");
+//        }
         
         if (!playerCoords.empty()) {
             for (auto player : playerCoords) {
@@ -1428,6 +1444,11 @@ void MapGenerator::saveMap(string mapName,string style,Map m)
         generatedMaps["Maps"][nMaps]["style"] = style;
         generatedMaps.save("maps/maps.json",true);
     }
+}
+//--------------------------------------------------------------
+void MapGenerator::saveTempMap(string mapName)
+{
+    
 }
 //--------------------------------------------------------------
 vector<MapDetails> MapGenerator::getMapsInfo()

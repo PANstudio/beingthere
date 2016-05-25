@@ -22,7 +22,7 @@ int main( ){
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = true;
     settings.shareContextWith = ofGetMainLoop()->getCurrentWindow();
-    settings.monitor = 0;
+    settings.monitor = 1;
     settings.multiMonitorFullScreen = false;
     shared_ptr<ofAppBaseWindow> displayWindow = ofCreateWindow(settings);
 

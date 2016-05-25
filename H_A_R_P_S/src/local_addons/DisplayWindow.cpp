@@ -11,7 +11,7 @@
 void DisplayWindow::setup()
 {
     font.load("ofxdatgui_assets/font-verdana.ttf",20);
-    title = "Project H.A.R.P.S";
+    title = "HAPPILEE";
 
     calibrationScreen.setup();
     calibrationScreen.setupGrid(10, 10, 50, 50);

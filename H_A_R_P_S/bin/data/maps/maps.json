@@ -315,6 +315,24 @@
          "tilesize" : 5,
          "timetocomplete" : 5000,
          "width" : 100
+      },
+      {
+         "dangerAreaToxicity" : 1,
+         "dangerareasize" : 5,
+         "deadAreaToxicity" : 1,
+         "difficulty" : "",
+         "growthloops" : 10,
+         "height" : 100,
+         "image" : "maps/thumbnails/2016-04-28-14-07-50-196.jpg",
+         "level" : 1,
+         "numberofclouds" : 10,
+         "offsetedge" : 5,
+         "randomseed" : 3,
+         "smoothingloops" : 5,
+         "style" : "PiYG_r",
+         "tilesize" : 5,
+         "timetocomplete" : 5000,
+         "width" : 100
       }
    ]
 }

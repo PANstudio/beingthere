@@ -2,57 +2,74 @@
     "Robots" : [
        {
            "id":0,
-           "host":"127.0.0.1"
+           "host":"169.254.67.80"
        }
     ],
     "RobotCommands" : [
         {
             "id":0,
+            "commandname": "Reduce Health",
             "command":"RreH"
         },
         {
            "id":1,
+           "commandname": "Reset Health",
            "command":"Rreset"
         },
         {
             "id":2,
+            "commandname": "Malfunction",
             "command":"Rmalf"
         },
         {
             "id":3,
+            "commandname": "Start",
             "command":"Rstr"
         },
         {
             "id":4,
+            "commandname": "Instructions",
             "command":"Rinst"
         },
         {
             "id":5,
+            "commandname":"Flash Lights",
             "command":"RfL"
         },
         {
             "id":6,
+            "commandname": "Turn Off Screen",
             "command":"RtIOS"
         },
         {
             "id":7,
+            "commandname": "Turn On Screen",
             "command":"RtOOS"
         },
         {
             "id":8,
+            "commandname": "Extend Aerial",
             "command":"ReA"
         },
         {
             "id":9,
+            "commandname": "Retract Aerial",
             "command":"RrA"
         },
         {
             "id":10,
+            "commandname": "In Danger",
             "command":"RiD"
         },
         {
             "id":11,
+            "commandname": "Ok",
             "command":"RoK"
+        },
+        {
+            "id":12,
+            "commandname": "Send Map",
+            "command":"RsM"
         }
      ]
 }

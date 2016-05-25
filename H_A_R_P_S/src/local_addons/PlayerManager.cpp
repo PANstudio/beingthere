@@ -39,24 +39,40 @@ void PlayerManager::listen()
     }
     
     players[0].setPlayerPosition(ofPoint(ofGetMouseX(),ofGetMouseY()),0);
-    int mx = ofMap(ofGetMouseX(), 0, 500, 0, 100);
-    int my = ofMap(ofGetMouseY(), 0, 500, 0, 100);
+//    int mx = ofMap(ofGetMouseX(), 0, 500, 0, 100);
+//    int my = ofMap(ofGetMouseY(), 0, 500, 0, 100);
 //    finder.find(mx, my, 10, 10);
     
     while (oscReceiver.hasWaitingMessages()) {
         ofxOscMessage m;
         oscReceiver.getNextMessage(m);
-        if (m.getAddress() == "/player"+ofToString(0)) {
-            players[0].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)),                m.getArgAsFloat(2));
-//            finder.find(ofMap(m.getArgAsFloat(0),0,500,0,100),ofMap(m.getArgAsFloat(1),0,500,0,100), 10, 10);
-        }
-        for(int i = 0; i < _numberOfPlayers; i++)
-        {
-//            if (m.getAddress() == "/player"+ofToString(i)) {
-//                players[i].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)),                m.getArgAsFloat(2));
-//            }
+        for(int i = 0; i < _numberOfPlayers; i++) {
+            if (m.getAddress() == "/player"+ofToString(i)) {
+                if (_scale) {
+                    players[i].setPlayerPosition(ofPoint(ofMap(m.getArgAsFloat(0), 0.0000, 1.0000, 0, _scaleX),ofMap(m.getArgAsFloat(1), 0.0000, 1.0000, 0, _scaleY)), m.getArgAsFloat(2));
+                }
+                else {
+                    players[i].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)), //Position
+                                                         m.getArgAsFloat(2)); // Orientation
+                }
+            }
         }
     }
+}
+//--------------------------------------------------------------
+void PlayerManager::setScaleValues(bool scale)
+{
+    _scale = scale;
+}
+//--------------------------------------------------------------
+void PlayerManager::scalePositionX(int maxRangeX)
+{
+    _scaleX = maxRangeX;
+}
+//--------------------------------------------------------------
+void PlayerManager::scalePositionY(int maxRangeY)
+{
+    _scaleY = maxRangeY;
 }
 //--------------------------------------------------------------
 void PlayerManager::drawPlayerManager()

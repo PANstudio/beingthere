@@ -244,6 +244,7 @@ public:
     // To Do
     void saveMap(string mapName,string style,Map m);
     void saveMap(Map m);
+    void saveTempMap(string mapName);
 private:
     
     // Map Object

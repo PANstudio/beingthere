@@ -13,7 +13,9 @@
 #include "MapViewer.h"
 #include "SplashScreen.h"
 #include "MapMesh.h"
-//#include "SimpleButton.h"
+#include "ofxIO.h"
+#include "ImageServer.h"
+
 struct guiStruct {
     guiStruct() {}
     guiStruct(int _id,string _name){
@@ -53,7 +55,8 @@ class ofApp : public ofBaseApp{
         void drawEditorMode();
         void drawGeneratorMode();
         void drawOperationMode();
-
+    
+        pixelServer server;
     
         //--------------------------------------------------------------
         // *
@@ -110,6 +113,25 @@ class ofApp : public ofBaseApp{
         string mode;
         string previousState[3];
     
+    
+    
+        //--------------------------------------------------------------
+        // *
+        // * Directory Listener
+        // *
+        //--------------------------------------------------------------
+        void setupDirectoryWatcher();
+        void onDirectoryWatcherItemAdded(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt);
+        void onDirectoryWatcherItemRemoved(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt);
+        void onDirectoryWatcherItemModified(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt);
+        void onDirectoryWatcherItemMovedFrom(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt);
+        void onDirectoryWatcherItemMovedTo(const ofx::IO::DirectoryWatcherManager::DirectoryEvent& evt);
+        void onDirectoryWatcherError(const Poco::Exception& exc);
+    
+        ofx::IO::DirectoryWatcherManager watcher;
+        ofx::IO::HiddenFileFilter fileFilter;
+        string latestMap;
+    
         //--------------------------------------------------------------
         // *
         // * Other Objects
@@ -118,7 +140,7 @@ class ofApp : public ofBaseApp{
         string event[10];
         int _Appmode;
         void setupVariables();
-
+        bool bUnitMalfunctioned[3];
 
         PlayerManager playerManager;
         RobotManager robotManager;
@@ -183,6 +205,9 @@ class ofApp : public ofBaseApp{
         ofxDatGuiToggle * showSecondWindow;
         ofxDatGuiButton * saveMapRecord;
     
+        void setupCommandsGui(map<int,cmds> _commands);
+        vector <ofxDatGuiButton*> commands;
+    
         //---------------------------------
         // *
         // *    Map Generation Gui
@@ -216,6 +241,15 @@ class ofApp : public ofBaseApp{
         ofxDatGuiSlider * lowYellowThreshold;
         ofxDatGuiSlider * highYellowThreshold;
         ofxDatGuiSlider * blurImage;
+    
+        //---------------------------------
+        // *
+        // *    Player Scale
+        // *
+        //---------------------------------
+        ofxDatGuiToggle * doScaling;
+        ofxDatGuiSlider * scaleX;
+        ofxDatGuiSlider * scaleY;
     
         void setGuiListeners(ofxDatGui* guiRef);
         void onButtonEvent(ofxDatGuiButtonEvent e);
