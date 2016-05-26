@@ -1,0 +1,79 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7792F5AE7090BC2984A3600595150D6E08106727",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "7792F5AE7090BC2984A3600595150D6E08106727" : 0,
+    "252C6127C45A1F2D4943E6963066F98DFCDB451F" : 0,
+    "65F0E57F9FBE704C78F412BB3A758052CBC46923" : 0,
+    "A6343E16BC2F648D0FEA647FB75CBADE0A25E0B8" : 0,
+    "9306F8A4B5C13BDC4DDB4D5C22AC1335F4D819E8" : 0,
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : 0,
+    "49ED704B24A08379C9709713E9A651DFA0CED0E3" : 0,
+    "6B5D1DE462D521A98972DF70F1147E20268C546A" : 0,
+    "E0CB4C1C2522C94E4D03AC595BB2CF0D7F09B508" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3709C51B-55A5-470B-805E-1EFCF1842877",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "7792F5AE7090BC2984A3600595150D6E08106727" : "HARPS\/",
+    "252C6127C45A1F2D4943E6963066F98DFCDB451F" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxTimecode",
+    "65F0E57F9FBE704C78F412BB3A758052CBC46923" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxAudioDecoder",
+    "A6343E16BC2F648D0FEA647FB75CBADE0A25E0B8" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxTextInputField",
+    "9306F8A4B5C13BDC4DDB4D5C22AC1335F4D819E8" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxTimeline",
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxJSON",
+    "49ED704B24A08379C9709713E9A651DFA0CED0E3" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxRange",
+    "6B5D1DE462D521A98972DF70F1147E20268C546A" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxTween",
+    "E0CB4C1C2522C94E4D03AC595BB2CF0D7F09B508" : "..\/..\/of_v0.9.3_osx_release\/addons\/ofxMSATimer"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Happilee",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Happilee\/Happilee.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/YCAMInterlab\/ofxTimecode.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "252C6127C45A1F2D4943E6963066F98DFCDB451F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Flightphase\/ofxRange.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "49ED704B24A08379C9709713E9A651DFA0CED0E3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jefftimesten\/ofxJSON.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5DB7C332A3A89035E93556A2A38BF414005BA671"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/prisonerjohn\/ofxAudioDecoder.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "65F0E57F9FBE704C78F412BB3A758052CBC46923"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/obviousjim\/ofxTween.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6B5D1DE462D521A98972DF70F1147E20268C546A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/PANstudio\/beingthere.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7792F5AE7090BC2984A3600595150D6E08106727"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/leozimmerman\/ofxTimeline.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9306F8A4B5C13BDC4DDB4D5C22AC1335F4D819E8"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/elliotwoods\/ofxTextInputField.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A6343E16BC2F648D0FEA647FB75CBADE0A25E0B8"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/obviousjim\/ofxMSATimer.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0CB4C1C2522C94E4D03AC595BB2CF0D7F09B508"
+    }
+  ]
+}
