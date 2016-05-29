@@ -4,7 +4,7 @@
 void ofApp::setup()
 {
     ofSetWindowTitle("Happilee");
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     ofSetVerticalSync(true);
     
     // This is independant of other setup routines so can be called before the gui
@@ -145,10 +145,13 @@ void ofApp::keyPressed(int key)
             drawCalibrationGui = !drawCalibrationGui;
             break;
         case '1':
-            robotManager.fireCommand(0, HPL_IN_DANGER);
+            robotManager.fireCommand(0, HPL_GREEN_ZONE);
             break;
         case '2':
-            robotManager.fireCommand(0, HPL_IS_OK);
+            robotManager.fireCommand(0, HPL_YELLOW_ZONE);
+            break;
+        case '3':
+            robotManager.fireCommand(0, HPL_RED_ZONE);
             break;
         default:
             break;
@@ -283,11 +286,11 @@ void ofApp::getMapEvent(struct event &ev)
                 if (ev.area == "OK") {
                     event[i] = "Player "+ofToString(i)+" OK";
                     playerManager.stopReducingPlayerHealth(i);
-                    robotManager.fireCommand(i, HPL_IS_OK);
+                    robotManager.fireCommand(i, HPL_GREEN_ZONE);
                 }
                 else if (ev.area == "Danger") {
                     event[i] = "Player "+ofToString(i)+" Danger";
-                    robotManager.fireCommand(i, HPL_IN_DANGER);
+                    robotManager.fireCommand(i, HPL_YELLOW_ZONE);
                 }
                 else if (ev.area == "Deadly") {
                     if (playerManager.getPlayerHealth()[i].noHealth()) {
@@ -310,7 +313,7 @@ void ofApp::reduceHealth(string &ev)
     for (int i = 0; i < 3; i++) {
         if (ev == ofToString(i)+" Reducer Finished" ) {
             playerManager.reducePlayerHealth(i, 5);
-            robotManager.fireCommand(i, HPL_REDUCE_HEALTH);
+            robotManager.fireCommand(i, HPL_RED_ZONE);
         }
     }
 }
@@ -910,45 +913,66 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         for (int i = 0; i < 3; i++) {
             bUnitMalfunctioned[i] = false;
         }
-        robotManager.fireCommand(0, HPL_RESET_HEALTH);
-    }
-    else if (e.target->is("Reduce Health")) {
-        robotManager.fireCommand(0, HPL_REDUCE_HEALTH);
+        robotManager.fireCommand(0, HPL_RESET_MEMORY);
     }
     else if (e.target->is("Malfunction")) {
         robotManager.fireCommand(0, HPL_MALFUNCTION);
     }
-    else if (e.target->is("Start")) {
-        robotManager.fireCommand(0, HPL_START);
+    else if (e.target->is("Reboot Happilee")) {
+        robotManager.fireCommand(0, HPL_REBOOT);
     }
-    else if (e.target->is("Instructions")) {
-        robotManager.fireCommand(0, HPL_INSTRUCTIONS);
+    else if (e.target->is("Green Zone")) {
+        robotManager.fireCommand(0, HPL_GREEN_ZONE);
     }
-    else if (e.target->is("Flash Lights")) {
-        robotManager.fireCommand(0, HPL_FLASH_LIGHTS);
+    else if (e.target->is("Yellow Zone")) {
+        robotManager.fireCommand(0, HPL_YELLOW_ZONE);
     }
-    else if (e.target->is("Turn Off Screen")) {
-        robotManager.fireCommand(0, HPL_TURN_OFF_SCREEN);
+    else if (e.target->is("Red Zone")) {
+        robotManager.fireCommand(0, HPL_RED_ZONE);
     }
-    else if (e.target->is("Turn On Screen")) {
-        robotManager.fireCommand(0, HPL_TURN_ON_SCREEN);
+    else if (e.target->is("Safe Zone")) {
+        robotManager.fireCommand(0, HPL_SAFE_ZONE);
     }
-    else if (e.target->is("Extend Aerial")) {
-        robotManager.fireCommand(0, HPL_EXTEND_AERIAL);
+    else if (e.target->is("Reset Memory")) {
+        robotManager.fireCommand(0, HPL_RESET_MEMORY);
     }
-    else if (e.target->is("Retract Aerial")) {
-        robotManager.fireCommand(0, HPL_RETRACT_AERIAL);
-    }
-    else if (e.target->is("In Danger")) {
-        robotManager.fireCommand(0, HPL_IN_DANGER);
-    }
-    else if (e.target->is("Ok")) {
-        robotManager.fireCommand(0, HPL_IS_OK);
-    }
-    else if (e.target->is("Send Map")) {
-        unsigned char * pix = styledMap.getStyledMap().getPixels();
-        server.sendPixels(pix);
-    }
+//    else if (e.target->is("Reduce Health")) {
+//        robotManager.fireCommand(0, HPL_REDUCE_HEALTH);
+//    }
+//    else if (e.target->is("Malfunction")) {
+//        robotManager.fireCommand(0, HPL_MALFUNCTION);
+//    }
+//    else if (e.target->is("Start")) {
+//        robotManager.fireCommand(0, HPL_START);
+//    }
+//    else if (e.target->is("Instructions")) {
+//        robotManager.fireCommand(0, HPL_INSTRUCTIONS);
+//    }
+//    else if (e.target->is("Flash Lights")) {
+//        robotManager.fireCommand(0, HPL_FLASH_LIGHTS);
+//    }
+//    else if (e.target->is("Turn Off Screen")) {
+//        robotManager.fireCommand(0, HPL_TURN_OFF_SCREEN);
+//    }
+//    else if (e.target->is("Turn On Screen")) {
+//        robotManager.fireCommand(0, HPL_TURN_ON_SCREEN);
+//    }
+//    else if (e.target->is("Extend Aerial")) {
+//        robotManager.fireCommand(0, HPL_EXTEND_AERIAL);
+//    }
+//    else if (e.target->is("Retract Aerial")) {
+//        robotManager.fireCommand(0, HPL_RETRACT_AERIAL);
+//    }
+//    else if (e.target->is("In Danger")) {
+//        robotManager.fireCommand(0, HPL_IN_DANGER);
+//    }
+//    else if (e.target->is("Ok")) {
+//        robotManager.fireCommand(0, HPL_IS_OK);
+//    }
+//    else if (e.target->is("Send Map")) {
+//        unsigned char * pix = styledMap.getStyledMap().getPixels();
+//        server.sendPixels(pix);
+//    }
     
 }
 //--------------------------------------------------------------

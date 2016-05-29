@@ -2,74 +2,44 @@
     "Robots" : [
        {
            "id":0,
-           "host":"169.254.67.80"
+           "host":"127.0.0.1"
        }
     ],
     "RobotCommands" : [
         {
             "id":0,
-            "commandname": "Reduce Health",
-            "command":"RreH"
+            "commandname": "Reboot Happilee",
+            "command":"hplreboot"
         },
         {
            "id":1,
-           "commandname": "Reset Health",
-           "command":"Rreset"
+           "commandname": "Green Zone",
+           "command":"hplgreen"
         },
         {
             "id":2,
-            "commandname": "Malfunction",
-            "command":"Rmalf"
+            "commandname": "Yellow Zone",
+            "command":"hplyellow"
         },
         {
             "id":3,
-            "commandname": "Start",
-            "command":"Rstr"
+            "commandname": "Red Zone",
+            "command":"hplred"
         },
         {
             "id":4,
-            "commandname": "Instructions",
-            "command":"Rinst"
+            "commandname": "Safe Zone",
+            "command":"hplsafe"
         },
         {
             "id":5,
-            "commandname":"Flash Lights",
-            "command":"RfL"
+            "commandname":"Reset Memory",
+            "command":"hplreset"
         },
         {
             "id":6,
-            "commandname": "Turn Off Screen",
-            "command":"RtIOS"
-        },
-        {
-            "id":7,
-            "commandname": "Turn On Screen",
-            "command":"RtOOS"
-        },
-        {
-            "id":8,
-            "commandname": "Extend Aerial",
-            "command":"ReA"
-        },
-        {
-            "id":9,
-            "commandname": "Retract Aerial",
-            "command":"RrA"
-        },
-        {
-            "id":10,
-            "commandname": "In Danger",
-            "command":"RiD"
-        },
-        {
-            "id":11,
-            "commandname": "Ok",
-            "command":"RoK"
-        },
-        {
-            "id":12,
-            "commandname": "Send Map",
-            "command":"RsM"
+            "commandname": "Malfunction",
+            "command":"hplmalf"
         }
      ]
 }

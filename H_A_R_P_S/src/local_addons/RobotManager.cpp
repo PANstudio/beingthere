@@ -52,11 +52,6 @@ void RobotManager::fireCommand(int whichRobot, int command)
 {
     ofxOscMessage e;
     e.setAddress("/robot/"+commands[command].cmd);
-    
-//    if (command == 12) {
-//        e.addBlobArg(imgAsBuffer);
-//    }
-    
     senders[receiversHostname[whichRobot]].sendMessage(e);
     
     string cmds = "Robot "+ofToString(whichRobot) + " "+commands[command].cmdname + " " + ofToString(command);
@@ -70,11 +65,11 @@ void RobotManager::getMap(string mapName)
 //--------------------------------------------------------------
 void RobotManager::draw(int x, int y)
 {
-    ofxOscMessage e;
-    e.setAddress("/robot/position");
-    e.addFloatArg(ofGetMouseX());
-    e.addFloatArg(ofGetMouseY());
-    senders[receiversHostname[0]].sendMessage(e);
+//    ofxOscMessage e;
+//    e.setAddress("/robot/position");
+//    e.addFloatArg(ofGetMouseX());
+//    e.addFloatArg(ofGetMouseY());
+//    senders[receiversHostname[0]].sendMessage(e);
     
     
     ofPushMatrix();
