@@ -44,6 +44,10 @@
 		631341981CF675BD001A0293 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631341931CF675BD001A0293 /* tinyxml.cpp */; };
 		631341991CF675BD001A0293 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631341951CF675BD001A0293 /* tinyxmlerror.cpp */; };
 		6313419A1CF675BD001A0293 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631341961CF675BD001A0293 /* tinyxmlparser.cpp */; };
+		631341E31CF78D8D001A0293 /* CommandReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 631341E11CF78D8D001A0293 /* CommandReceiver.cpp */; };
+		6333E0151CF78F9600756624 /* EmotionHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6333E0131CF78F9600756624 /* EmotionHandler.cpp */; };
+		6333E0191CF7BEA400756624 /* MemoryBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6333E0171CF7BEA400756624 /* MemoryBar.cpp */; };
+		6333E01D1CF7C03400756624 /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6333E01B1CF7C03400756624 /* MyTimer.cpp */; };
 		6AA536F4E5ECFC00CC8A43C5 /* ofxTimeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5619C2C61114FB5FD98C38AE /* ofxTimeline.cpp */; };
 		70146E64378DC427CBED8193 /* ofxEasingExpo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E47667A7B7CEF7CA36272F /* ofxEasingExpo.cpp */; };
 		79B2011353D4AC5EE62D2A4D /* ofxTLEmptyKeyframes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2359F04DAD21340FF163C6 /* ofxTLEmptyKeyframes.cpp */; };
@@ -196,7 +200,6 @@
 		5E75E144302E9FE7FCDA43B1 /* ofxEasingCubic.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasingCubic.h; path = ../../../../of_v0.9.3_osx_release/addons/ofxTween/src/Easings/ofxEasingCubic.h; sourceTree = SOURCE_ROOT; };
 		5F8B323C8D0FA721CFDD2CEF /* ofxOscMessage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscMessage.cpp; path = ../../../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscMessage.cpp; sourceTree = SOURCE_ROOT; };
 		5FD76E66FDA473DFD1CD93B0 /* kiss_fftr.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = kiss_fftr.h; path = ../../../../of_v0.9.3_osx_release/addons/ofxTimeline/libs/kiss/include/kiss_fftr.h; sourceTree = SOURCE_ROOT; };
-		631341311CF673E1001A0293 /* DIN LIGHT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN LIGHT.TTF"; sourceTree = "<group>"; };
 		631341321CF673E1001A0293 /* DIN-BLACK.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN-BLACK.TTF"; sourceTree = "<group>"; };
 		631341331CF673E1001A0293 /* DIN-BOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN-BOLD.OTF"; sourceTree = "<group>"; };
 		631341341CF673E1001A0293 /* DIN-REGULAR.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN-REGULAR.OTF"; sourceTree = "<group>"; };
@@ -213,20 +216,6 @@
 		6313416C1CF674DF001A0293 /* warning_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning_2.png; sourceTree = "<group>"; };
 		6313416D1CF674DF001A0293 /* warning_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning_3.png; sourceTree = "<group>"; };
 		6313416E1CF674DF001A0293 /* warning_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning_pic.png; sourceTree = "<group>"; };
-		631341701CF674DF001A0293 /* anger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anger.png; sourceTree = "<group>"; };
-		631341711CF674DF001A0293 /* bliss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bliss.png; sourceTree = "<group>"; };
-		631341721CF674DF001A0293 /* boredom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boredom.png; sourceTree = "<group>"; };
-		631341731CF674DF001A0293 /* disgust.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disgust.png; sourceTree = "<group>"; };
-		631341741CF674DF001A0293 /* excitement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = excitement.png; sourceTree = "<group>"; };
-		631341751CF674DF001A0293 /* fear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fear.png; sourceTree = "<group>"; };
-		631341761CF674DF001A0293 /* happiness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = happiness.png; sourceTree = "<group>"; };
-		631341771CF674DF001A0293 /* hostility.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hostility.png; sourceTree = "<group>"; };
-		631341781CF674DF001A0293 /* love.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = love.png; sourceTree = "<group>"; };
-		631341791CF674DF001A0293 /* neutral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = neutral.png; sourceTree = "<group>"; };
-		6313417A1CF674DF001A0293 /* pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pride.png; sourceTree = "<group>"; };
-		6313417B1CF674DF001A0293 /* sadness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sadness.png; sourceTree = "<group>"; };
-		6313417C1CF674DF001A0293 /* shame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shame.png; sourceTree = "<group>"; };
-		6313417D1CF674DF001A0293 /* surprise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = surprise.png; sourceTree = "<group>"; };
 		6313417F1CF674DF001A0293 /* Anger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Anger.png; sourceTree = "<group>"; };
 		631341801CF674DF001A0293 /* Bliss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bliss.png; sourceTree = "<group>"; };
 		631341811CF674DF001A0293 /* Boredom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Boredom.png; sourceTree = "<group>"; };
@@ -248,6 +237,62 @@
 		631341941CF675BD001A0293 /* tinyxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
 		631341951CF675BD001A0293 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
 		631341961CF675BD001A0293 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		631341DE1CF74635001A0293 /* FadeTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FadeTemplate.png; sourceTree = "<group>"; };
+		631341E01CF75206001A0293 /* DIN-LIGHT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN-LIGHT.TTF"; sourceTree = "<group>"; };
+		631341E11CF78D8D001A0293 /* CommandReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommandReceiver.cpp; sourceTree = "<group>"; };
+		631341E21CF78D8D001A0293 /* CommandReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandReceiver.h; sourceTree = "<group>"; };
+		6333E0131CF78F9600756624 /* EmotionHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmotionHandler.cpp; sourceTree = "<group>"; };
+		6333E0141CF78F9600756624 /* EmotionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionHandler.h; sourceTree = "<group>"; };
+		6333E0171CF7BEA400756624 /* MemoryBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryBar.cpp; sourceTree = "<group>"; };
+		6333E0181CF7BEA400756624 /* MemoryBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryBar.h; sourceTree = "<group>"; };
+		6333E01B1CF7C03400756624 /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTimer.cpp; sourceTree = "<group>"; };
+		6333E01C1CF7C03400756624 /* MyTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTimer.h; sourceTree = "<group>"; };
+		63DFE3971CF9008D00897FCA /* anger.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = anger.mp3; sourceTree = "<group>"; };
+		63DFE3981CF9008D00897FCA /* bliss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bliss.mp3; sourceTree = "<group>"; };
+		63DFE3991CF9008D00897FCA /* boredom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boredom.mp3; sourceTree = "<group>"; };
+		63DFE39A1CF9008D00897FCA /* disgust.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = disgust.mp3; sourceTree = "<group>"; };
+		63DFE39B1CF9008D00897FCA /* excitement.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = excitement.mp3; sourceTree = "<group>"; };
+		63DFE39C1CF9008D00897FCA /* fear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fear.mp3; sourceTree = "<group>"; };
+		63DFE39D1CF9008D00897FCA /* happiness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = happiness.mp3; sourceTree = "<group>"; };
+		63DFE39E1CF9008D00897FCA /* hostility.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hostility.mp3; sourceTree = "<group>"; };
+		63DFE39F1CF9008D00897FCA /* love.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = love.mp3; sourceTree = "<group>"; };
+		63DFE3A01CF9008D00897FCA /* pride.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pride.mp3; sourceTree = "<group>"; };
+		63DFE3A11CF9008D00897FCA /* sadness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sadness.mp3; sourceTree = "<group>"; };
+		63DFE3A21CF9008D00897FCA /* shame.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shame.mp3; sourceTree = "<group>"; };
+		63DFE3A31CF9008D00897FCA /* surprise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = surprise.mp3; sourceTree = "<group>"; };
+		63DFE3A51CF9008D00897FCA /* Death_ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Death_ding.mp3; sourceTree = "<group>"; };
+		63DFE3A61CF9008D00897FCA /* goodbye_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = goodbye_distort.mp3; sourceTree = "<group>"; };
+		63DFE3A71CF9008D00897FCA /* goodbye_distort_w-ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "goodbye_distort_w-ding.mp3"; sourceTree = "<group>"; };
+		63DFE3B71CF9008D00897FCA /* goodbye.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = goodbye.mp3; sourceTree = "<group>"; };
+		63DFE3B81CF9008D00897FCA /* hello.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hello.mp3; sourceTree = "<group>"; };
+		63DFE3B91CF9008D00897FCA /* purging.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = purging.mp3; sourceTree = "<group>"; };
+		63DFE3BB1CF9A13D00897FCA /* anger_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = anger_distort.mp3; sourceTree = "<group>"; };
+		63DFE3BC1CF9A13D00897FCA /* bliss_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bliss_distort.mp3; sourceTree = "<group>"; };
+		63DFE3BD1CF9A13D00897FCA /* boredom_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boredom_distort.mp3; sourceTree = "<group>"; };
+		63DFE3BE1CF9A13D00897FCA /* disgust_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = disgust_distort.mp3; sourceTree = "<group>"; };
+		63DFE3BF1CF9A13D00897FCA /* excitement_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = excitement_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C01CF9A13D00897FCA /* fear_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fear_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C11CF9A13D00897FCA /* happiness_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = happiness_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C21CF9A13D00897FCA /* hostility_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hostility_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C31CF9A13D00897FCA /* love_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = love_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C41CF9A13D00897FCA /* pride_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pride_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C51CF9A13D00897FCA /* sadness_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sadness_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C61CF9A13D00897FCA /* shame_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shame_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C71CF9A13D00897FCA /* surprise_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = surprise_distort.mp3; sourceTree = "<group>"; };
+		63DFE3C91CF9B3BA00897FCA /* anger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anger.png; sourceTree = "<group>"; };
+		63DFE3CA1CF9B3BA00897FCA /* bliss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bliss.png; sourceTree = "<group>"; };
+		63DFE3CB1CF9B3BA00897FCA /* boredom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boredom.png; sourceTree = "<group>"; };
+		63DFE3CC1CF9B3BA00897FCA /* disgust.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disgust.png; sourceTree = "<group>"; };
+		63DFE3CD1CF9B3BA00897FCA /* excitement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = excitement.png; sourceTree = "<group>"; };
+		63DFE3CE1CF9B3BA00897FCA /* fear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fear.png; sourceTree = "<group>"; };
+		63DFE3CF1CF9B3BA00897FCA /* happiness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = happiness.png; sourceTree = "<group>"; };
+		63DFE3D01CF9B3BA00897FCA /* hostility.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hostility.png; sourceTree = "<group>"; };
+		63DFE3D11CF9B3BA00897FCA /* love.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = love.png; sourceTree = "<group>"; };
+		63DFE3D21CF9B3BA00897FCA /* neutral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = neutral.png; sourceTree = "<group>"; };
+		63DFE3D31CF9B3BA00897FCA /* pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pride.png; sourceTree = "<group>"; };
+		63DFE3D41CF9B3BA00897FCA /* sadness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sadness.png; sourceTree = "<group>"; };
+		63DFE3D51CF9B3BA00897FCA /* shame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shame.png; sourceTree = "<group>"; };
+		63DFE3D61CF9B3BA00897FCA /* surprise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = surprise.png; sourceTree = "<group>"; };
 		66AFAE2B5E99570922713F4E /* ofxHotKeys_impl_win.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxHotKeys_impl_win.cpp; path = ../../../../of_v0.9.3_osx_release/addons/ofxTimeline/src/ofxHotKeys_impl_win.cpp; sourceTree = SOURCE_ROOT; };
 		671E23111541935AEADB060B /* ofxEasingQuad.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxEasingQuad.cpp; path = ../../../../of_v0.9.3_osx_release/addons/ofxTween/src/Easings/ofxEasingQuad.cpp; sourceTree = SOURCE_ROOT; };
 		68AF90FF56401D806ABCFF8E /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPrintReceivedElements.h; path = ../../../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.h; sourceTree = SOURCE_ROOT; };
@@ -528,7 +573,7 @@
 		6313412A1CF673A3001A0293 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
-				631341311CF673E1001A0293 /* DIN LIGHT.TTF */,
+				631341E01CF75206001A0293 /* DIN-LIGHT.TTF */,
 				631341321CF673E1001A0293 /* DIN-BLACK.TTF */,
 				631341331CF673E1001A0293 /* DIN-BOLD.OTF */,
 				631341341CF673E1001A0293 /* DIN-REGULAR.OTF */,
@@ -572,6 +617,14 @@
 		631341301CF673C9001A0293 /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
+				6333E01B1CF7C03400756624 /* MyTimer.cpp */,
+				6333E01C1CF7C03400756624 /* MyTimer.h */,
+				6333E0131CF78F9600756624 /* EmotionHandler.cpp */,
+				6333E0141CF78F9600756624 /* EmotionHandler.h */,
+				631341E11CF78D8D001A0293 /* CommandReceiver.cpp */,
+				631341E21CF78D8D001A0293 /* CommandReceiver.h */,
+				6333E0171CF7BEA400756624 /* MemoryBar.cpp */,
+				6333E0181CF7BEA400756624 /* MemoryBar.h */,
 			);
 			name = local_addons;
 			path = src/local_addons;
@@ -580,8 +633,8 @@
 		631341601CF674DF001A0293 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				63DFE3C81CF9B3BA00897FCA /* emotions */,
 				631341611CF674DF001A0293 /* components */,
-				6313416F1CF674DF001A0293 /* emotions */,
 				6313417E1CF674DF001A0293 /* templates */,
 			);
 			name = images;
@@ -608,30 +661,10 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		6313416F1CF674DF001A0293 /* emotions */ = {
-			isa = PBXGroup;
-			children = (
-				631341701CF674DF001A0293 /* anger.png */,
-				631341711CF674DF001A0293 /* bliss.png */,
-				631341721CF674DF001A0293 /* boredom.png */,
-				631341731CF674DF001A0293 /* disgust.png */,
-				631341741CF674DF001A0293 /* excitement.png */,
-				631341751CF674DF001A0293 /* fear.png */,
-				631341761CF674DF001A0293 /* happiness.png */,
-				631341771CF674DF001A0293 /* hostility.png */,
-				631341781CF674DF001A0293 /* love.png */,
-				631341791CF674DF001A0293 /* neutral.png */,
-				6313417A1CF674DF001A0293 /* pride.png */,
-				6313417B1CF674DF001A0293 /* sadness.png */,
-				6313417C1CF674DF001A0293 /* shame.png */,
-				6313417D1CF674DF001A0293 /* surprise.png */,
-			);
-			path = emotions;
-			sourceTree = "<group>";
-		};
 		6313417E1CF674DF001A0293 /* templates */ = {
 			isa = PBXGroup;
 			children = (
+				631341DE1CF74635001A0293 /* FadeTemplate.png */,
 				6313417F1CF674DF001A0293 /* Anger.png */,
 				631341801CF674DF001A0293 /* Bliss.png */,
 				631341811CF674DF001A0293 /* Boredom.png */,
@@ -680,6 +713,99 @@
 			);
 			name = libs;
 			path = ../../../../of_v0.9.3_osx_release/addons/ofxXmlSettings/libs;
+			sourceTree = "<group>";
+		};
+		63DFE3951CF9008D00897FCA /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				63DFE3BA1CF9A13D00897FCA /* distortedEmotions */,
+				63DFE3961CF9008D00897FCA /* cleanEmotions */,
+				63DFE3A41CF9008D00897FCA /* corruption */,
+				63DFE3B61CF9008D00897FCA /* win */,
+			);
+			name = sounds;
+			path = bin/data/sounds;
+			sourceTree = "<group>";
+		};
+		63DFE3961CF9008D00897FCA /* cleanEmotions */ = {
+			isa = PBXGroup;
+			children = (
+				63DFE3971CF9008D00897FCA /* anger.mp3 */,
+				63DFE3981CF9008D00897FCA /* bliss.mp3 */,
+				63DFE3991CF9008D00897FCA /* boredom.mp3 */,
+				63DFE39A1CF9008D00897FCA /* disgust.mp3 */,
+				63DFE39B1CF9008D00897FCA /* excitement.mp3 */,
+				63DFE39C1CF9008D00897FCA /* fear.mp3 */,
+				63DFE39D1CF9008D00897FCA /* happiness.mp3 */,
+				63DFE39E1CF9008D00897FCA /* hostility.mp3 */,
+				63DFE39F1CF9008D00897FCA /* love.mp3 */,
+				63DFE3A01CF9008D00897FCA /* pride.mp3 */,
+				63DFE3A11CF9008D00897FCA /* sadness.mp3 */,
+				63DFE3A21CF9008D00897FCA /* shame.mp3 */,
+				63DFE3A31CF9008D00897FCA /* surprise.mp3 */,
+			);
+			path = cleanEmotions;
+			sourceTree = "<group>";
+		};
+		63DFE3A41CF9008D00897FCA /* corruption */ = {
+			isa = PBXGroup;
+			children = (
+				63DFE3A51CF9008D00897FCA /* Death_ding.mp3 */,
+				63DFE3A61CF9008D00897FCA /* goodbye_distort.mp3 */,
+				63DFE3A71CF9008D00897FCA /* goodbye_distort_w-ding.mp3 */,
+			);
+			path = corruption;
+			sourceTree = "<group>";
+		};
+		63DFE3B61CF9008D00897FCA /* win */ = {
+			isa = PBXGroup;
+			children = (
+				63DFE3B71CF9008D00897FCA /* goodbye.mp3 */,
+				63DFE3B81CF9008D00897FCA /* hello.mp3 */,
+				63DFE3B91CF9008D00897FCA /* purging.mp3 */,
+			);
+			path = win;
+			sourceTree = "<group>";
+		};
+		63DFE3BA1CF9A13D00897FCA /* distortedEmotions */ = {
+			isa = PBXGroup;
+			children = (
+				63DFE3BB1CF9A13D00897FCA /* anger_distort.mp3 */,
+				63DFE3BC1CF9A13D00897FCA /* bliss_distort.mp3 */,
+				63DFE3BD1CF9A13D00897FCA /* boredom_distort.mp3 */,
+				63DFE3BE1CF9A13D00897FCA /* disgust_distort.mp3 */,
+				63DFE3BF1CF9A13D00897FCA /* excitement_distort.mp3 */,
+				63DFE3C01CF9A13D00897FCA /* fear_distort.mp3 */,
+				63DFE3C11CF9A13D00897FCA /* happiness_distort.mp3 */,
+				63DFE3C21CF9A13D00897FCA /* hostility_distort.mp3 */,
+				63DFE3C31CF9A13D00897FCA /* love_distort.mp3 */,
+				63DFE3C41CF9A13D00897FCA /* pride_distort.mp3 */,
+				63DFE3C51CF9A13D00897FCA /* sadness_distort.mp3 */,
+				63DFE3C61CF9A13D00897FCA /* shame_distort.mp3 */,
+				63DFE3C71CF9A13D00897FCA /* surprise_distort.mp3 */,
+			);
+			path = distortedEmotions;
+			sourceTree = "<group>";
+		};
+		63DFE3C81CF9B3BA00897FCA /* emotions */ = {
+			isa = PBXGroup;
+			children = (
+				63DFE3C91CF9B3BA00897FCA /* anger.png */,
+				63DFE3CA1CF9B3BA00897FCA /* bliss.png */,
+				63DFE3CB1CF9B3BA00897FCA /* boredom.png */,
+				63DFE3CC1CF9B3BA00897FCA /* disgust.png */,
+				63DFE3CD1CF9B3BA00897FCA /* excitement.png */,
+				63DFE3CE1CF9B3BA00897FCA /* fear.png */,
+				63DFE3CF1CF9B3BA00897FCA /* happiness.png */,
+				63DFE3D01CF9B3BA00897FCA /* hostility.png */,
+				63DFE3D11CF9B3BA00897FCA /* love.png */,
+				63DFE3D21CF9B3BA00897FCA /* neutral.png */,
+				63DFE3D31CF9B3BA00897FCA /* pride.png */,
+				63DFE3D41CF9B3BA00897FCA /* sadness.png */,
+				63DFE3D51CF9B3BA00897FCA /* shame.png */,
+				63DFE3D61CF9B3BA00897FCA /* surprise.png */,
+			);
+			path = emotions;
 			sourceTree = "<group>";
 		};
 		641362CA659FAFEE4E81001B /* posix */ = {
@@ -1064,6 +1190,7 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				63DFE3951CF9008D00897FCA /* sounds */,
 				631341601CF674DF001A0293 /* images */,
 				631341301CF673C9001A0293 /* local_addons */,
 				631341291CF673A3001A0293 /* config */,
@@ -1295,18 +1422,22 @@
 				79B2011353D4AC5EE62D2A4D /* ofxTLEmptyKeyframes.cpp in Sources */,
 				631341981CF675BD001A0293 /* tinyxml.cpp in Sources */,
 				CE5DA484DBDD8E390F263943 /* ofxTLEmptyTrack.cpp in Sources */,
+				6333E0151CF78F9600756624 /* EmotionHandler.cpp in Sources */,
 				5C1DB5A163F595C2DEBB3210 /* ofxTLFlags.cpp in Sources */,
 				41989C9A2ED24A7355EDDDFE /* ofxTLImageSequence.cpp in Sources */,
 				8CEA2BAAD570D45DE0EBCEB5 /* ofxTLImageSequenceFrame.cpp in Sources */,
 				7A153DDA6BE9EE6EB18EE5F6 /* ofxTLImageTrack.cpp in Sources */,
 				0E42AB91ACB784913630B0A7 /* ofxTLInOut.cpp in Sources */,
 				1251159C38870BED046297FF /* ofxTLKeyframes.cpp in Sources */,
+				631341E31CF78D8D001A0293 /* CommandReceiver.cpp in Sources */,
 				2FD143ED9FB3378B35757D40 /* ofxTLLFO.cpp in Sources */,
 				AA30939F0B3047B07807FCA9 /* ofxTLPage.cpp in Sources */,
 				F5F602EF85B01C9044CE8E07 /* ofxTLPageTabs.cpp in Sources */,
 				E51B114733A5EBC9993041E5 /* ofxTLSwitches.cpp in Sources */,
 				01A1412D966D71AACB57781C /* ofxTLTicker.cpp in Sources */,
+				6333E01D1CF7C03400756624 /* MyTimer.cpp in Sources */,
 				631341991CF675BD001A0293 /* tinyxmlerror.cpp in Sources */,
+				6333E0191CF7BEA400756624 /* MemoryBar.cpp in Sources */,
 				87AC44566945534EE86942AA /* ofxTLTrack.cpp in Sources */,
 				50F4F4F2A03BD76F2B8134C6 /* ofxTLTrackHeader.cpp in Sources */,
 				304C6D6948CADECE4BF17C93 /* ofxTLVideoThumb.cpp in Sources */,
@@ -1529,6 +1660,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = DEBUG_ELEMENTS;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					../../../../of_v0.9.3_osx_release/addons/ofxAudioDecoder/libs,
@@ -1610,6 +1742,7 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../of_v0.9.3_osx_release/libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = DEBUG_ELEMENTS;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					../../../../of_v0.9.3_osx_release/addons/ofxAudioDecoder/libs,
