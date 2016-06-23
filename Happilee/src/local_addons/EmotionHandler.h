@@ -15,6 +15,8 @@
 #include "ofMain.h"
 #include "ofxTween.h"
 #include "MemoryBar.h"
+#include "ofxPostGlitch.h"
+#include "HappileeScenes.h"
 
 enum HAPPILEE_STATE {
     HAPPILEE_GREEN = 0,
@@ -25,7 +27,7 @@ enum HAPPILEE_STATE {
     HAPPILEE_PURGING
 };
 
-class EmotionHandler: public ofThread {
+class EmotionHandler {
     
     public:
         //! Setup
@@ -55,26 +57,34 @@ class EmotionHandler: public ofThread {
         //! Draw Emotions
         void drawEmotions();
     
+        //! Draw Hatching
+        void drawHatching();
+    
         //! Sets a Random Image
         void setImage(int whichImage,int maxTweenTime);
     
         //! Clear Images from Memory
         void cleanUp();
     
-        //! Speak Easy
-        void threadedFunction();
-    
         //! How many emotions are in the folder
         int getNumberOfEmotions();
     
+        //! Get the ID Number of the Neutral Face
+        int getNeutralFaceID();
+    
+        //! Get the ID Number of the Malfunction Face
+        int getMalfunctionFaceID();
+    
+        //! Set the Happilee Mode
         void setHappileeState(HAPPILEE_STATE state);
     
-        void startSpeakEasy();
-    
+        //! Reset the Memory
         void resetMemory();
     
+        //! Do Win State
         void setWinState();
     
+        //! Do Dead State
         void setDeadState();
     
         MemoryBar memoryProcessor;
@@ -90,7 +100,6 @@ class EmotionHandler: public ofThread {
         ofSoundPlayer *emotionSoundsClean;
         ofSoundPlayer *emotionSoundsDistorted;
     
-    
         int lastImagePosition;
         int newImagePosition;
     
@@ -98,13 +107,19 @@ class EmotionHandler: public ofThread {
         int newEmotionPosition;
     
         void didTweenFinish(int &val);
-
+    
+        HappileeMalfunctioned hpMalfunctioned;
+    
         ofxTween moveImage;
         ofxTween moveEmotion;
         ofxTween purgingEmotions;
+        ofxTween malfunctioning;
         ofxEasingExpo expo;
         ofxEasingCubic cub;
         ofxEasingLinear line;
+    
+        ofFbo faceTexture;
+        ofxPostGlitch interferance;
     
         ofFbo wordsContainer;
         ofFbo hatchTexture;
@@ -116,17 +131,21 @@ class EmotionHandler: public ofThread {
         bool moveImageLatch;
         bool changeStringLatch;
         bool lowMemory;
+    
         string dots;
+    
         int whichEmotion;
+        int neutralEmotionID;
+        int malfunctionEmotionID;
     
-    
+        ofShader alphaMask;
+        ofImage alphaMaskImage;
         HAPPILEE_STATE hpState;
     
         ofTrueTypeFont regularIndicatorFont;
         ofTrueTypeFont lightIndicatorFont;
         ofTrueTypeFont darkIndicatorFont;
         ofTrueTypeFont boldIndicatorFont;
-    
 };
 
 #endif /* EmotionHandler_h */

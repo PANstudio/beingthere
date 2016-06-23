@@ -247,6 +247,7 @@
 		6333E0181CF7BEA400756624 /* MemoryBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryBar.h; sourceTree = "<group>"; };
 		6333E01B1CF7C03400756624 /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTimer.cpp; sourceTree = "<group>"; };
 		6333E01C1CF7C03400756624 /* MyTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTimer.h; sourceTree = "<group>"; };
+		638E44A51D16CF4000BE915F /* HappileeScenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HappileeScenes.h; sourceTree = "<group>"; };
 		63DFE3971CF9008D00897FCA /* anger.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = anger.mp3; sourceTree = "<group>"; };
 		63DFE3981CF9008D00897FCA /* bliss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bliss.mp3; sourceTree = "<group>"; };
 		63DFE3991CF9008D00897FCA /* boredom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boredom.mp3; sourceTree = "<group>"; };
@@ -293,6 +294,72 @@
 		63DFE3D41CF9B3BA00897FCA /* sadness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sadness.png; sourceTree = "<group>"; };
 		63DFE3D51CF9B3BA00897FCA /* shame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shame.png; sourceTree = "<group>"; };
 		63DFE3D61CF9B3BA00897FCA /* surprise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = surprise.png; sourceTree = "<group>"; };
+		63E568AD1CFE251200FAFCC7 /* convergence.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = convergence.frag; sourceTree = "<group>"; };
+		63E568AE1CFE251200FAFCC7 /* convergence.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = convergence.vert; sourceTree = "<group>"; };
+		63E568AF1CFE251200FAFCC7 /* crBlueinvert.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crBlueinvert.frag; sourceTree = "<group>"; };
+		63E568B01CFE251200FAFCC7 /* crBlueinvert.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crBlueinvert.vert; sourceTree = "<group>"; };
+		63E568B11CFE251200FAFCC7 /* crBlueraise.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crBlueraise.frag; sourceTree = "<group>"; };
+		63E568B21CFE251200FAFCC7 /* crBlueraise.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crBlueraise.vert; sourceTree = "<group>"; };
+		63E568B31CFE251200FAFCC7 /* crGreeninvert.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crGreeninvert.frag; sourceTree = "<group>"; };
+		63E568B41CFE251200FAFCC7 /* crGreeninvert.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crGreeninvert.vert; sourceTree = "<group>"; };
+		63E568B51CFE251200FAFCC7 /* crGreenraise.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crGreenraise.frag; sourceTree = "<group>"; };
+		63E568B61CFE251200FAFCC7 /* crGreenraise.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crGreenraise.vert; sourceTree = "<group>"; };
+		63E568B71CFE251200FAFCC7 /* crHighContrast.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crHighContrast.frag; sourceTree = "<group>"; };
+		63E568B81CFE251200FAFCC7 /* crHighContrast.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crHighContrast.vert; sourceTree = "<group>"; };
+		63E568B91CFE251200FAFCC7 /* crRedinvert.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crRedinvert.frag; sourceTree = "<group>"; };
+		63E568BA1CFE251200FAFCC7 /* crRedinvert.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crRedinvert.vert; sourceTree = "<group>"; };
+		63E568BB1CFE251200FAFCC7 /* crRedraise.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crRedraise.frag; sourceTree = "<group>"; };
+		63E568BC1CFE251200FAFCC7 /* crRedraise.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = crRedraise.vert; sourceTree = "<group>"; };
+		63E568BD1CFE251200FAFCC7 /* cut_slider.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = cut_slider.frag; sourceTree = "<group>"; };
+		63E568BE1CFE251200FAFCC7 /* cut_slider.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = cut_slider.vert; sourceTree = "<group>"; };
+		63E568BF1CFE251200FAFCC7 /* glow.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = glow.frag; sourceTree = "<group>"; };
+		63E568C01CFE251200FAFCC7 /* glow.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = glow.vert; sourceTree = "<group>"; };
+		63E568C11CFE251200FAFCC7 /* invert.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = invert.frag; sourceTree = "<group>"; };
+		63E568C21CFE251200FAFCC7 /* invert.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = invert.vert; sourceTree = "<group>"; };
+		63E568C31CFE251200FAFCC7 /* noise.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = noise.frag; sourceTree = "<group>"; };
+		63E568C41CFE251200FAFCC7 /* noise.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = noise.vert; sourceTree = "<group>"; };
+		63E568C51CFE251200FAFCC7 /* outline.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = outline.frag; sourceTree = "<group>"; };
+		63E568C61CFE251200FAFCC7 /* outline.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = outline.vert; sourceTree = "<group>"; };
+		63E568C71CFE251200FAFCC7 /* shaker.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shaker.frag; sourceTree = "<group>"; };
+		63E568C81CFE251200FAFCC7 /* shaker.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shaker.vert; sourceTree = "<group>"; };
+		63E568C91CFE251200FAFCC7 /* slitscan.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = slitscan.frag; sourceTree = "<group>"; };
+		63E568CA1CFE251200FAFCC7 /* slitscan.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = slitscan.vert; sourceTree = "<group>"; };
+		63E568CB1CFE251200FAFCC7 /* swell.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = swell.frag; sourceTree = "<group>"; };
+		63E568CC1CFE251200FAFCC7 /* swell.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = swell.vert; sourceTree = "<group>"; };
+		63E568CD1CFE251200FAFCC7 /* twist.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = twist.frag; sourceTree = "<group>"; };
+		63E568CE1CFE251200FAFCC7 /* twist.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = twist.vert; sourceTree = "<group>"; };
+		63E568D11CFE253F00FAFCC7 /* anger.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = anger.mp3; sourceTree = "<group>"; };
+		63E568D21CFE253F00FAFCC7 /* bliss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bliss.mp3; sourceTree = "<group>"; };
+		63E568D31CFE253F00FAFCC7 /* boredom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boredom.mp3; sourceTree = "<group>"; };
+		63E568D41CFE253F00FAFCC7 /* disgust.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = disgust.mp3; sourceTree = "<group>"; };
+		63E568D51CFE253F00FAFCC7 /* excitement.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = excitement.mp3; sourceTree = "<group>"; };
+		63E568D61CFE253F00FAFCC7 /* fear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fear.mp3; sourceTree = "<group>"; };
+		63E568D71CFE253F00FAFCC7 /* happiness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = happiness.mp3; sourceTree = "<group>"; };
+		63E568D81CFE253F00FAFCC7 /* hostility.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hostility.mp3; sourceTree = "<group>"; };
+		63E568D91CFE253F00FAFCC7 /* love.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = love.mp3; sourceTree = "<group>"; };
+		63E568DA1CFE253F00FAFCC7 /* pride.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pride.mp3; sourceTree = "<group>"; };
+		63E568DB1CFE253F00FAFCC7 /* sadness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sadness.mp3; sourceTree = "<group>"; };
+		63E568DC1CFE253F00FAFCC7 /* shame.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shame.mp3; sourceTree = "<group>"; };
+		63E568DD1CFE253F00FAFCC7 /* surprise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = surprise.mp3; sourceTree = "<group>"; };
+		63E568DF1CFE253F00FAFCC7 /* Death_ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Death_ding.mp3; sourceTree = "<group>"; };
+		63E568E01CFE253F00FAFCC7 /* goodbye_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = goodbye_distort.mp3; sourceTree = "<group>"; };
+		63E568E11CFE253F00FAFCC7 /* goodbye_distort_w-ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "goodbye_distort_w-ding.mp3"; sourceTree = "<group>"; };
+		63E568E31CFE253F00FAFCC7 /* anger_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = anger_distort.mp3; sourceTree = "<group>"; };
+		63E568E41CFE253F00FAFCC7 /* bliss_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bliss_distort.mp3; sourceTree = "<group>"; };
+		63E568E51CFE253F00FAFCC7 /* boredom_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boredom_distort.mp3; sourceTree = "<group>"; };
+		63E568E61CFE253F00FAFCC7 /* disgust_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = disgust_distort.mp3; sourceTree = "<group>"; };
+		63E568E71CFE253F00FAFCC7 /* excitement_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = excitement_distort.mp3; sourceTree = "<group>"; };
+		63E568E81CFE253F00FAFCC7 /* fear_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fear_distort.mp3; sourceTree = "<group>"; };
+		63E568E91CFE253F00FAFCC7 /* happiness_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = happiness_distort.mp3; sourceTree = "<group>"; };
+		63E568EA1CFE253F00FAFCC7 /* hostility_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hostility_distort.mp3; sourceTree = "<group>"; };
+		63E568EB1CFE253F00FAFCC7 /* love_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = love_distort.mp3; sourceTree = "<group>"; };
+		63E568EC1CFE253F00FAFCC7 /* pride_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pride_distort.mp3; sourceTree = "<group>"; };
+		63E568ED1CFE253F00FAFCC7 /* sadness_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sadness_distort.mp3; sourceTree = "<group>"; };
+		63E568EE1CFE253F00FAFCC7 /* shame_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shame_distort.mp3; sourceTree = "<group>"; };
+		63E568EF1CFE253F00FAFCC7 /* surprise_distort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = surprise_distort.mp3; sourceTree = "<group>"; };
+		63E568F11CFE253F00FAFCC7 /* goodbye.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = goodbye.mp3; sourceTree = "<group>"; };
+		63E568F21CFE253F00FAFCC7 /* hello.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hello.mp3; sourceTree = "<group>"; };
+		63E568F31CFE253F00FAFCC7 /* purging.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = purging.mp3; sourceTree = "<group>"; };
 		66AFAE2B5E99570922713F4E /* ofxHotKeys_impl_win.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxHotKeys_impl_win.cpp; path = ../../../../of_v0.9.3_osx_release/addons/ofxTimeline/src/ofxHotKeys_impl_win.cpp; sourceTree = SOURCE_ROOT; };
 		671E23111541935AEADB060B /* ofxEasingQuad.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxEasingQuad.cpp; path = ../../../../of_v0.9.3_osx_release/addons/ofxTween/src/Easings/ofxEasingQuad.cpp; sourceTree = SOURCE_ROOT; };
 		68AF90FF56401D806ABCFF8E /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPrintReceivedElements.h; path = ../../../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.h; sourceTree = SOURCE_ROOT; };
@@ -590,22 +657,6 @@
 			path = bin/data/modes;
 			sourceTree = "<group>";
 		};
-		6313412D1CF673A3001A0293 /* shaders */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = shaders;
-			path = bin/data/shaders;
-			sourceTree = "<group>";
-		};
-		6313412E1CF673A3001A0293 /* sounds */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = sounds;
-			path = bin/data/sounds;
-			sourceTree = "<group>";
-		};
 		6313412F1CF673A3001A0293 /* timeline_GUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,6 +670,7 @@
 			children = (
 				6333E01B1CF7C03400756624 /* MyTimer.cpp */,
 				6333E01C1CF7C03400756624 /* MyTimer.h */,
+				638E44A51D16CF4000BE915F /* HappileeScenes.h */,
 				6333E0131CF78F9600756624 /* EmotionHandler.cpp */,
 				6333E0141CF78F9600756624 /* EmotionHandler.h */,
 				631341E11CF78D8D001A0293 /* CommandReceiver.cpp */,
@@ -806,6 +858,120 @@
 				63DFE3D61CF9B3BA00897FCA /* surprise.png */,
 			);
 			path = emotions;
+			sourceTree = "<group>";
+		};
+		63E568AC1CFE251200FAFCC7 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				63E568AD1CFE251200FAFCC7 /* convergence.frag */,
+				63E568AE1CFE251200FAFCC7 /* convergence.vert */,
+				63E568AF1CFE251200FAFCC7 /* crBlueinvert.frag */,
+				63E568B01CFE251200FAFCC7 /* crBlueinvert.vert */,
+				63E568B11CFE251200FAFCC7 /* crBlueraise.frag */,
+				63E568B21CFE251200FAFCC7 /* crBlueraise.vert */,
+				63E568B31CFE251200FAFCC7 /* crGreeninvert.frag */,
+				63E568B41CFE251200FAFCC7 /* crGreeninvert.vert */,
+				63E568B51CFE251200FAFCC7 /* crGreenraise.frag */,
+				63E568B61CFE251200FAFCC7 /* crGreenraise.vert */,
+				63E568B71CFE251200FAFCC7 /* crHighContrast.frag */,
+				63E568B81CFE251200FAFCC7 /* crHighContrast.vert */,
+				63E568B91CFE251200FAFCC7 /* crRedinvert.frag */,
+				63E568BA1CFE251200FAFCC7 /* crRedinvert.vert */,
+				63E568BB1CFE251200FAFCC7 /* crRedraise.frag */,
+				63E568BC1CFE251200FAFCC7 /* crRedraise.vert */,
+				63E568BD1CFE251200FAFCC7 /* cut_slider.frag */,
+				63E568BE1CFE251200FAFCC7 /* cut_slider.vert */,
+				63E568BF1CFE251200FAFCC7 /* glow.frag */,
+				63E568C01CFE251200FAFCC7 /* glow.vert */,
+				63E568C11CFE251200FAFCC7 /* invert.frag */,
+				63E568C21CFE251200FAFCC7 /* invert.vert */,
+				63E568C31CFE251200FAFCC7 /* noise.frag */,
+				63E568C41CFE251200FAFCC7 /* noise.vert */,
+				63E568C51CFE251200FAFCC7 /* outline.frag */,
+				63E568C61CFE251200FAFCC7 /* outline.vert */,
+				63E568C71CFE251200FAFCC7 /* shaker.frag */,
+				63E568C81CFE251200FAFCC7 /* shaker.vert */,
+				63E568C91CFE251200FAFCC7 /* slitscan.frag */,
+				63E568CA1CFE251200FAFCC7 /* slitscan.vert */,
+				63E568CB1CFE251200FAFCC7 /* swell.frag */,
+				63E568CC1CFE251200FAFCC7 /* swell.vert */,
+				63E568CD1CFE251200FAFCC7 /* twist.frag */,
+				63E568CE1CFE251200FAFCC7 /* twist.vert */,
+			);
+			name = shaders;
+			path = bin/data/shaders;
+			sourceTree = "<group>";
+		};
+		63E568CF1CFE253F00FAFCC7 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				63E568D01CFE253F00FAFCC7 /* cleanEmotions */,
+				63E568DE1CFE253F00FAFCC7 /* corruption */,
+				63E568E21CFE253F00FAFCC7 /* distortedEmotions */,
+				63E568F01CFE253F00FAFCC7 /* win */,
+			);
+			name = sounds;
+			path = bin/data/sounds;
+			sourceTree = "<group>";
+		};
+		63E568D01CFE253F00FAFCC7 /* cleanEmotions */ = {
+			isa = PBXGroup;
+			children = (
+				63E568D11CFE253F00FAFCC7 /* anger.mp3 */,
+				63E568D21CFE253F00FAFCC7 /* bliss.mp3 */,
+				63E568D31CFE253F00FAFCC7 /* boredom.mp3 */,
+				63E568D41CFE253F00FAFCC7 /* disgust.mp3 */,
+				63E568D51CFE253F00FAFCC7 /* excitement.mp3 */,
+				63E568D61CFE253F00FAFCC7 /* fear.mp3 */,
+				63E568D71CFE253F00FAFCC7 /* happiness.mp3 */,
+				63E568D81CFE253F00FAFCC7 /* hostility.mp3 */,
+				63E568D91CFE253F00FAFCC7 /* love.mp3 */,
+				63E568DA1CFE253F00FAFCC7 /* pride.mp3 */,
+				63E568DB1CFE253F00FAFCC7 /* sadness.mp3 */,
+				63E568DC1CFE253F00FAFCC7 /* shame.mp3 */,
+				63E568DD1CFE253F00FAFCC7 /* surprise.mp3 */,
+			);
+			path = cleanEmotions;
+			sourceTree = "<group>";
+		};
+		63E568DE1CFE253F00FAFCC7 /* corruption */ = {
+			isa = PBXGroup;
+			children = (
+				63E568DF1CFE253F00FAFCC7 /* Death_ding.mp3 */,
+				63E568E01CFE253F00FAFCC7 /* goodbye_distort.mp3 */,
+				63E568E11CFE253F00FAFCC7 /* goodbye_distort_w-ding.mp3 */,
+			);
+			path = corruption;
+			sourceTree = "<group>";
+		};
+		63E568E21CFE253F00FAFCC7 /* distortedEmotions */ = {
+			isa = PBXGroup;
+			children = (
+				63E568E31CFE253F00FAFCC7 /* anger_distort.mp3 */,
+				63E568E41CFE253F00FAFCC7 /* bliss_distort.mp3 */,
+				63E568E51CFE253F00FAFCC7 /* boredom_distort.mp3 */,
+				63E568E61CFE253F00FAFCC7 /* disgust_distort.mp3 */,
+				63E568E71CFE253F00FAFCC7 /* excitement_distort.mp3 */,
+				63E568E81CFE253F00FAFCC7 /* fear_distort.mp3 */,
+				63E568E91CFE253F00FAFCC7 /* happiness_distort.mp3 */,
+				63E568EA1CFE253F00FAFCC7 /* hostility_distort.mp3 */,
+				63E568EB1CFE253F00FAFCC7 /* love_distort.mp3 */,
+				63E568EC1CFE253F00FAFCC7 /* pride_distort.mp3 */,
+				63E568ED1CFE253F00FAFCC7 /* sadness_distort.mp3 */,
+				63E568EE1CFE253F00FAFCC7 /* shame_distort.mp3 */,
+				63E568EF1CFE253F00FAFCC7 /* surprise_distort.mp3 */,
+			);
+			path = distortedEmotions;
+			sourceTree = "<group>";
+		};
+		63E568F01CFE253F00FAFCC7 /* win */ = {
+			isa = PBXGroup;
+			children = (
+				63E568F11CFE253F00FAFCC7 /* goodbye.mp3 */,
+				63E568F21CFE253F00FAFCC7 /* hello.mp3 */,
+				63E568F31CFE253F00FAFCC7 /* purging.mp3 */,
+			);
+			path = win;
 			sourceTree = "<group>";
 		};
 		641362CA659FAFEE4E81001B /* posix */ = {
@@ -1190,14 +1356,14 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				63E568CF1CFE253F00FAFCC7 /* sounds */,
+				63E568AC1CFE251200FAFCC7 /* shaders */,
 				63DFE3951CF9008D00897FCA /* sounds */,
 				631341601CF674DF001A0293 /* images */,
 				631341301CF673C9001A0293 /* local_addons */,
 				631341291CF673A3001A0293 /* config */,
 				6313412A1CF673A3001A0293 /* fonts */,
 				6313412C1CF673A3001A0293 /* modes */,
-				6313412D1CF673A3001A0293 /* shaders */,
-				6313412E1CF673A3001A0293 /* sounds */,
 				6313412F1CF673A3001A0293 /* timeline_GUI */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
@@ -1369,7 +1535,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy default icon file into App/Resources\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy libfmod and change install directory for fmod to run\nrsync -aved ../../../../of_v0.9.3_osx_release/libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -change @executable_path/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n# Copy GLUT framework (must remove for AppStore submissions)\nrsync -aved ../../../../of_v0.9.3_osx_release/libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\n";
+			shellScript = "mkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy default icon file into App/Resources\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy libfmod and change install directory for fmod to run\nrsync -aved ../../../../of_v0.9.3_osx_release/libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -change @executable_path/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n# Copy GLUT framework (must remove for AppStore submissions)\nrsync -aved ../../../../of_v0.9.3_osx_release/libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\n\ncp -r bin/data \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources\";\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

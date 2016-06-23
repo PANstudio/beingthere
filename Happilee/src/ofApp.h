@@ -7,7 +7,6 @@
 #include "MyTimer.h"
 
 
-
 class ofApp : public ofBaseApp {
 
 	public:
@@ -17,16 +16,6 @@ class ofApp : public ofBaseApp {
         void exit();
     
 		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
     
         MyTimer emotionTimer;
     
@@ -34,6 +23,9 @@ class ofApp : public ofBaseApp {
         void removeListeners();
         void timerStarted(string &val);
         void timerEnded(string &val);
+    
+        void happileeSuccessfullyRebooted(string &val);
+    
         void haveDied(string &val);
         void haveWon(string &val);
     
@@ -49,8 +41,9 @@ class ofApp : public ofBaseApp {
     
         CommandReceiver receiver;
         EmotionHandler emotionProcessor;
-        void drawFaceElement();
-        void drawIndicators();
+        
+    
+        void drawDebugInfo();
         int selectEmotion;
     
     

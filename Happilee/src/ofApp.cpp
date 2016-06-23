@@ -1,10 +1,11 @@
 #include "ofApp.h"
 
+#pragma mark - OF Functions
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofSetDataPathRoot("../Resources/data/");
     emotionProcessor.setup();
-    emotionProcessor.startSpeakEasy();
     selectEmotion = 0;
     hpState = 0;
     
@@ -15,14 +16,6 @@ void ofApp::setup()
     
     emotionTimer.setup(5000, "Emotion Timer", true);
     emotionTimer.start();
-    
-    int numOfEmotions = emotionProcessor.getNumberOfEmotions();
-    
-    for (int i = 0; i < numOfEmotions; i++) {
-        if (i != 9) {
-            randomisedEmotions.push_back(i);
-        }
-    }
     
     shuffleEmotions();
 }
@@ -40,17 +33,7 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground(255, 255, 255);
-    drawFaceElement();
     emotionProcessor.drawImages();
-//    drawIndicators();
-    emotionProcessor.drawIndicators();
-    emotionProcessor.drawEmotions();
-
-    ofSetColor(0);
-    ofDrawLine(mouseX, mouseY, mouseX+25, mouseY-25);
-    ofDrawBitmapStringHighlight(ofToString(mouseX)+" "+ofToString(mouseY),
-                                mouseX+25,
-                                mouseY-25);
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -76,6 +59,7 @@ void ofApp::keyPressed(int key)
             break;
         case 'R':
             emotionProcessor.resetMemory();
+            shuffleEmotions();
             emotionTimer.setup(4000, "Emotion Timer", true);
             emotionTimer.start();
             break;
@@ -86,66 +70,21 @@ void ofApp::keyPressed(int key)
             break;
         case 'd':
             emotionProcessor.setDeadState();
+            emotionTimer.stop();
             break;
         default:
             break;
     }
 }
+
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key) {       }
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ) {       }
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {       }
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {       }
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {       }
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y) {       }
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y) {       }
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {       }
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {       }
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) {       }
-//--------------------------------------------------------------
-void ofApp::drawFaceElement()
+void ofApp::drawDebugInfo()
 {
     ofPushStyle();
-    ofSetColor(255, 216, 21);
-    ofSetCircleResolution(200);
-    ofDrawCircle(ofGetWidth()*0.5, ofGetHeight()*0.40, 160);
+    
     ofPopStyle();
 }
-//--------------------------------------------------------------
-void ofApp::drawIndicators()
-{
-    ofPushStyle();
-    int offsetX = 13;
-    int offsetY = 10;
-    int width = (ofGetWidth()*0.5)-(offsetX);
-    int height = 80;
-    
-    // Blue Box Left Side
-    ofSetColor(0, 181, 208);
-    ofDrawRectRounded(offsetX,
-                      (ofGetHeight()-height)-offsetY,
-                      width-(offsetX*0.5),
-                      height,
-                      0);
-    
-    // Red Box Right Side
-    ofSetColor(255, 67, 81);
-    ofDrawRectRounded((ofGetWidth()-width)-offsetX+(offsetX*0.5),
-                      (ofGetHeight()-height)-offsetY,
-                      width-(offsetX*0.5),
-                      height,
-                      0);
-    ofPopStyle();
-}
+#pragma mark - Listeners
 //--------------------------------------------------------------
 void ofApp::setupListeners()
 {
@@ -174,10 +113,7 @@ void ofApp::removeListeners()
     ofRemoveListener(receiver.malfunction, this, &ofApp::malfunctionHappilee);
 }
 //--------------------------------------------------------------
-void ofApp::timerStarted(string &val)
-{
-//    cout << "Timer Started" << endl;
-}
+void ofApp::timerStarted(string &val) {     }
 //--------------------------------------------------------------
 void ofApp::timerEnded(string &val)
 {
@@ -197,6 +133,16 @@ void ofApp::timerEnded(string &val)
     }
     selectEmotion++;
 }
+//--------------------------------------------------------------
+void ofApp::happileeSuccessfullyRebooted(string &val)
+{
+    
+}
+#pragma mark - Events
+//--------------------------------------------------------------
+// *
+// *    These are events that trigger the Happilee Actions
+// *
 //--------------------------------------------------------------
 void ofApp::haveDied(string &val)
 {
@@ -240,7 +186,6 @@ void ofApp::inSafeZone(string &val)
 void ofApp::rebootHappilee(string &val)
 {
     emotionProcessor.resetMemory();
-    emotionTimer.setup(4000, "Emotion Timer", true);
     emotionTimer.start();
 }
 //--------------------------------------------------------------
@@ -248,47 +193,57 @@ void ofApp::malfunctionHappilee(string &val)
 {
     emotionProcessor.setDeadState();
 }
+#pragma mark - Emotion Handlers
+//--------------------------------------------------------------
+// *
+// *    Fisher Yates Shuffle Mechanism
+// *
 //--------------------------------------------------------------
 void ofApp::fisherYatesShuffle(vector<int> &randomised)
 {
     std::srand(std::time(nullptr));
-//    cout << "BShuffle ";
-//    std::copy(randomised.cbegin(), randomised.cend(),
-//              std::ostream_iterator<int>(std::cout," "));
-//    
-    auto currentIndexCounter = randomised.size();
-    for (auto iter = randomised.rbegin(); iter != randomised.rend(); iter++, --currentIndexCounter) {
-        
-        int randomIndex = std::rand()&currentIndexCounter;
-        if (randomIndex > randomised.size() || *iter < 0) {
-            cout << "Issue Here" << endl;
-            return;
-        }
-        else {
-            if (*iter != randomised.at(randomIndex)) {
-                swap(randomised.at(randomIndex), *iter);
-            }
-        }
-        
+    
+    int randomisedSize = randomised.size();
+    cout << "Before Shuffling ";
+    std::copy(randomised.cbegin(), randomised.cend(),
+              std::ostream_iterator<int>(std::cout," "));
+    
+    for (int i = randomisedSize-1 ; i > 0; i--) {
+        int idx = (rand() % (i+1));
+        swap(randomised[idx], randomised[i]);
     }
-//    cout << "AShuffle ";
-//    std::copy(randomised.cbegin(), randomised.cend(),
-//              std::ostream_iterator<int>(std::cout," "));
+    cout << endl;
+    
+    cout << "After Shuffle ";
+    std::copy(randomised.cbegin(), randomised.cend(),
+              std::ostream_iterator<int>(std::cout," "));
+    cout << endl;
 }
+//--------------------------------------------------------------
+// *
+// *    Shuffle Emotions
+// *
 //--------------------------------------------------------------
 void ofApp::shuffleEmotions()
 {
     randomisedEmotions.clear();
+
     int numOfEmotions = emotionProcessor.getNumberOfEmotions();
-    
+    cout << "Number of Emotion Faces: "<< numOfEmotions <<  endl;
+    cout << "ID of Neutral Face: "<< emotionProcessor.getNeutralFaceID() <<  endl;
+    cout << "ID of Malfunction Face: "<< emotionProcessor.getMalfunctionFaceID() <<  endl;
     for (int i = 0; i < numOfEmotions; i++) {
-        if (i != 9) {
+        if ((i == emotionProcessor.getNeutralFaceID()) || (i == emotionProcessor.getMalfunctionFaceID()))
+        {        }
+        else {
             randomisedEmotions.push_back(i);
         }
     }
-    
+
+    // Shuffle time
     fisherYatesShuffle(randomisedEmotions);
     
+    // Add in the Neutral State
     vector<int>::iterator it;
     for (int i = 0; i < randomisedEmotions.size(); i++) {
         if (i % 2) {
@@ -296,13 +251,17 @@ void ofApp::shuffleEmotions()
             randomisedEmotions.insert(it,9);
         }
     }
-//    for (int i = 0; i < randomisedEmotions.size(); i++) {
-//        if (i == randomisedEmotions.size()) {
-//            cout << randomisedEmotions[i] << endl;
-//        }
-//        else {
-//            cout << randomisedEmotions[i] << " ";
-//        }
-//    }
+    it = randomisedEmotions.begin();
+    randomisedEmotions.insert(it,9);
+    
+    // Print out the Shuffled Line
+    for (int i = 0; i < randomisedEmotions.size(); i++) {
+        if (i == randomisedEmotions.size()) {
+            cout << randomisedEmotions[i] << endl;
+        }
+        else {
+            cout << randomisedEmotions[i] << " ";
+        }
+    }
     cout << endl;
 }
