@@ -5,7 +5,7 @@
 #include "EmotionHandler.h"
 #include "CommandReceiver.h"
 #include "MyTimer.h"
-
+#include "HappileeConfiguration.h"
 
 class ofApp : public ofBaseApp {
 
@@ -41,7 +41,7 @@ class ofApp : public ofBaseApp {
     
         CommandReceiver receiver;
         EmotionHandler emotionProcessor;
-        
+        HappileeConfiguration hapConfig;
     
         void drawDebugInfo();
         int selectEmotion;

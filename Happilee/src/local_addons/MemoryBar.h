@@ -24,11 +24,14 @@ class MemoryBar {
         void resetMemory(float initialMemory);
         void reduceMemory(float amount);
         void tweenFinished(int &val);
+        bool hasRebooted();
         ofEvent<string> isDead;
+        ofEvent<string> isRebooted;
     private:
         float memoryRemaining;
         int previousMemory;
         bool hasDied;
+        bool _hasRebooted;
         ofxTween reducer;
         ofxEasingExpo expo;
         ofxEasingCirc circ;

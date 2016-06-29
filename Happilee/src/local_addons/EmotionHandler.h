@@ -17,6 +17,7 @@
 #include "MemoryBar.h"
 #include "ofxPostGlitch.h"
 #include "HappileeScenes.h"
+#include "MyTimer.h"
 
 enum HAPPILEE_STATE {
     HAPPILEE_GREEN = 0,
@@ -24,14 +25,18 @@ enum HAPPILEE_STATE {
     HAPPILEE_RED,
     HAPPILEE_MALFUNCTION,
     HAPPILEE_WIN,
-    HAPPILEE_PURGING
+    HAPPILEE_PURGING,
+    HAPPILEE_REBOOTING
 };
 
 class EmotionHandler {
     
     public:
         //! Setup
-        void setup();
+        void setup(int initialMemory,int _lowMemoryAmount);
+    
+        //! Set Reduction Amounts
+        void setReductionAmount(int greenLevel,int yellowLevel,int redLevel);
     
         //! Load Images
         void loadImages();
@@ -44,9 +49,6 @@ class EmotionHandler {
     
         //! Update
         void update();
-    
-        //! Draw
-        void drawDebug();
     
         //! Draw Images
         void drawImages();
@@ -88,9 +90,13 @@ class EmotionHandler {
         void setDeadState();
     
         MemoryBar memoryProcessor;
+        
+        void malfunctioningTimerFinshed(string &str);
+    
     
     private:
     
+        int _HappileeMemory;
         ofDirectory emotionsDirectory;
         ofDirectory cleanSoundsDirectory;
         ofDirectory distortedSoundsDirectory;
@@ -109,6 +115,7 @@ class EmotionHandler {
         void didTweenFinish(int &val);
     
         HappileeMalfunctioned hpMalfunctioned;
+        HappileeRebooting hpRebooting;
     
         ofxTween moveImage;
         ofxTween moveEmotion;
@@ -132,11 +139,20 @@ class EmotionHandler {
         bool changeStringLatch;
         bool lowMemory;
     
+        MyTimer malfunctioningTimer;
+        bool malfunctionedLatch;
+    
         string dots;
     
         int whichEmotion;
         int neutralEmotionID;
         int malfunctionEmotionID;
+    
+        int greenReductionAmount;
+        int yellowReductionAmount;
+        int redReductionAmount;
+    
+        int malfunctionTimerLength;
     
         ofShader alphaMask;
         ofImage alphaMaskImage;
@@ -146,6 +162,21 @@ class EmotionHandler {
         ofTrueTypeFont lightIndicatorFont;
         ofTrueTypeFont darkIndicatorFont;
         ofTrueTypeFont boldIndicatorFont;
+    protected:
+        int offsetX;
+        int offsetY;
+        int width;
+        int height;
+        int centerX;
+        int centerBoxY;
+        ofPoint receivingImagePos;
+        ofPoint warningImagePos;
+        int lowMemoryAmount;
+    
+        ofColor fontColor;
+        ofColor faceColor;
+    
+    
 };
 
 #endif /* EmotionHandler_h */

@@ -5,7 +5,17 @@
 void ofApp::setup()
 {
     ofSetDataPathRoot("../Resources/data/");
-    emotionProcessor.setup();
+    hapConfig.load("config/HappileeConfiguration.json");
+    
+    // Setup the Emotion Processors
+    emotionProcessor.setup(hapConfig.getConfig().memoryAmount,
+                           hapConfig.getConfig().lowMemoryAmount
+                           );
+    
+    emotionProcessor.setReductionAmount(hapConfig.getConfig().greenMemoryReduction,
+                                        hapConfig.getConfig().yellowMemoryReduction,
+                                        hapConfig.getConfig().redMemoryReduction
+                                        );
     selectEmotion = 0;
     hpState = 0;
     
@@ -22,11 +32,11 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    emotionProcessor.update();
     if (selectEmotion > randomisedEmotions.size()-1) {
         shuffleEmotions();
         selectEmotion = 0;
     }
+    emotionProcessor.update();
     emotionTimer.update();
 }
 //--------------------------------------------------------------
@@ -62,6 +72,8 @@ void ofApp::keyPressed(int key)
             shuffleEmotions();
             emotionTimer.setup(4000, "Emotion Timer", true);
             emotionTimer.start();
+            hpState = HAPPILEE_GREEN;
+            emotionProcessor.setHappileeState(HAPPILEE_GREEN);
             break;
         case 'w':
             emotionProcessor.setWinState();
@@ -76,13 +88,10 @@ void ofApp::keyPressed(int key)
             break;
     }
 }
-
 //--------------------------------------------------------------
 void ofApp::drawDebugInfo()
 {
-    ofPushStyle();
     
-    ofPopStyle();
 }
 #pragma mark - Listeners
 //--------------------------------------------------------------
@@ -120,13 +129,24 @@ void ofApp::timerEnded(string &val)
     emotionProcessor.setImage(randomisedEmotions[selectEmotion],500);
     switch (hpState) {
         case HAPPILEE_GREEN:
-            emotionTimer.setNewTimerLength(ofRandom(2000,4000));
+            emotionTimer.setNewTimerLength(
+                                           ofRandom(
+                                                    hapConfig.getConfig().greenMemoryReductionTimerLength-1000,
+                                                    hapConfig.getConfig().greenMemoryReductionTimerLength+1000)
+                                           );
             break;
         case HAPPILEE_YELLOW:
-            emotionTimer.setNewTimerLength(ofRandom(750,1500));
+            emotionTimer.setNewTimerLength(
+                                           ofRandom(
+                                                    hapConfig.getConfig().yellowMemoryReductionTimerLength-750,
+                                                    hapConfig.getConfig().yellowMemoryReductionTimerLength+750)
+                                           );
             break;
         case HAPPILEE_RED:
-            emotionTimer.setNewTimerLength(ofRandom(500,750));
+            emotionTimer.setNewTimerLength(ofRandom(
+                                                    hapConfig.getConfig().redMemoryReductionTimerLength-250,
+                                                    hapConfig.getConfig().redMemoryReductionTimerLength+250)
+                                           );
             break;
         default:
             break;

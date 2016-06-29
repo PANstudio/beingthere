@@ -48,6 +48,7 @@
 		6333E0151CF78F9600756624 /* EmotionHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6333E0131CF78F9600756624 /* EmotionHandler.cpp */; };
 		6333E0191CF7BEA400756624 /* MemoryBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6333E0171CF7BEA400756624 /* MemoryBar.cpp */; };
 		6333E01D1CF7C03400756624 /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6333E01B1CF7C03400756624 /* MyTimer.cpp */; };
+		63B22C751D1DBC5C006CA826 /* HappileeConfiguration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63B22C731D1DBC5C006CA826 /* HappileeConfiguration.cpp */; };
 		6AA536F4E5ECFC00CC8A43C5 /* ofxTimeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5619C2C61114FB5FD98C38AE /* ofxTimeline.cpp */; };
 		70146E64378DC427CBED8193 /* ofxEasingExpo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E47667A7B7CEF7CA36272F /* ofxEasingExpo.cpp */; };
 		79B2011353D4AC5EE62D2A4D /* ofxTLEmptyKeyframes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2359F04DAD21340FF163C6 /* ofxTLEmptyKeyframes.cpp */; };
@@ -248,6 +249,9 @@
 		6333E01B1CF7C03400756624 /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTimer.cpp; sourceTree = "<group>"; };
 		6333E01C1CF7C03400756624 /* MyTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTimer.h; sourceTree = "<group>"; };
 		638E44A51D16CF4000BE915F /* HappileeScenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HappileeScenes.h; sourceTree = "<group>"; };
+		63B22C731D1DBC5C006CA826 /* HappileeConfiguration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HappileeConfiguration.cpp; sourceTree = "<group>"; };
+		63B22C741D1DBC5C006CA826 /* HappileeConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HappileeConfiguration.h; sourceTree = "<group>"; };
+		63B22C761D1DBEDC006CA826 /* HappileeConfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = HappileeConfiguration.json; sourceTree = "<group>"; };
 		63DFE3971CF9008D00897FCA /* anger.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = anger.mp3; sourceTree = "<group>"; };
 		63DFE3981CF9008D00897FCA /* bliss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bliss.mp3; sourceTree = "<group>"; };
 		63DFE3991CF9008D00897FCA /* boredom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boredom.mp3; sourceTree = "<group>"; };
@@ -632,6 +636,7 @@
 		631341291CF673A3001A0293 /* config */ = {
 			isa = PBXGroup;
 			children = (
+				63B22C761D1DBEDC006CA826 /* HappileeConfiguration.json */,
 			);
 			name = config;
 			path = bin/data/config;
@@ -671,6 +676,8 @@
 				6333E01B1CF7C03400756624 /* MyTimer.cpp */,
 				6333E01C1CF7C03400756624 /* MyTimer.h */,
 				638E44A51D16CF4000BE915F /* HappileeScenes.h */,
+				63B22C731D1DBC5C006CA826 /* HappileeConfiguration.cpp */,
+				63B22C741D1DBC5C006CA826 /* HappileeConfiguration.h */,
 				6333E0131CF78F9600756624 /* EmotionHandler.cpp */,
 				6333E0141CF78F9600756624 /* EmotionHandler.h */,
 				631341E11CF78D8D001A0293 /* CommandReceiver.cpp */,
@@ -1624,6 +1631,7 @@
 				7BE3CACD095E692E9A0D4F49 /* ofxEasingQuad.cpp in Sources */,
 				48D9640CD3DBAEFAB80D047D /* ofxEasingQuart.cpp in Sources */,
 				97379ED2771446154F60C63F /* ofxEasingQuint.cpp in Sources */,
+				63B22C751D1DBC5C006CA826 /* HappileeConfiguration.cpp in Sources */,
 				9E7A93C3857F23FF06E21ECB /* ofxEasingSine.cpp in Sources */,
 				BFE05A86CDA4FD5F72D7ECD7 /* ofxTween.cpp in Sources */,
 			);

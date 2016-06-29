@@ -28,21 +28,30 @@ void MemoryBar::update()
 void MemoryBar::resetMemory(float initialMemory)
 {
     memoryRemaining = initialMemory;
-    reducer.setParameters(0, expo, ofxTween::easeIn, 0, memoryRemaining, 2000, 10);
+    reducer.setParameters(1, expo, ofxTween::easeIn, 0, memoryRemaining, 5000, 10);
     hasDied = false;
+    _hasRebooted = false;
 }
 //--------------------------------------------------------------
 void MemoryBar::reduceMemory(float amount)
 {
     if (!hasDied) {
         float newMemory = memoryRemaining - amount;
-        reducer.setParameters(3, expo, ofxTween::easeInOut, memoryRemaining,newMemory, 250, 0);
+        reducer.setParameters(0, expo, ofxTween::easeInOut, memoryRemaining,newMemory, 250, 0);
     }
 }
 //--------------------------------------------------------------
 void MemoryBar::tweenFinished(int &val)
 {
     memoryRemaining = reducer.update();
+    if (val == 1) {
+        _hasRebooted = true;
+    }
+}
+//--------------------------------------------------------------
+bool MemoryBar::hasRebooted()
+{
+    return _hasRebooted;
 }
 //--------------------------------------------------------------
 float MemoryBar::getMemoryRemaining()
