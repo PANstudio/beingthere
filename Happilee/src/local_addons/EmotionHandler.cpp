@@ -8,8 +8,10 @@
 
 #include "EmotionHandler.h"
 
+#pragma mark - Setup
+
 //--------------------------------------------------------------
-void EmotionHandler::setup(int initialMemory,int _lowMemoryAmount)
+void EmotionHandler::setup(int initialMemory,int _lowMemoryAmount,int _malfunctionTimerLength)
 {
     ofSetVerticalSync(true);
     lastEmotionPosition = 0;
@@ -19,6 +21,8 @@ void EmotionHandler::setup(int initialMemory,int _lowMemoryAmount)
     whichEmotion = 0;
     neutralEmotionID = 0;
     malfunctionEmotionID = 0;
+    
+    malfunctionTimerLength = _malfunctionTimerLength;
     
     _lowMemoryAmount = _lowMemoryAmount;
     _HappileeMemory = initialMemory;
@@ -52,14 +56,13 @@ void EmotionHandler::setup(int initialMemory,int _lowMemoryAmount)
     ofAddListener(purgingEmotions.end_E, this, &EmotionHandler::didTweenFinish);
     ofAddListener(malfunctioning.end_E, this, &EmotionHandler::didTweenFinish);
     ofAddListener(malfunctioningTimer.timerFinished, this, &EmotionHandler::malfunctioningTimerFinshed);
+    ofAddListener(memoryProcessor.isRebooted, this, &EmotionHandler::happileeHasRebooted);
     
     r1.set((ofGetWidth()*0.5)+(13),(ofGetHeight()-(80+10))+5,(ofGetWidth()*0.5)-(13)-20,80-10);
     
     memoryProcessor.setup(_HappileeMemory);
     hatchTexture.allocate(r1.width,r1.height);
-    
-    malfunctioningTimer.setup(5000, "Malfunction Timer", false);
-    
+    malfunctioningTimer.setup(_malfunctionTimerLength, "Malfunction Timer", false);
 }
 //--------------------------------------------------------------
 void EmotionHandler::setReductionAmount(int greenLevel, int yellowLevel, int redLevel)
@@ -68,6 +71,23 @@ void EmotionHandler::setReductionAmount(int greenLevel, int yellowLevel, int red
     yellowReductionAmount = yellowLevel;
     redReductionAmount = redLevel;
 }
+//--------------------------------------------------------------
+void EmotionHandler::cleanUp()
+{
+    emotionImages.clear();
+    ofRemoveListener(moveImage.end_E, this, &EmotionHandler::didTweenFinish);
+    
+    delete emotionSoundsDistorted;
+    delete emotionSoundsClean;
+}
+//--------------------------------------------------------------
+void EmotionHandler::resetMemory()
+{
+    memoryProcessor.resetMemory(_HappileeMemory);
+    malfunctionedLatch = false;
+    hpState = HAPPILEE_REBOOTING;
+}
+#pragma mark - Load Assets
 //--------------------------------------------------------------
 void EmotionHandler::loadImages()
 {
@@ -125,6 +145,26 @@ void EmotionHandler::loadSounds()
         emotionSoundsDistorted[i].setLoop(false);
         emotionSoundsDistorted[i].setMultiPlay(true);
     }
+    
+    // Load individual assets
+    string winPath = ofToDataPath("sounds/win/");
+    string corruptionPath = ofToDataPath("sounds/corruption/");
+    
+    // Can be altered
+    welcomeSound.load(winPath+"hello.mp3");
+    purgingSound.load(winPath+"purging.mp3");
+    goodbyeSound.load(winPath+"goodbye.mp3");
+    
+    welcomeSound.setLoop(false);
+    goodbyeSound.setLoop(false);
+    purgingSound.setLoop(true);
+
+    malfunctioningSound.load(corruptionPath+"goodbye_distort_w-ding.mp3");
+    malfunctioningDing.load(corruptionPath+"Death_ding.mp3");
+    
+    malfunctioningDing.setLoop(false);
+    malfunctioningSound.setLoop(false);
+    
 }
 //--------------------------------------------------------------
 void EmotionHandler::loadFonts()
@@ -157,6 +197,7 @@ void EmotionHandler::loadFonts()
     warningImagePos = ofPoint(centerX+(offsetX*2), centerBoxY-warningImage.getHeight()*0.5);
     receivingImagePos = ofPoint(offsetX*2, centerBoxY-receivingEmotionImage.getHeight()*0.5);
 }
+#pragma mark - Update
 //--------------------------------------------------------------
 void EmotionHandler::update()
 {
@@ -164,19 +205,24 @@ void EmotionHandler::update()
     memoryProcessor.update();
     malfunctioningTimer.update();
     
-    if (hpState == HAPPILEE_MALFUNCTION) {      }
+    if (hpState == HAPPILEE_MALFUNCTION) {
+        if (ofGetFrameNum() % 2 == 0) {
+            bool is = ofRandom(1.0) > 0.25 ? true : false;
+            interferance.setFx(OFXPOSTGLITCH_GLOW, is);
+//            interferance.setFx(OFXPOSTGLITCH_OUTLINE, is);
+        }
+    }
     else if(hpState == HAPPILEE_RED)
     {
         if (ofGetFrameNum() % 5 == 0) {
             bool is = ofRandom(1.0) > 0.75 ? true : false;
-            interferance.setFx(OFXPOSTGLITCH_OUTLINE, is);
+            interferance.setFx(OFXPOSTGLITCH_SHAKER, is);
         }
-        if (ofGetFrameNum() % 2 == 0) {
-            bool is = ofRandom(1.0) > 0.25 ? true : false;
-            interferance.setFx(OFXPOSTGLITCH_GLOW, is);
-        }
+
     }
+    interferance.setSlitAmount((float)(40.0 + 40.0 * sin(ofGetElapsedTimef())));
 }
+#pragma mark - Draw
 //--------------------------------------------------------------
 void EmotionHandler::drawIndicators()
 {
@@ -204,11 +250,7 @@ void EmotionHandler::drawIndicators()
             break;
     }
     
-    ofDrawRectRounded(offsetX,
-                      (ofGetHeight()-height)-offsetY,
-                      width-(offsetX*0.5),
-                      height,
-                      0);
+    ofDrawRectRounded(offsetX,(ofGetHeight()-height)-offsetY, width-(offsetX*0.5), height, 0);
     
     switch (hpState) {
         case HAPPILEE_WIN:
@@ -233,11 +275,7 @@ void EmotionHandler::drawIndicators()
             break;
     }
     
-    ofDrawRectRounded((ofGetWidth()-width)-offsetX+(offsetX*0.5),
-                      (ofGetHeight()-height)-offsetY,
-                      width-(offsetX*0.5),
-                      height,
-                      0);
+    ofDrawRectRounded((ofGetWidth()-width)-offsetX+(offsetX*0.5),(ofGetHeight()-height)-offsetY, width-(offsetX*0.5),height,0);
     ofPopStyle();
 }
 //--------------------------------------------------------------
@@ -379,7 +417,6 @@ void EmotionHandler::drawEmotions()
         boldIndicatorFont.drawString("Purging Memory"+dots, (memoryPurged.x-(ofGetWidth()*0.5))+(offsetX*2),memoryPurged.y);
     }
     else if(hpState == HAPPILEE_MALFUNCTION) {
-        
         ofSetColor(255, 255, 255);
         hatchTexture.draw((ofGetWidth()*0.5)+(offsetX),(ofGetHeight()-(offsetY+height)+offsetX/2));
         ofRectangle noMemory = ofRectangle(((centerX+offsetX)+(width/2))-(boldIndicatorFont.stringWidth("No Memory Remaining")/2),centerBoxY+(boldIndicatorFont.stringHeight("No Memory Remaining")/2),boldIndicatorFont.stringWidth("No Memory Remaining"),boldIndicatorFont.stringHeight("No Memory Remaining"));
@@ -427,6 +464,7 @@ void EmotionHandler::drawEmotions()
     ofSetColor(255, 255, 255);
     receivingEmotionImage.draw(receivingImagePos);
 }
+#pragma mark - Setters
 //--------------------------------------------------------------
 void EmotionHandler::setImage(int whichImage,int maxTweenTime)
 {
@@ -447,9 +485,7 @@ void EmotionHandler::setImage(int whichImage,int maxTweenTime)
             emotionSoundsDistorted[whichEmotion-1].play();
             memoryProcessor.reduceMemory(redReductionAmount);
         }
-        else if(whichEmotion == neutralEmotionID) {
-            
-        }
+        else if(whichEmotion == neutralEmotionID) {     }
         else {
             emotionSoundsDistorted[whichEmotion].play();
             memoryProcessor.reduceMemory(redReductionAmount);
@@ -461,9 +497,7 @@ void EmotionHandler::setImage(int whichImage,int maxTweenTime)
             memoryProcessor.reduceMemory(yellowReductionAmount);
             
         }
-        else if(whichEmotion == neutralEmotionID) {
-            
-        }
+        else if(whichEmotion == neutralEmotionID) {     }
         else {
             emotionSoundsClean[whichEmotion].play();
             memoryProcessor.reduceMemory(yellowReductionAmount);
@@ -474,9 +508,7 @@ void EmotionHandler::setImage(int whichImage,int maxTweenTime)
             emotionSoundsClean[whichEmotion-1].play();
             memoryProcessor.reduceMemory(greenReductionAmount);
         }
-        else if(whichEmotion == neutralEmotionID) {
-            
-        }
+        else if(whichEmotion == neutralEmotionID) {     }
         else {
             emotionSoundsClean[whichEmotion].play();
             memoryProcessor.reduceMemory(greenReductionAmount);
@@ -496,67 +528,42 @@ void EmotionHandler::setHappileeState(HAPPILEE_STATE state)
         interferance.setFx(OFXPOSTGLITCH_SHAKER, false);
         interferance.setFx(OFXPOSTGLITCH_OUTLINE, false);
         interferance.setFx(OFXPOSTGLITCH_GLOW, false);
+//        interferance.setFx(OFXPOSTGLITCH_SLITSCAN,true);
+//        cout << (float)(10.0 + 10.0 * sin(ofGetElapsedTimef())) << endl;
     }
-    else if(hpState == HAPPILEE_YELLOW)
-    {
-//        interferance.setFx(OFXPOSTGLITCH_CUTSLIDER, true);
-        interferance.setFx(OFXPOSTGLITCH_SWELL, true);
-        interferance.setFx(OFXPOSTGLITCH_CONVERGENCE, true);
-        interferance.setFx(OFXPOSTGLITCH_TWIST, false);
-        interferance.setFx(OFXPOSTGLITCH_SHAKER, false);
-        interferance.setFx(OFXPOSTGLITCH_OUTLINE, false);
-        interferance.setFx(OFXPOSTGLITCH_GLOW, false);
+    else if(hpState == HAPPILEE_YELLOW) {
+        interferance.setFx(OFXPOSTGLITCH_NOISE, true);
+        interferance.setFx(OFXPOSTGLITCH_SWELL, false);
+        interferance.setFx(OFXPOSTGLITCH_CONVERGENCE, false);
+        interferance.setFx(OFXPOSTGLITCH_CUTSLIDER, false);
+        interferance.setFx(OFXPOSTGLITCH_TWIST, true);
+        interferance.setFx(OFXPOSTGLITCH_SHAKER, true);
     }
-    else if(hpState == HAPPILEE_RED)
-    {
-//        interferance.setFx(OFXPOSTGLITCH_CUTSLIDER, true);
+    else if(hpState == HAPPILEE_RED) {
         interferance.setFx(OFXPOSTGLITCH_CONVERGENCE, true);
+        interferance.setFx(OFXPOSTGLITCH_CUTSLIDER, true);
+        interferance.setSlitAmount(10);
         interferance.setFx(OFXPOSTGLITCH_TWIST, true);
         interferance.setFx(OFXPOSTGLITCH_SHAKER, true);
     }
 }
 //--------------------------------------------------------------
-void EmotionHandler::cleanUp()
-{
-    emotionImages.clear();
-    ofRemoveListener(moveImage.end_E, this, &EmotionHandler::didTweenFinish);
-    
-    delete emotionSoundsDistorted;
-    delete emotionSoundsClean;
-}
-//--------------------------------------------------------------
-void EmotionHandler::didTweenFinish(int &val)
-{
-    if(val == 4){
-        hpState = HAPPILEE_WIN;
-        setImage(neutralEmotionID, 0);
-    }
-    else if(val == 5){
-        hpState = HAPPILEE_WIN;
-        setImage(neutralEmotionID, 0);
-    }
-}
-//--------------------------------------------------------------
-void EmotionHandler::resetMemory()
-{
-    memoryProcessor.resetMemory(_HappileeMemory);
-    malfunctionedLatch = false;
-    hpState = HAPPILEE_REBOOTING;
-}
-//--------------------------------------------------------------
 void EmotionHandler::setDeadState()
 {
+    malfunctioningSound.play();
     malfunctioningTimer.start();
     hpState = HAPPILEE_MALFUNCTION;
     setImage(malfunctionEmotionID, 0);
-    malfunctioning.setParameters(5, line, ofxTween::easeInOut, 0, 1.0, 5000, 10);
+    malfunctioning.setParameters(5, line, ofxTween::easeInOut, 0, 1.0, malfunctionTimerLength,0);
 }
 //--------------------------------------------------------------
 void EmotionHandler::setWinState()
 {
     hpState = HAPPILEE_PURGING;
+    purgingSound.play();
     purgingEmotions.setParameters(4,line, ofxTween::easeInOut, -ofGetWidth()*0.65, 0, 5000, 0);
 }
+#pragma mark - Getters
 //--------------------------------------------------------------
 int EmotionHandler::getNumberOfEmotions()
 {
@@ -571,6 +578,27 @@ int EmotionHandler::getNeutralFaceID()
 int EmotionHandler::getMalfunctionFaceID()
 {
     return malfunctionEmotionID;
+}
+#pragma mark - Listeners
+//--------------------------------------------------------------
+void EmotionHandler::didTweenFinish(int &val)
+{
+    if(val == 4){
+        hpState = HAPPILEE_WIN;
+        purgingSound.stop();
+        setImage(neutralEmotionID, 0);
+    }
+    else if(val == 5){
+//        hpState = HAPPILEE_WIN;
+//        setImage(neutralEmotionID, 0);
+    }
+}
+//--------------------------------------------------------------
+void EmotionHandler::happileeHasRebooted(string &str)
+{
+    setImage(neutralEmotionID, 0);
+    welcomeSound.play();
+    cout << str << endl;
 }
 //--------------------------------------------------------------
 void EmotionHandler::malfunctioningTimerFinshed(string &str)

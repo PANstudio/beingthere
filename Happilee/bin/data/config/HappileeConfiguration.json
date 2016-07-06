@@ -7,10 +7,10 @@
             "red": 1024
         },
         "reductiontimers": {
-            "malfunction":5000,
-            "green": 5000,
-            "yellow": 2500,
-            "red": 1000
+            "malfunction":8000,
+            "green": 3000,
+            "yellow": 1500,
+            "red": 500
         },
         "memoryamount": 4096,
         "lowmemoryamount": 500,

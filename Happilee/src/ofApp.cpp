@@ -9,13 +9,14 @@ void ofApp::setup()
     
     // Setup the Emotion Processors
     emotionProcessor.setup(hapConfig.getConfig().memoryAmount,
-                           hapConfig.getConfig().lowMemoryAmount
+                           hapConfig.getConfig().lowMemoryAmount,
+                           hapConfig.getConfig().malfunctionTimerLength
                            );
     
     emotionProcessor.setReductionAmount(hapConfig.getConfig().greenMemoryReduction,
                                         hapConfig.getConfig().yellowMemoryReduction,
                                         hapConfig.getConfig().redMemoryReduction
-                                        );
+            );
     selectEmotion = 0;
     hpState = 0;
     

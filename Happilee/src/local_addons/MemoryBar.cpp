@@ -28,7 +28,7 @@ void MemoryBar::update()
 void MemoryBar::resetMemory(float initialMemory)
 {
     memoryRemaining = initialMemory;
-    reducer.setParameters(1, expo, ofxTween::easeIn, 0, memoryRemaining, 5000, 10);
+    reducer.setParameters(1, expo, ofxTween::easeIn, 0, memoryRemaining, 1000, 10);
     hasDied = false;
     _hasRebooted = false;
 }
@@ -45,6 +45,8 @@ void MemoryBar::tweenFinished(int &val)
 {
     memoryRemaining = reducer.update();
     if (val == 1) {
+        string re = "Rebooted";
+        ofNotifyEvent(isRebooted,re, this);
         _hasRebooted = true;
     }
 }

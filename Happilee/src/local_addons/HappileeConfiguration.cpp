@@ -32,6 +32,7 @@ void HappileeConfiguration::load(string loadFile)
 //--------------------------------------------------------------
 Config HappileeConfiguration::getConfig()
 {
+    
     return c;
 }
 //--------------------------------------------------------------

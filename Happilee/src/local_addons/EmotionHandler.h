@@ -33,7 +33,7 @@ class EmotionHandler {
     
     public:
         //! Setup
-        void setup(int initialMemory,int _lowMemoryAmount);
+        void setup(int initialMemory,int _lowMemoryAmount,int _malfunctionTimerLength);
     
         //! Set Reduction Amounts
         void setReductionAmount(int greenLevel,int yellowLevel,int redLevel);
@@ -93,6 +93,7 @@ class EmotionHandler {
         
         void malfunctioningTimerFinshed(string &str);
     
+        void happileeHasRebooted(string &str);
     
     private:
     
@@ -106,6 +107,13 @@ class EmotionHandler {
         ofSoundPlayer *emotionSoundsClean;
         ofSoundPlayer *emotionSoundsDistorted;
     
+        ofSoundPlayer purgingSound;
+        ofSoundPlayer welcomeSound;
+        ofSoundPlayer goodbyeSound;
+        ofSoundPlayer malfunctioningSound;
+        ofSoundPlayer malfunctioningDing;
+    
+    
         int lastImagePosition;
         int newImagePosition;
     
@@ -117,10 +125,13 @@ class EmotionHandler {
         HappileeMalfunctioned hpMalfunctioned;
         HappileeRebooting hpRebooting;
     
+//        ofShader shader;
+    
         ofxTween moveImage;
         ofxTween moveEmotion;
         ofxTween purgingEmotions;
         ofxTween malfunctioning;
+    
         ofxEasingExpo expo;
         ofxEasingCubic cub;
         ofxEasingLinear line;
@@ -162,8 +173,10 @@ class EmotionHandler {
         ofTrueTypeFont lightIndicatorFont;
         ofTrueTypeFont darkIndicatorFont;
         ofTrueTypeFont boldIndicatorFont;
+    
     protected:
-        int offsetX;
+    
+    int offsetX;
         int offsetY;
         int width;
         int height;
@@ -175,8 +188,6 @@ class EmotionHandler {
     
         ofColor fontColor;
         ofColor faceColor;
-    
-    
 };
 
 #endif /* EmotionHandler_h */
