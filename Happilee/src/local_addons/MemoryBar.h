@@ -25,6 +25,7 @@ class MemoryBar {
         void reduceMemory(float amount);
         void tweenFinished(int &val);
         bool hasRebooted();
+        bool getIsDead();
         ofEvent<string> isDead;
         ofEvent<string> isRebooted;
     private:

@@ -1,4 +1,3 @@
-//頂点シェーダ
 varying vec3 pos;
 void main(void)
 {

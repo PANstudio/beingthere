@@ -12,6 +12,7 @@
 void MemoryBar::setup(float initialMemory)
 {
     memoryRemaining = initialMemory;
+    hasDied = false;
     resetMemory(initialMemory);
     ofAddListener(reducer.end_E, this, &MemoryBar::tweenFinished);
 }
@@ -48,7 +49,13 @@ void MemoryBar::tweenFinished(int &val)
         string re = "Rebooted";
         ofNotifyEvent(isRebooted,re, this);
         _hasRebooted = true;
+        hasDied = false;
     }
+}
+//--------------------------------------------------------------
+bool MemoryBar::getIsDead()
+{
+    return hasDied;
 }
 //--------------------------------------------------------------
 bool MemoryBar::hasRebooted()

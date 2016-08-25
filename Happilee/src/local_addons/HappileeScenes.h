@@ -80,19 +80,30 @@ public:
     ofTrueTypeFont malfunctionText;
 };
 
-class HappileeInformation {
-    void setup() {
-        
+class HappileeWin {
+public:
+    void setup(ofTrueTypeFont &font) {
+        winText = font;
     }
     
-    void update() {
-        
-    }
     
     void draw() {
+        string a = "Please return me to a technican! \n";
+        ofPushStyle();
+        ofFill();
+        ofSetColor(0, 50, 255);
+        ofDrawRectangle(0,0, ofGetWidth(), ofGetHeight());
         
+        ofRectangle centerTitle = winText.getStringBoundingBox(a, 0, ofGetHeight()/2-100);
+        ofSetColor(160);
+        ofDrawRectangle(ofGetWidth()/2-(centerTitle.width/2)-10,centerTitle.y-centerTitle.height-5,centerTitle.width+20,centerTitle.height+10);
+        ofSetColor(0, 50, 255);
+        
+        winText.drawString(a,ofGetWidth()/2-(centerTitle.width/2),centerTitle.y);
+        
+        ofPopStyle();
     }
-    stringstream information;
+    ofTrueTypeFont winText;
 };
 
 #endif /* HappileeScenes_h */

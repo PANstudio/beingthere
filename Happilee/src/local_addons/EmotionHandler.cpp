@@ -30,7 +30,8 @@ void EmotionHandler::setup(int initialMemory,int _lowMemoryAmount,int _malfuncti
     hpState = HAPPILEE_GREEN;
     changeStringLatch = false;
     moveImageLatch = false;
-    malfunctionedLatch = false;
+    malfunctionedLatch = true;
+    winningLatch = true;
     
     lowMemory = false;
     dots = ".";
@@ -53,10 +54,10 @@ void EmotionHandler::setup(int initialMemory,int _lowMemoryAmount,int _malfuncti
     alphaMaskImage.load("alphaMask/alphaMask.png");
     
     ofAddListener(moveImage.end_E, this, &EmotionHandler::didTweenFinish);
-    ofAddListener(purgingEmotions.end_E, this, &EmotionHandler::didTweenFinish);
     ofAddListener(malfunctioning.end_E, this, &EmotionHandler::didTweenFinish);
-    ofAddListener(malfunctioningTimer.timerFinished, this, &EmotionHandler::malfunctioningTimerFinshed);
+    ofAddListener(purgingEmotions.end_E, this, &EmotionHandler::didTweenFinish);
     ofAddListener(memoryProcessor.isRebooted, this, &EmotionHandler::happileeHasRebooted);
+    ofAddListener(malfunctioningTimer.timerFinished, this, &EmotionHandler::malfunctioningTimerFinshed);
     
     r1.set((ofGetWidth()*0.5)+(13),(ofGetHeight()-(80+10))+5,(ofGetWidth()*0.5)-(13)-20,80-10);
     
@@ -182,6 +183,7 @@ void EmotionHandler::loadFonts()
     
     hpMalfunctioned.setup(regularIndicatorFont);
     hpRebooting.setup(regularIndicatorFont);
+    hpWinning.setup(regularIndicatorFont);
     
     wordsContainer.begin();
     ofClear(0, 0, 0, 0);
@@ -221,6 +223,21 @@ void EmotionHandler::update()
 
     }
     interferance.setSlitAmount((float)(40.0 + 40.0 * sin(ofGetElapsedTimef())));
+    
+    wordsContainer.begin();
+    ofClear(0, 0, 0, 0);
+    ofPushStyle();
+    ofPushMatrix();
+    ofTranslate(0, moveEmotion.update());
+    for (int i = 0; i < emotionStrings.size(); i++) {
+        ofSetColor(51, 51, 51);
+        if (whichEmotion != getNeutralFaceID()) {
+            darkIndicatorFont.drawString(emotionStrings[i],0,darkIndicatorFont.getGlyphBBox().height-(i*(darkIndicatorFont.getGlyphBBox().height+10)));
+        }
+    }
+    ofPopMatrix();
+    ofPopStyle();
+    wordsContainer.end();
 }
 #pragma mark - Draw
 //--------------------------------------------------------------
@@ -311,8 +328,12 @@ void EmotionHandler::drawImages()
     ofSetColor(255, 255, 255);
     faceTexture.draw(0,0);
     
-    if (hpState == HAPPILEE_MALFUNCTION && malfunctionedLatch) {
-        hpMalfunctioned.draw();        
+    if (malfunctionedLatch) {
+        hpMalfunctioned.draw();
+    }
+
+    if (winningLatch) {
+        hpWinning.draw();
     }
     
     if (!memoryProcessor.hasRebooted()) {
@@ -359,22 +380,6 @@ void EmotionHandler::drawHatching()
 void EmotionHandler::drawEmotions()
 {
     int x = (offsetX*4)+receivingEmotionImage.getWidth();
-    
-    wordsContainer.begin();
-    ofClear(0, 0, 0, 0);
-    ofPushStyle();
-    ofPushMatrix();
-    ofTranslate(0, moveEmotion.update());
-    for (int i = 0; i < emotionStrings.size(); i++) {
-        ofSetColor(51, 51, 51);
-        if (whichEmotion != getNeutralFaceID()) {
-            darkIndicatorFont.drawString(emotionStrings[i],0,darkIndicatorFont.getGlyphBBox().height-(i*(darkIndicatorFont.getGlyphBBox().height+10)));
-        }
-    }
-    ofPopMatrix();
-    ofPopStyle();
-    wordsContainer.end();
-    
     
     ofRectangle foundNewEmotion;
     
@@ -528,8 +533,7 @@ void EmotionHandler::setHappileeState(HAPPILEE_STATE state)
         interferance.setFx(OFXPOSTGLITCH_SHAKER, false);
         interferance.setFx(OFXPOSTGLITCH_OUTLINE, false);
         interferance.setFx(OFXPOSTGLITCH_GLOW, false);
-//        interferance.setFx(OFXPOSTGLITCH_SLITSCAN,true);
-//        cout << (float)(10.0 + 10.0 * sin(ofGetElapsedTimef())) << endl;
+        interferance.setFx(OFXPOSTGLITCH_NOISE, false);
     }
     else if(hpState == HAPPILEE_YELLOW) {
         interferance.setFx(OFXPOSTGLITCH_NOISE, true);
@@ -545,6 +549,17 @@ void EmotionHandler::setHappileeState(HAPPILEE_STATE state)
         interferance.setSlitAmount(10);
         interferance.setFx(OFXPOSTGLITCH_TWIST, true);
         interferance.setFx(OFXPOSTGLITCH_SHAKER, true);
+    }
+    else if(hpState == HAPPILEE_MALFUNCTION) {
+        interferance.setFx(OFXPOSTGLITCH_CUTSLIDER, false);
+        interferance.setFx(OFXPOSTGLITCH_SWELL, false);
+        interferance.setFx(OFXPOSTGLITCH_CONVERGENCE, false);
+        interferance.setFx(OFXPOSTGLITCH_SWELL, false);
+        interferance.setFx(OFXPOSTGLITCH_TWIST, false);
+        interferance.setFx(OFXPOSTGLITCH_SHAKER, false);
+        interferance.setFx(OFXPOSTGLITCH_OUTLINE, false);
+        interferance.setFx(OFXPOSTGLITCH_GLOW, false);
+        interferance.setFx(OFXPOSTGLITCH_NOISE, false);
     }
 }
 //--------------------------------------------------------------
@@ -586,17 +601,19 @@ void EmotionHandler::didTweenFinish(int &val)
     if(val == 4){
         hpState = HAPPILEE_WIN;
         purgingSound.stop();
+        winningLatch = true;
         setImage(neutralEmotionID, 0);
     }
     else if(val == 5){
-//        hpState = HAPPILEE_WIN;
-//        setImage(neutralEmotionID, 0);
+    
     }
 }
 //--------------------------------------------------------------
 void EmotionHandler::happileeHasRebooted(string &str)
 {
     setImage(neutralEmotionID, 0);
+    malfunctionedLatch = false;
+    winningLatch = false;
     welcomeSound.play();
     cout << str << endl;
 }

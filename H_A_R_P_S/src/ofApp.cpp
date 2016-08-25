@@ -4,7 +4,7 @@
 void ofApp::setup()
 {
     ofSetWindowTitle("Happilee");
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     ofSetVerticalSync(true);
     
     // This is independant of other setup routines so can be called before the gui
@@ -33,7 +33,7 @@ void ofApp::setup()
     styledMap.getMapImage(mapGenerator.getSmoothMap());
     
     playerManager.setup("localhost", 7890);
-    playerManager.setNumberOfPlayers(3);
+    playerManager.setNumberOfPlayers(1);
     
     if (mapGenerator.getFinderImage().isAllocated()) {
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
@@ -65,7 +65,8 @@ void ofApp::update()
     playerManager.listen();
     displayWindow->setHealthBars(playerManager.getPlayerHealth());
 
-    
+//    ofFbo f;
+//    f.getTexture().getTextureData().bFlipTexture =
     
     if (countDown.getTimeLeft() <= 10000) {
         displayWindow->setTimerColors(ofColor::red, 25);
@@ -109,11 +110,13 @@ void ofApp::draw()
     appMode->draw();
     title->draw();
     showSecondWindow->draw();
-    string statusStr =  "status: " + server.getStateStr();
-    statusStr += " -- sent "+ofToString(server.getPctSent(), 2)+"%";
     
-    ofSetColor(255, 0, 255);
-    ofDrawBitmapString(statusStr, 510,520);
+    playerManager.drawDebug();
+//    string statusStr =  "status: " + server.getStateStr();
+//    statusStr += " -- sent "+ofToString(server.getPctSent(), 2)+"%";
+//    
+//    ofSetColor(255, 0, 255);
+//    ofDrawBitmapString(statusStr, 510,520);
     
     if (!splashScreen.isDone()) {
         splashScreen.draw();

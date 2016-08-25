@@ -35,8 +35,9 @@ void MapGenerator::setup(int width,int height, int tileSize)
     
     _width = width;
     _height = height;
-    
-//    generateNewGrid(width, height, tileSize);
+    inOkArea = false;
+    inDangerArea = false;
+    inDeadlyArea = false;
 }
 //--------------------------------------------------------------
 // *    Reset Map
@@ -896,39 +897,64 @@ void MapGenerator::getPlayerCoordinates(vector<ofPoint> playerCoords)
     ofPushMatrix();
 
     for (int player = 0; player < playerCoords.size(); player++) {
-        bool inOkArea = false;
-        bool inDangerArea = false;
-        bool inDeadlyArea = false;
-        
-        for (int i = 0; i < okArea.size(); i++) {
-            okArea[i].simplify(0.1);
-            if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
-                fireEvent(player, "OK");
-                inOkArea = true;
-            }
-            ofSetColor(ofColor::green);
-            okArea[i].draw();
-        }
-        
-        for (int i = 0; i < dangerArea.size(); i++) {
-            dangerArea[i].simplify(0.1);
-            if (!inOkArea && dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
-                fireEvent(player, "Danger");
-                inDangerArea = true;
-            }
-            ofSetColor(ofColor::yellow);
-            dangerArea[i].draw();
-        }
-        
-        for (int i = 0; i < deadlyArea.size(); i++) {
-            deadlyArea[i].simplify(0.1);
-            if (deadlyArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+        if (ofRectangle(0, 0, 500, 500).inside(playerCoords[player].x, playerCoords[player].y)) {
+            if ((mapTexture->getColor(playerCoords[player].x, playerCoords[player].y) == ofColor::red) && !inDeadlyArea)
+            {
+                cout << "Omg were going to die!" << endl;
                 fireEvent(player, "Deadly");
                 inDeadlyArea = true;
+                inDangerArea = false;
+                inOkArea = false;
             }
-            ofSetColor(ofColor::red);
-            deadlyArea[i].draw();
+            else if((mapTexture->getColor(playerCoords[player].x, playerCoords[player].y).r > 195) && (mapTexture->getColor(playerCoords[player].x, playerCoords[player].y).g > 195) && !inDangerArea) {
+                cout << "We are in danger!" << endl;
+                fireEvent(player, "Danger");
+                inOkArea = false;
+                inDangerArea = true;
+                inDeadlyArea = false;
+            }
+            else if((mapTexture->getColor(playerCoords[player].x, playerCoords[player].y) == ofColor::green) && !inOkArea) {
+                cout << "We are ok!" << endl;
+                fireEvent(player, "OK");
+                inOkArea = true;
+                inDangerArea = false;
+                inDeadlyArea = false;
+            }
         }
+        
+        
+        
+        
+        
+//        for (int i = 0; i < okArea.size(); i++) {
+//            okArea[i].simplify(0.1);
+//            if (okArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+//                fireEvent(player, "OK");
+//                inOkArea = true;
+//            }
+//            ofSetColor(ofColor::green);
+//            okArea[i].draw();
+//        }
+//        
+//        for (int i = 0; i < dangerArea.size(); i++) {
+//            dangerArea[i].simplify(0.1);
+//            if (!inOkArea && dangerArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+//                fireEvent(player, "Danger");
+//                inDangerArea = true;
+//            }
+//            ofSetColor(ofColor::yellow);
+//            dangerArea[i].draw();
+//        }
+//        
+//        for (int i = 0; i < deadlyArea.size(); i++) {
+//            deadlyArea[i].simplify(0.1);
+//            if (deadlyArea[i].inside(playerCoords[player].x,playerCoords[player].y)) {
+//                fireEvent(player, "Deadly");
+//                inDeadlyArea = true;
+//            }
+//            ofSetColor(ofColor::red);
+//            deadlyArea[i].draw();
+//        }
         
 //        if (inOkArea && !inDangerArea && !inDeadlyArea) {
 //            fireEvent(player, "OK");

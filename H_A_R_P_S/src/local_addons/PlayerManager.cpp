@@ -38,7 +38,10 @@ void PlayerManager::listen()
         reducerTimer[i].update();
     }
     
-    players[0].setPlayerPosition(ofPoint(ofGetMouseX(),ofGetMouseY()),0);
+    
+//    players[0].setPlayerPosition(ofPoint(ofGetMouseX(),ofGetMouseY()),0);
+    
+    
 //    int mx = ofMap(ofGetMouseX(), 0, 500, 0, 100);
 //    int my = ofMap(ofGetMouseY(), 0, 500, 0, 100);
 //    finder.find(mx, my, 10, 10);
@@ -46,17 +49,29 @@ void PlayerManager::listen()
     while (oscReceiver.hasWaitingMessages()) {
         ofxOscMessage m;
         oscReceiver.getNextMessage(m);
-        for(int i = 0; i < _numberOfPlayers; i++) {
-            if (m.getAddress() == "/player"+ofToString(i)) {
-                if (_scale) {
-                    players[i].setPlayerPosition(ofPoint(ofMap(m.getArgAsFloat(0), 0.0000, 1.0000, 0, _scaleX),ofMap(m.getArgAsFloat(1), 0.0000, 1.0000, 0, _scaleY)), m.getArgAsFloat(2));
-                }
-                else {
-                    players[i].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)), //Position
-                                                         m.getArgAsFloat(2)); // Orientation
-                }
-            }
+//        cout << &m << endl;
+        if (m.getAddress() == "/player/0" ) {
+            
+            cout << m.getArgAsFloat(0) << endl;
+            cout << m.getArgAsFloat(1) << endl;
+            cout << m.getArgAsFloat(2) << endl;
+            
+            
+            mockPos = ofPoint(ofMap(m.getArgAsFloat(1), 0.0000, 10.0000, 0, 500),ofMap(m.getArgAsFloat(2), 0.0000, 10.0000, 0, 500));
+            players[0].setPlayerPosition(mockPos,m.getArgAsInt(0));//ofPoint(ofGetMouseX(),ofGetMouseY()), m.getArgAsInt(0));
+
         }
+//        for(int i = 0; i < _numberOfPlayers; i++) {
+//            if (m.getAddress() == "/player"+ofToString(i)) {
+//                if (_scale) {
+//                    players[i].setPlayerPosition(ofPoint(ofMap(m.getArgAsFloat(0), 0.0000, 1.0000, 0, _scaleX),ofMap(m.getArgAsFloat(1), 0.0000, 1.0000, 0, _scaleY)), m.getArgAsFloat(2));
+//                }
+//                else {
+//                    players[i].setPlayerPosition(ofPoint(m.getArgAsFloat(0),m.getArgAsFloat(1)), //Position
+//                                                         m.getArgAsFloat(2)); // Orientation
+//                }
+//            }
+//        }
     }
 }
 //--------------------------------------------------------------
@@ -127,6 +142,14 @@ void PlayerManager::resetHealth()
     }
 }
 //--------------------------------------------------------------
+void PlayerManager::drawDebug()
+{
+    ofPushStyle();
+    ofSetColor(ofColor::black);
+    ofDrawCircle(mockPos, 25);
+    ofPopStyle();
+}
+//--------------------------------------------------------------
 void PlayerManager::drawPlayerHealth(int x, int y,float scale)
 {
     ofPushMatrix();
@@ -140,6 +163,8 @@ void PlayerManager::drawPlayerHealth(int x, int y,float scale)
         ofDrawBitmapString(st.str(),0,50+(i*150));
         players[i].drawPlayerHealth(ofPoint(0,0+(i*150)));
     }
+    
+    ofDrawBitmapStringHighlight(ofToString(mockPos), 500,300);
     ofPopMatrix();
 }
 //--------------------------------------------------------------

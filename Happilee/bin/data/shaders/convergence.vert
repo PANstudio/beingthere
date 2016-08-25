@@ -1,4 +1,4 @@
-//頂点シェーダ
+#version 120
 varying vec3 pos;
 void main(void)
 {

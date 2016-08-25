@@ -364,6 +364,8 @@
 		63E568F11CFE253F00FAFCC7 /* goodbye.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = goodbye.mp3; sourceTree = "<group>"; };
 		63E568F21CFE253F00FAFCC7 /* hello.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hello.mp3; sourceTree = "<group>"; };
 		63E568F31CFE253F00FAFCC7 /* purging.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = purging.mp3; sourceTree = "<group>"; };
+		63E694D51D285C8400F09979 /* pixelate.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = pixelate.frag; sourceTree = "<group>"; };
+		63E694D61D285C8400F09979 /* pixelate.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = pixelate.vert; sourceTree = "<group>"; };
 		66AFAE2B5E99570922713F4E /* ofxHotKeys_impl_win.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxHotKeys_impl_win.cpp; path = ../../../../of_v0.9.3_osx_release/addons/ofxTimeline/src/ofxHotKeys_impl_win.cpp; sourceTree = SOURCE_ROOT; };
 		671E23111541935AEADB060B /* ofxEasingQuad.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxEasingQuad.cpp; path = ../../../../of_v0.9.3_osx_release/addons/ofxTween/src/Easings/ofxEasingQuad.cpp; sourceTree = SOURCE_ROOT; };
 		68AF90FF56401D806ABCFF8E /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPrintReceivedElements.h; path = ../../../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.h; sourceTree = SOURCE_ROOT; };
@@ -870,6 +872,8 @@
 		63E568AC1CFE251200FAFCC7 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				63E694D51D285C8400F09979 /* pixelate.frag */,
+				63E694D61D285C8400F09979 /* pixelate.vert */,
 				63E568AD1CFE251200FAFCC7 /* convergence.frag */,
 				63E568AE1CFE251200FAFCC7 /* convergence.vert */,
 				63E568AF1CFE251200FAFCC7 /* crBlueinvert.frag */,

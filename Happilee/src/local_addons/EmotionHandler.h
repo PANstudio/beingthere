@@ -124,6 +124,7 @@ class EmotionHandler {
     
         HappileeMalfunctioned hpMalfunctioned;
         HappileeRebooting hpRebooting;
+        HappileeWin hpWinning;
     
 //        ofShader shader;
     
@@ -152,6 +153,7 @@ class EmotionHandler {
     
         MyTimer malfunctioningTimer;
         bool malfunctionedLatch;
+        bool winningLatch;
     
         string dots;
     

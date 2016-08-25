@@ -308,6 +308,9 @@ protected:
     bool danLoop;
     bool grLoop;
     bool exLoop;
+    bool inOkArea;
+    bool inDangerArea;
+    bool inDeadlyArea;
     
     bool bAnimate;
     int _smoothingLoops;

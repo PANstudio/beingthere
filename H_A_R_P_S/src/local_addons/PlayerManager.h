@@ -38,6 +38,9 @@ public:
     //! Draw the Pathfinder
     void drawPath();
     
+    //! Draw the Pathfinder
+    void drawDebug();
+    
     //! Draw all the data
     void drawPlayerManager();
     
@@ -89,6 +92,8 @@ private:
     int _scaleX;
     int _scaleY;
     bool _scale;
+    
+    ofPoint mockPos;
     
 protected:
     

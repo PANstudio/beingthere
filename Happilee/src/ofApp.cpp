@@ -170,6 +170,7 @@ void ofApp::haveDied(string &val)
     cout << "Happilee Has Malfunctioned" << endl;
     emotionTimer.stop();
     emotionProcessor.setDeadState();
+    hpState == HAPPILEE_MALFUNCTION;
 }
 //--------------------------------------------------------------
 void ofApp::resetMemory(string &val)
@@ -181,20 +182,35 @@ void ofApp::resetMemory(string &val)
 //--------------------------------------------------------------
 void ofApp::inGreenZone(string &val)
 {
-    hpState = HAPPILEE_GREEN;
-    emotionProcessor.setHappileeState(HAPPILEE_GREEN);
+    if (hpState != HAPPILEE_MALFUNCTION) {
+        hpState = HAPPILEE_GREEN;
+        emotionProcessor.setHappileeState(HAPPILEE_GREEN);
+    }
+    else {
+        cout << "Can't do that Happilee has malfunctioned" << endl;
+    }
 }
 //--------------------------------------------------------------
 void ofApp::inYellowZone(string &val)
 {
-    hpState = HAPPILEE_YELLOW;
-    emotionProcessor.setHappileeState(HAPPILEE_YELLOW);
+    if (hpState != HAPPILEE_MALFUNCTION) {
+        hpState = HAPPILEE_YELLOW;
+        emotionProcessor.setHappileeState(HAPPILEE_YELLOW);
+    }
+    else {
+        cout << "Can't do that Happilee has malfunctioned" << endl;
+    }
 }
 //--------------------------------------------------------------
 void ofApp::inRedZone(string &val)
 {
-    hpState = HAPPILEE_RED;
-    emotionProcessor.setHappileeState(HAPPILEE_RED);
+    if (hpState != HAPPILEE_MALFUNCTION) {
+        hpState = HAPPILEE_RED;
+        emotionProcessor.setHappileeState(HAPPILEE_RED);
+    }
+    else {
+        cout << "Can't do that Happilee has malfunctioned" << endl;
+    }
 }
 //--------------------------------------------------------------
 void ofApp::inSafeZone(string &val)
@@ -207,7 +223,11 @@ void ofApp::inSafeZone(string &val)
 void ofApp::rebootHappilee(string &val)
 {
     emotionProcessor.resetMemory();
+    shuffleEmotions();
+    emotionTimer.setup(4000, "Emotion Timer", true);
     emotionTimer.start();
+    hpState = HAPPILEE_GREEN;
+    emotionProcessor.setHappileeState(HAPPILEE_GREEN);
 }
 //--------------------------------------------------------------
 void ofApp::malfunctionHappilee(string &val)

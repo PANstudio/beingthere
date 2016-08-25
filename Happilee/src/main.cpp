@@ -10,6 +10,5 @@ int main( )
     settings.width = 800;
     settings.height = 480;
     ofCreateWindow(settings);
-    
 	ofRunApp(new ofApp());
 }

@@ -1,3 +1,5 @@
+#version 120
+
 uniform sampler2DRect image;
 uniform float rand;
 

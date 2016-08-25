@@ -1,7 +1,3 @@
-/*
-	MAX-MINフィルタという手法を使ったエッジ検出の例です。
-	周辺ピクセルの最大値と最小値を取り、その差を輝度として出力しています。
-*/
 
 uniform sampler2DRect image;
 varying vec3 pos;
