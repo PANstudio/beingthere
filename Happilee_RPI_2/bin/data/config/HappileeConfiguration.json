@@ -1,0 +1,32 @@
+{
+    "config":
+    {
+        "reductionamounts": {
+            "green": 128,
+            "yellow": 256,
+            "red":512
+        },
+        "reductiontimers": {
+            "malfunction":8000,
+            "green": 1500,
+            "yellow": 1000,
+            "red": 750
+        },
+        "memoryamount": 12288,
+        "lowmemoryamount": 1000,
+        "colors" : {
+            "textcolor" : {
+                "red" : 51,
+                "green" : 51,
+                "blue" : 51
+            },
+            "emotionhandler" : {
+                "red" : 51,
+                "green" : 51,
+                "blue" : 51
+            }
+            
+        }
+        
+    }
+}
