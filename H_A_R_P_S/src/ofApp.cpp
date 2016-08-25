@@ -63,23 +63,23 @@ void ofApp::update()
     mapGenerator.updateCV(lRT, lGT);
     
     playerManager.listen();
-    displayWindow->setHealthBars(playerManager.getPlayerHealth());
+//    displayWindow->setHealthBars(playerManager.getPlayerHealth());
 
 //    ofFbo f;
 //    f.getTexture().getTextureData().bFlipTexture =
     
-    if (countDown.getTimeLeft() <= 10000) {
-        displayWindow->setTimerColors(ofColor::red, 25);
-    }
-    else {
-        displayWindow->setTimerColors(ofColor::green, 25);
-    }
+//    if (countDown.getTimeLeft() <= 10000) {
+//        displayWindow->setTimerColors(ofColor::red, 25);
+//    }
+//    else {
+//        displayWindow->setTimerColors(ofColor::green, 25);
+//    }
     
     if(mapGenerator.isAnimating()) {
         mapGenerator.animate();
     }
     
-    displayWindow->calibrationScreen.setGridSpacing(_spacingX, _spacingY);
+//    displayWindow->calibrationScreen.setGridSpacing(_spacingX, _spacingY);
 
     countDown.update();
 }
@@ -126,7 +126,7 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::exit()
 {
-    displayWindow->close();
+//    displayWindow->close();
     // Delete GUI Objects
     delete view;
     mapViewer.close();
@@ -332,12 +332,12 @@ void ofApp::drawCalibrationMode()
     if (_showPreviewWindow) {
         ofPushMatrix();
         ofPushStyle();
-        displayWindow->drawPreview(500, 500);
+//        displayWindow->drawPreview(500, 500);
         ofPopStyle();
         ofPopMatrix();
     }
-    displayWindow->calibrationScreen.drawSpreadsheet();
-    displayWindow->calibrationScreen.drawCurrentReadings(0, 525);
+//    displayWindow->calibrationScreen.drawSpreadsheet();
+//    displayWindow->calibrationScreen.drawCurrentReadings(0, 525);
 }
 //--------------------------------------------------------------
 void ofApp::drawEditorMode()
@@ -386,7 +386,7 @@ void ofApp::drawOperationMode()
     if (_showPreviewWindow) {
         ofPushMatrix();
         ofPushStyle();
-        displayWindow->drawPreview(510, view->getY()+view->getHeight());
+//        displayWindow->drawPreview(510, view->getY()+view->getHeight());
         ofPopStyle();
         ofPopMatrix();
     }
@@ -832,7 +832,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 //        mapGenerator.updateCV(lRT, lGT);
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
-        displayWindow->setMapImage(styledMap.getStyledMap());
+//        displayWindow->setMapImage(styledMap.getStyledMap());
         mapMesh.clear();
         mapMesh.getMapImage(mapGenerator.getSmoothMap(),styledMap.getStyledMap());
     }
@@ -840,7 +840,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         mapGenerator.generateCustomMap(_smooth,_growthNo,_dangerAreaSize);
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
-        displayWindow->setMapImage(styledMap.getStyledMap());
+//        displayWindow->setMapImage(styledMap.getStyledMap());
     }
     else if (e.target->is("Animate Map")) {
         mapGenerator.startAnimation(_numberOfIslands,_smooth,_growthNo,_rs);
@@ -852,7 +852,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         _showShaded = e.target->getEnabled();
     }
     else if(e.target->is("Calibrate")) {
-        displayWindow->setCalibration(_numberOfXLines, _numberOfYLines, _spacingX, _spacingY);
+//        displayWindow->setCalibration(_numberOfXLines, _numberOfYLines, _spacingX, _spacingY);
     }
     else if (e.target->is("Start Level")) {
         countDown.setNewTimerLength(ofRandom(10000,60000));
@@ -985,7 +985,7 @@ void ofApp::onTextInputEvent(ofxDatGuiTextInputEvent e)
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e)
 {
     if (e.target->is("Calibration Nodes")) {
-        displayWindow->calibrationScreen.moveNodes(e.x, e.y);
+//        displayWindow->calibrationScreen.moveNodes(e.x, e.y);
     }
 }
 //--------------------------------------------------------------
@@ -995,14 +995,14 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         if (e.target->getLabel() == "CALIBRATION MODE") {
             _Appmode = 0;
             mode = "Calibration Mode";
-            displayWindow->doCalibration(true);
+//            displayWindow->doCalibration(true);
         }
         else if (e.target->getLabel() == "EDITOR MODE") {
             _Appmode = 1;
             mode = "Editor Mode";
             genComponents[9]->setPosition(0, 501);
             generateCustomMap->setPosition(0,genComponents[9]->getY()+genComponents[9]->getHeight());
-            displayWindow->doCalibration(false);
+//            displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "GENERATION MODE") {
             _Appmode = 2;
@@ -1013,7 +1013,7 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
         else if (e.target->getLabel() == "OPERATION MODE") {
             mode = "Operation Mode";
             _Appmode = 3;
-            displayWindow->doCalibration(false);
+//            displayWindow->doCalibration(false);
         }
         else if (e.target->getLabel() == "MAP VIEWER") {
             mode = "Map Viewer";
@@ -1078,7 +1078,7 @@ void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
         mapGenerator.generateMap(m);
         playerManager.getFinderImage(mapGenerator.getSmoothMap());
         styledMap.getMapImage(mapGenerator.getSmoothMap());
-        displayWindow->setMapImage(styledMap.getStyledMap());
+//        displayWindow->setMapImage(styledMap.getStyledMap());
     }
 }
 //--------------------------------------------------------------

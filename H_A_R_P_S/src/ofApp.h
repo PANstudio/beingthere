@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxDatGui.h"
 #include "MapGenerator.h"
-#include "DisplayWindow.h"
+//#include "DisplayWindow.h"
 #include "MyTimer.h"
 #include "PlayerManager.h"
 #include "RobotManager.h"
@@ -63,7 +63,7 @@ class ofApp : public ofBaseApp{
         // * Second Window
         // *
         //--------------------------------------------------------------
-        shared_ptr<DisplayWindow> displayWindow;
+//        shared_ptr<DisplayWindow> displayWindow;
 
         //--------------------------------------------------------------
         // *
