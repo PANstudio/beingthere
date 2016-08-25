@@ -4,7 +4,7 @@
 void ofApp::setup()
 {
     ofSetWindowTitle("Happilee");
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     ofSetVerticalSync(true);
     
     // This is independant of other setup routines so can be called before the gui
@@ -13,7 +13,6 @@ void ofApp::setup()
     robotManager.loadCommands();
     
     setupCommandsGui(robotManager.getCommands());
-    
     
     setupGuis();
     setupVariables();
