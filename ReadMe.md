@@ -1,9 +1,9 @@
-H.A.R.P.S
+Happilee
 ===
 
 ###Introduction
 
-H.A.R.P.S (TBD) is path finding game, where users must navigate an object through toxic clouds to reach their goal.
+Happilee is path finding game, where users must navigate an object through high traffic data areas of to offload the emotion analysis.
 
 The game uses an experimental localization system developed at Oxford University.
 
@@ -11,38 +11,26 @@ The project is funded and developed as part of the Being There project, which in
 
 ###Applications
 
-This repository contains 4 applications.
+This repository contains 2 applications.
 
-* [H.A.R.P.S](H_A_R_P_S)
+Map Generator
 
-The Brain
+* [Happilee Map Generator](./docs/MapGenerator)
 
-* [H.A.R.P.S Simulator](H_A_R_P_S_simulator)
+Happilee Robot
 
-The development tool, that emulates the position of the Receivers and outputs OSC messages to the control application.
-
-* [H.A.R.P.S iOS Controller]()
-
-The controller that allows an operator to control the system whilst being mobile.
-
-* [H.A.R.P.S Robot]()
-
-The robot controller
+* [Happilee Robot](./docs/Robot)
 
 ###Shortcuts
 
-* [Calibration]()
-* [Operation]()
-* [Tech Rider]()
-* [Research]()
-* [Game]()
+* [Setup](./docs/setup/readme.md)
+* [Operation](./docs/operation/readme.md)
 
-
-Written in openFrameworks 0.9.0
+All Software written in openFrameworks 0.9.0
 
 ###Dependancies
 * [ofxJSON](https://github.com/jefftimesten/ofxJSON)
-* [ofxQuadWarp](https://github.com/julapy/ofxQuadWarp)
+* [ofxPostGlitch](https://github.com/maxillacult/ofxPostGlitch)
 * [ofxTween](https://github.com/arturoc/ofxTween)
 * [ofxDatGui](https://github.com/braitsch/ofxDatGui)
 * [ofxCv](https://github.com/kylemcdonald/ofxCv)
@@ -50,6 +38,3 @@ Written in openFrameworks 0.9.0
 * [ofxNetwork]()
 * [ofxOpenCv]()
 
-![Operator UI](./docs/images/EarlyOperatorUI.png)
-
-![Path Finder](./docs/images/PathFinder.png)
